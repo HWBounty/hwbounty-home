@@ -1,13 +1,16 @@
 // React
 import React, { Component } from "react";
 
-// MUI
+// MUI & Styling
+import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Components
 import SchoologyAssignment from "./SchoologyAssignment";
 
-const styles = {};
+const styles = (theme) => ({
+  ...theme.spreadIt,
+});
 
 export class Assignments extends Component {
   constructor(props) {
@@ -18,11 +21,13 @@ export class Assignments extends Component {
           title: "This is a test assignment",
           link: "google.com",
           due: "2021-3-15",
+          id: ";SKDjf;slkx;d",
         },
         {
           title: "another assigment",
           link: "facebook.com",
           due: "2021-4-1",
+          id: ";LSKDjfs;lkdf",
         },
       ],
     };
@@ -32,9 +37,16 @@ export class Assignments extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <SchoologyAssignment title="hi" link="hi" due="hi" />
+        <Typography variant="h4">Assignments</Typography>
         {this.state.assignments.map((a) => {
-          <SchoologyAssignment title={a.title} link={a.link} due={a.due} />;
+          return (
+            <SchoologyAssignment
+              key={a.id}
+              title={a.title}
+              link={a.link}
+              due={a.due}
+            />
+          );
         })}
       </div>
     );

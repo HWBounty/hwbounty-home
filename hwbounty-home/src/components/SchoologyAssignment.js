@@ -10,7 +10,6 @@ const styles = {};
 export const SchoologyAssignment = (props) => {
   return (
     <Fragment>
-      {console.log("Hello")}
       <h1>{props.title}</h1>
       <a href={props.link}>{props.link}</a>
       <h2>{props.due}</h2>
