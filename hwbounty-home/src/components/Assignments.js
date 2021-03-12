@@ -3,6 +3,7 @@ import React, { Component } from "react";
 
 // MUI & Styling
 import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Components
@@ -38,6 +39,7 @@ export class Assignments extends Component {
     return (
       <div>
         <Typography variant="h4">Assignments</Typography>
+        <Divider />
         {this.state.assignments.map((a) => {
           return (
             <SchoologyAssignment

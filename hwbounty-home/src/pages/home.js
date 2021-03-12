@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import InputBase from "@material-ui/core/InputBase";
+import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 
 // MUI Treasury
@@ -15,7 +16,7 @@ import Assignments from "../components/Assignments";
 import Calculator from "../components/Calculator";
 import Schedule from "../components/Schedule";
 
-const styles = {
+const styles = (theme) => ({
   root: {
     marginLeft: 50,
     marginRight: 50,
@@ -23,13 +24,15 @@ const styles = {
   searchBar: {
     width: "20%",
   },
-  grid: {
+  gridContainer: {
     height: "100%",
+    marginTop: 50,
   },
-  scheduleCard: {
+  card: {
     height: "100%",
+    borderRadius: theme.spacing(2),
   },
-};
+});
 
 const SearchBar = (props) => {
   const roundInput = useRoundInputBaseStyles();
@@ -49,14 +52,14 @@ export class home extends Component {
       <div className={classes.root}>
         <h1>HWBounty</h1>
         <SearchBar className={classes.searchBar} />
-        <Grid container spacing={3}>
+        <Grid container spacing={3} className={classes.gridContainer}>
           <Grid item xs={2}>
-            <Card className={classes.scheduleCard}>
+            <Card className={classes.card}>
               <Schedule />
             </Card>
           </Grid>
           <Grid item xs={2}>
-            <Card className={classes.scheduleCard}>
+            <Card className={classes.card}>
               <Assignments />
             </Card>
           </Grid>
