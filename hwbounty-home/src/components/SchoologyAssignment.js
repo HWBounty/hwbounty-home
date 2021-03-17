@@ -3,23 +3,28 @@ import { Fragment } from "react";
 import PropTypes from "prop-types";
 
 // MUI
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = {};
 
 export const SchoologyAssignment = (props) => {
+  const openLinkInNewTab = () => {
+    const newWindow = window.open(props.url, "_blank", "noopener,noreferrer");
+    if (newWindow) newWindow.opener = null;
+  };
   return (
-    <Fragment>
+    <Button onClick={openLinkInNewTab}>
       <h1>{props.title}</h1>
-      <a href={props.link}>{props.link}</a>
       <h2>{props.due}</h2>
-    </Fragment>
+    </Button>
   );
 };
 
 SchoologyAssignment.propTypes = {
   title: PropTypes.string.isRequired,
-  link: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
   due: PropTypes.string.isRequired,
 };
 

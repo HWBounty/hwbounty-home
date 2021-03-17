@@ -13,13 +13,14 @@ import { useRoundInputBaseStyles } from "@mui-treasury/styles/inputBase/round";
 
 // Components
 import Assignments from "../components/Assignments";
-import Calculator from "../components/Calculator";
+import Calculator from "../components/Modules/Calculator";
 import Schedule from "../components/Schedule";
 
 const styles = (theme) => ({
   root: {
     marginLeft: 50,
     marginRight: 50,
+    height: "100%",
   },
   searchBar: {
     width: "20%",
@@ -53,16 +54,17 @@ export class home extends Component {
         <h1>HWBounty</h1>
         <SearchBar className={classes.searchBar} />
         <Grid container spacing={3} className={classes.gridContainer}>
-          <Grid item xs={2}>
+          <Grid item xs>
             <Card className={classes.card}>
               <Schedule />
             </Card>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs>
             <Card className={classes.card}>
               <Assignments />
             </Card>
           </Grid>
+          <Grid item xs={false} lg={8}></Grid>
         </Grid>
       </div>
     );

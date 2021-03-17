@@ -20,13 +20,13 @@ export class Assignments extends Component {
       assignments: [
         {
           title: "This is a test assignment",
-          link: "google.com",
+          url: "https://google.com",
           due: "2021-3-15",
           id: ";SKDjf;slkx;d",
         },
         {
           title: "another assigment",
-          link: "facebook.com",
+          url: "https://facebook.com",
           due: "2021-4-1",
           id: ";LSKDjfs;lkdf",
         },
@@ -38,14 +38,14 @@ export class Assignments extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <Typography variant="h4">Assignments</Typography>
+        <Typography variant="h5">Assignments</Typography>
         <Divider />
         {this.state.assignments.map((a) => {
           return (
             <SchoologyAssignment
               key={a.id}
               title={a.title}
-              link={a.link}
+              url={a.url}
               due={a.due}
             />
           );

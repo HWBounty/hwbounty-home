@@ -3,22 +3,19 @@ import { createMuiTheme } from "@material-ui/core/styles";
 const rawTheme = createMuiTheme({
   palette: {
     primary: {
-      light: "#12adc9",
-      main: "#12adc9",
-      dark: "#1e376b",
+      light: "#6fe3d7",
+      main: "#4db6ac",
+      dark: "#91a3a1",
       contrastText: "#fff",
     },
     secondary: {
-      light: "#f04941",
-      main: "#f04941",
-      dark: "#7d2824",
+      light: "#ffb2ff",
+      main: "#ea80fc",
+      dark: "#b64fc8",
       contrastText: "#fff",
     },
   },
   spreadIt: {
-    aboutBackground: {
-      backgroundColor: "#CCCCCC",
-    },
     typography: {
       useNextVariants: true,
       fontFamily: "'Work Sans', sans-serif",
@@ -32,92 +29,6 @@ const rawTheme = createMuiTheme({
       marginLeft: "30px",
       marginRight: "30px",
       marginTop: "30px",
-    },
-    form: {
-      textAlign: "center",
-    },
-    formCard: {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: "50%",
-      padding: "15px",
-    },
-    image: {
-      margin: "20px auto 20px auto",
-    },
-    pageTitle: {
-      margin: "15px auto 15px auto",
-    },
-    textField: {
-      margin: "15px auto 15px auto",
-    },
-    button: {
-      marginTop: 20,
-      position: "relative",
-    },
-    customError: {
-      color: "red",
-      fontSize: "0.8rem",
-      marginTop: 10,
-    },
-    progress: {
-      position: "absolute",
-    },
-    invisibleSeparator: {
-      border: "none",
-      margin: 4,
-    },
-    visibleSeparator: {
-      width: "100%",
-      borderBottom: "1px solid rgba(0,0,0,0.1)",
-      marginBottom: 20,
-    },
-    paper: {
-      padding: 20,
-    },
-    profile: {
-      "& .image-wrapper": {
-        textAlign: "center",
-        position: "relative",
-        "& button": {
-          position: "absolute",
-          top: "80%",
-          left: "70%",
-        },
-      },
-      "& .profile-image": {
-        width: 200,
-        height: 200,
-        objectFit: "cover",
-        maxWidth: "100%",
-        borderRadius: "50%",
-      },
-      "& .profile-details": {
-        textAlign: "center",
-        "& span, svg": {
-          verticalAlign: "middle",
-        },
-        "& a": {
-          color: "#00bcd4",
-        },
-      },
-      "& hr": {
-        border: "none",
-        margin: "0 0 10px 0",
-      },
-      "& svg.button": {
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
-    buttons: {
-      textAlign: "center",
-      "& a": {
-        margin: "20px 10px",
-      },
     },
   },
 });

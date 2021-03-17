@@ -3,8 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Redux
-import { Provider, connect } from "react-redux";
-import store from "./redux/store";
+import { connect } from "react-redux";
 
 // Styling
 import "./App.css";
@@ -17,38 +16,20 @@ import Home from "./pages/home";
 
 import Navbar from "./components/Navbar";
 
-const lightTheme = createMuiTheme(themeFile);
-
-const darkTheme = createMuiTheme({
-  ...themeFile,
-  palette: {
-    type: "dark",
-  },
-});
-
-const titanTheme = createMuiTheme({
-  ...themeFile,
-  todo: {
-    //todo
-  },
-});
-
 const secretTheme = createMuiTheme(themeFile);
 
 const App = (props) => {
   const { theme } = props.UI;
 
-  const getTheme =
-    theme == 0
-      ? lightTheme
-      : theme == 1
-      ? darkTheme
-      : theme == 2
-      ? titanTheme
-      : secretTheme;
+  const dynamicTheme = createMuiTheme({
+    ...themeFile,
+    palette: {
+      type: theme === 0 ? "light" : "dark",
+    },
+  });
 
   return (
-    <MuiThemeProvider theme={getTheme}>
+    <MuiThemeProvider theme={dynamicTheme}>
       <CssBaseline />
       <div className="App">
         <Navbar />
