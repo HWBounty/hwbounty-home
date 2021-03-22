@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 // MUI
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -16,8 +17,7 @@ export const SchoologyAssignment = (props) => {
   };
   return (
     <Button onClick={openLinkInNewTab}>
-      <h1>{props.title}</h1>
-      <h2>{props.due}</h2>
+      <Typography variant="body1">{props.title}</Typography>
     </Button>
   );
 };
@@ -25,7 +25,6 @@ export const SchoologyAssignment = (props) => {
 SchoologyAssignment.propTypes = {
   title: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
-  due: PropTypes.string.isRequired,
 };
 
 export default SchoologyAssignment;

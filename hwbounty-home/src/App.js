@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
+import store from "./redux/store";
+import { SET_AUTHENTICATED } from "./redux/types";
+import { logoutUser, getUserData } from "./redux/actions/userActions";
 
 // Styling
 import "./App.css";
@@ -14,9 +17,28 @@ import themeFile from "./util/theme";
 // Pages
 import Home from "./pages/home";
 
+// Components
 import Navbar from "./components/Navbar";
 
-const secretTheme = createMuiTheme(themeFile);
+import axios from "axios";
+import queryString from "query-string";
+
+//=================Check for oauth token====================//
+const token = localStorage.DBIdToken;
+if (token) {
+  axios.defaults.headers.common["Authorization"] = token;
+  store.dispatch({ type: SET_AUTHENTICATED });
+  store.dispatch(getUserData());
+}
+
+// Very messy. Me no likey...
+let urlQuery = queryString.parse(window.location.search);
+if (urlQuery.oauth_token) {
+  const DBIdToken = `Bearer ${urlQuery.oauth_token}`;
+  localStorage.setItem("DBIdToken", DBIdToken);
+  axios.defaults.headers.common["Authorization"] = DBIdToken;
+}
+//==========================================================//
 
 const App = (props) => {
   const { theme } = props.UI;
