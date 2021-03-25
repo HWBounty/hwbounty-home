@@ -20,6 +20,10 @@ const styles = (theme) => ({
   ...theme.spreadIt,
 });
 
+const dateToDay = (date) => {
+  return dayjs(date).format("MM-DD-YYYY");
+};
+
 export class Assignments extends Component {
   componentDidMount() {
     this.props.getAssignments();
@@ -27,18 +31,32 @@ export class Assignments extends Component {
   render() {
     const { classes, assignments } = this.props;
 
-    // make an array of unique dates based on a set
-    const datesArray = Array.from(new Set(assignments.map((a) => a.due)));
+    // TODO: make it so that the keys are in by day, but the time of due date is preserved
+    const datesArray = Array.from(
+      new Set(assignments.map((a) => dateToDay(a.due)))
+    );
+    const assignmentByDay = {};
+    assignments.forEach((a) => {
+      if (assignmentByDay[dateToDay(a.due)])
+        assignmentByDay[dateToDay(a.due)].push(a);
+      else assignmentByDay[dateToDay(a.due)] = [a];
+    });
 
-    // TODO: pass assignments array to assignments group
+    console.log(dayjs("12-07-2005").format("YYYY-MM-DD HH:MM:SS"));
 
     return (
       <div>
         <Typography variant="h5">Assignments</Typography>
-        <Divider />
-        {datesArray.map((date) => {
-          return <AssignmentsGroup date={date} key={date} />;
-        })}
+        {React.Children.toArray(
+          datesArray.map((date) => {
+            return (
+              <AssignmentsGroup
+                date={date}
+                assignments={assignmentByDay[date]}
+              />
+            );
+          })
+        )}
       </div>
     );
   }

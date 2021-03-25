@@ -15,16 +15,16 @@ const rawTheme = createMuiTheme({
       contrastText: "#fff",
     },
   },
+  typography: {
+    useNextVariants: true,
+    fontFamily: "'Work Sans', sans-serif",
+    fontSize: 14,
+    fontWeightLight: 300, // Work Sans
+    fontWeightRegular: 400, // Work Sans
+    fontWeightMedium: 700, // Roboto Condensed
+    fontFamilySecondary: "'Roboto Condensed', sans-serif",
+  },
   spreadIt: {
-    typography: {
-      useNextVariants: true,
-      fontFamily: "'Work Sans', sans-serif",
-      fontSize: 14,
-      fontWeightLight: 300, // Work Sans
-      fontWeightRegular: 400, // Work Sans
-      fontWeightMedium: 700, // Roboto Condensed
-      fontFamilySecondary: "'Roboto Condensed', sans-serif",
-    },
     rootPadding: {
       marginLeft: "30px",
       marginRight: "30px",

@@ -1,12 +1,16 @@
 // React
 import PropTypes from "prop-types";
-import { useState } from "react";
+import React, { Fragment, useState } from "react";
 
 // MUI
+import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import ExpandLess from "@material-ui/icons/ExpandLessRounded";
 import ExpandMore from "@material-ui/icons/ExpandMoreRounded";
 import withStyles from "@material-ui/core/styles/withStyles";
+
+// Components
+import SchoologyAssignment from "./SchoologyAssignment";
 
 import dayjs from "dayjs";
 
@@ -15,6 +19,7 @@ const styles = (theme) => ({
     width: "100%",
     textTransform: "none",
   },
+  dateText: {},
 });
 
 export const AssignmentsGroup = (props) => {
@@ -29,8 +34,17 @@ export const AssignmentsGroup = (props) => {
         endIcon={expanded ? <ExpandLess /> : <ExpandMore />}
         onClick={() => setExpanded(!expanded)}
       >
-        <h3>{dayjs(date).format("dddd, MMM DD YYYY")}</h3>
+        <Typography fontWeight="fontWeightBold">
+          {dayjs(date).format("dddd, MMM DD YYYY")}
+        </Typography>
       </Button>
+      {React.Children.toArray(
+        assignments.map((a) => {
+          return (
+            <SchoologyAssignment title={a.title} url={a.url} due={a.due} />
+          );
+        })
+      )}
     </div>
   );
 };
