@@ -26,7 +26,7 @@ import queryString from "query-string";
 //=================Check for oauth token====================//
 const token = localStorage.DBIdToken;
 if (token) {
-  axios.defaults.headers.common["Authorization"] = token;
+  //axios.defaults.headers.common["Authorization"] = token;
   store.dispatch({ type: SET_AUTHENTICATED });
   store.dispatch(getUserData());
 }
@@ -34,9 +34,11 @@ if (token) {
 // Very messy. Me no likey...
 let urlQuery = queryString.parse(window.location.search);
 if (urlQuery.oauth_token) {
-  const DBIdToken = `Bearer ${urlQuery.oauth_token}`;
-  localStorage.setItem("DBIdToken", DBIdToken);
-  axios.defaults.headers.common["Authorization"] = DBIdToken;
+  //const DBIdToken = `Bearer ${urlQuery.oauth_token}`;
+  //localStorage.setItem("DBIdToken", DBIdToken);
+  //axios.defaults.headers.common["Authorization"] = DBIdToken;
+  store.dispatch({ type: SET_AUTHENTICATED });
+  store.dispatch(getUserData());
 }
 //==========================================================//
 

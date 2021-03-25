@@ -17,6 +17,9 @@ import Assignments from "../components/Calendar/Assignments";
 import Schedule from "../components/Calendar/Schedule";
 import Calculator from "../components/Modules/Calculator";
 
+// Redux
+import { connect } from "react-redux";
+
 const styles = (theme) => ({
   root: {
     marginLeft: 50,
@@ -47,34 +50,35 @@ const SearchBar = (props) => {
   );
 };
 
-export class home extends Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.root}>
-        <h1>HWBounty</h1>
-        <SearchBar className={classes.searchBar} />
-        <Grid
-          container
-          spacing={3}
-          className={classes.gridContainer}
-          wrap="wrap"
-        >
-          <Grid item xs={12} md={4} lg={3}>
-            <Card className={classes.card}>
-              <Schedule />
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={4} lg={3}>
-            <Card className={classes.card}>
-              <Assignments />
-            </Card>
-          </Grid>
-          <Grid item xs={12} md></Grid>
-        </Grid>
-      </div>
-    );
-  }
-}
+export const home = (props) => {
+  const {
+    classes,
+    user: { authenticated },
+  } = props;
 
-export default withStyles(styles)(home);
+  return (
+    <div className={classes.root}>
+      <h1>HWBounty</h1>
+      <SearchBar className={classes.searchBar} />
+      <Grid container spacing={3} className={classes.gridContainer} wrap="wrap">
+        <Grid item xs={12} md={4} lg={3}>
+          <Card className={classes.card}>
+            <Schedule />
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4} lg={3}>
+          <Card className={classes.card}>
+            <Assignments />
+          </Card>
+        </Grid>
+        <Grid item xs={12} md></Grid>
+      </Grid>
+    </div>
+  );
+};
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps)(withStyles(styles)(home));

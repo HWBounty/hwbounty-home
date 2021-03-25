@@ -9,4 +9,4 @@ export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
 
 // API Base URL
 export const hwbountyURL = "https://api.hwbounty.help";
-export const schoologyURL = "https://api.schoology.com"; // may not work
+export const schoologyURL = "https://api.schoology.com/v1"; // may not work
