@@ -5,6 +5,7 @@ import React, { Fragment, useState } from "react";
 // MUI
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLessRounded";
 import ExpandMore from "@material-ui/icons/ExpandMoreRounded";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -24,7 +25,7 @@ const styles = (theme) => ({
 
 export const AssignmentsGroup = (props) => {
   // load each assignment with matching date from redux state
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const { date, assignments, classes } = props;
 
   return (
@@ -38,13 +39,15 @@ export const AssignmentsGroup = (props) => {
           {dayjs(date).format("dddd, MMM DD YYYY")}
         </Typography>
       </Button>
-      {React.Children.toArray(
-        assignments.map((a) => {
-          return (
-            <SchoologyAssignment title={a.title} url={a.url} due={a.due} />
-          );
-        })
-      )}
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        {React.Children.toArray(
+          assignments.map((a) => {
+            return (
+              <SchoologyAssignment title={a.title} url={a.url} due={a.due} />
+            );
+          })
+        )}
+      </Collapse>
     </div>
   );
 };

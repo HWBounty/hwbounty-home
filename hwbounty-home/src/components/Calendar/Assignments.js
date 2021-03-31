@@ -42,8 +42,6 @@ export class Assignments extends Component {
       else assignmentByDay[dateToDay(a.due)] = [a];
     });
 
-    console.log(dayjs("12-07-2005").format("YYYY-MM-DD HH:MM:SS"));
-
     return (
       <div>
         <Typography variant="h5">Assignments</Typography>

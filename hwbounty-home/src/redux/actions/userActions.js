@@ -7,3 +7,10 @@ export const getUserData = () => (dispatch) => {
 export const logoutUser = () => (dispatch) => {
   console.log("you have unsuccessfully logged out! your stuck here forever!");
 };
+
+// btw  api.hwbounty.help/schoologyLogin
+/*
+req: {
+  redirectURL:  "hwbounty.help"
+}
+*/

@@ -1,20 +1,23 @@
 // React
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 
 // Redux
 import { connect } from "react-redux";
 import { setTheme } from "../redux/actions/uiActions";
 
-// MUI & Styling
+// MUI Components & Styling
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
-import DarkThemeIcon from "@material-ui/icons/Brightness4Rounded";
-import LightThemeIcon from "@material-ui/icons/Brightness7Rounded";
-import AccountCircleIcon from "@material-ui/icons/AccountCircleRounded";
 import withStyles from "@material-ui/core/styles/withStyles";
 import themeFile from "../util/theme";
+
+// MUI Icons
+import DarkThemeIcon from "@material-ui/icons/Brightness4Rounded";
+import LightThemeIcon from "@material-ui/icons/Brightness7Rounded";
+
+import AccountIconButton from "./User/AccountIconButton";
 
 const styles = {
   ...themeFile.spreadIt,
@@ -38,15 +41,14 @@ export const Navbar = (props) => {
     setThemeVal(newVal);
     props.setTheme(newVal);
   };
+
   return (
     <div className={classes.root}>
       <Toolbar>
         <IconButton onClick={toggleTheme} className={classes.iconButton}>
           {themeValue === 0 ? <DarkThemeIcon /> : <LightThemeIcon />}
         </IconButton>
-        <IconButton>
-          <AccountCircleIcon />
-        </IconButton>
+        <AccountIconButton />
       </Toolbar>
     </div>
   );
