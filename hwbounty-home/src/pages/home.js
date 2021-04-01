@@ -51,7 +51,7 @@ const SearchBar = (props) => {
     <InputBase
       classes={roundInput}
       placeholder="Search on HWBounty Forums..."
-      className={props.className}
+      {...props}
     />
   );
 };
@@ -61,12 +61,6 @@ export const Home = (props) => {
     classes,
     user: { authenticated },
   } = props;
-
-  const [expanded, setExpanded] = React.useState(true);
-
-  const handleExpanded = () => {
-    setExpanded(!expanded);
-  };
 
   return (
     <div className={classes.root}>
@@ -89,19 +83,10 @@ export const Home = (props) => {
               <Assignments />
             </Card>
           </Grid>
-          {expanded && (
-            <Grid item xs={12} md={6}>
-              <ModuleViewer />
-            </Grid>
-          )}
+          <Grid item xs={12} md={6}>
+            <ModuleViewer />
+          </Grid>
         </Grid>
-        <Button
-          variant="outlined"
-          className={classes.collapseButton}
-          onClick={handleExpanded}
-        >
-          {expanded ? <ArrowRightRounded /> : <ArrowLeftRounded />}
-        </Button>
       </div>
     </div>
   );

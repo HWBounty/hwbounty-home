@@ -1,5 +1,5 @@
 // React
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // MUI
 import InputBase from "@material-ui/core/InputBase";
@@ -33,6 +33,7 @@ const LatexInput = (props) => {
       style={{ height: "auto", fontSize: 50, flex: 1 }}
       config={{ autoCommands: "pi theta sqrt sum" }}
       onChange={onChange}
+      onSubmit={() => console.log("submitted??")}
     />
   );
 };
@@ -43,33 +44,25 @@ export const Calculator = (props) => {
   const [expression, setExpression] = useState("");
   const [answer, setAnswer] = useState("");
 
+  useEffect(() => {
+    try {
+      const ans = parse.evaluate(mathquillToMathJS(expression));
+      setAnswer(ans);
+    } catch (err) {}
+  }, [expression]);
+
   const handleInputChange = (val) => {
     setExpression(val.latex());
   };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    try {
-      console.log(expression);
-      const ans = parse.evaluate(mathquillToMathJS(expression));
-      setAnswer(ans);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <Paper className={classes.rootPaper}>
-      <form onSubmit={handleSubmit}>
-        <InputBase
-          inputComponent={LatexInput}
-          inputProps={{ onChange: handleInputChange }}
-          value={expression}
-          className={classes.input}
-          fullWidth
-        ></InputBase>
-      </form>
-      <Button onClick={handleSubmit}>Submit</Button>
+      <InputBase
+        inputComponent={LatexInput}
+        inputProps={{ onChange: handleInputChange }}
+        value={expression}
+        className={classes.input}
+        fullWidth
+      ></InputBase>
       <Typography>{answer}</Typography>
     </Paper>
   );
