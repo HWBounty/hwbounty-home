@@ -26,7 +26,7 @@ import queryString from "query-string";
 //=================Check for oauth token====================//
 const token = localStorage.DBIdToken;
 if (token) {
-  //axios.defaults.headers.common["Authorization"] = token;
+  axios.defaults.headers.common["Authorization"] = token;
   store.dispatch({ type: SET_AUTHENTICATED });
   store.dispatch(getUserData());
 }
@@ -60,6 +60,7 @@ const App = (props) => {
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route path="/test" component={null} />
           </Switch>
         </Router>
       </div>

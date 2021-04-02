@@ -9,7 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Modules
-import Calculator from "./Calculator";
+import Calculator from "./Calculator/Calculator";
 
 const styles = {
   root: {

@@ -11,9 +11,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import dayjs from "dayjs";
 
 const styles = {
-  button: {
-    width: "100%",
-  },
   typography: {
     textTransform: "none",
   },
@@ -38,7 +35,7 @@ export const SchoologyAssignment = (props) => {
   };
 
   return (
-    <Button onClick={openLinkInNewTab} className={classes.button}>
+    <Button onClick={openLinkInNewTab} fullWidth>
       <Typography color="inherit" className={classes.assignmentTitle}>
         {title}
       </Typography>

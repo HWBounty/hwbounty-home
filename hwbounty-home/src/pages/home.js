@@ -26,7 +26,7 @@ const styles = (theme) => ({
   root: {
     marginLeft: 50,
     marginRight: 50,
-    minHeight: "100%",
+    //minHeight: "100%",
   },
   searchBar: {
     width: "20%",
@@ -35,7 +35,7 @@ const styles = (theme) => ({
     marginTop: 50,
   },
   gridContainer: {
-    height: "100%",
+    //height: "100%",
   },
   card: {
     height: 600,
