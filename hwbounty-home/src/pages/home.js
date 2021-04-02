@@ -26,20 +26,19 @@ const styles = (theme) => ({
   root: {
     marginLeft: 50,
     marginRight: 50,
-    height: "100%",
+    minHeight: "100%",
   },
   searchBar: {
     width: "20%",
   },
   divGridContainer: {
     marginTop: 50,
-    display: "flex",
   },
   gridContainer: {
     height: "100%",
   },
   card: {
-    height: "100%",
+    height: 600,
     //borderRadius: theme.spacing(2),
   },
   toggleVisibleButton: {},
