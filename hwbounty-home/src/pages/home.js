@@ -38,7 +38,7 @@ const styles = (theme) => ({
     //height: "100%",
   },
   card: {
-    height: 600,
+    //height: "auto",
     //borderRadius: theme.spacing(2),
   },
   toggleVisibleButton: {},

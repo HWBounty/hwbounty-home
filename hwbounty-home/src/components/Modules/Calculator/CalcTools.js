@@ -11,9 +11,11 @@ const useStyles = makeStyles({
   numPadRoot: {},
   symbolPadRoot: {},
   button: {
-    flex: 1,
+    //flex: 1,
   },
 });
+
+const SymbolButton = (props) => {};
 
 export const NumPad = (props) => {
   const classes = useStyles();
@@ -21,25 +23,29 @@ export const NumPad = (props) => {
 
   const NumRow = ({ arr }) => {
     return (
-      <Grid container item>
+      <Grid container item spacing={1}>
         {React.Children.toArray(
           arr.map((num) => (
-            <div>
+            <Grid item>
               {num !== null ? (
-                <Button className={classes.button} onClick={() => onClick(num)}>
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  onClick={() => onClick(num)}
+                >
                   {num}
                 </Button>
               ) : (
                 <Button className={classes.button} disabled />
               )}
-            </div>
+            </Grid>
           ))
         )}
       </Grid>
     );
   };
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={1}>
       <NumRow arr={[1, 2, 3]} />
       <NumRow arr={[4, 5, 6]} />
       <NumRow arr={[7, 8, 9]} />
@@ -49,9 +55,16 @@ export const NumPad = (props) => {
 };
 
 export const SymbolPad = (props) => {
+  const { onClick } = props;
   return (
     <div>
-      <Button></Button>
+      <Grid container spacing={1}>
+        <Grid container item spacing={1}>
+          <Grid item>
+            <Button onClick={() => onClick("\\frac")}>//frac</Button>
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
 };

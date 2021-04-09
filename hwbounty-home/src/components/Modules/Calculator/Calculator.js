@@ -1,5 +1,5 @@
 // React
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // MUI
 import InputBase from "@material-ui/core/InputBase";
@@ -12,12 +12,13 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // Math related
 import mathquillToMathJS from "../../../util/latex/preprocessMathQuill";
 import { addStyles, EditableMathField, StaticMathField } from "react-mathquill";
-import { parser, parse } from "mathjs";
-import { GridListTileBar } from "@material-ui/core";
+import * as math from "mathjs";
 import { NumPad, SymbolPad } from "./CalcTools";
 
+// required for latex to format correctly
 addStyles();
-const math = parser();
+const history = [];
+const parser = math.parser();
 
 const styles = (theme) => ({
   rootPaper: {
@@ -31,18 +32,22 @@ const styles = (theme) => ({
   },
 });
 
-// create custom latex input here
-// autoCommands: 'pi theta sqrt sum',
-
 const LatexInput = (props) => {
-  const { onChange } = props;
+  const { onChange, onSubmit, mathquillDidMount } = props;
+
   return (
     <EditableMathField
       latex=""
       style={{ height: "auto", fontSize: 50, flex: 1 }}
-      config={{ autoCommands: "pi theta sqrt sum" }}
-      onSubmit={() => console.log("submitted??")}
+      config={{
+        autoCommands: "pi theta sqrt sum",
+        handlers: {
+          enter: onSubmit,
+        },
+      }}
+      //onChange={onChange}
       onChange={onChange}
+      mathquillDidMount={mathquillDidMount}
     />
   );
 };
@@ -53,19 +58,42 @@ export const Calculator = (props) => {
   const [expression, setExpression] = useState("");
   const [answer, setAnswer] = useState("");
 
-  useEffect(() => {
-    try {
-      const ans = math.evaluate(mathquillToMathJS(expression));
-      setAnswer(ans);
-    } catch (err) {}
-  }, [expression]);
+  const mathField = useRef(null);
+
+  // useEffect(() => {
+  //   try {
+  //     const ans = math.evaluate(mathquillToMathJS(expression));
+  //     console.log(ans);
+  //     setAnswer(ans);
+  //   } catch (err) {}
+  // }, [expression]);
 
   const handleInputChange = (val) => {
     setExpression(val.latex());
   };
 
-  const handleSymbolKeyPressed = (val) => {
-    setExpression(expression + val);
+  const handleSubmit = (val) => {
+    try {
+      const ans = parser.evaluate(mathquillToMathJS(val.latex()));
+      setAnswer(ans);
+      console.log(val.latex());
+    } catch {
+      console.log("error");
+    }
+  };
+
+  const handleMathquillMount = (val) => {
+    mathField.current = val;
+  };
+
+  const handleNumberPressed = (num) => {
+    mathField.current.write(num);
+    mathField.current.focus();
+  };
+
+  const handleSymbolPressed = (symbol) => {
+    mathField.current.cmd(symbol);
+    mathField.current.focus();
   };
 
   return (
@@ -73,16 +101,21 @@ export const Calculator = (props) => {
       <div className={classes.rootDiv}>
         <InputBase
           inputComponent={LatexInput}
-          inputProps={{ onChange: handleInputChange }}
+          inputProps={{
+            onChange: handleInputChange,
+            onSubmit: handleSubmit,
+            mathquillDidMount: handleMathquillMount,
+          }}
           className={classes.input}
+          value={expression}
           fullWidth
         ></InputBase>
         <Grid container spacing={2} className={classes.symbolPadGrid}>
           <Grid item xs={5}>
-            <NumPad onClick={handleSymbolKeyPressed} />
+            <NumPad onClick={handleNumberPressed} />
           </Grid>
           <Grid item xs={7}>
-            <SymbolPad onClick={handleSymbolKeyPressed} />
+            <SymbolPad onClick={handleSymbolPressed} />
           </Grid>
         </Grid>
         <Typography>{answer}</Typography>
