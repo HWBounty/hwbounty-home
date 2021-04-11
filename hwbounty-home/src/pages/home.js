@@ -1,5 +1,5 @@
 // React
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 
 // MUI Stuff
 import Card from "@material-ui/core/Card";
@@ -9,12 +9,10 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ArrowLeftRounded from "@material-ui/icons/ArrowLeftRounded";
 import ArrowRightRounded from "@material-ui/icons/ArrowRightRounded";
-import { withStyles } from "@material-ui/core/styles";
-
-// MUI Treasury
-import { useRoundInputBaseStyles } from "@mui-treasury/styles/inputBase/round";
+import { MuiThemeProvider, withStyles } from "@material-ui/core/styles";
 
 // Components / Modules
+import ForumSearch from "../components/Home/ForumSearch";
 import Assignments from "../components/Calendar/Assignments";
 import Schedule from "../components/Calendar/Schedule";
 import ModuleViewer from "../components/Modules/ModuleViewer";
@@ -44,17 +42,6 @@ const styles = (theme) => ({
   toggleVisibleButton: {},
 });
 
-const SearchBar = (props) => {
-  const roundInput = useRoundInputBaseStyles();
-  return (
-    <InputBase
-      classes={roundInput}
-      placeholder="Search on HWBounty Forums..."
-      {...props}
-    />
-  );
-};
-
 export const Home = (props) => {
   const {
     classes,
@@ -64,7 +51,7 @@ export const Home = (props) => {
   return (
     <div className={classes.root}>
       <h1>HWBounty</h1>
-      <SearchBar className={classes.searchBar} />
+      <ForumSearch className={classes.searchBar} />
       <div className={classes.divGridContainer}>
         <Grid
           container

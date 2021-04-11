@@ -15,7 +15,18 @@ const useStyles = makeStyles({
   },
 });
 
-const SymbolButton = (props) => {};
+const SymbolButton = ({ onClick, latex, symbol }) => {
+  const classes = useStyles();
+  return (
+    <Button
+      className={classes.button}
+      variant="contained"
+      onClick={() => onClick(latex)}
+    >
+      {symbol}
+    </Button>
+  );
+};
 
 export const NumPad = (props) => {
   const classes = useStyles();
@@ -28,13 +39,7 @@ export const NumPad = (props) => {
           arr.map((num) => (
             <Grid item>
               {num !== null ? (
-                <Button
-                  className={classes.button}
-                  variant="contained"
-                  onClick={() => onClick(num)}
-                >
-                  {num}
-                </Button>
+                <SymbolButton onClick={onClick} latex={num} symbol={num} />
               ) : (
                 <Button className={classes.button} disabled />
               )}
@@ -56,13 +61,32 @@ export const NumPad = (props) => {
 
 export const SymbolPad = (props) => {
   const { onClick } = props;
+  const symbols = [
+    { symbol: "+", latex: "+" },
+    { symbol: "-", latex: "-" },
+    { symbol: "*", latex: "cdot" },
+    { symbol: "/", latex: "frac" },
+    { symbol: "√", latex: "sqrt" },
+    { symbol: "^", latex: "^" },
+  ];
+
   return (
     <div>
       <Grid container spacing={1}>
         <Grid container item spacing={1}>
-          <Grid item>
-            <Button onClick={() => onClick("\\frac")}>//frac</Button>
-          </Grid>
+          {React.Children.toArray(
+            symbols.map((obj) => {
+              return (
+                <Grid item>
+                  <SymbolButton
+                    onClick={onClick}
+                    latex={obj.latex}
+                    symbol={obj.symbol}
+                  />
+                </Grid>
+              );
+            })
+          )}
         </Grid>
       </Grid>
     </div>

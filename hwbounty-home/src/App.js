@@ -1,5 +1,5 @@
 // React
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Redux
@@ -18,7 +18,7 @@ import themeFile from "./util/theme";
 import Home from "./pages/home";
 
 // Components
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Home/Navbar";
 
 import axios from "axios";
 import queryString from "query-string";
@@ -44,23 +44,37 @@ if (urlQuery.oauth_token) {
 
 const App = (props) => {
   const { theme } = props.UI;
+  const ref = useRef(null);
 
   const dynamicTheme = createMuiTheme({
     ...themeFile,
     palette: {
+      primary: {
+        ...themeFile.palette.primary,
+      },
+      secondary: {
+        ...themeFile.palette.secondary,
+      },
       type: theme === 0 ? "light" : "dark",
     },
+  });
+
+  useEffect(() => {
+    ref.current.addEventListener("keydown", () => {
+      console.log("keydown");
+    });
   });
 
   return (
     <MuiThemeProvider theme={dynamicTheme}>
       <CssBaseline />
-      <div className="App">
+      <div className="App" ref={ref} tabIndex={-1}>
         <Navbar />
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/test" component={null} />
+            <Route path="/module/:module" component={null} />
           </Switch>
         </Router>
       </div>

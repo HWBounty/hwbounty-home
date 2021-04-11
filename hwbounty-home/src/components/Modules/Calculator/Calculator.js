@@ -76,7 +76,7 @@ export const Calculator = (props) => {
     try {
       const ans = parser.evaluate(mathquillToMathJS(val.latex()));
       setAnswer(ans);
-      console.log(val.latex());
+      console.log(val.latex(), ans);
     } catch {
       console.log("error");
     }

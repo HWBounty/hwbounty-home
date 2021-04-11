@@ -4,20 +4,20 @@ import PropTypes from "prop-types";
 
 // Redux
 import { connect } from "react-redux";
-import { setTheme } from "../redux/actions/uiActions";
+import { setTheme } from "../../redux/actions/uiActions";
 
 // MUI Components & Styling
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
 import withStyles from "@material-ui/core/styles/withStyles";
-import themeFile from "../util/theme";
+import themeFile from "../../util/theme";
 
 // MUI Icons
 import DarkThemeIcon from "@material-ui/icons/Brightness4Rounded";
 import LightThemeIcon from "@material-ui/icons/Brightness7Rounded";
 
-import AccountIconButton from "./User/AccountIconButton";
+import AccountIconButton from "../User/AccountIconButton";
 
 const styles = {
   ...themeFile.spreadIt,
