@@ -14,12 +14,17 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles/";
 import themeFile from "./util/theme";
 
+// Keybinds
+import { ShortcutProvider, ShortcutConsumer } from "react-keybind";
+import KeybindManager from "./util/keybinds/keybind";
+
 // Pages
 import Home from "./pages/home";
 
 // Components
 import Navbar from "./components/Home/Navbar";
 
+// Tools
 import axios from "axios";
 import queryString from "query-string";
 
@@ -44,7 +49,6 @@ if (urlQuery.oauth_token) {
 
 const App = (props) => {
   const { theme } = props.UI;
-  const ref = useRef(null);
 
   const dynamicTheme = createMuiTheme({
     ...themeFile,
@@ -59,26 +63,23 @@ const App = (props) => {
     },
   });
 
-  useEffect(() => {
-    ref.current.addEventListener("keydown", () => {
-      console.log("keydown");
-    });
-  });
-
   return (
-    <MuiThemeProvider theme={dynamicTheme}>
-      <CssBaseline />
-      <div className="App" ref={ref} tabIndex={-1}>
-        <Navbar />
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/test" component={null} />
-            <Route path="/module/:module" component={null} />
-          </Switch>
-        </Router>
-      </div>
-    </MuiThemeProvider>
+    <ShortcutProvider ignoreTagNames={["input", "textarea"]}>
+      <MuiThemeProvider theme={dynamicTheme}>
+        <CssBaseline />
+        <KeybindManager />
+        <div className="App">
+          <Navbar />
+          <Router>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/test" component={null} />
+              <Route path="/module/:module" component={null} />
+            </Switch>
+          </Router>
+        </div>
+      </MuiThemeProvider>
+    </ShortcutProvider>
   );
 };
 

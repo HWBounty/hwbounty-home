@@ -1,5 +1,6 @@
 // UI reducer types
 export const SET_THEME = "SET_THEME";
+export const SET_MODULE = "SET_MODULE";
 
 // Data reducer types
 export const SET_ASSIGNMENTS = "SET_ASSIGNMENTS";

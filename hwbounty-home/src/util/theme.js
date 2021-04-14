@@ -24,11 +24,14 @@ const rawTheme = createMuiTheme({
     fontWeightMedium: 700, // Roboto Condensed
     fontFamilySecondary: "'Roboto Condensed', sans-serif",
   },
+
   spreadIt: {
     rootPadding: {
-      marginLeft: "30px",
-      marginRight: "30px",
-      marginTop: "30px",
+      padding: 25,
+    },
+    paper: {
+      height: "100%",
+      width: "100%",
     },
   },
 });

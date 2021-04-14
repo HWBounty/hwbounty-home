@@ -32,9 +32,7 @@ export const ForumSearch = (props) => {
   };
 
   return (
-    <MuiThemeProvider
-      theme={{ ...theme, palette: { ...theme.palette, type: "light" } }}
-    >
+    <MuiThemeProvider theme={theme}>
       <form onSubmit={handleSubmit}>
         <InputBase
           classes={roundInput}

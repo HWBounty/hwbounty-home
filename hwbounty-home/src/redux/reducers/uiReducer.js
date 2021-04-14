@@ -1,7 +1,8 @@
-import { SET_THEME } from "../types";
+import { SET_MODULE, SET_THEME } from "../types";
 
 const initialState = {
   theme: 0, // [light, dark, titan]
+  module: 1,
 };
 
 export const uiReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ export const uiReducer = (state = initialState, action) => {
       return {
         ...state,
         theme: action.payload,
+      };
+    case SET_MODULE:
+      return {
+        ...state,
+        module: action.payload,
       };
     default:
       return state;

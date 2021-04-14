@@ -21,12 +21,7 @@ const history = [];
 const parser = math.parser();
 
 const styles = (theme) => ({
-  rootPaper: {
-    height: "100%",
-  },
-  rootDiv: {
-    padding: 25,
-  },
+  ...theme.spreadIt,
   symbolPadGrid: {
     paddingTop: 15,
   },
@@ -41,6 +36,8 @@ const LatexInput = (props) => {
       style={{ height: "auto", fontSize: 50, flex: 1 }}
       config={{
         autoCommands: "pi theta sqrt sum",
+        autoOperatorNames:
+          "sin cos tan feet ft inches in miles cm sech arcsec arsinh to rad deg radians degrees",
         handlers: {
           enter: onSubmit,
         },
@@ -57,6 +54,7 @@ export const Calculator = (props) => {
 
   const [expression, setExpression] = useState("");
   const [answer, setAnswer] = useState("");
+  const [error, setError] = useState(false);
 
   const mathField = useRef(null);
 
@@ -75,10 +73,11 @@ export const Calculator = (props) => {
   const handleSubmit = (val) => {
     try {
       const ans = parser.evaluate(mathquillToMathJS(val.latex()));
-      setAnswer(ans);
-      console.log(val.latex(), ans);
+      setAnswer(ans.toString());
+      setError(false);
     } catch {
-      console.log("error");
+      setAnswer("ERROR!!!!");
+      setError(true);
     }
   };
 
@@ -97,8 +96,8 @@ export const Calculator = (props) => {
   };
 
   return (
-    <Paper className={classes.rootPaper}>
-      <div className={classes.rootDiv}>
+    <Paper>
+      <div className={classes.rootPadding}>
         <InputBase
           inputComponent={LatexInput}
           inputProps={{
@@ -118,7 +117,7 @@ export const Calculator = (props) => {
             <SymbolPad onClick={handleSymbolPressed} />
           </Grid>
         </Grid>
-        <Typography>{answer}</Typography>
+        <Typography color={error ? "error" : "initial"}>{answer}</Typography>
       </div>
     </Paper>
   );
