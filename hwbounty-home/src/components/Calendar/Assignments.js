@@ -44,7 +44,6 @@ export class Assignments extends Component {
 
     return (
       <div>
-        <Typography variant="h5">Assignments</Typography>
         {React.Children.toArray(
           datesArray.map((date) => {
             return (

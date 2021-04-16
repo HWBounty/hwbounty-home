@@ -13,8 +13,8 @@ import { MuiThemeProvider, withStyles } from "@material-ui/core/styles";
 
 // Components / Modules
 import ForumSearch from "../components/Home/ForumSearch";
-import Assignments from "../components/Calendar/Assignments";
-import Schedule from "../components/Calendar/Schedule";
+import KeybindEditor from "../components/Home/KeybindEditor";
+import Calendar from "../components/Calendar/Calendar";
 import ModuleViewer from "../components/Modules/ModuleViewer";
 
 // Redux
@@ -22,24 +22,12 @@ import { connect } from "react-redux";
 
 const styles = (theme) => ({
   root: {
-    marginLeft: 50,
-    marginRight: 50,
-    //minHeight: "100%",
-  },
-  searchBar: {
-    width: "20%",
+    paddingLeft: 50,
+    //paddingRight: 50,
   },
   divGridContainer: {
-    marginTop: 50,
+    paddingTop: 50,
   },
-  gridContainer: {
-    //height: "100%",
-  },
-  card: {
-    //height: "auto",
-    //borderRadius: theme.spacing(2),
-  },
-  toggleVisibleButton: {},
 });
 
 export const Home = (props) => {
@@ -51,7 +39,7 @@ export const Home = (props) => {
   return (
     <div className={classes.root}>
       <h1>HWBounty</h1>
-      <ForumSearch className={classes.searchBar} />
+      <ForumSearch />
       <div className={classes.divGridContainer}>
         <Grid
           container
@@ -59,18 +47,15 @@ export const Home = (props) => {
           className={classes.gridContainer}
           wrap="wrap"
         >
-          <Grid item xs={12} md>
-            <Card className={classes.card}>
-              <Schedule />
-            </Card>
+          <Grid item xs={12} sm={4}>
+            <Calendar />
           </Grid>
-          <Grid item xs={12} md>
-            <Card className={classes.card}>
-              <Assignments />
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={5}>
             <ModuleViewer />
+          </Grid>
+          <Grid item sm={1} />
+          <Grid item xs={12} sm={2}>
+            <KeybindEditor />
           </Grid>
         </Grid>
       </div>

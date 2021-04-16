@@ -30,8 +30,8 @@ const rawTheme = createMuiTheme({
       padding: 25,
     },
     paper: {
-      height: "100%",
       width: "100%",
+      borderRadius: 10,
     },
   },
 });

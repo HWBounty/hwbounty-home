@@ -23,6 +23,15 @@ export const KeybindManager = (props) => {
       "Changes to specified module given the id. 0 will clear"
     );
 
+    /*
+    Later make it so that we map through all active keybinds with command
+    keybind arr will look something like this:
+    arr = [
+      {key="c", action="SET_CALC"},
+      {key="space" action="CLEAR_ALL_MODULES"}
+    ]
+    */
+
     return () => {
       // Returning from useEffect is equivilant to componentDidUnmount or whatever its called
       shortcut.unregisterShortcut([

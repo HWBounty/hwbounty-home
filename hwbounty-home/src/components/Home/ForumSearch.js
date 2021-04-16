@@ -9,6 +9,7 @@ import InputBase from "@material-ui/core/InputBase";
 import { useRoundInputBaseStyles } from "@mui-treasury/styles/inputBase/round";
 
 import theme from "../../util/theme";
+import { Container } from "@material-ui/core";
 
 /*
 TODO: remove mui theme provider here, it should work without it!!!
@@ -32,17 +33,20 @@ export const ForumSearch = (props) => {
   };
 
   return (
-    <MuiThemeProvider theme={theme}>
-      <form onSubmit={handleSubmit}>
-        <InputBase
-          classes={roundInput}
-          placeholder="Search on HWBounty Forums..."
-          onChange={handleChange}
-          value={query}
-          {...props}
-        />
-      </form>
-    </MuiThemeProvider>
+    <Container maxWidth="xs">
+      <MuiThemeProvider theme={theme}>
+        <form onSubmit={handleSubmit}>
+          <InputBase
+            classes={roundInput}
+            placeholder="Search on HWBounty Forums..."
+            onChange={handleChange}
+            value={query}
+            fullWidth
+            {...props}
+          />
+        </form>
+      </MuiThemeProvider>
+    </Container>
   );
 };
 

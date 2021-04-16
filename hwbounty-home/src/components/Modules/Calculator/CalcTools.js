@@ -34,7 +34,7 @@ export const NumPad = (props) => {
 
   const NumRow = ({ arr }) => {
     return (
-      <Grid container item spacing={1}>
+      <Grid container item spacing={1} wrap="nowrap">
         {React.Children.toArray(
           arr.map((num) => (
             <Grid item>
@@ -50,7 +50,7 @@ export const NumPad = (props) => {
     );
   };
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={1} wrap="nowrap" direction="column">
       <NumRow arr={[1, 2, 3]} />
       <NumRow arr={[4, 5, 6]} />
       <NumRow arr={[7, 8, 9]} />

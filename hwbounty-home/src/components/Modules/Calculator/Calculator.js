@@ -96,7 +96,7 @@ export const Calculator = (props) => {
   };
 
   return (
-    <Paper>
+    <Paper className={classes.paper}>
       <div className={classes.rootPadding}>
         <InputBase
           inputComponent={LatexInput}
@@ -110,10 +110,10 @@ export const Calculator = (props) => {
           fullWidth
         ></InputBase>
         <Grid container spacing={2} className={classes.symbolPadGrid}>
-          <Grid item xs={5}>
+          <Grid item xs>
             <NumPad onClick={handleNumberPressed} />
           </Grid>
-          <Grid item xs={7}>
+          <Grid item xs>
             <SymbolPad onClick={handleSymbolPressed} />
           </Grid>
         </Grid>
