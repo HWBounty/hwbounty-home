@@ -23,10 +23,24 @@ import { connect } from "react-redux";
 const styles = (theme) => ({
   root: {
     paddingLeft: 50,
-    //paddingRight: 50,
+    [theme.breakpoints.down("md")]: {
+      paddingRight: 50,
+    },
   },
-  divGridContainer: {
+  desktopLayout: {
     paddingTop: 50,
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
+  },
+  mobileLayout: {
+    paddingTop: 30,
+    [theme.breakpoints.down("md")]: {
+      display: "block",
+    },
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
   },
 });
 
@@ -36,29 +50,44 @@ export const Home = (props) => {
     user: { authenticated },
   } = props;
 
-  return (
-    <div className={classes.root}>
-      <h1>HWBounty</h1>
-      <ForumSearch />
-      <div className={classes.divGridContainer}>
+  const DesktopLayout = () => {
+    return (
+      <div className={classes.desktopLayout}>
         <Grid
           container
           spacing={3}
           className={classes.gridContainer}
           wrap="wrap"
         >
-          <Grid item xs={12} sm={4}>
+          <Grid item md={4}>
             <Calendar />
           </Grid>
-          <Grid item xs={12} sm={5}>
+          <Grid item md={5}>
             <ModuleViewer />
           </Grid>
-          <Grid item sm={1} />
-          <Grid item xs={12} sm={2}>
+          <Grid item md={1} />
+          <Grid item md={2}>
             <KeybindEditor />
           </Grid>
         </Grid>
       </div>
+    );
+  };
+
+  const MobileLayout = () => {
+    return (
+      <div className={classes.mobileLayout}>
+        <Button></Button>
+      </div>
+    );
+  };
+
+  return (
+    <div className={classes.root}>
+      <h1>HWBounty</h1>
+      <ForumSearch />
+      <DesktopLayout />
+      <MobileLayout />
     </div>
   );
 };
