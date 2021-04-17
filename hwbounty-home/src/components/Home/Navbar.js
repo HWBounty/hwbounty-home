@@ -42,7 +42,7 @@ export const Navbar = (props) => {
     props.setTheme(newVal);
   };
   //Hide Navbar on pages:
-  let hides = ["logine"]
+  let hides = ["login","signup"]
   // eslint-disable-next-line no-restricted-globals
   if (hides.includes(location.href.split("/").pop())){
     return (<br/>);

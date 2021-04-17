@@ -15,6 +15,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 // Redux stuff
 import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/userActions";
+import signup from "./signup";
 
 const styles = (theme) => ({
 	...theme.spreadIt,
@@ -71,7 +72,7 @@ class Login extends Component {
 		return (
 			<div class="box">
 				<div class="container">
-					<Card></Card>
+					{/* <Card></Card> */}
 					<Card>
 						<Typography variant="h1">HWBounty Login</Typography>
 						<Typography variant="subtitle1" id="loginFailed">Incorrect Login Credentials!</Typography>

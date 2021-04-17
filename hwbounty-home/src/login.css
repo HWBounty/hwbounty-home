@@ -146,13 +146,13 @@ body {
   /* Footer */
   /* Alt MuiCard-root */
 }
-.MuiCard-root:first-child {
+/* .MuiCard-root:first-child {
   background: #fafafa;
   height: 10px;
   border-radius: 5px 5px 0 0;
   margin: 0 10px;
   padding: 0;
-}
+} */
 .MuiCard-root .MuiTypography-h1 {
   position: relative;
   z-index: 1;
@@ -164,6 +164,7 @@ body {
   font-weight: 600;
   text-transform: uppercase;
 }
+
 .MuiCard-root .input-container {
   position: relative;
   margin: 0 60px 50px;

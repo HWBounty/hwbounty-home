@@ -39,6 +39,12 @@ export const loginUser = (userData, history) => (dispatch) => {
   })
   
 };
+export const signupUser = async (userData,history)=>{
+ let res = await axios.post(`https://api.hwbounty.help/signup`, userData).catch(console.error);
+ if (!res) return false;
+ console.log(res.data);
+ return res.data.complete;
+}
 
 // btw  api.hwbounty.help/schoologyLogin
 /*
