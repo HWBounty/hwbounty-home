@@ -41,7 +41,12 @@ export const Navbar = (props) => {
     setThemeVal(newVal);
     props.setTheme(newVal);
   };
-
+  //Hide Navbar on pages:
+  let hides = ["logine"]
+  // eslint-disable-next-line no-restricted-globals
+  if (hides.includes(location.href.split("/").pop())){
+    return (<br/>);
+  }
   return (
     <div className={classes.root}>
       <Toolbar>

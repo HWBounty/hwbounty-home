@@ -18,21 +18,26 @@ export const logoutUser = () => (dispatch) => {
 };
 export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
-  axios
+  return new Promise((res,rej)=>{
+    axios
     .post(`https://api.hwbounty.help/login`, userData)
     .then((res) => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
       history.push("/");
+      res(true);
     })
     .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.response.data,
-      });
-      console.log(err.message);
+      // dispatch({
+      //   type: SET_ERRORS,
+      //   payload: err.response.data,
+      // });
+      // console.log(err.message);
+      res(false);
     });
+  })
+  
 };
 
 // btw  api.hwbounty.help/schoologyLogin
