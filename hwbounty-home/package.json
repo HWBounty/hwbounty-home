@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^12.6.3",
     "axios": "^0.21.1",
     "dayjs": "^1.10.4",
+    "jquery": "^3.6.0",
     "mathjs": "^9.3.0",
     "prop-types": "^15.7.2",
     "query-string": "^7.0.0",

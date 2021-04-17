@@ -20,7 +20,7 @@ import KeybindManager from "./util/keybinds/keybind";
 
 // Pages
 import Home from "./pages/home";
-
+import Login from "./pages/login";
 // Components
 import Navbar from "./components/Home/Navbar";
 
@@ -74,6 +74,7 @@ const App = (props) => {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/test" component={null} />
+              <Route path="/login" component={Login}/>
               <Route path="/module/:module" component={null} />
             </Switch>
           </Router>

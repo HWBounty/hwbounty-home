@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 // React
 import React, { Fragment } from "react";
 
@@ -11,6 +12,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircleRounded";
 import { connect } from "react-redux";
 
 import axios from "axios";
+import { Route } from "react-router";
 
 export const AccountIconButton = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -25,7 +27,18 @@ export const AccountIconButton = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleAuthLogs = () => {
+    if (localStorage.getItem("DBIdToken")){
+      localStorage.removeItem("DBIdToken");
+      location.reload();
+      // return ;
+    }else{
+      //literal mega hack
+      location.href = location.href.split("/").slice(0,-1).concat("login").join("/");
+    }
+       
+    
+  }
   const openSchoologyOAuth = () => {
     axios({
       method: "post",
@@ -63,9 +76,10 @@ export const AccountIconButton = (props) => {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         transformOrigin={{ vertical: "top", horizontal: "center" }}
       >
+        
         <MenuItem onClick={openSchoologyOAuth}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleAuthLogs}>{localStorage.getItem("DBIdToken")?"Logout":"Login"}</MenuItem>
       </Menu>
     </div>
   );
