@@ -18,32 +18,38 @@ export const logoutUser = () => (dispatch) => {
 };
 export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
-  return new Promise((res,rej)=>{
+  return new Promise((res, rej) => {
     axios
-    .post(`https://api.hwbounty.help/login`, userData)
-    .then((res) => {
-      setAuthorizationHeader(res.data.token);
-      dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
-      history.push("/");
-      res(true);
-    })
-    .catch((err) => {
-      // dispatch({
-      //   type: SET_ERRORS,
-      //   payload: err.response.data,
-      // });
-      // console.log(err.message);
-      res(false);
-    });
+      .post(`https://api.hwbounty.help/login`, userData)
+      .then((res) => {
+        setAuthorizationHeader(res.data.token);
+        dispatch(getUserData());
+        dispatch({ type: CLEAR_ERRORS });
+        history.push("/");
+        res(true);
+      })
+      .catch((err) => {
+        // dispatch({
+        //   type: SET_ERRORS,
+        //   payload: err.response.data,
+        // });
+        // console.log(err.message);
+        res(false);
+      });
   })
-  
+
 };
-export const signupUser = async (userData,history)=>{
- let res = await axios.post(`https://api.hwbounty.help/signup`, userData).catch(console.error);
- if (!res) return false;
- console.log(res.data);
- return res.data.complete;
+export const signupUser = async (userData) => {
+  let res = await axios.post(`https://api.hwbounty.help/signup`, userData).catch(console.error);
+  if (!res) return false;
+  console.log(res.data);
+  if (res.data.complete) {
+    Array.from(document.getElementsByTagName("input")).forEach(x => {x.disabled = true;x.value = ""});
+    document.getElementById("goButton").disabled = true;
+    document.getElementById("goButton").innerText = "Please Check Your Inbox!";
+    alert("Your account is now pending confirmation! Please go into your email and click on the verification link!");
+  }
+  return res.data.complete;
 }
 
 // btw  api.hwbounty.help/schoologyLogin

@@ -65,15 +65,23 @@ class Signup extends Component {
 				password: this.state.password,
 			};
 			const result = await this.props.signupUser(userData, this.props.history);
+			console.trace(result);
+			if (result){
+				Array.from(document.getElementsByTagName("input")).forEach(x=>x.disabled =true);
+				document.getElementById("goButton").disabled = true;
+				document.getElementById("goButton").innerText = "Please Check Your Inbox!";
+				alert("Your account is now pending confirmation! Please go into your email and click on the verification link!");
+				return;
+			}
 			try {
 				if (!result)
 					document.getElementById("loginFailed").id = "loginFailedVisible"
 				else{
-					alert("Your account is now pending confirmation! Please go into your email and click on the verification link!");
+					
 				}
 					
 			} catch (error) {
-
+				console.trace(error);
 			}
 			document.getElementById("loginFailedVisible").innerText = "Signup failed!";
 
@@ -193,7 +201,7 @@ class Signup extends Component {
 								<div class="bar"></div>
 							</div>
 							<div class="button-container">
-								<button onClick={this.handleSubmit}><span>Go</span></button>
+								<button onClick={this.handleSubmit} id="goButton"><span>Go</span></button>
 							</div>
 							<div class="footer"><a href="/login">Already have an account?</a></div>
 						</form>
