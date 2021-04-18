@@ -13,6 +13,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // Components
 import Schedule from "./Schedule";
 import Assignments from "./Assignments";
+import ZoomLinks from "./ZoomLinks";
 
 const styles = (theme) => ({
   ...theme.spreadIt,
@@ -44,10 +45,12 @@ const Calendar = (props) => {
       >
         <Tab label="Schedule" />
         <Tab label="Assignments" />
+        <Tab label="Zoom Links" />
       </Tabs>
       <List className={classes.content}>
         {tab === 0 && <Schedule />}
         {tab === 1 && <Assignments />}
+        {tab === 2 && <ZoomLinks/>}
       </List>
     </Paper>
   );

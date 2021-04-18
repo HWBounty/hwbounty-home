@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import { loginUser, signupUser } from "../redux/actions/userActions";
 import axios from "axios";
 import { Container, Modal } from "@material-ui/core";
+import { getRandomBackground } from "../util/randomBackground";
 
 const styles = (theme) => ({
 	...theme.spreadIt,
@@ -162,7 +163,7 @@ class Signup extends Component {
 		const { errors } = this.state;
 		//Hide header
 		return (
-			<div class="box">
+			<div class="box" style={{background: `url(${getRandomBackground()})center/cover`}}>
 				<div class="container">
 					{/* <Card></Card> */}
 					<Card>

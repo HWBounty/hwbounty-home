@@ -30,6 +30,8 @@ export const AccountIconButton = (props) => {
   const handleAuthLogs = () => {
     if (localStorage.getItem("DBIdToken")){
       localStorage.removeItem("DBIdToken");
+      localStorage.removeItem("user");
+      localStorage.removeItem("zoomLinks");
       location.reload();
       // return ;
     }else{

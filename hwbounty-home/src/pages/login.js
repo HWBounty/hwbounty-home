@@ -16,6 +16,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/userActions";
 import signup from "./signup";
+import { getRandomBackground } from "../util/randomBackground";
 
 const styles = (theme) => ({
 	...theme.spreadIt,
@@ -70,7 +71,7 @@ class Login extends Component {
 		const { errors } = this.state;
 		//Hide header
 		return (
-			<div class="box">
+			<div class="box" style={{background: `url(${getRandomBackground()})center/cover`}}>
 				<div class="container">
 					{/* <Card></Card> */}
 					<Card>
