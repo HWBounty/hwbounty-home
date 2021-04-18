@@ -20,7 +20,7 @@ const useButtonStyles = makeStyles({
 
 const PeriodButton = (props) => {
   const classes = useButtonStyles();
-  const { period, name, zoom } = props;
+  const { period, name, zoom, color } = props;
 
   const [expanded, setExpanded] = React.useState(false);
   const handleButtonClicked = () => {
@@ -34,6 +34,7 @@ const PeriodButton = (props) => {
         onClick={handleButtonClicked}
         variant="contained"
         fullWidth
+        style={{ background: color }}
       >
         <Typography variant="h5" display="block">
           Period {period}
@@ -51,36 +52,43 @@ export const Schedule = (props) => {
       period: 1,
       name: "GeoH",
       zoom: "https://example.com" /*add all necessary components*/,
+      color: "rgb(255,149,128)",
     },
     {
       period: 2,
       name: "Bio",
       zoom: "https://example.com" /*add all necessary components*/,
+      color: "rgb(255,204,153)",
     },
     {
       period: 3,
       name: "Spanish",
       zoom: "https://example.com" /*add all necessary components*/,
+      color: "rgb(255,255,153)",
     },
     {
       period: 4,
       name: "Business",
       zoom: "https://example.com" /*add all necessary components*/,
+      color: "rgb(204,255,153)",
     },
     {
       period: 5,
       name: "English",
       zoom: "https://example.com" /*add all necessary components*/,
+      color: "rgb(204,247,255)",
     },
     {
       period: 6,
       name: "History",
       zoom: "https://example.com" /*add all necessary components*/,
+      color: "rgb(204,212,255)",
     },
     {
       period: 7,
       name: "PE",
       zoom: "https://example.com" /*add all necessary components*/,
+      color: "rgb(238,204,255)",
     },
   ];
 
@@ -88,7 +96,14 @@ export const Schedule = (props) => {
     <div>
       {React.Children.toArray(
         periods.map((p) => {
-          return <PeriodButton period={p.period} name={p.name} zoom={p.zoom} />;
+          return (
+            <PeriodButton
+              period={p.period}
+              name={p.name}
+              zoom={p.zoom}
+              color={p.color}
+            />
+          );
         })
       )}
     </div>

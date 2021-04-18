@@ -23,6 +23,7 @@ import Home from "./pages/home";
 
 // Components
 import Navbar from "./components/Home/Navbar";
+import AuthPopup from "./components/User/AuthPopup";
 
 // Tools
 import axios from "axios";
@@ -70,6 +71,7 @@ const App = (props) => {
         <KeybindManager />
         <div className="App">
           <Navbar />
+          <AuthPopup />
           <Router>
             <Switch>
               <Route exact path="/" component={Home} />

@@ -1,8 +1,9 @@
-import { SET_MODULE, SET_THEME } from "../types";
+import { SET_AUTH_POPUP_OPEN, SET_MODULE, SET_THEME } from "../types";
 
 const initialState = {
   theme: 0, // [light, dark, titan]
   module: 1,
+  authPopupOpen: false,
 };
 
 export const uiReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ export const uiReducer = (state = initialState, action) => {
       return {
         ...state,
         module: action.payload,
+      };
+    case SET_AUTH_POPUP_OPEN:
+      return {
+        ...state,
+        authPopupOpen: action.payload,
       };
     default:
       return state;
