@@ -20,32 +20,34 @@ import ModuleViewer from "../components/Modules/ModuleViewer";
 // Redux
 import { connect } from "react-redux";
 import axios from "axios";
-import { Container } from "@material-ui/core";
+import { Avatar, Container, makeStyles } from "@material-ui/core";
 import { Calculator } from "../components/Modules/Calculator/Calculator";
+import { getRandomBackground } from "../util/randomBackground";
 
-const styles = (theme) => ({
-  root: {
-    paddingLeft: 50,
-    [theme.breakpoints.down("md")]: {
-      paddingRight: 50,
-    },
-  },
-  desktopLayout: {
-    paddingTop: 50,
-    [theme.breakpoints.down("md")]: {
-      display: "none",
-    },
-  },
-  mobileLayout: {
-    paddingTop: 30,
-    [theme.breakpoints.down("md")]: {
-      display: "block",
-    },
-    [theme.breakpoints.up("md")]: {
-      display: "none",
-    },
-  },
+const styles = makeStyles({
+  // root: {
+  //   paddingLeft: 50,
+  //   [theme.breakpoints.down("md")]: {
+  //     paddingRight: 50,
+  //   },
+  // },
+  // desktopLayout: {
+  //   paddingTop: 50,
+  //   [theme.breakpoints.down("md")]: {
+  //     display: "none",
+  //   },
+  // },
+  // mobileLayout: {
+  //   paddingTop: 30,
+  //   [theme.breakpoints.down("md")]: {
+  //     display: "block",
+  //   },
+  //   [theme.breakpoints.up("md")]: {
+  //     display: "none",
+  //   },
+  // },
 });
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -53,53 +55,79 @@ class Home extends Component {
       user: null,
     };
   }
+  getGreeting() {
+
+    if (this.state.user) {
+      if (!localStorage.getItem("user"))
+        localStorage.setItem("user", JSON.stringify(this.state.user));
+      return `Welcome back ${this.state.user.firstName} 👋!`;
+    } else {
+      axios.get("https://api.hwbounty.help/@me").then(res => {
+        if (res.status == 200 && res.data && res.data.password) {
+          this.setState({ user: res.data });
+        }
+      });
+    };
+    if (localStorage.getItem("user")) {
+      return `Welcome back ${JSON.parse(localStorage.getItem("user")).firstName} 👋!`;
+    };
+  }
   render() {
     return (
-      <div className = "base" id="baseHome">
-        <Container className="base" id="headerContainer">
-        <img align="left" src={localStorage.getItem("user")? JSON.parse(localStorage.getItem("user")).pfp:""} className="pfp" alt=""/>
-        <Typography variant="h1" id="welcomeText">
-        {
-          (()=>{
-            
-            if (this.state.user){
-              if (!localStorage.getItem("user"))
-              localStorage.setItem("user",JSON.stringify(this.state.user));
-              return `Welcome back ${this.state.user.firstName} 👋!`;
-            }else{
-              axios.get("https://api.hwbounty.help/@me").then(res=>{
-                if (res.status == 200 && res.data && res.data.password){
-                  this.setState({user:res.data});
-                } 
-              });
-            };
-            if (localStorage.getItem("user")){
-              return `Welcome back ${JSON.parse(localStorage.getItem("user")).firstName} 👋!`;
-            };
-          })()
+      <div className="base" id="baseHome">
+        <Container className="base" style={{
+          	background: `url(${getRandomBackground()})top/cover`,
+            "min-height": "20vh",
+            "max-height": "20vh",
+            "max-width": "100vw",
+            width: "100%",
+            "margin-left": "0px",
+            "margin-right": "0px",
+            "text-align": "left",
+            overflow: "hidden",
+            "text-overflow": "ellipsis",
+            "position": "relative",
+        }}>
+          <Avatar variant="rounded" align="left" src={localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).pfp : ""} className="pfp" alt={JSON.parse(localStorage.getItem("user")).firstName} imgProps={
+            {
+              style: {
+                padding: "0px",
+                "min-height": "15vh",
+                "min-width": "15vh",
+              }
+            }
           }
-        </Typography>
-        <Typography variant="subtitle1" id="bio">
-          {(()=>{
-            
-            if (this.state.user){
-              if (!localStorage.getItem("user"))
-              localStorage.setItem("user",JSON.stringify(this.state.user));
-              return `“ ${this.state.user.bio} ”`
-            }
-            axios.get("https://api.hwbounty.help/@me").then(res=>{
-              if (res.status == 200 && res.data && res.data.password){
-                this.setState({user:res.data});
-                localStorage.setItem("user",JSON.stringify(res.data))
-              } 
-            })
-            if (localStorage.getItem("user")){
-              return `“ ${JSON.parse(localStorage.getItem("user")).bio} ”`;
-            }
-          })()}
-        </Typography>
-        
-        {/* <h1 id="welcomeText">nyaaaa
+            style={{
+              padding: "0px",
+              "margin-bottom": "2.5vh",
+              "margin-left": "0.8vh",
+              "min-height": "15vh",
+              "min-width": "15vh",
+            }} />
+          <Typography variant="h1" id="welcomeText">
+            {this.getGreeting()}
+          </Typography>
+          <Typography variant="subtitle1" id="bio">
+            {(() => {
+
+              if (this.state.user) {
+                if (!localStorage.getItem("user"))
+                  localStorage.setItem("user", JSON.stringify(this.state.user));
+                return `“ ${this.state.user.bio} ”`
+              }
+              axios.get("https://api.hwbounty.help/@me").then(res => {
+                if (res.status === 200 && res.data && res.data.password) {
+                  this.setState({ user: res.data });
+                  localStorage.setItem("user", JSON.stringify(res.data))
+                }
+              })
+              if (localStorage.getItem("user")) {
+                return `“ ${JSON.parse(localStorage.getItem("user")).bio} ”`;
+              }
+            })()}
+          </Typography>
+
+          {/* <h1 id="welcomeText">nyaaaa
         {
           (()=>{
             
@@ -121,18 +149,8 @@ class Home extends Component {
           </h1> */}
         </Container>
         <Card id="calenderContainer">
-        <Calendar id="calender"/>
+          <Calendar id="calender" />
         </Card>
-        
-      
-      {/* //User Header */}
-      
-      {/* // <div className={classes.root}> */}
-        
-      {/* //   <ForumSearch /> */}
-      {/* //   <DesktopLayout /> */}
-      {/* //   <MobileLayout /> */}
-      {/* // </div> */}
       </div>
     );
   }
