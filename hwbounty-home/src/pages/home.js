@@ -72,6 +72,23 @@ class Home extends Component {
       return `Welcome back ${JSON.parse(localStorage.getItem("user")).firstName} 👋!`;
     };
   }
+  getBio(){
+
+    if (this.state.user) {
+      if (!localStorage.getItem("user"))
+        localStorage.setItem("user", JSON.stringify(this.state.user));
+      return `“ ${this.state.user.bio} ”`
+    }
+    axios.get("https://api.hwbounty.help/@me").then(res => {
+      if (res.status === 200 && res.data && res.data.password) {
+        this.setState({ user: res.data });
+        localStorage.setItem("user", JSON.stringify(res.data))
+      }
+    })
+    if (localStorage.getItem("user")) {
+      return `“ ${JSON.parse(localStorage.getItem("user")).bio} ”`;
+    }
+  }
   render() {
     return (
       <div className="base" id="baseHome">
@@ -87,8 +104,9 @@ class Home extends Component {
             overflow: "hidden",
             "text-overflow": "ellipsis",
             "position": "relative",
+            
         }}>
-          <Avatar variant="rounded" align="left" src={localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).pfp : ""} className="pfp" alt={JSON.parse(localStorage.getItem("user")).firstName} imgProps={
+          <Avatar variant="rounded" align="left" src={localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).pfp : ""} className="pfp" alt={localStorage.getItem("user") ?JSON.parse(localStorage.getItem("user")).firstName:"unknown"} imgProps={
             {
               style: {
                 padding: "0px",
@@ -105,26 +123,10 @@ class Home extends Component {
               "min-width": "15vh",
             }} />
           <Typography variant="h1" id="welcomeText">
-            {this.getGreeting()}
+            {this.getGreeting}
           </Typography>
           <Typography variant="subtitle1" id="bio">
-            {(() => {
-
-              if (this.state.user) {
-                if (!localStorage.getItem("user"))
-                  localStorage.setItem("user", JSON.stringify(this.state.user));
-                return `“ ${this.state.user.bio} ”`
-              }
-              axios.get("https://api.hwbounty.help/@me").then(res => {
-                if (res.status === 200 && res.data && res.data.password) {
-                  this.setState({ user: res.data });
-                  localStorage.setItem("user", JSON.stringify(res.data))
-                }
-              })
-              if (localStorage.getItem("user")) {
-                return `“ ${JSON.parse(localStorage.getItem("user")).bio} ”`;
-              }
-            })()}
+            {this.getBio}
           </Typography>
 
           {/* <h1 id="welcomeText">nyaaaa
