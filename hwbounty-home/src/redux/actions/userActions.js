@@ -21,8 +21,8 @@ export const loginUser = (userData, history) => (dispatch) => {
   return new Promise((res, rej) => {
     axios
       .post(`https://api.hwbounty.help/login`, userData)
-      .then((res) => {
-        setAuthorizationHeader(res.data.token);
+      .then((result) => {
+        setAuthorizationHeader(result.data.token);
         dispatch(getUserData());
         dispatch({ type: CLEAR_ERRORS });
         history.push("/");
