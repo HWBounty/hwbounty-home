@@ -24,28 +24,28 @@ import { Avatar, Container, makeStyles } from "@material-ui/core";
 import { Calculator } from "../components/Modules/Calculator/Calculator";
 import { getRandomBackground } from "../util/randomBackground";
 
-const styles = makeStyles({
-  // root: {
-  //   paddingLeft: 50,
-  //   [theme.breakpoints.down("md")]: {
-  //     paddingRight: 50,
-  //   },
-  // },
-  // desktopLayout: {
-  //   paddingTop: 50,
-  //   [theme.breakpoints.down("md")]: {
-  //     display: "none",
-  //   },
-  // },
-  // mobileLayout: {
-  //   paddingTop: 30,
-  //   [theme.breakpoints.down("md")]: {
-  //     display: "block",
-  //   },
-  //   [theme.breakpoints.up("md")]: {
-  //     display: "none",
-  //   },
-  // },
+const styles = (theme)=>({
+  root: {
+    paddingLeft: 50,
+    [theme.breakpoints.down("md")]: {
+      paddingRight: 50,
+    },
+  },
+  desktopLayout: {
+    paddingTop: 50,
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
+  },
+  mobileLayout: {
+    paddingTop: 30,
+    [theme.breakpoints.down("md")]: {
+      display: "block",
+    },
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
 });
 
 class Home extends Component {
