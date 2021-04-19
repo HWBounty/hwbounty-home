@@ -41,7 +41,6 @@ const PeriodButton = (props) => {
       <Card
         className={classes.root}
         onClick={handleButtonClicked}
-        variant="contained"
         style={{ background: color }}
       >
         <Typography variant="h5" display="block">
