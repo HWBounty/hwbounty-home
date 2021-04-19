@@ -32,7 +32,6 @@ export const signupUser = (userData) => (dispatch) => {
 export const logoutUser = () => (dispatch) => {
   console.log("you have unsuccessfully logged out! your stuck here forever!");
 };
-
 export const getUserData = () => (dispatch) => {
   console.log("get user data here");
 };
@@ -49,3 +48,9 @@ req: {
   redirectURL:  "hwbounty.help"
 }
 */
+
+const setAuthorizationHeader = (token) => {
+  const DBIdToken = `Bearer ${token}`;
+  localStorage.setItem("DBIdToken", DBIdToken);
+  axios.defaults.headers.common["Authorization"] = DBIdToken;
+};

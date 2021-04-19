@@ -20,7 +20,7 @@ import KeybindManager from "./util/keybinds/keybind";
 
 // Pages
 import Home from "./pages/home";
-
+import Login from "./pages/login";
 // Components
 import Navbar from "./components/Home/Navbar";
 import AuthPopup from "./components/User/AuthPopup";
@@ -28,6 +28,9 @@ import AuthPopup from "./components/User/AuthPopup";
 // Tools
 import axios from "axios";
 import queryString from "query-string";
+import Signup from "./pages/signup";
+import ScheduleCatalog from "./pages/schedules";
+import viewSchedule from "./pages/viewSchedule";
 
 //=================Check for oauth token====================//
 const token = localStorage.DBIdToken;
@@ -76,6 +79,10 @@ const App = (props) => {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/test" component={null} />
+              <Route path="/login" component={Login}/>
+              <Route path="/signup" component={Signup}/>
+              <Route path="/schedules" component={ScheduleCatalog}/>
+              <Route path="/schedule/view" component={viewSchedule}/>
               <Route path="/module/:module" component={null} />
             </Switch>
           </Router>
