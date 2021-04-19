@@ -49,7 +49,7 @@ export const Navbar = (props) => {
   const UserButton = () => {
     return (
       <div>
-        {!authenticated ? (
+        {authenticated ? (
           <AccountIconButton />
         ) : (
           <Button onClick={() => setAuthPopupOpen(true)}>LOGIN</Button>
