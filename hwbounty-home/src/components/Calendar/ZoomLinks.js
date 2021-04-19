@@ -18,7 +18,7 @@ const useButtonStyles = makeStyles({
     margin: "5%",
     display: "block",
     width: "90%",
-    "min-height": "6vh"
+    "min-height": "6vh",
   },
 });
 
@@ -33,30 +33,24 @@ const ZoomLinksCollection = (props) => {
 
   return (
     <div>
-      <Card
-        className={classes.button}
-        variant="contained"
-        style={{ background: color }}
-      >
+      <Card className={classes.button} style={{ background: color }}>
         <Typography variant="h5" display="block">
           {name}
         </Typography>
-        {
-          (() => {
-            let allLinks = [];
-            links.map(x => {
-              x.links.map(link => {
-                allLinks.push(
-                  <Link display="block" href={link}>
-                    {x.title}<br />
-                  </Link>
-                )
-              })
-
-            })
-            return React.Children.toArray(allLinks);
-          })()
-        }
+        {(() => {
+          let allLinks = [];
+          links.map((x) => {
+            x.links.map((link) => {
+              allLinks.push(
+                <Link display="block" href={link}>
+                  {x.title}
+                  <br />
+                </Link>
+              );
+            });
+          });
+          return React.Children.toArray(allLinks);
+        })()}
         <Typography align="left">{name}</Typography>
       </Card>
     </div>
@@ -85,44 +79,54 @@ const ZoomLinksCollection = (props) => {
 //       }
 //   ]
 // },
-const colors = ["rgb(255,149,128)", "rgb(255,204,153)", "rgb(255,255,153)", "rgb(204,255,153)", "rgb(204,247,255)", "rgb(204,212,255)", "rgb(238,204,255)"];
+const colors = [
+  "rgb(255,149,128)",
+  "rgb(255,204,153)",
+  "rgb(255,255,153)",
+  "rgb(204,255,153)",
+  "rgb(204,247,255)",
+  "rgb(204,212,255)",
+  "rgb(238,204,255)",
+];
 class ZoomLinksPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      zoomLinks: null
+      zoomLinks: null,
     };
-
   }
   async fetchZoomLinks() {
     let res = await axios.get("https://api.hwbounty.help/sgy/getZoomLinks");
     if (res.status == 200) {
-      localStorage.setItem("zoomLinks",JSON.stringify(res.data));
+      localStorage.setItem("zoomLinks", JSON.stringify(res.data));
       this.setState({ zoomLinks: res.data });
-    }
-    else this.setState({ zoomLinks: res.status });
+    } else this.setState({ zoomLinks: res.status });
   }
   render() {
     if (!this.state.zoomLinks && !localStorage.getItem("zoomLinks")) {
       this.fetchZoomLinks();
-      return (
-        <Typography variant="h4">Fetching Zoom Links</Typography>
-      );
+      return <Typography variant="h4">Fetching Zoom Links</Typography>;
     }
-    if (!this.state.zoomLinks && localStorage.getItem("zoomLinks")){
-      this.state = ({ zoomLinks: JSON.parse(localStorage.getItem("zoomLinks")) });
+    if (!this.state.zoomLinks && localStorage.getItem("zoomLinks")) {
+      this.state = { zoomLinks: JSON.parse(localStorage.getItem("zoomLinks")) };
     }
     if (Math.floor(this.state.zoomLinks / 100) === 4) {
-      return (
-        <Typography variant="h4">Schoology Not Linked!</Typography>
-      );
+      return <Typography variant="h4">Schoology Not Linked!</Typography>;
     }
     return (
       <div>
         {React.Children.toArray(
-          this.state.zoomLinks.filter(x => x.links.length).map((p, i) => {
-            return <ZoomLinksCollection name={p.course_name} links={p.links} color={colors[i]} />;
-          })
+          this.state.zoomLinks
+            .filter((x) => x.links.length)
+            .map((p, i) => {
+              return (
+                <ZoomLinksCollection
+                  name={p.course_name}
+                  links={p.links}
+                  color={colors[i]}
+                />
+              );
+            })
         )}
       </div>
     );
@@ -135,7 +139,6 @@ export const ZoomLinks = (props) => {
       name: "GeoH",
       zoom: "https://example.com" /*add all necessary components*/,
       color: "rgb(255,149,128)",
-
     },
     {
       period: 2,
@@ -174,8 +177,6 @@ export const ZoomLinks = (props) => {
       color: "rgb(238,204,255)",
     },
   ];
-
-
 };
 
 export default ZoomLinksPage;
