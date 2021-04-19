@@ -40,7 +40,9 @@ const PeriodButton = (props) => {
           Period {period}
         </Typography>
         <Typography align="left">{name}</Typography>
-        <Collapse in={expanded}>Thisis expandeddd</Collapse>
+        <Collapse in={expanded}>
+          <Button onClick={(e) => e.stopPropagation()}>Collapse</Button>
+        </Collapse>
       </Button>
     </div>
   );
