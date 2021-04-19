@@ -15,6 +15,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 // Redux
 import { connect } from "react-redux";
 import { setAuthPopupOpen } from "../../redux/actions/uiActions";
+import { loginUser, signupUser } from "../../redux/actions/userActions";
 
 const useStyles = makeStyles({
   root: {
@@ -28,6 +29,8 @@ const useStyles = makeStyles({
 export const AuthPopup = (props) => {
   const {
     setAuthPopupOpen,
+    loginUser,
+    signupUser,
     UI: { authPopupOpen },
   } = props;
 
@@ -44,7 +47,9 @@ export const AuthPopup = (props) => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    loginUser({ email, password });
+  };
 
   const handleClose = () => {
     setAuthPopupOpen(false);
@@ -77,7 +82,7 @@ export const AuthPopup = (props) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button>Submit</Button>
+        <Button onClick={handleSubmit}>Submit</Button>
       </DialogActions>
     </Dialog>
   );
@@ -91,4 +96,10 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
 });
 
-export default connect(mapStateToProps, { setAuthPopupOpen })(AuthPopup);
+const mapActionsToProps = {
+  setAuthPopupOpen,
+  loginUser,
+  signupUser,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(AuthPopup);
