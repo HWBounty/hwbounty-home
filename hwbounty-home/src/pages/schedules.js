@@ -78,17 +78,17 @@ const SchedulePreview = (props) => {
 			<Container style={
 				{
 					"border-top": "2px solid rgba(160, 160, 160, 0.2)",
-					"padding-top": "10%"
+					"padding-top": "10%",
+
 				}
 			}>
 				<Link style={
 					{
 						"color": "#1976D2",
-						
 						"transition": "color 0.3s ease",
 						"text-transform": "uppercase",
 						"text-decoration": "none",
-						"font-size": "24px",
+						"font-size": "16px",
 					}
 					//href no worky
 				// eslint-disable-next-line no-restricted-globals
