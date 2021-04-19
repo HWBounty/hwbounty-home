@@ -6,8 +6,7 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+import Container from "@material-ui/core/Container";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Components
@@ -22,6 +21,7 @@ const styles = (theme) => ({
   },
   content: {
     paddingTop: 10,
+    textAlign: "center",
   },
 });
 
@@ -47,11 +47,10 @@ const Calendar = (props) => {
         <Tab label="Assignments" />
         <Tab label="Zoom Links" />
       </Tabs>
-      <List className={classes.content}>
+      <Container className={classes.content}>
         {tab === 0 && <Schedule />}
         {tab === 1 && <Assignments />}
-        {tab === 2 && <ZoomLinks/>}
-      </List>
+      </Container>
     </Paper>
   );
 };

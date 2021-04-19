@@ -3,19 +3,21 @@ import React, { Component } from "react";
 
 // MUI
 import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import Collapse from "@material-ui/core/Collapse";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useButtonStyles = makeStyles({
-  button: {
-    background: "linear-gradient(45deg, #a7acd9 30%, #9e8fb2 90%)",
+  root: {
+    //background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
     border: 0,
-    borderRadius: 10,
-    margin: "5%",
+    borderRadius: 3,
+    //boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+    marginTop: 10,
+    paddingBottom: 10,
     display: "block",
-    width:"90%",
-    "min-height": "6vh"
+    cursor: "pointer",
   },
 });
 
@@ -28,23 +30,36 @@ const PeriodButton = (props) => {
     setExpanded(!expanded);
   };
 
+  const handleZoomLinkClicked = (event, link) => {
+    event.stopPropagation();
+    const newWindow = window.open(link, "_blank", "noopener,noreferrer");
+    if (newWindow) newWindow.opener = null;
+  };
+
   return (
     <div>
-      <Button
-        className={classes.button}
+      <Card
+        className={classes.root}
         onClick={handleButtonClicked}
         variant="contained"
-        fullWidth
         style={{ background: color }}
       >
         <Typography variant="h5" display="block">
           Period {period}
         </Typography>
         <Typography align="left">{name}</Typography>
-        <Collapse in={expanded}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus posuere pretium mauris, quis dictum enim bibendum pretium. Phasellus elementum elit at lorem dignissim finibus. In commodo, urna vel porta efficitur, mi turpis dapibus lorem, ac bibendum ante sem a ipsum. Donec egestas odio non lacus facilisis tristique. Morbi eget pulvinar massa. Proin sit amet maximus eros. Sed sodales nunc in diam volutpat, in elementum mi condimentum. Pellentesque sed lacinia lectus, nec rhoncus orci. Morbi quis nunc aliquet mi aliquam pharetra. Pellentesque erat erat, cursus sit amet pharetra sed, feugiat fermentum augue. Suspendisse congue commodo magna eu lacinia. Nunc vitae eros vel mi condimentum venenatis nec vel orci. Cras gravida suscipit sodales. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-
-</Collapse>
-      </Button>
+        <Collapse in={expanded}>
+          {React.Children.toArray(
+            zoom.map((z) => {
+              return (
+                <Button onClick={(e) => handleZoomLinkClicked(e, z.link)}>
+                  {z.title}
+                </Button>
+              );
+            })
+          )}
+        </Collapse>
+      </Card>
     </div>
   );
 };
@@ -54,44 +69,65 @@ export const Schedule = (props) => {
     {
       period: 1,
       name: "GeoH",
-      zoom: "https://example.com" /*add all necessary components*/,
       color: "rgb(255,149,128)",
+      zoom: [
+        { link: "https://example.com", title: "Office hours" },
+        { link: "https://google.com", title: "GeoH 1st period Zoom Link" },
+      ],
     },
     {
       period: 2,
       name: "Bio",
-      zoom: "https://example.com" /*add all necessary components*/,
       color: "rgb(255,204,153)",
+      zoom: [
+        { link: "https://example.com", title: "Office hours" },
+        { link: "https://google.com", title: "GeoH 1st period Zoom Link" },
+      ],
     },
     {
       period: 3,
       name: "Spanish",
-      zoom: "https://example.com" /*add all necessary components*/,
       color: "rgb(255,255,153)",
+      zoom: [
+        { link: "https://example.com", title: "Office hours" },
+        { link: "https://google.com", title: "GeoH 1st period Zoom Link" },
+      ],
     },
     {
       period: 4,
       name: "Business",
-      zoom: "https://example.com" /*add all necessary components*/,
       color: "rgb(204,255,153)",
+      zoom: [
+        { link: "https://example.com", title: "Office hours" },
+        { link: "https://google.com", title: "GeoH 1st period Zoom Link" },
+      ],
     },
     {
       period: 5,
       name: "English",
-      zoom: "https://example.com" /*add all necessary components*/,
       color: "rgb(204,247,255)",
+      zoom: [
+        { link: "https://example.com", title: "Office hours" },
+        { link: "https://google.com", title: "GeoH 1st period Zoom Link" },
+      ],
     },
     {
       period: 6,
       name: "History",
-      zoom: "https://example.com" /*add all necessary components*/,
       color: "rgb(204,212,255)",
+      zoom: [
+        { link: "https://example.com", title: "Office hours" },
+        { link: "https://google.com", title: "GeoH 1st period Zoom Link" },
+      ],
     },
     {
       period: 7,
       name: "PE",
-      zoom: "https://example.com" /*add all necessary components*/,
       color: "rgb(238,204,255)",
+      zoom: [
+        { link: "https://example.com", title: "Office hours" },
+        { link: "https://google.com", title: "GeoH 1st period Zoom Link" },
+      ],
     },
   ];
 
