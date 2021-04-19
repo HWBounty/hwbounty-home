@@ -1,12 +1,5 @@
 import {
-  SET_USER,
-  SET_ERRORS,
   CLEAR_ERRORS,
-  LOADING_UI,
-  SET_UNAUTHENTICATED,
-  LOADING_USER,
-  MARK_NOTIFICATIONS_READ,
-  CONFIRM_SIGNUP,
 } from "../types";
 import axios from "axios";
 export const getUserData = () => (dispatch) => {
@@ -17,7 +10,7 @@ export const logoutUser = () => (dispatch) => {
   console.log("you have unsuccessfully logged out! your stuck here forever!");
 };
 export const loginUser = (userData, history) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
+  // dispatch({ type: LOADING_UI });
   return new Promise((res, rej) => {
     axios
       .post(`https://api.hwbounty.help/login`, userData)

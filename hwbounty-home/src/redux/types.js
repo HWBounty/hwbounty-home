@@ -1,11 +1,9 @@
 // UI reducer types
 export const SET_THEME = "SET_THEME";
 export const SET_MODULE = "SET_MODULE";
-export const SET_ERRORS = "SET_ERRORS";
-export const LOADING_UI = "LOADING_UI";
-export const CLEAR_ERRORS = "CLEAR_ERRORS";
-export const LOADING_DATA = "LOADING_DATA";
-export const STOP_LOADING_UI = "STOP_LOADING_UI";
+export const SET_AUTH_POPUP_OPEN = "SET_AUTH_POPUP_OPEN";
+export const CLEAR_ERRORS = "CLEAR_ERRORS"
+
 // Data reducer types
 export const SET_ASSIGNMENTS = "SET_ASSIGNMENTS";
 

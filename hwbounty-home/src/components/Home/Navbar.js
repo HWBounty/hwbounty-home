@@ -4,12 +4,14 @@ import PropTypes from "prop-types";
 
 // Redux
 import { connect } from "react-redux";
-import { setTheme } from "../../redux/actions/uiActions";
+import { setTheme, setAuthPopupOpen } from "../../redux/actions/uiActions";
 
 // MUI Components & Styling
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
 import themeFile from "../../util/theme";
 
@@ -33,6 +35,8 @@ export const Navbar = (props) => {
   const {
     classes,
     UI: { theme },
+    user: { authenticated },
+    setAuthPopupOpen,
   } = props;
   const [themeValue, setThemeVal] = useState(theme);
 
@@ -41,19 +45,26 @@ export const Navbar = (props) => {
     setThemeVal(newVal);
     props.setTheme(newVal);
   };
-  //Hide Navbar on pages:
-  let hides = ["login","signup"]
-  // eslint-disable-next-line no-restricted-globals
-  if (hides.includes(location.href.split("/").pop())){
-    return (<br/>);
-  }
+
+  const UserButton = () => {
+    return (
+      <div>
+        {!authenticated ? (
+          <AccountIconButton />
+        ) : (
+          <Button onClick={() => setAuthPopupOpen(true)}>LOGIN</Button>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className={classes.root}>
       <Toolbar>
         <IconButton onClick={toggleTheme} className={classes.iconButton}>
           {themeValue === 0 ? <DarkThemeIcon /> : <LightThemeIcon />}
         </IconButton>
-        <AccountIconButton />
+        <UserButton />
       </Toolbar>
     </div>
   );
@@ -65,8 +76,9 @@ Navbar.propTypes = {
 
 const mapStateToProps = (state) => ({
   UI: state.UI,
+  user: state.user,
 });
 
-export default connect(mapStateToProps, { setTheme })(
+export default connect(mapStateToProps, { setTheme, setAuthPopupOpen })(
   withStyles(styles)(Navbar)
 );

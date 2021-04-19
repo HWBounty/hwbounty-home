@@ -21,7 +21,7 @@ const useButtonStyles = makeStyles({
 
 const PeriodButton = (props) => {
   const classes = useButtonStyles();
-  const { period, name, zoom ,color} = props;
+  const { period, name, zoom, color } = props;
 
   const [expanded, setExpanded] = React.useState(false);
   const handleButtonClicked = () => {
@@ -34,7 +34,8 @@ const PeriodButton = (props) => {
         className={classes.button}
         onClick={handleButtonClicked}
         variant="contained"
-        style={{background : color}}
+        fullWidth
+        style={{ background: color }}
       >
         <Typography variant="h5" display="block">
           Period {period}
@@ -55,7 +56,6 @@ export const Schedule = (props) => {
       name: "GeoH",
       zoom: "https://example.com" /*add all necessary components*/,
       color: "rgb(255,149,128)",
-
     },
     {
       period: 2,
@@ -99,7 +99,14 @@ export const Schedule = (props) => {
     <div>
       {React.Children.toArray(
         periods.map((p) => {
-          return <PeriodButton period={p.period} name={p.name} zoom={p.zoom} color={p.color}/>;
+          return (
+            <PeriodButton
+              period={p.period}
+              name={p.name}
+              zoom={p.zoom}
+              color={p.color}
+            />
+          );
         })
       )}
     </div>
