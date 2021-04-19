@@ -21,7 +21,7 @@ class Schedule extends Component {
 		// eslint-disable-next-line no-restricted-globals
 		let res = await axios.get(`https://api.hwbounty.help/schedules/view/${location.href.split("?id=").pop()}`);
 		if (res.data) {
-			res.data.nameOverrides = JSON.parse(res.data.nameOverrides.replace(/\\"/g, "\""));
+			res.data.nameOverrides = JSON.parse(res.data.nameOverrides.	replace(/\\"/g, "\""));
 			res.data.schedule = JSON.parse(res.data.schedule.replace(/\\"/g, "\""));
 			this.setState({ scheduleData: (res.data) });
 		}
