@@ -28,6 +28,7 @@ import Navbar from "./components/Home/Navbar";
 import axios from "axios";
 import queryString from "query-string";
 import Signup from "./pages/signup";
+import ScheduleCatalog from "./pages/schedules";
 
 //=================Check for oauth token====================//
 const token = localStorage.DBIdToken;
@@ -77,6 +78,7 @@ const App = (props) => {
               <Route path="/test" component={null} />
               <Route path="/login" component={Login}/>
               <Route path="/signup" component={Signup}/>
+              <Route path="/schedules" component={ScheduleCatalog}/>
               <Route path="/module/:module" component={null} />
             </Switch>
           </Router>
