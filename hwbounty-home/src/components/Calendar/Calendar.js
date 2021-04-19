@@ -45,7 +45,6 @@ const Calendar = (props) => {
       >
         <Tab label="Schedule" />
         <Tab label="Assignments" />
-        <Tab label="Zoom Links" />
       </Tabs>
       <Container className={classes.content}>
         {tab === 0 && <Schedule />}
