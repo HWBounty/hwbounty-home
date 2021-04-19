@@ -97,13 +97,19 @@ const DisplayedScheduleDay = (props)=>{
 	const classes = props.classes;
 	const data = props.data;
 	const day = props.day;
-	
-	let dayschedule = data.schedule[["monday","tuesday","wednesday","thursday","friday","saturday","sunday"][day]];
+	let overrides = data.nameOverrides;
+	//{period: "period1", timeStart: "10:00am", timeEnd: "10:30am"}
+	let dayschedule = data.schedule[["monday","tuesday","wednesday","thursday","friday","saturday","sunday"][day]].map(x=>{
+		return Object.assign(x,{
+			period: data.nameOverrides[x.period] || x.period,
+		})
+	});
 	console.log(dayschedule);
+
 	return (
 		<Container>
 			<Typography variant="h1">{day}</Typography>
-			
+			{React.Children.toArray()}
 		</Container>
 	)
 }

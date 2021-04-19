@@ -48,9 +48,3 @@ req: {
   redirectURL:  "hwbounty.help"
 }
 */
-
-const setAuthorizationHeader = (token) => {
-  const DBIdToken = `Bearer ${token}`;
-  localStorage.setItem("DBIdToken", DBIdToken);
-  axios.defaults.headers.common["Authorization"] = DBIdToken;
-};
