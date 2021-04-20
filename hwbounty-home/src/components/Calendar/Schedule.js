@@ -10,7 +10,17 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import moment from "moment";
 import { useState } from "react";
 import axios from "axios";
-
+import { Container } from "@material-ui/core";
+const decodeHTML = (string) => {
+  const map = { "gt": ">" /* , … */ };
+  return string.replace(/&(#(?:x[0-9a-f]+|\d+)|[a-z]+);?/gi, ($0, $1) => {
+    if ($1[0] === "#") {
+      return String.fromCharCode($1[1].toLowerCase() === "x" ? parseInt($1.substr(2), 16) : parseInt($1.substr(1), 10));
+    } else {
+      return map.hasOwnProperty($1) ? map[$1] : $0;
+    }
+  });
+};
 const useButtonStyles = makeStyles({
   root: {
     //background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
@@ -23,10 +33,10 @@ const useButtonStyles = makeStyles({
     cursor: "pointer",
   },
 });
-const generatePeriodColors = (stops)=>{
+const generatePeriodColors = (stops) => {
   let retarr = [];
-  for (let index = 0; index < stops; index++) 
-      retarr.push(`hsl(${index/stops * 360}, 96%, 78%)`);
+  for (let index = 0; index < stops; index++)
+    retarr.push(`hsl(${index / stops * 360}, 90%, 70%)`);
   return retarr;
 }
 const PeriodButton = (props) => {
@@ -70,32 +80,32 @@ const PeriodButton = (props) => {
     </div>
   );
 };
-const parsePeriods =(scheduleData,zoomLinkInfo)=>{
+const parsePeriods = (scheduleData, zoomLinkInfo) => {
   let scheduleDay = moment(Date.now());
-  let dotw = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"][scheduleDay.isoWeekday()-1];
+  let dotw = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"][scheduleDay.isoWeekday() - 1];
   let allClasses = (scheduleData.classes);
   let classes = new Map();
   let nameOverrides = JSON.parse(scheduleData.schedule.nameOverrides);
-  
+
   zoomLinkInfo.forEach(x => {
-    classes.set(x.course.id,x);
+    classes.set(x.course.id, x);
   });
   let today = JSON.parse(scheduleData.schedule.schedule)[dotw]
   let colors = generatePeriodColors(today.length);
-  return today.map((x,i)=>{
-    let courseInfo = classes.has(allClasses[x.period] && allClasses[x.period].value)? classes.get(allClasses[x.period] && allClasses[x.period].value) : null
-      return {
-        period: nameOverrides[x.period] || x.period,
-        color: colors[i],
-        name: courseInfo && courseInfo.course ? courseInfo.course.course_title : "No Class Found!",
-        zoom: courseInfo && courseInfo.links ? courseInfo.links.map(linkGroup=>{
-          // { link: "https://example.com", title: "Office hours" }
-          return linkGroup.links.map(link=>{
-            return {link: link,title: linkGroup.title}
-          })
-          //Gotta get the array as flat as a board :)
-        }).flat(10000) : [],
-      };
+  return today.map((x, i) => {
+    let courseInfo = classes.has(allClasses[x.period] && allClasses[x.period].value) ? classes.get(allClasses[x.period] && allClasses[x.period].value) : null
+    return {
+      period: nameOverrides[x.period] || x.period,
+      color: colors[i],
+      name: courseInfo && courseInfo.course ? courseInfo.course.course_title : "No Class Found!",
+      zoom: courseInfo && courseInfo.links ? courseInfo.links.map(linkGroup => {
+        // { link: "https://example.com", title: "Office hours" }
+        return linkGroup.links.map(link => {
+          return { link: link, title: decodeHTML(linkGroup.title) }
+        })
+        //Gotta get the array as flat as a board :)
+      }).flat(10000) : [],
+    };
   });
 
 }
@@ -180,23 +190,23 @@ const parsePeriods =(scheduleData,zoomLinkInfo)=>{
 //       }
 //   }
 // }
-const fetchAndSet = async (setCourseInfo,setScheduleData) => {
+const fetchAndSet = async (setCourseInfo, setScheduleData) => {
   if (localStorage.getItem("cachedSchedule")) setScheduleData(JSON.parse(localStorage.getItem("cachedSchedule")));
   if (localStorage.getItem("cachedCourseInfo")) setCourseInfo(JSON.parse(localStorage.getItem("cachedCourseInfo")));
-  let [schedule,courses] = await Promise.all([axios.get("https://api.hwbounty.help/schedule/@me"),axios.get("https://api.hwbounty.help/sgy/getZoomLinks")]);
-  localStorage.setItem("cachedCourseInfo",JSON.stringify(courses.data));
-  localStorage.setItem("cachedSchedule",JSON.stringify(schedule.data));
+  let [schedule, courses] = await Promise.all([axios.get("https://api.hwbounty.help/schedule/@me"), axios.get("https://api.hwbounty.help/sgy/getZoomLinks")]);
+  localStorage.setItem("cachedCourseInfo", JSON.stringify(courses.data));
+  localStorage.setItem("cachedSchedule", JSON.stringify(schedule.data));
   setScheduleData(schedule.data);
   setCourseInfo(courses.data);
 }
 export const Schedule = (props) => {
-  const [courseInfo,setCourseInfo] = useState(null);
+  const [courseInfo, setCourseInfo] = useState(null);
   const [scheduleData, setScheduleData] = useState(null);
   if (!scheduleData || !courseInfo) {
-    fetchAndSet(setCourseInfo,setScheduleData);
+    fetchAndSet(setCourseInfo, setScheduleData);
     return null;
   }
-  const periods = parsePeriods(scheduleData,courseInfo);
+  const periods = parsePeriods(scheduleData, courseInfo);
   console.log(periods);
   // [
   //   {
@@ -265,7 +275,7 @@ export const Schedule = (props) => {
   // ];
 
   return (
-    <div>
+    <Container style={{ marginBottom: "50px", width: "100%", padding: "0px", marginBottom: "5%"}}>
       {React.Children.toArray(
         periods.map((p) => {
           return (
@@ -278,7 +288,7 @@ export const Schedule = (props) => {
           );
         })
       )}
-    </div>
+    </Container>
   );
 };
 
