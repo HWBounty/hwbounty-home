@@ -31,6 +31,7 @@ import queryString from "query-string";
 import Signup from "./pages/signup";
 import ScheduleCatalog from "./pages/schedules";
 import viewSchedule from "./pages/viewSchedule";
+import setSchedule from "./pages/setSchedule";
 
 //=================Check for oauth token====================//
 const token = localStorage.DBIdToken;
@@ -79,10 +80,11 @@ const App = (props) => {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/test" component={null} />
-              <Route path="/login" component={Login}/>
-              <Route path="/signup" component={Signup}/>
-              <Route path="/schedules" component={ScheduleCatalog}/>
-              <Route path="/schedule/view" component={viewSchedule}/>
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={Signup} />
+              <Route path="/schedules" component={ScheduleCatalog} />
+              <Route path="/schedule/view" component={viewSchedule} />
+              <Route path="/schedule/set" component={setSchedule} />
               <Route path="/module/:module" component={null} />
             </Switch>
           </Router>

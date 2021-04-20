@@ -15,6 +15,7 @@
     "jquery": "^3.6.0",
     "mathjs": "^9.3.0",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
     "prop-types": "^15.7.2",
     "query-string": "^7.0.0",
     "react": "^17.0.1",

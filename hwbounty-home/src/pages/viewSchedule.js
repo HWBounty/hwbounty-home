@@ -22,7 +22,7 @@ class Schedule extends Component {
 		let res = await axios.get(`https://api.hwbounty.help/schedules/view/${location.href.split("?id=").pop()}`);
 		if (res.data) {
 			res.data.nameOverrides = JSON.parse(res.data.nameOverrides.	replace(/\\"/g, "\""));
-			res.data.schedule = JSON.parse(res.data.schedule.replace(/\\"/g, "\""));
+			res.data.schedule = JSON.parse(res.data.schedule);
 			this.setState({ scheduleData: (res.data) });
 		}
 
@@ -131,6 +131,7 @@ class Schedule extends Component {
 							Last Updated: {moment(parseInt(this.state.scheduleData.lastUpdated)).fromNow()}
 						</Typography>
 						<ReactMarkdown>{this.state.scheduleData.description}</ReactMarkdown>
+						
 						<Container style={{
 							paddingTop: "1vh",
 							borderTop: "2px solid rgba(160, 160, 160, 0.2)",
