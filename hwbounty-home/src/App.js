@@ -23,7 +23,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 // Components
 import Navbar from "./components/Home/Navbar";
-import AuthPopup from "./components/User/AuthPopup";
+import AuthPopup from "./components/User/Authentication/AuthPopup";
 
 // Tools
 import axios from "axios";
@@ -43,9 +43,9 @@ if (token) {
 // Very messy. Me no likey...
 let urlQuery = queryString.parse(window.location.search);
 if (urlQuery.oauth_token) {
-  //const DBIdToken = `Bearer ${urlQuery.oauth_token}`;
-  //localStorage.setItem("DBIdToken", DBIdToken);
-  //axios.defaults.headers.common["Authorization"] = DBIdToken;
+  const DBIdToken = `Bearer ${urlQuery.oauth_token}`;
+  localStorage.setItem("DBIdToken", DBIdToken);
+  axios.defaults.headers.common["Authorization"] = DBIdToken;
   store.dispatch({ type: SET_AUTHENTICATED });
   store.dispatch(getUserData());
 }
@@ -79,10 +79,10 @@ const App = (props) => {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/test" component={null} />
-              <Route path="/login" component={Login}/>
-              <Route path="/signup" component={Signup}/>
-              <Route path="/schedules" component={ScheduleCatalog}/>
-              <Route path="/schedule/view" component={viewSchedule}/>
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={Signup} />
+              <Route path="/schedules" component={ScheduleCatalog} />
+              <Route path="/schedule/view" component={viewSchedule} />
               <Route path="/module/:module" component={null} />
             </Switch>
           </Router>
