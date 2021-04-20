@@ -181,7 +181,11 @@ const parsePeriods =(scheduleData,zoomLinkInfo)=>{
 //   }
 // }
 const fetchAndSet = async (setCourseInfo,setScheduleData) => {
+  if (localStorage.getItem("cachedSchedule")) setScheduleData(JSON.parse(localStorage.getItem("cachedSchedule")));
+  if (localStorage.getItem("cachedCourseInfo")) setCourseInfo(JSON.parse(localStorage.getItem("cachedCourseInfo")));
   let [schedule,courses] = await Promise.all([axios.get("https://api.hwbounty.help/schedule/@me"),axios.get("https://api.hwbounty.help/sgy/getZoomLinks")]);
+  localStorage.setItem("cachedCourseInfo",JSON.stringify(courses.data));
+  localStorage.setItem("cachedSchedule",JSON.stringify(schedule.data));
   setScheduleData(schedule.data);
   setCourseInfo(courses.data);
 }
