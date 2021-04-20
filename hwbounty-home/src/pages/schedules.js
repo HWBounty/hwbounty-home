@@ -6,6 +6,7 @@ import theme from "../util/theme";
 import { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 let semiGlobalState = null;
 const SchedulesSearch = (props) => {
 	const [query, setQuery] = useState("");
@@ -74,7 +75,7 @@ const SchedulePreview = (props) => {
 					"font-weight": "300",
 					"border-radius": "0 0 2px 2px",
 				}
-			}>{props.desc}</Typography>
+			}><ReactMarkdown>{props.desc.substring(0,100)}</ReactMarkdown></Typography>
 			<Container style={
 				{
 					"border-top": "2px solid rgba(160, 160, 160, 0.2)",

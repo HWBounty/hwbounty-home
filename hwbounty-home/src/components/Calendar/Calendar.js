@@ -21,6 +21,7 @@ const styles = (theme) => ({
   },
   content: {
     paddingTop: 10,
+    paddingBottom: 10,
     textAlign: "center",
   },
 });

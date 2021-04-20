@@ -16,11 +16,8 @@ import React, { useState } from "react";
 import { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+import moment from "moment";
 import ReactMarkdown from "react-markdown";
-
-dayjs.extend(relativeTime);
 
 class Schedule extends Component {
   constructor(props) {
@@ -34,16 +31,17 @@ class Schedule extends Component {
   async fetchScheduleData() {
     console.log("FETCHING");
     if (this.state.scheduleData) return console.log(this.state.scheduleData);
-    // eslint-disable-next-line no-restricted-globals
-    let loc = location.href.split("?id=").pop();
     let res = await axios.get(
-      `https://api.hwbounty.help/schedules/view/${loc}`
+      // eslint-disable-next-line no-restricted-globals
+      `https://api.hwbounty.help/schedules/view/${location.href
+        .split("?id=")
+        .pop()}`
     );
     if (res.data) {
       res.data.nameOverrides = JSON.parse(
         res.data.nameOverrides.replace(/\\"/g, '"')
       );
-      res.data.schedule = JSON.parse(res.data.schedule.replace(/\\"/g, '"'));
+      res.data.schedule = JSON.parse(res.data.schedule);
       this.setState({ scheduleData: res.data });
     }
 
@@ -203,9 +201,10 @@ class Schedule extends Component {
             </Container>
             <Typography>
               Last Updated:{" "}
-              {dayjs(parseInt(this.state.scheduleData.lastUpdated)).fromNow()}
+              {moment(parseInt(this.state.scheduleData.lastUpdated)).fromNow()}
             </Typography>
             <ReactMarkdown>{this.state.scheduleData.description}</ReactMarkdown>
+
             <Container
               style={{
                 paddingTop: "1vh",
