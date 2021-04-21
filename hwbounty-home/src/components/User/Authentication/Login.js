@@ -1,38 +1,25 @@
 // React
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 
 // MUI
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
-// Redux
-import { connect } from "react-redux";
-import { setAuthPopupOpen } from "../../redux/actions/uiActions";
-import { loginUser, signupUser } from "../../redux/actions/userActions";
-
 const useStyles = makeStyles({
-  root: {
-    textAlign: "center",
-  },
-  inputFields: {
+  inputField: {
+    display: "block",
     width: "90%",
   },
 });
 
-export const AuthPopup = (props) => {
-  const {
-    setAuthPopupOpen,
-    loginUser,
-    signupUser,
-    UI: { authPopupOpen },
-  } = props;
+const Login = (props) => {
+  const { loginUser } = props;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,19 +37,8 @@ export const AuthPopup = (props) => {
   const handleSubmit = () => {
     loginUser({ email, password });
   };
-
-  const handleClose = () => {
-    setAuthPopupOpen(false);
-  };
-
   return (
-    <Dialog
-      maxWidth="xs"
-      fullWidth
-      open={authPopupOpen}
-      onClose={handleClose}
-      className={classes.root}
-    >
+    <Fragment>
       <DialogTitle>Login</DialogTitle>
       <DialogContent>
         <TextField
@@ -71,7 +47,7 @@ export const AuthPopup = (props) => {
           label="Email Address"
           onChange={handleEmailChange}
           value={email}
-          className={classes.inputFields}
+          className={classes.inputField}
         />
         <TextField
           type="password"
@@ -84,22 +60,12 @@ export const AuthPopup = (props) => {
       <DialogActions>
         <Button onClick={handleSubmit}>Submit</Button>
       </DialogActions>
-    </Dialog>
+    </Fragment>
   );
 };
 
-AuthPopup.propTypes = {
-  open: PropTypes.bool,
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  UI: state.UI,
-});
-
-const mapActionsToProps = {
-  setAuthPopupOpen,
-  loginUser,
-  signupUser,
-};
-
-export default connect(mapStateToProps, mapActionsToProps)(AuthPopup);
+export default Login;
