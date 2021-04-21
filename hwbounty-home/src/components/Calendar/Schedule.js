@@ -36,7 +36,7 @@ const useButtonStyles = makeStyles({
 const generatePeriodColors = (stops) => {
   let retarr = [];
   for (let index = 0; index < stops; index++)
-    retarr.push(`hsl(${index / stops * 360}, 90%, 70%)`);
+    retarr.push(`hsl(${index / stops * 360}, 90%, 78%)`);
   return retarr;
 }
 const PeriodButton = (props) => {
@@ -82,7 +82,7 @@ const PeriodButton = (props) => {
 };
 const parsePeriods = (scheduleData, zoomLinkInfo) => {
   let scheduleDay = moment(Date.now());
-  let dotw = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"][scheduleDay.isoWeekday() - 1];
+  let dotw = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"][scheduleDay.isoWeekday() -1];
   let allClasses = (scheduleData.classes);
   let classes = new Map();
   let nameOverrides = JSON.parse(scheduleData.schedule.nameOverrides);
@@ -91,6 +91,15 @@ const parsePeriods = (scheduleData, zoomLinkInfo) => {
     classes.set(x.course.id, x);
   });
   let today = JSON.parse(scheduleData.schedule.schedule)[dotw]
+  
+  if (!today || !today.length){
+    return [{
+      period: "No Classes Today!",
+      color: "rgb(204,255,153)",
+      name: "No Class Found!",
+      zoom: [],
+    }]
+  }
   let colors = generatePeriodColors(today.length);
   return today.map((x, i) => {
     let courseInfo = classes.has(allClasses[x.period] && allClasses[x.period].value) ? classes.get(allClasses[x.period] && allClasses[x.period].value) : null
@@ -190,9 +199,13 @@ const parsePeriods = (scheduleData, zoomLinkInfo) => {
 //       }
 //   }
 // }
+let done = false;
 const fetchAndSet = async (setCourseInfo, setScheduleData) => {
   if (localStorage.getItem("cachedSchedule")) setScheduleData(JSON.parse(localStorage.getItem("cachedSchedule")));
   if (localStorage.getItem("cachedCourseInfo")) setCourseInfo(JSON.parse(localStorage.getItem("cachedCourseInfo")));
+  if (done) return;
+  done = true;
+
   let [schedule, courses] = await Promise.all([axios.get("https://api.hwbounty.help/schedule/@me"), axios.get("https://api.hwbounty.help/sgy/getZoomLinks")]);
   localStorage.setItem("cachedCourseInfo", JSON.stringify(courses.data));
   localStorage.setItem("cachedSchedule", JSON.stringify(schedule.data));
