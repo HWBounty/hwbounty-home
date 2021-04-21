@@ -19,6 +19,7 @@ import ModuleViewer from "../components/Modules/ModuleViewer";
 
 // Redux
 import { connect } from "react-redux";
+import MusicModule from "../components/MusicModule";
 
 const styles = (theme) => ({
   root: {
@@ -80,6 +81,9 @@ export const Home = (props) => {
   const MobileLayout = () => {
     return (
       <div className={classes.mobileLayout}>
+        <Calendar/>
+        <br/>
+        <ModuleViewer/>
         <Button></Button>
       </div>
     );
@@ -89,6 +93,7 @@ export const Home = (props) => {
     <div className={classes.root}>
       <DesktopLayout />
       <MobileLayout />
+      <MusicModule />
     </div>
   );
 };

@@ -214,6 +214,7 @@ const parsePeriods = (scheduleData, zoomLinkInfo) => {
 //       }
 //   }
 // }
+let done = false;
 const fetchAndSet = async (setCourseInfo, setScheduleData) => {
   if (localStorage.getItem("cachedSchedule"))
     setScheduleData(JSON.parse(localStorage.getItem("cachedSchedule")));
