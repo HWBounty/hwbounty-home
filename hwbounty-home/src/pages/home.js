@@ -63,6 +63,9 @@ export const Home = (props) => {
             <Calendar />
           </Grid>
           <Grid item md={5}>
+            <h1>HWBounty</h1>
+            <ForumSearch />
+            <br />
             <ModuleViewer />
           </Grid>
           <Grid item md={1} />
@@ -84,8 +87,6 @@ export const Home = (props) => {
 
   return (
     <div className={classes.root}>
-      <h1>HWBounty</h1>
-      <ForumSearch />
       <DesktopLayout />
       <MobileLayout />
     </div>
