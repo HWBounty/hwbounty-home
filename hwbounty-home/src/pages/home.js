@@ -19,7 +19,7 @@ import ModuleViewer from "../components/Modules/ModuleViewer";
 
 // Redux
 import { connect } from "react-redux";
-import MusicModule from "../components/MusicModule";
+import MusicModule from "../components/MusicModule/MusicModule";
 
 const styles = (theme) => ({
   root: {
@@ -90,9 +90,10 @@ export const Home = (props) => {
     <div className={classes.root}>
       <h1>HWBounty</h1>
       <ForumSearch />
+      <MusicModule />
       <DesktopLayout />
       <MobileLayout />
-      <MusicModule />
+      
     </div>
   );
 };
