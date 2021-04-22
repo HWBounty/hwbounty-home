@@ -152,7 +152,7 @@ const loadFile = ({ frequencyC, sinewaveC }, styles, self) => new Promise(async 
 				// if (rate >= 100) {
 				// 	clearInterval(whileLoadingInterval);
 				// 	audioBuffer = source.buffer;
-				// 	const inSec = (Date.now() - startAt) / 1000;
+				// 	
 				// 	activeSource.stop();
 				// 	play(inSec);
 					
