@@ -43,6 +43,7 @@ class MusicModule extends Component {
 		let video = document.getElementById("streamingVideoForMusic");
 		let mediaSource = new window.MediaSource();
 		video.src = window.URL.createObjectURL(mediaSource);
+		video.volume = .5;
 		(async () => {
 			console.log("loadingsource");
 			while (mediaSource.readyState !== 'open') {
@@ -96,8 +97,8 @@ class MusicModule extends Component {
 			})
 		})();
 	}
-	handleTabChange(event, newValue) {
-		this.setState(Object.assign(this.state, { tab: newValue }));
+	handleTabChange(event, newValue,self) {
+		self.setState(Object.assign(self.state, { tab: newValue }));
 	};
 	render() {
 
@@ -107,7 +108,7 @@ class MusicModule extends Component {
 				bottom: 0,
 				right: 0,
 				width: "20%",
-				height: "20%",
+				height: "40%",
 				margin: "5%",
 				marginBottom:"10%",
 			}}>
@@ -119,7 +120,7 @@ class MusicModule extends Component {
 						value={this.state.tab}
 						indicatorColor="primary"
 						textColor="primary"
-						onChange={this.handleTabChange}
+						onChange={(event,newValue)=>this.handleTabChange(event,newValue,this)}
 						variant="fullWidth"
 					>
 						<Tab label="Player" />

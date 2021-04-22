@@ -1,12 +1,14 @@
-import { Box, LinearProgress, Typography } from "@material-ui/core";
+import { Box, LinearProgress, Slider, Typography } from "@material-ui/core";
 import { useState } from "react";
-let parseSecsToEnglish = (secs)=>{
-	let mins = Math.floor(secs/60);
-	let sec = Math.floor(secs-(mins*60))
+let parseSecsToEnglish = (secs) => {
+	let mins = Math.floor(secs / 60);
+	let sec = Math.round(secs - (mins * 60));
+	mins = `${mins}`.length == 1? `0${mins}`:mins;
+	sec = `${sec}`.length == 1? `0${sec}`:sec;
 	return `${mins}:${sec}`
 }
 let ProgressBarMusic = (props) => {
-	
+
 	const [currentTime, setcurrentTime] = useState(0);
 	const [duration, setDuration] = useState(1);
 
@@ -17,18 +19,19 @@ let ProgressBarMusic = (props) => {
 			let player = document.getElementById("streamingVideoForMusic");
 			setcurrentTime(player.currentTime);
 			setDuration(player.duration);
-			console.log(currentTime,duration,Math.round(currentTime * 100 / duration));
-		}, 200));
-		console.log(currentTime,duration);
+		}, 1));
+	const changeTime =(event,newValue)=>{
+		let player = document.getElementById("streamingVideoForMusic");
+		player.currentTime = player.duration*newValue/100;
+	}
 	return (
-			<Box display="flex" alignItems="left">
-			  <Box width="100%" mr={1}>
-				<LinearProgress variant="determinate" value={Math.round(currentTime * 100 / duration)} />
-			  </Box>
-			  <Box minWidth={35}>
-				<Typography variant="body2" color="textSecondary">{`${parseSecsToEnglish(currentTime)} | ${parseSecsToEnglish(duration)}`}</Typography>
-			  </Box>
-			</Box>
-		  );
+		<div>
+			<Slider value={Math.round(currentTime * 100 / duration)} onChange={changeTime} />
+			<Typography variant="body2" color="textSecondary" style={{
+				display: 'inline-block',
+			}}>{`${parseSecsToEnglish(currentTime)} | ${parseSecsToEnglish(duration)}`}</Typography>
+		</div>
+
+	);
 }
 export default ProgressBarMusic;
