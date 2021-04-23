@@ -3,8 +3,9 @@ import { useState } from "react";
 let parseSecsToEnglish = (secs) => {
 	let mins = Math.floor(secs / 60);
 	let sec = Math.round(secs - (mins * 60));
-	mins = `${mins}`.length == 1? `0${mins}`:mins;
-	sec = `${sec}`.length == 1? `0${sec}`:sec;
+	mins = Math.round(secs / 60);
+	mins = `${mins}`.length == 1 ? `0${mins}` : mins;
+	sec = `${sec}`.length == 1 ? `0${sec}` : sec;
 	return `${mins}:${sec}`
 }
 let ProgressBarMusic = (props) => {
@@ -16,13 +17,18 @@ let ProgressBarMusic = (props) => {
 	const [rerenderInt, setrerenderInt] = useState(null);
 	if (!rerenderInt)
 		setrerenderInt(setInterval(() => {
-			let player = document.getElementById("streamingVideoForMusic");
-			setcurrentTime(player.currentTime);
-			setDuration(player.duration);
+			try {
+				let player = document.getElementById("streamingVideoForMusic");
+				setcurrentTime(player.currentTime);
+				setDuration(player.duration);
+			} catch (error) {
+
+			}
+
 		}, 1));
-	const changeTime =(event,newValue)=>{
+	const changeTime = (event, newValue) => {
 		let player = document.getElementById("streamingVideoForMusic");
-		player.currentTime = player.duration*newValue/100;
+		player.currentTime = player.duration * newValue / 100;
 	}
 	return (
 		<div>

@@ -2,6 +2,7 @@ import { Container, Grid, IconButton, LinearProgress, Slider, Typography } from 
 import { Image, Pause, PlayArrow, VolumeDown, VolumeUp } from "@material-ui/icons";
 import { useState } from "react";
 import ProgressBarMusic from "./constantRerenderProgress";
+import Player from "./Player";
 let getHighestThumbnail = (thumbnails) => {
 	let best = null;
 	thumbnails.forEach(x => {
@@ -15,10 +16,10 @@ let getHighestThumbnail = (thumbnails) => {
 }
 let MusicPlayer = (props) => {
 	//Required props:
-	let { self, player } = props;
+	let player = document.getElementById("streamingVideoForMusic");
 	const [playPaused, setplayPaused] = useState(false)
 	const [volume, setVolume] = useState(50);
-	if (!self?.state?.currentSong?.videoDetails) return null;
+	if (!Player?.self?.currentSong) return null;
 	let updatePPState = (async () => {
 		player = document.getElementById("streamingVideoForMusic");
 		if (player.currentTime === player.duration) {
@@ -47,11 +48,11 @@ let MusicPlayer = (props) => {
 			<div style={{
 				alignContent: "center",
 				display: "inline-block",
-				background: `url(${getHighestThumbnail(self?.state?.currentSong?.videoDetails?.thumbnails)})center/cover`,
-				minHeight: "13vw",
-				minWidth: "13vw",
-				maxHeight: "13vw",
-				maxWidth: "13vw",
+				background: `url(${Player.self.currentSong.bestThumbnail})center/cover`,
+				minHeight: "200px",
+				minWidth: "200px",
+				// maxHeight: "10vw",
+				// maxWidth: "10vw",
 				borderRadius: "10px",
 				marginBottom: "1vh"
 			}}>
@@ -59,7 +60,7 @@ let MusicPlayer = (props) => {
 
 			<Typography variant="subtitle1" style={{
 				marginBottom: "1vh"
-			}}>{self?.state?.currentSong?.videoDetails?.title}</Typography>
+			}}>{Player.self.currentSong?.songName}</Typography>
 
 			<ProgressBarMusic player={getPlayer} />
 			<span>
