@@ -50,19 +50,19 @@ const cleanAndParseInfoFromYAPI = (info) => {
 	return {
 		songName: info.items[0].snippet.title,
 		songAuthor: info.items[0].snippet.channelTitle,
-		bestThumbnail: info.items[0].snippet.thumbnails.maxres || info.items[0].snippet.thumbnails.high ||  info.items[0].snippet.thumbnails.standard ||  info.items[0].snippet.thumbnails.medium ||  info.items[0].snippet.thumbnails.default,
+		bestThumbnail: info.items[0].snippet.thumbnails.maxres || info.items[0].snippet.thumbnails.high || info.items[0].snippet.thumbnails.standard || info.items[0].snippet.thumbnails.medium || info.items[0].snippet.thumbnails.default,
 		url: `https://youtu.be/${info.items[0].id}`,
 	}
 }
 const checkIfVideoOver = (vidElement) => {
-	return Math.abs(vidElement.duration-vidElement.currentTime) < 1 && !Number.isNaN(vidElement.currentTime / vidElement.duration) && vidElement.currentTime / vidElement.duration > 0.995
+	return Number.isNaN(vidElement.duration) || (Math.abs(vidElement.duration - vidElement.currentTime) < 1 && !Number.isNaN(vidElement.currentTime / vidElement.duration) && vidElement.currentTime / vidElement.duration > 0.995)
 }
 class Player {
 	/**@type {Player} */
 	static self;
 
 	constructor(updateMe) {
-		
+
 		this.updateMe = updateMe;
 		Player.self = Player.self || this;
 		this.songInfoMap = new Map();
@@ -78,15 +78,15 @@ class Player {
 		this.queue = [];
 		this.songQueue = [
 
-		"https://www.youtube.com/watch?v=8s69HbvJChA",
-		"https://www.youtube.com/watch?v=hoYRx9eR7Ck",
-		"https://www.youtube.com/watch?v=XTKBYfyNMdQ",
-		"https://www.youtube.com/watch?v=NuB-1myGido",
-		"https://www.youtube.com/watch?v=CtKsPCebhPs",
-		"https://www.youtube.com/watch?v=nkll0StZJLA",
-		"https://www.youtube.com/watch?v=5aduiLwOb70",
-		"https://www.youtube.com/watch?v=lVfq2uRuqv0",
-	];
+			// "https://www.youtube.com/watch?v=8s69HbvJChA",
+			// "https://www.youtube.com/watch?v=hoYRx9eR7Ck",
+			// "https://www.youtube.com/watch?v=XTKBYfyNMdQ",
+			// "https://www.youtube.com/watch?v=NuB-1myGido",
+			// "https://www.youtube.com/watch?v=CtKsPCebhPs",
+			// "https://www.youtube.com/watch?v=nkll0StZJLA",
+			// "https://www.youtube.com/watch?v=5aduiLwOb70",
+			// "https://www.youtube.com/watch?v=lVfq2uRuqv0",
+		];
 		this.played = [];
 		this.songCount = 0;
 		this.currentSong = {
@@ -100,9 +100,14 @@ class Player {
 			this.processQueue();
 		}, 100);
 		//change player info "Reactively"
-		setInterval(()=>{
-			this.updateMe.setState(Object.assign(this.updateMe.state,{updateMe: !this.updateMe.state.updateMe}));
-		},100)
+		setInterval(() => {
+			this.updateMe.setState(Object.assign(this.updateMe.state, { updateMe: !this.updateMe.state.updateMe }));
+		}, 100);
+		this.searchResults = null;
+		this.socket.on("querySongs", (data) => {
+			console.log("got query!",data);
+			this.searchResults = data
+		});
 		// this is so that We can reset the data connection and stuff when we need to
 	}
 	/**
@@ -170,33 +175,42 @@ class Player {
 		})
 	}
 	addToQueue(...songLinks) {
-
+		Player.self.songQueue = Player.self.songQueue.concat(songLinks);
+		console.log(Player.self.songQueue);
 	}
 	handleSongInfo(link, data) {
 		if (data) {
 			Player.self.songInfoMap.set(link, cleanAndParseInfoFromYAPI(data));
+			console.log("added",Player.self.songInfoMap.get(link).songName)
 			console.log(link, Player.self.songInfoMap.get(link));
-		} else{
-			console.log(link,data);
+		} else {
+			console.log(link, data);
 			Player.self.songInfoMap.delete(link);
-		} 
+		}
 	}
 	processQueue() {
-		this.songQueue.forEach(x => {
-			if (!this.songInfoMap.has(x)) {
+		Player.self.songQueue.forEach(x => {
+			if (!Player.self.songInfoMap.has(x)) {
 				console.log(`Sending ${x}`);
-				this.socket.emit("getTrackInfo", x);
-				this.songInfoMap.set(x, "LoadingInData");
+				Player.self.socket.emit("getTrackInfo", x);
+				Player.self.songInfoMap.set(x, "LoadingInData");
 			}
 		})
 
-		if (!checkIfVideoOver(this.video)) return;
-		if (this.loop) this.songQueue.push(this.currentSongLink);
-		if (!this.songQueue.length) return;
-		let newSong = this.songQueue.shift();
+		if (!checkIfVideoOver(Player.self.video)) return;
+		if (Player.self.loop) Player.self.songQueue.push(Player.self.currentSongLink);
+		if (!Player.self.songQueue.length){
+			Player.self.currentSong = null;
+			return;
+		};
+		let newSong = Player.self.songQueue.shift();
 		if (!newSong) return;
-		this.playSong(newSong);
+		Player.self.playSong(newSong);
 	}
+	search(query) {
+		Player.self.socket.emit("querySongs", query);
+	}
+
 
 }
 export default Player;
