@@ -92,7 +92,7 @@ class Signup extends Component {
 			[event.target.id]: event.target.value,
 		});
 		if (event.target.id === "username") {
-			let res = (await axios.get(`https://api.hwbounty.help/usernameTaken/${event.target.value}`)).data;
+			let res = (await axios.get(`https://api.hwbounty.help/usernameTaken/${event.target.value}`).catch(console.trace)).data;
 			if (res) {
 				try {
 					document.getElementById("loginFailed").id = "loginFailedVisible"
@@ -110,7 +110,7 @@ class Signup extends Component {
 
 		}
 		if (event.target.id === "email") {
-			let res = (await axios.get(`https://api.hwbounty.help/emailTaken/${event.target.value}`)).data;
+			let res = (await axios.get(`https://api.hwbounty.help/emailTaken/${event.target.value}`).catch(console.trace)).data;
 			if (res) {
 				try {
 					document.getElementById("loginFailed").id = "loginFailedVisible"

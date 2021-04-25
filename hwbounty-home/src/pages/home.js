@@ -91,7 +91,8 @@ export const Home = (props) => {
 
   return (
     <div className={classes.root}>
-      <MusicModule />
+      <h1>HWBounty</h1>
+      <ForumSearch />
       <DesktopLayout />
       <MobileLayout />
     </div>

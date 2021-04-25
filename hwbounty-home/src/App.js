@@ -32,6 +32,9 @@ import Signup from "./pages/signup";
 import ScheduleCatalog from "./pages/schedules";
 import viewSchedule from "./pages/viewSchedule";
 import setSchedule from "./pages/setSchedule";
+import MusicModule from "./components/MusicModule/MusicModule";
+import johnsHome from "./pages/johnsHome";
+import schoologyOauthRedirect from "./pages/schoologyOauthRedirect";
 
 //=================Check for oauth token====================//
 const token = localStorage.DBIdToken;
@@ -42,14 +45,14 @@ if (token) {
 }
 
 // Very messy. Me no likey...
-let urlQuery = queryString.parse(window.location.search);
-if (urlQuery.oauth_token) {
-  const DBIdToken = `Bearer ${urlQuery.oauth_token}`;
-  localStorage.setItem("DBIdToken", DBIdToken);
-  axios.defaults.headers.common["Authorization"] = DBIdToken;
-  store.dispatch({ type: SET_AUTHENTICATED });
-  store.dispatch(getUserData());
-}
+// let urlQuery = queryString.parse(window.location.search);
+// if (urlQuery.oauth_token) {
+//   const DBIdToken = `Bearer ${urlQuery.oauth_token}`;
+//   localStorage.setItem("DBIdToken", DBIdToken);
+//   axios.defaults.headers.common["Authorization"] = DBIdToken;
+//   store.dispatch({ type: SET_AUTHENTICATED });
+//   store.dispatch(getUserData());
+// }
 //==========================================================//
 
 const App = (props) => {
@@ -78,7 +81,9 @@ const App = (props) => {
           <AuthPopup />
           <Router>
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route exact path="/" component={johnsHome} />
+              <Route exact path="/schoologyCallback" component={schoologyOauthRedirect}/>
+              {/* <Route path="/jHome" component={Home}/> */}
               <Route path="/test" component={null} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
@@ -88,6 +93,7 @@ const App = (props) => {
               <Route path="/module/:module" component={null} />
             </Switch>
           </Router>
+          <MusicModule />
         </div>
       </MuiThemeProvider>
     </ShortcutProvider>

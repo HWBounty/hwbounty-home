@@ -36,7 +36,7 @@ class Schedule extends Component {
       `https://api.hwbounty.help/schedules/view/${location.href
         .split("?id=")
         .pop()}`
-    );
+    ).catch(console.trace);
     if (res.data) {
       res.data.nameOverrides = JSON.parse(
         res.data.nameOverrides.replace(/\\"/g, '"')

@@ -2,6 +2,7 @@ import { Container, Grid, IconButton, LinearProgress, Slider, Typography } from 
 import { Image, Pause, PlayArrow, VolumeDown, VolumeUp } from "@material-ui/icons";
 import { useState } from "react";
 import ProgressBarMusic from "./constantRerenderProgress";
+import Player from "./Player";
 let getHighestThumbnail = (thumbnails) => {
 	let best = null;
 	thumbnails.forEach(x => {
@@ -15,10 +16,9 @@ let getHighestThumbnail = (thumbnails) => {
 }
 let MusicPlayer = (props) => {
 	//Required props:
-	let { self, player } = props;
+	let player = document.getElementById("streamingVideoForMusic");
 	const [playPaused, setplayPaused] = useState(false)
 	const [volume, setVolume] = useState(50);
-	if (!self?.state?.currentSong?.videoDetails) return null;
 	let updatePPState = (async () => {
 		player = document.getElementById("streamingVideoForMusic");
 		if (player.currentTime === player.duration) {
@@ -33,10 +33,62 @@ let MusicPlayer = (props) => {
 	});
 	let updateVolume = (event, newValue) => {
 		player = document.getElementById("streamingVideoForMusic");
-		player.volume = newValue/100;
+		player.volume = newValue / 100;
 		setVolume(newValue);
 	}
 	let getPlayer = () => { return player; }
+	//Buggy atm; just removed
+	if (!Player?.self?.currentSong) return null;
+	// 	<Container style={{
+	// 		marginBottom: "3vh",
+	// 		marginTop: "3vh",
+	// 		textAlign: "center",
+	// 		alignItems: "center",
+	// 	}}>
+	// 		<div style={{
+	// 			alignContent: "center",
+	// 			display: "inline-block",
+	// 			background: `url(https://tet.moe/assets/img/tech/cleanedTet.png)center/cover`,
+	// 			minHeight: "200px",
+	// 			minWidth: "200px",
+	// 			// maxHeight: "10vw",
+	// 			// maxWidth: "10vw",
+	// 			borderRadius: "10px",
+	// 			marginBottom: "1vh"
+	// 		}}>
+	// 		</div>
+
+	// 		<Typography variant="subtitle1" style={{
+	// 			marginBottom: "1vh"
+	// 		}}>No Song Playing!</Typography>
+
+	// 		<ProgressBarMusic player={getPlayer} disabled={true} />
+	// 		<span>
+	// 			{player?.paused ?
+	// 				(<IconButton onClick={(x) => updatePPState()}>
+	// 					<PlayArrow />
+	// 				</IconButton>) :
+	// 				(<IconButton onClick={(x) => updatePPState()}>
+	// 					<Pause />
+	// 				</IconButton>)
+	// 			}
+	// 			<Grid container spacing={2}>
+	// 				<Grid item>
+	// 					<VolumeDown />
+	// 				</Grid>
+	// 				<Grid item xs>
+	// 					<Slider value={volume} onChange={updateVolume} aria-labelledby="continuous-slider" />
+	// 				</Grid>
+	// 				<Grid item>
+	// 					<VolumeUp />
+	// 				</Grid>
+	// 			</Grid>
+
+	// 		</span>
+	// 	</Container>
+	// );
+
+
 	return (
 		<Container style={{
 			marginBottom: "3vh",
@@ -47,11 +99,11 @@ let MusicPlayer = (props) => {
 			<div style={{
 				alignContent: "center",
 				display: "inline-block",
-				background: `url(${getHighestThumbnail(self?.state?.currentSong?.videoDetails?.thumbnails)})center/cover`,
-				minHeight: "13vw",
-				minWidth: "13vw",
-				maxHeight: "13vw",
-				maxWidth: "13vw",
+				background: `url(${Player.self.currentSong.bestThumbnail})center/cover`,
+				minHeight: "200px",
+				minWidth: "200px",
+				// maxHeight: "10vw",
+				// maxWidth: "10vw",
 				borderRadius: "10px",
 				marginBottom: "1vh"
 			}}>
@@ -59,9 +111,9 @@ let MusicPlayer = (props) => {
 
 			<Typography variant="subtitle1" style={{
 				marginBottom: "1vh"
-			}}>{self?.state?.currentSong?.videoDetails?.title}</Typography>
+			}}>{Player.self.currentSong?.songName}</Typography>
 
-			<ProgressBarMusic player={getPlayer} />
+			<ProgressBarMusic player={getPlayer} disabled={false}/>
 			<span>
 				{player.paused ?
 					(<IconButton onClick={(x) => updatePPState()}>

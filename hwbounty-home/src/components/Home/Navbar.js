@@ -59,7 +59,9 @@ export const Navbar = (props) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{
+      minHeight:75
+    }}>
       <Toolbar>
         <IconButton onClick={toggleTheme} className={classes.iconButton}>
           {themeValue === 0 ? <DarkThemeIcon /> : <LightThemeIcon />}

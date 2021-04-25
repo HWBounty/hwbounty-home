@@ -20,7 +20,7 @@ class SetSchedule extends Component {
 		if (this.state.scheduleData) return console.log(this.state.scheduleData);
 		try {
 			// eslint-disable-next-line no-restricted-globals
-			let [res, selfData, courses] = await Promise.all([axios.get(`https://api.hwbounty.help/schedules/view/${location.href.split("?id=").pop()}`).catch(er => console.log), axios.get(`https://api.hwbounty.help/@me`), axios(`https://api.hwbounty.help/sgy/getCourses`)]);
+			let [res, selfData, courses] = await Promise.all([axios.get(`https://api.hwbounty.help/schedules/view/${location.href.split("?id=").pop()}`).catch(er => console.log), axios.get(`https://api.hwbounty.help/@me`).catch(console.trace), axios(`https://api.hwbounty.help/sgy/getCourses`).catch(console.trace)]);
 			if (res.data) {
 				res.data.nameOverrides = JSON.parse(res.data.nameOverrides);
 				res.data.schedule = JSON.parse(res.data.schedule);
@@ -64,7 +64,7 @@ class SetSchedule extends Component {
 		let res = await axios.post(`https://api.hwbounty.help/schedules/set`, {
 			scheduleID: schedule,
 			classes: periodChoices
-		})
+		}).catch(console.trace);
 		if (res.status === 200) {
 			// eslint-disable-next-line no-restricted-globals
 			location.href = "https://hwbounty.help";
