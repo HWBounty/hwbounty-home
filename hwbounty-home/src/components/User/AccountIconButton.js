@@ -28,18 +28,18 @@ export const AccountIconButton = (props) => {
     setAnchorEl(null);
   };
   const handleAuthLogs = () => {
-    if (localStorage.getItem("DBIdToken")){
+    if (localStorage.getItem("DBIdToken")) {
       localStorage.removeItem("DBIdToken");
       localStorage.removeItem("user");
       localStorage.removeItem("zoomLinks");
       location.reload();
       // return ;
-    }else{
+    } else {
       //literal mega hack
-      location.href = location.href.split("/").slice(0,-1).concat("login").join("/");
+      location.href = location.href.split("/").slice(0, -1).concat("login").join("/");
     }
-       
-    
+
+
   }
   const openSchoologyOAuth = () => {
     axios({
@@ -67,7 +67,11 @@ export const AccountIconButton = (props) => {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <AccountCircleIcon />
+        <img src={JSON.parse(localStorage.getItem("user"))?.pfp} style={{
+          maxHeight: 40,
+          maxWidth: 40,
+          borderRadius: 20
+        }} alt=""/>
       </IconButton>
       <Menu
         anchorEl={anchorEl}
@@ -78,10 +82,10 @@ export const AccountIconButton = (props) => {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         transformOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        
+
         <MenuItem onClick={openSchoologyOAuth}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleAuthLogs}>{localStorage.getItem("DBIdToken")?"Logout":"Login"}</MenuItem>
+        <MenuItem onClick={handleAuthLogs}>{localStorage.getItem("DBIdToken") ? "Logout" : "Login"}</MenuItem>
       </Menu>
     </div>
   );

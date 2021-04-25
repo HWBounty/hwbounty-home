@@ -112,7 +112,7 @@ class ScheduleCatalog extends Component {
 	async handleTextChange(event, self) {
 		self.setState({ searchTerm: event.target.value });
 		let time = Date.now();
-		let res = await axios.get(`https://api.hwbounty.help/schedules/search/${self.state.searchTerm}`);
+		let res = await axios.get(`https://api.hwbounty.help/schedules/search/${self.state.searchTerm}`).catch(console.trace);
 		self.setState({ schedules: res.data })
 		console.log(res.data, Date.now() - time);
 		console.log(self.state);

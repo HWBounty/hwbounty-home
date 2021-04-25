@@ -11,6 +11,7 @@ let parseSecsToEnglish = (secs) => {
 	return `${mins}:${sec}`
 }
 const QueuePage = (props) => {
+	
 	return (
 		<List style={{
 			minWidth: 300,

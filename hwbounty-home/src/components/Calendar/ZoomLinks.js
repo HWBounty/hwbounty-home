@@ -96,7 +96,7 @@ class ZoomLinksPage extends Component {
     };
   }
   async fetchZoomLinks() {
-    let res = await axios.get("https://api.hwbounty.help/sgy/getZoomLinks");
+    let res = await axios.get("https://api.hwbounty.help/sgy/getZoomLinks").catch(console.trace);
     if (res.status == 200) {
       localStorage.setItem("zoomLinks", JSON.stringify(res.data));
       this.setState({ zoomLinks: res.data });

@@ -90,7 +90,7 @@ export const Home = (props) => {
     <div className={classes.root}>
       <h1>HWBounty</h1>
       <ForumSearch />
-      <MusicModule />
+
       <DesktopLayout />
       <MobileLayout />
       

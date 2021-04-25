@@ -76,6 +76,8 @@ class Player {
 		/** @type {SourceBuffer} */
 		this.sourceBuffer = null;
 		this.queue = [];
+
+		
 		this.songQueue = [
 
 			// "https://www.youtube.com/watch?v=8s69HbvJChA",
@@ -87,6 +89,14 @@ class Player {
 			// "https://www.youtube.com/watch?v=5aduiLwOb70",
 			// "https://www.youtube.com/watch?v=lVfq2uRuqv0",
 		];
+		try {
+			/**
+			 * @type {Array<String>}
+			 */
+			Player.self.songQueue = JSON.parse(localStorage.getItem("queue")) || [];
+		} catch (error) {
+			Player.self.songQueue = [];
+		}
 		this.played = [];
 		this.songCount = 0;
 		this.currentSong = {
@@ -94,8 +104,10 @@ class Player {
 		};
 		this.currentSongLink = "";
 		this.loop = false;
-		this.video.onended = this.processQueue();
+		this.video.onended = this.processQueue;
 		this.socket.on("getTrackInfo", this.handleSongInfo);
+		this.socket.on("addSongsToQueue",this.addToQueue);
+		this.tryingToPlay = false;
 		setInterval(() => {
 			this.processQueue();
 		}, 100);
@@ -103,6 +115,9 @@ class Player {
 		setInterval(() => {
 			this.updateMe.setState(Object.assign(this.updateMe.state, { updateMe: !this.updateMe.state.updateMe }));
 		}, 100);
+		setInterval(()=>{
+			localStorage.setItem("queue",JSON.stringify(this.songQueue));
+		},250);
 		this.searchResults = null;
 		this.socket.on("querySongs", (data) => {
 			console.log("got query!",data);
@@ -120,59 +135,66 @@ class Player {
 	 * Plays a song instantly! DO NOT CALL THIS! WILL OVERRIDE WHATS CURRENTLY PLAYING
 	 * @param {String} songURL 
 	 */
-	async playSong(songURL) {
+	playSong(songURL) {
 		// this.updateMe.setState(Object.assign(this.updateMe.state,{}))
-		this.mediaSource = new window.MediaSource();
-		this.video.src = window.URL.createObjectURL(this.mediaSource);
-
-		this.video.pause();
-		this.socket.emit('track', songURL);
-		this.currentSongLink = songURL;
-		while (this.mediaSource.readyState !== "open") await sleep(1);
-		this.video.volume = .5;
-		this.sourceBuffer = this.mediaSource.addSourceBuffer('video/webm; codecs="opus"');
-		this.sourceBuffer.mode = "sequence";
-		let end = false;
-		let wait = true;
-		this.sourceBuffer.onupdateend = () => { wait = false };
-		let chunkcount = 0;
-		let inter = setInterval(() => {
-			if (this.stopPlaying) clearInterval(inter);
-			if (wait) return;
-			if (this.queue.length && this.mediaSource.readyState === "open" && this.sourceBuffer) {
-				let res = this.queue.shift();
-				try {
-					this.sourceBuffer.appendBuffer(res);
-				} catch (error) {
-					this.queue.unshift(res);
+		this.tryingToPlay = true;
+		(async ()=>{
+			this.mediaSource = new window.MediaSource();
+			this.video.src = window.URL.createObjectURL(this.mediaSource);
+			
+			this.video.pause();
+			this.socket.emit('track', songURL);
+			this.currentSongLink = songURL;
+			while (this.mediaSource.readyState !== "open") await sleep(1);
+			this.video.volume = .5;
+			this.sourceBuffer = this.mediaSource.addSourceBuffer('video/webm; codecs="opus"');
+			this.sourceBuffer.mode = "sequence";
+			let end = false;
+			let wait = true;
+			this.sourceBuffer.onupdateend = () => { wait = false };
+			let chunkcount = 0;
+			let inter = setInterval(() => {
+				if (this.stopPlaying) clearInterval(inter);
+				if (wait) return;
+				if (this.queue.length && this.mediaSource.readyState === "open" && this.sourceBuffer) {
+					let res = this.queue.shift();
+					try {
+						this.sourceBuffer.appendBuffer(res);
+					} catch (error) {
+						this.queue.unshift(res);
+					}
 				}
-			}
-		}, 1);
-		this.socket.on("video-data-stream", (data) => {
-			if (data.link !== songURL) return
-			let uIntArray = new Uint8Array(data.chunk);
-			if (chunkcount === 0) {
-				this.sourceBuffer.appendBuffer(uIntArray);
-				// sourceBuffer.appendBuffer(uIntArray.buffer);
-				chunkcount++;
-				console.log("firstChunk", this.mediaSource.readyState)
-				this.video.play();
-			}
-			else
-				this.queue.push(uIntArray);
-			// if (queue.length === 33) {
+			}, 1);
 
-			// }
-		})
-		this.socket.on("video-info", (data) => {
-			if (data.link !== songURL) return
-			let cleanedInfo = cleanAndParseInfo(data.data.videoDetails);
-			this.currentSong = cleanedInfo;
-			// this.songInfoMap.set(songURL, cleanedInfo);
-		})
-		this.socket.on("video-data-done", () => {
-			console.log("data done stream!");
-		})
+			this.socket.on("video-data-stream", (data) => {
+				if (data.link !== songURL) return
+				let uIntArray = new Uint8Array(data.chunk);
+				if (chunkcount === 0) {
+					this.sourceBuffer.appendBuffer(uIntArray);
+					// sourceBuffer.appendBuffer(uIntArray.buffer);
+					chunkcount++;
+					console.log("firstChunk", this.mediaSource.readyState)
+					this.tryingToPlay = false;
+					this.video.play();
+				}
+				else
+					this.queue.push(uIntArray);
+				// if (queue.length === 33) {
+	
+				// }
+			})
+			this.socket.on("video-info", (data) => {
+				if (data.link !== songURL) return
+				let cleanedInfo = cleanAndParseInfo(data.data.videoDetails);
+				this.currentSong = cleanedInfo;
+				
+				// this.songInfoMap.set(songURL, cleanedInfo);
+			})
+			this.socket.on("video-data-done", () => {
+				console.log("data done stream!");
+			})
+		})();
+		
 	}
 	addToQueue(...songLinks) {
 		Player.self.songQueue = Player.self.songQueue.concat(songLinks);
@@ -196,11 +218,11 @@ class Player {
 				Player.self.songInfoMap.set(x, "LoadingInData");
 			}
 		})
-
+		if (Player.self.tryingToPlay) return;
 		if (!checkIfVideoOver(Player.self.video)) return;
 		if (Player.self.loop) Player.self.songQueue.push(Player.self.currentSongLink);
 		if (!Player.self.songQueue.length){
-			Player.self.currentSong = null;
+			// Player.self.currentSong = null;
 			return;
 		};
 		let newSong = Player.self.songQueue.shift();
