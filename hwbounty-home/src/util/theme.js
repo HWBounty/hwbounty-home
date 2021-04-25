@@ -33,6 +33,10 @@ const rawTheme = createMuiTheme({
       width: "100%",
       borderRadius: 10,
     },
+    inputBase: {
+      borderColor: "rgba(0,0,0,0)",
+      borderRadius: 2,
+    }
   },
 });
 

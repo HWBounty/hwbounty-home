@@ -156,10 +156,10 @@ body {
 .MuiCard-root .MuiTypography-h1 {
   position: relative;
   z-index: 1;
-  border-left: 5px solid #eebb6a;
+  /* border-left: 5px solid rgb(50,150,150); */
   margin: 0 0 35px;
   padding: 10px 0 10px;
-  color: #eebb6a;
+  color: rgb(50,150,150);
   font-size: 32px;
   font-weight: 600;
   text-transform: uppercase;
@@ -213,7 +213,7 @@ body {
 .MuiCard-root .input-container .bar:before, .MuiCard-root .input-container .bar:after {
   content: "";
   position: absolute;
-  background: #eebb6a;
+  background: rgb(50,150,150);
   width: 0;
   height: 2px;
   transition: 0.2s ease;
@@ -259,7 +259,7 @@ body {
   top: 50%;
   left: 50%;
   display: block;
-  background: #eebb6a;
+  background: rgb(50,150,150);
   width: 30px;
   height: 30px;
   margin: -15px 0 0 -15px;
@@ -268,11 +268,11 @@ body {
   border-radius: 100px;
 }
 .MuiCard-root .button-container button:hover, .MuiCard-root .button-container button:active, .MuiCard-root .button-container button:focus {
-  border-color: #eebb6a;
+  border-color: rgb(50,150,150);
 }
 .MuiCard-root .button-container button:hover span, .MuiCard-root .button-container button:active span, .MuiCard-root .button-container button:focus span {
   border-radius: 100px;
-  color: #eebb6a;
+  color: rgb(50,150,150);
 }
 .MuiCard-root .button-container button:active span, .MuiCard-root .button-container button:focus span {
   color: #ffffff;
@@ -315,7 +315,7 @@ body {
 }
 .MuiCard-root.alt .toggle {
   position: relative;
-  background: #eebb6a;
+  background: rgb(50,150,150);
   width: 140px;
   height: 140px;
   border-radius: 100%;
@@ -385,7 +385,7 @@ body {
   border-color: #ffffff;
 }
 .MuiCard-root.alt .button-container button span {
-  color: #eebb6a;
+  color: rgb(50,150,150);
 }
 .MuiCard-root.alt .button-container button:hover {
   background: rgba(255, 255, 255, 0.9);

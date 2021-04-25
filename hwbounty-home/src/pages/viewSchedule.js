@@ -212,7 +212,9 @@ class Schedule extends Component {
                 textAlign: "center",
               }}
             >
-              <Button>Use this Schedule</Button>
+              <Button onClick={
+				  ()=> window.location.href = `${window.location.origin}${window.location.pathname.replace("view","set")}${window.location.search}`
+			  }>Use this Schedule</Button>
             </Container>
           </Card>
         </Container>

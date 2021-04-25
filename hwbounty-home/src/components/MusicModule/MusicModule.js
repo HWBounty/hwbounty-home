@@ -57,6 +57,7 @@ class MusicModule extends Component {
 		}
 	}
 	componentDidMount(props) {
+		if (!localStorage.getItem("DBIdToken")) return null;
 		let player = new Player(this);
 		(async () => {
 			while (!player?.currentSong?.bestThumbnail) await sleep(1);
@@ -67,7 +68,7 @@ class MusicModule extends Component {
 		self.setState(Object.assign(self.state, { tab: newValue }));
 	};
 	render() {
-
+		if (!localStorage.getItem("DBIdToken")) return null;
 		return (
 			<div>
 

@@ -10,7 +10,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import moment from "moment";
 import { useState } from "react";
 import axios from "axios";
-import { Container } from "@material-ui/core";
+import { CircularProgress, Container } from "@material-ui/core";
 import { linkUserSchoology } from "../../redux/actions/userActions"
 const decodeHTML = (string) => {
   const map = { gt: ">" /* , … */ };
@@ -94,15 +94,15 @@ const PeriodButton = (props) => {
 };
 const parsePeriods = (scheduleData, zoomLinkInfo) => {
   let scheduleDay = moment(Date.now());
-  let dotw = "monday"//[
-  //   "monday",
-  //   "tuesday",
-  //   "wednesday",
-  //   "thursday",
-  //   "friday",
-  //   "saturday",
-  //   "sunday",
-  // ][scheduleDay.isoWeekday() - 1];
+  let dotw = [
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+  ][scheduleDay.isoWeekday() - 1];
   let allClasses = scheduleData.classes;
   let classes = new Map();
   let nameOverrides = JSON.parse(scheduleData.schedule.nameOverrides);
@@ -222,8 +222,9 @@ const parsePeriods = (scheduleData, zoomLinkInfo) => {
 //   }
 // }
 let done = false;
-const fetchAndSet = async (setCourseInfo, setScheduleData) => {
+const fetchAndSet = async (setCourseInfo, setScheduleData, setCannotFetch) => {
   try {
+    if (! localStorage.getItem("DBIdToken"))throw new Error("something bad happened?");
     if (localStorage.getItem("cachedSchedule"))
       setScheduleData(JSON.parse(localStorage.getItem("cachedSchedule")));
     if (localStorage.getItem("cachedCourseInfo"))
@@ -232,39 +233,46 @@ const fetchAndSet = async (setCourseInfo, setScheduleData) => {
       axios.get("https://api.hwbounty.help/schedule/@me").catch(console.trace),
       axios.get("https://api.hwbounty.help/sgy/getZoomLinks").catch(console.trace),
     ]);
+    if (!schedule?.data || !courses?.data || schedule?.status === 500) throw new Error("something bad happened?");
     localStorage.setItem("cachedCourseInfo", JSON.stringify(courses.data));
     localStorage.setItem("cachedSchedule", JSON.stringify(schedule.data));
     setScheduleData(schedule.data);
     setCourseInfo(courses.data);
   } catch (error) {
-
+    setCannotFetch(true);
   }
 };
 export const Schedule = (props) => {
   const [courseInfo, setCourseInfo] = useState(null);
   const [scheduleData, setScheduleData] = useState(null);
   const [fetching, setFetching] = useState(false)
+  const [cannotFetch, setCannotFetch] = useState(false)
   if ((!scheduleData || !courseInfo)) {
 
     if (!fetching) {
       setFetching(true);
-      fetchAndSet(setCourseInfo, setScheduleData);
+      fetchAndSet(setCourseInfo, setScheduleData, setCannotFetch);
       return null;
     }
-    return (
-      <div>
-        <Typography>Seems like you dont have a school account linked! Please link your schoology account to get access to this feature!</Typography>
-        <Button variant="contained" onClick={x => {
-          linkUserSchoology();
-        }
+    if (cannotFetch)
+      return (
+        <div>
+          <Typography>Seems like you dont have a school account linked! Please link your schoology account to get access to this feature!</Typography>
+          <Button variant="contained" onClick={x => {
+            linkUserSchoology();
+          }
 
-        }>
-          Link Schoology Account
+          }>
+            Link Schoology Account
         </Button>
-      </div>
+        </div>
 
 
-    )
+      )
+    return (<div>
+      <Typography>Fetching Schedule Data/ Zoom Links...</Typography>
+      <CircularProgress />
+    </div>);
   }
   const periods = parsePeriods(scheduleData, courseInfo);
   return (

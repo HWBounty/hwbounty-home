@@ -93,7 +93,7 @@ const SchedulePreview = (props) => {
 					}
 					//href no worky
 				// eslint-disable-next-line no-restricted-globals
-				} onClick={()=>{location.href = `https://hwbounty.help/schedule/view?id=${props.sid}`}}>View Schedule
+				} onClick={()=>{location.href = `${window.location.origin}/schedule/view?id=${props.sid}`}}>View Schedule
 				</Link>
 				
 			</Container>
