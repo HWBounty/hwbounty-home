@@ -67,8 +67,8 @@ class Signup extends Component {
 			};
 			const result = await this.props.signupUser(userData, this.props.history);
 			console.trace(result);
-			if (result){
-				Array.from(document.getElementsByTagName("input")).forEach(x=>x.disabled =true);
+			if (result) {
+				Array.from(document.getElementsByTagName("input")).forEach(x => x.disabled = true);
 				document.getElementById("goButton").disabled = true;
 				document.getElementById("goButton").innerText = "Please Check Your Inbox!";
 				alert("Your account is now pending confirmation! Please go into your email and click on the verification link!");
@@ -77,10 +77,10 @@ class Signup extends Component {
 			try {
 				if (!result)
 					document.getElementById("loginFailed").id = "loginFailedVisible"
-				else{
-					
+				else {
+
 				}
-					
+
 			} catch (error) {
 				console.trace(error);
 			}
@@ -163,7 +163,10 @@ class Signup extends Component {
 		const { errors } = this.state;
 		//Hide header
 		return (
-			<div class="box" style={{background: `url(${getRandomBackground()})center/cover`}}>
+			<div class="box" style={{
+				// background: `url(${getRandomBackground()})center/cover`,
+				// maxHeight: "calc(100vh-80)"
+			}}>
 				<div class="container">
 					{/* <Card></Card> */}
 					<Card>

@@ -14,6 +14,7 @@ export const loginUser = (userData) => (dispatch) => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
+      window.location.reload();
     })
     .catch((err) => {
       console.log(err);

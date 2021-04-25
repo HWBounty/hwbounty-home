@@ -20,6 +20,8 @@ import DarkThemeIcon from "@material-ui/icons/Brightness4Rounded";
 import LightThemeIcon from "@material-ui/icons/Brightness7Rounded";
 
 import AccountIconButton from "../User/AccountIconButton";
+import axios from "axios";
+import PageSearch from "./PageSearch";
 
 const styles = {
   ...themeFile.spreadIt,
@@ -38,8 +40,19 @@ export const Navbar = (props) => {
     user: { authenticated },
     setAuthPopupOpen,
   } = props;
+  const [user, setUser] = useState(null)
   const [themeValue, setThemeVal] = useState(theme);
 
+  if (user) {
+    if (!localStorage.getItem("user"))
+      localStorage.setItem("user", JSON.stringify(user));
+  } else {
+    axios.get("https://api.hwbounty.help/@me").then((res) => {
+      if (res.status === 200 && res.data && res.data.password) {
+       setUser(res.data);
+      }
+    }).catch(console.trace);
+  }
   const toggleTheme = () => {
     const newVal = themeValue === 1 ? 0 : themeValue + 1;
     setThemeVal(newVal);
@@ -62,7 +75,10 @@ export const Navbar = (props) => {
     <div className={classes.root} style={{
       minHeight:75
     }}>
-      <Toolbar>
+      <Toolbar style={{
+        zIndex: 10000000,
+      }}>
+        <PageSearch/>
         <IconButton onClick={toggleTheme} className={classes.iconButton}>
           {themeValue === 0 ? <DarkThemeIcon /> : <LightThemeIcon />}
         </IconButton>

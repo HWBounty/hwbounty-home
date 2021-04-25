@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/userActions";
 import signup from "./signup";
 import { getRandomBackground } from "../util/randomBackground";
+import axios from "axios";
 
 const styles = (theme) => ({
 	...theme.spreadIt,
@@ -38,7 +39,7 @@ class Login extends Component {
 	}
 	handleSubmit = async (event) => {
 		try {
-			let state = Object.assign({},this.state);
+			let state = Object.assign({}, this.state);
 			if (state.loggingIn) return;
 			state.loggingIn = true;
 			this.setState(state);
@@ -53,7 +54,7 @@ class Login extends Component {
 			if (!result)
 				document.getElementById("loginFailed").id = "loginFailedVisible"
 		} catch (error) {
-			
+
 		}
 
 	};
@@ -69,14 +70,19 @@ class Login extends Component {
 			UI: { loading },
 		} = this.props;
 		const { errors } = this.state;
+		axios.get("https://api.hwbounty.help/@me").then((res) => {
+			if (res.status === 200 && res.data && res.data.password) {
+				window.location.href = window.location.origin;
+			}
+		}).catch(console.trace);
 		//Hide header
 		return (
-			<div class="box" style={{background: `url(${getRandomBackground()})center/cover`}}>
+			<div class="box" >
 				<div class="container">
 					{/* <Card></Card> */}
 					<Card>
 						<Typography variant="h1">HWBounty Login</Typography>
-						<Typography variant="subtitle1" id="loginFailed">Incorrect Login Credentials!</Typography>
+						{/* <Typography variant="subtitle1" id="loginFailed">Incorrect Login Credentials!</Typography> */}
 						<form>
 							<div class="input-container">
 								<input type="any" id="email" required="required" onChange={this.handleChange} />
@@ -84,14 +90,14 @@ class Login extends Component {
 								<div class="bar"></div>
 							</div>
 							<div class="input-container">
-								<input type="password" id="password" required="required" onChange={this.handleChange}/>
+								<input type="password" id="password" required="required" onChange={this.handleChange} />
 								<label for="#{label}">Password</label>
 								<div class="bar"></div>
 							</div>
 							<div class="button-container">
 								<button onClick={this.handleSubmit}><span>Go</span></button>
 							</div>
-							<div class="footer"><a href="#">Forgot your password?</a><br/><a href="/signup">Dont have an account?</a></div>
+							<div class="footer"><a href="#">Forgot your password?</a><br /><a href="/signup">Dont have an account?</a></div>
 						</form>
 					</Card>
 				</div>
