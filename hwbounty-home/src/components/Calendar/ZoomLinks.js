@@ -25,12 +25,6 @@ const useButtonStyles = makeStyles({
 const ZoomLinksCollection = (props) => {
   const classes = useButtonStyles();
   const { name, links, color } = props;
-
-  // const [expanded, setExpanded] = React.useState(false);
-  // const handleButtonClicked = () => {
-  //   setExpanded(!expanded);
-  // };
-
   return (
     <div>
       <Card className={classes.button} style={{ background: color }}>
@@ -56,29 +50,6 @@ const ZoomLinksCollection = (props) => {
     </div>
   );
 };
-// {
-//   "course_name": "APCompSci A",
-//   "links": [
-//       {
-//           "title": "Paley&#039;s Zoom Office Hours (anyone welcome)",
-//           "links": [
-//               "https://pausd.zoom.us/j/2680427016"
-//           ]
-//       },
-//       {
-//           "title": "Period 2 Zoom Link - AP CSA (Mr. Bautista)",
-//           "links": [
-//               "https://pausd.zoom.us/j/98997767306?pwd=Mzc4NFdkWEViNDF3REdzOEJtOVhldz09"
-//           ]
-//       },
-//       {
-//           "title": "Bautista Office Hours",
-//           "links": [
-//               "https://pausd.zoom.us/j/94007598185?pwd=RzRTdVhqdmdoVGV6Q2lVdlRKQ1Bydz09"
-//           ]
-//       }
-//   ]
-// },
 const colors = [
   "rgb(255,149,128)",
   "rgb(255,204,153)",
@@ -132,51 +103,5 @@ class ZoomLinksPage extends Component {
     );
   }
 }
-export const ZoomLinks = (props) => {
-  const periods = [
-    {
-      period: 1,
-      name: "GeoH",
-      zoom: "https://example.com" /*add all necessary components*/,
-      color: "rgb(255,149,128)",
-    },
-    {
-      period: 2,
-      name: "Bio",
-      zoom: "https://example.com" /*add all necessary components*/,
-      color: "rgb(255,204,153)",
-    },
-    {
-      period: 3,
-      name: "Spanish",
-      zoom: "https://example.com" /*add all necessary components*/,
-      color: "rgb(255,255,153)",
-    },
-    {
-      period: 4,
-      name: "Business",
-      zoom: "https://example.com" /*add all necessary components*/,
-      color: "rgb(204,255,153)",
-    },
-    {
-      period: 5,
-      name: "English",
-      zoom: "https://example.com" /*add all necessary components*/,
-      color: "rgb(204,247,255)",
-    },
-    {
-      period: 6,
-      name: "History",
-      zoom: "https://example.com" /*add all necessary components*/,
-      color: "rgb(204,212,255)",
-    },
-    {
-      period: 7,
-      name: "PE",
-      zoom: "https://example.com" /*add all necessary components*/,
-      color: "rgb(238,204,255)",
-    },
-  ];
-};
 
 export default ZoomLinksPage;

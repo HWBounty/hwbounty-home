@@ -30,16 +30,13 @@ export const signupUser = (userData) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 export const linkUserSchoology = () => {
-  console.log("Linking")
 axios.post(`${hwbountyAPI}/schoologyLogin`,{
   redirectURL: `${window.origin}/schoologyCallback`
 }).then(res=>res.status === 200 && (window.location.href = res.data))
 }
 export const logoutUser = () => (dispatch) => {
-  console.log("you have unsuccessfully logged out! your stuck here forever!");
 };
 export const getUserData = () => (dispatch) => {
-  console.log("get user data here");
 };
 
 const setAuthorizationHeader = (token) => {

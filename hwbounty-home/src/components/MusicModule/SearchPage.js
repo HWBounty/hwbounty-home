@@ -15,7 +15,6 @@ const SearchMusic = (props) => {
 	const [query, setQuery] = useState("");
 	const [updateView, setUpdateView] = useState(null);
 	const handleChange = (event,)=>{
-		console.log(query);
 		setQuery(event.target.value);
 	}
 	const updateWhenChanged = async ()=>{
@@ -28,7 +27,6 @@ const SearchMusic = (props) => {
 		return false;
 	}
 	const addToQueue = (link)=>{
-		console.log("adding link",link)
 		Player.self.addToQueue(link);
 		Player.self.searchResults = null;
 		setUpdateView(null);
@@ -57,28 +55,18 @@ const SearchMusic = (props) => {
 			}}>
 				{
 					Player.self.searchResults? React.Children.toArray(Player.self.searchResults.map((data, i) => {
-						// return {
-						// 	name: item.name,
-						// 	author: item.author,
-						// 	link: item.url,
-						// 	thumbnail: item.bestThumbnail.url,
-						// 	duration: item.duration,
-						// }
 						return (
 							<ListItem>
 								<Button onClick={x=>addToQueue(data?.link)}>
 								<div style={{
-									// display: "inline-block",
 									background: `url(${data?.thumbnail || ""})center/cover`,
 									minHeight: "64px",
 									minWidth: "64px",
 									maxHeight: "128px",
 									maxWidth: "128px",
 									borderRadius: "2px",
-									// marginBottom: "1vh"
 								}} />
 								<Typography variant="caption" style={{
-									// display: "inline-block",
 									marginLeft: "1vw"
 								}}>{`${(data?.name.substring(0,25) || data.link)} ${" ".repeat(30)}`.substring(0,25)}</Typography>
 								<Typography variant="h6" style={{
