@@ -5,6 +5,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import moment from "moment";
 import ReactMarkdown from "react-markdown";
+import { withRouter } from "react-router";
 
 class SetSchedule extends Component {
 	constructor(props) {
@@ -20,7 +21,7 @@ class SetSchedule extends Component {
 		if (this.state.scheduleData) return console.log(this.state.scheduleData);
 		try {
 			// eslint-disable-next-line no-restricted-globals
-			let [res, selfData, courses] = await Promise.all([axios.get(`https://api.hwbounty.help/schedules/view/${location.href.split("?id=").pop()}`).catch(er => console.log), axios.get(`https://api.hwbounty.help/@me`).catch(console.trace), axios(`https://api.hwbounty.help/sgy/getCourses`).catch(console.trace)]);
+			let [res, selfData, courses] = await Promise.all([axios.get(`https://api.hwbounty.help/schedules/view/${this.props.location.pathname.split("/").pop()}`).catch(er => console.log), axios.get(`https://api.hwbounty.help/@me`).catch(console.trace), axios(`https://api.hwbounty.help/sgy/getCourses`).catch(console.trace)]);
 			if (res.data) {
 				res.data.nameOverrides = JSON.parse(res.data.nameOverrides);
 				res.data.schedule = JSON.parse(res.data.schedule);
@@ -72,71 +73,6 @@ class SetSchedule extends Component {
 			self.setState({setting:false})
 		}
 	}
-	// {
-	// 	"section": [
-	// 		{
-	// 			"id": "2772297879",
-	// 			"course_title": "APCompSci A",
-	// 			"course_code": "118553",
-	// 			"course_id": "2772295922",
-	// 			"school_id": "1569031",
-	// 			"building_id": "7924989",
-	// 			"access_code": "",
-	// 			"section_title": "2 Bautista (2491B 2 FY)",
-	// 			"section_code": "",
-	// 			"section_school_code": "582999",
-	// 			"synced": "0",
-	// 			"active": 1,
-	// 			"description": "",
-	// 			"subject_area": "0",
-	// 			"grade_level_range_start": 0,
-	// 			"grade_level_range_end": 0,
-	// 			"parent_id": "0",
-	// 			"grading_periods": [
-	// 				807401,
-	// 				807414
-	// 			],
-	// 			"profile_url": "https://asset-cdn.schoology.com/system/files/imagecache/profile_reg/courselogos/logo-2772295929_5f7388111c9eb.jpg?1601407694",
-	// 			"location": "",
-	// 			"meeting_days": [
-	// 				""
-	// 			],
-	// 			"start_time": "",
-	// 			"end_time": "",
-	// 			"weight": "0",
-	// 			"options": {
-	// 				"weighted_grading_categories": "1",
-	// 				"upload_documents": "0",
-	// 				"create_discussion": "0",
-	// 				"member_post": "1",
-	// 				"member_post_comment": "1",
-	// 				"default_grading_scale_id": 0,
-	// 				"content_index_visibility": {
-	// 					"topics": 0,
-	// 					"assignments": 0,
-	// 					"assessments": 0,
-	// 					"course_assessment": 0,
-	// 					"common_assessments": 0,
-	// 					"documents": 0,
-	// 					"discussion": 0,
-	// 					"album": 0,
-	// 					"pages": 0
-	// 				},
-	// 				"hide_overall_grade": 1,
-	// 				"hide_grading_period_grade": 1,
-	// 				"allow_custom_overall_grade": 0,
-	// 				"allow_custom_overall_grade_text": 0
-	// 			},
-	// 			"admin": 0,
-	// 			"links": {
-	// 				"self": "https://api.schoology.com/v1/sections/2772297879"
-	// 			}
-	// 		},
-	// 	],
-	// 	"links": {
-	// 		"self": "https://api.schoology.com/v1/users/23680034/sections"
-	// 	}
-	// }
 	handleDropdowns(self) {
 		let courses = self.state.courses;
 		let periods = this.parseAllPeriods(self.state.scheduleData.schedule);
@@ -259,26 +195,6 @@ class SetSchedule extends Component {
 				</Container>
 
 			)
-			// return (
-			// 	<Paper >
-			// 		<Tabs
-			// 			value={this.state.tab}
-			// 			indicatorColor="primary"
-			// 			textColor="primary"
-			// 			onChange={this.handleTabChange}
-			// 			variant="fullWidth"
-			// 		>
-			// 			<Tab label="Schedule" />
-			// 			<Tab label="Assignments" />
-			// 			<Tab label="Zoom Links" />
-			// 		</Tabs>
-			// 		<List>
-			// 			{this.state.tab === 0 && <Schedule />}
-			// 			{/* {this.state.tab === 1 && <Assignments />}
-			// 			{this.state.tab === 2 && <ZoomLinks />} */}
-			// 		</List>
-			// 	</Paper>
-			// )
 		}
 		return null;
 	}
@@ -288,7 +204,6 @@ const DisplayedScheduleDay = (props) => {
 	const data = props.data;
 	const day = props.day;
 	let overrides = data.nameOverrides;
-	//{period: "period1", timeStart: "10:00am", timeEnd: "10:30am"}
 	let dayschedule = data.schedule[["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"][day]].map(x => {
 		return Object.assign(x, {
 			period: data.nameOverrides[x.period] || x.period,
@@ -314,9 +229,8 @@ const DisplayedScheduleDay = (props) => {
 			marginBottom: "5%",
 
 		}}>
-			{/* <Typography variant="h1">{day}</Typography> */}
 			{renderPeriods()}
 		</Container>
 	)
 }
-export default connect()(SetSchedule);
+export default connect()(withRouter(SetSchedule));

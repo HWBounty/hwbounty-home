@@ -5,7 +5,7 @@ import { useRoundInputBaseStyles } from "@mui-treasury/styles/inputBase/round";
 import theme from "../util/theme";
 import { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 let semiGlobalState = null;
 const SchedulesSearch = (props) => {
@@ -44,6 +44,14 @@ const SchedulesSearch = (props) => {
 	);
 };
 const SchedulePreview = (props) => {
+	let hist = useHistory();
+	let redirectWithQuery = (path, query) => {
+		hist.push({
+			pathname: path,
+			search: query,
+			state: { query: query },
+		});
+	}
 	return (
 		<Card style={
 			{
@@ -64,9 +72,7 @@ const SchedulePreview = (props) => {
 					"line-height": "48px",
 					"font-size": "24px",
 					"font-weight": "300",
-					// position: "absolute",
 					padding: "20px",
-					// color: "#FFF",
 				}
 			}>{props.name}</Typography>
 			<Typography align="left" style={
@@ -75,7 +81,7 @@ const SchedulePreview = (props) => {
 					"font-weight": "300",
 					"border-radius": "0 0 2px 2px",
 				}
-			}><ReactMarkdown>{props.desc.substring(0,100)}</ReactMarkdown></Typography>
+			}><ReactMarkdown>{props.desc.substring(0, 100)}</ReactMarkdown></Typography>
 			<Container style={
 				{
 					"border-top": "2px solid rgba(160, 160, 160, 0.2)",
@@ -91,11 +97,9 @@ const SchedulePreview = (props) => {
 						"text-decoration": "none",
 						"font-size": "16px",
 					}
-					//href no worky
-				// eslint-disable-next-line no-restricted-globals
-				} onClick={()=>{location.href = `${window.location.origin}/schedule/view?id=${props.sid}`}}>View Schedule
+				} onClick={() => { redirectWithQuery(`/schedule/view/${props.sid}`, `?id=${props.sid}`) }}>View Schedule
 				</Link>
-				
+
 			</Container>
 		</Card >
 	)
@@ -114,8 +118,6 @@ class ScheduleCatalog extends Component {
 		let time = Date.now();
 		let res = await axios.get(`https://api.hwbounty.help/schedules/search/${self.state.searchTerm}`).catch(console.trace);
 		self.setState({ schedules: res.data })
-		console.log(res.data, Date.now() - time);
-		console.log(self.state);
 	}
 	render() {
 		return (

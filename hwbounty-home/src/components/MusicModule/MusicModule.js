@@ -18,9 +18,6 @@ const getHighestThumbnail = (thumbnails) => {
 		if (x.height * x.width > best.height * best.width) best = x;
 	});
 	return best.url;
-	// 	height: 110
-	// url: "https://i.ytimg.com/vi/8pm_KoguqPM/hqdefault.jpg?sqp=-oaymwEbCMQBEG5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLDev0be3mUX8bFZb-TmX4jAKy29Tg"
-	// width: 196
 }
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 /**
@@ -71,11 +68,6 @@ class MusicModule extends Component {
 		if (!localStorage.getItem("DBIdToken")) return null;
 		return (
 			<div>
-
-
-				<video id="streamingVideoForMusic" style={{
-					display: "none"
-				}} />
 				<Container id="musicContainer" style={{
 					minWidth: 350,
 					minHeight:500,

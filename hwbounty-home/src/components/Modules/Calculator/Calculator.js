@@ -42,7 +42,6 @@ const LatexInput = (props) => {
           enter: onSubmit,
         },
       }}
-      //onChange={onChange}
       onChange={onChange}
       mathquillDidMount={mathquillDidMount}
     />
@@ -57,15 +56,6 @@ export const Calculator = (props) => {
   const [error, setError] = useState(false);
 
   const mathField = useRef(null);
-
-  // useEffect(() => {
-  //   try {
-  //     const ans = math.evaluate(mathquillToMathJS(expression));
-  //     console.log(ans);
-  //     setAnswer(ans);
-  //   } catch (err) {}
-  // }, [expression]);
-
   const handleInputChange = (val) => {
     setExpression(val.latex());
   };

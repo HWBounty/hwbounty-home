@@ -153,7 +153,6 @@ class Signup extends Component {
 				}
 			}
 		}
-		// console.log(this.state)
 	};
 	render() {
 		const {
@@ -164,11 +163,8 @@ class Signup extends Component {
 		//Hide header
 		return (
 			<div class="box" style={{
-				// background: `url(${getRandomBackground()})center/cover`,
-				// maxHeight: "calc(100vh-80)"
 			}}>
 				<div class="container">
-					{/* <Card></Card> */}
 					<Card>
 						<Typography variant="h1">HWBounty Sign Up</Typography>
 						<Typography variant="subtitle1" id="loginFailed">SignupFailed!</Typography>

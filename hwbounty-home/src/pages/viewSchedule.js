@@ -18,6 +18,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import moment from "moment";
 import ReactMarkdown from "react-markdown";
+import { withRouter } from "react-router-dom";
 
 class Schedule extends Component {
   constructor(props) {
@@ -29,13 +30,11 @@ class Schedule extends Component {
     };
   }
   async fetchScheduleData() {
-    console.log("FETCHING");
-    if (this.state.scheduleData) return console.log(this.state.scheduleData);
+    if (this.state.scheduleData) return;
+	const location = this.props.location;
+	let id = location.pathname.split("/").pop() || location?.state?.query ||  location.search.split("?id=").pop();
     let res = await axios.get(
-      // eslint-disable-next-line no-restricted-globals
-      `https://api.hwbounty.help/schedules/view/${location.href
-        .split("?id=")
-        .pop()}`
+      `https://api.hwbounty.help/schedules/view/${id}`
     ).catch(console.trace);
     if (res.data) {
       res.data.nameOverrides = JSON.parse(
@@ -44,8 +43,6 @@ class Schedule extends Component {
       res.data.schedule = JSON.parse(res.data.schedule);
       this.setState({ scheduleData: res.data });
     }
-
-    console.log(this.state);
   }
   componentDidMount(props) {
     this.props = props;
@@ -55,14 +52,11 @@ class Schedule extends Component {
   }
   render() {
     if (!this.state.scheduleData && !this.state.fetching) {
-      console.log("GoFetch");
       this.setState({ fetching: true });
       this.fetchScheduleData();
       return <br />;
     }
-    //Infinite Loop setstate somewhere; Figure out what
     if (this.state.scheduleData) {
-      // this.setState({ fetching: false })
       return (
         <Container>
           <Paper
@@ -150,7 +144,6 @@ class Schedule extends Component {
               verticalAlign: "middle",
             }}
           >
-            {/* <Typography variant="h4">Stats</Typography> */}
             <Typography
               variant="h4"
               style={{
@@ -191,8 +184,6 @@ class Schedule extends Component {
                     verticalAlign: "middle",
                     marginLeft: "3%",
                     display: "inline-block",
-                    // fontSize: "47px",
-                    // height: "40px",
                   }}
                 >
                   {this.state.scheduleData.user.publicID}
@@ -213,32 +204,12 @@ class Schedule extends Component {
               }}
             >
               <Button onClick={
-				  ()=> window.location.href = `${window.location.origin}${window.location.pathname.replace("view","set")}${window.location.search}`
+				  ()=> this.props.history.push(`/schedule/set/${this.props.location.pathname.split("/").pop()}`)
 			  }>Use this Schedule</Button>
             </Container>
           </Card>
         </Container>
       );
-      // return (
-      // 	<Paper >
-      // 		<Tabs
-      // 			value={this.state.tab}
-      // 			indicatorColor="primary"
-      // 			textColor="primary"
-      // 			onChange={this.handleTabChange}
-      // 			variant="fullWidth"
-      // 		>
-      // 			<Tab label="Schedule" />
-      // 			<Tab label="Assignments" />
-      // 			<Tab label="Zoom Links" />
-      // 		</Tabs>
-      // 		<List>
-      // 			{this.state.tab === 0 && <Schedule />}
-      // 			{/* {this.state.tab === 1 && <Assignments />}
-      // 			{this.state.tab === 2 && <ZoomLinks />} */}
-      // 		</List>
-      // 	</Paper>
-      // )
     }
     return null;
   }
@@ -248,7 +219,6 @@ const DisplayedScheduleDay = (props) => {
   const data = props.data;
   const day = props.day;
   let overrides = data.nameOverrides;
-  //{period: "period1", timeStart: "10:00am", timeEnd: "10:30am"}
   let dayschedule = data.schedule[
     [
       "monday",
@@ -264,7 +234,6 @@ const DisplayedScheduleDay = (props) => {
       period: data.nameOverrides[x.period] || x.period,
     });
   });
-  console.log(dayschedule);
   const renderPeriods = () => {
     let children = React.Children.toArray(
       dayschedule.map((x) => {
@@ -287,9 +256,8 @@ const DisplayedScheduleDay = (props) => {
         marginBottom: "5%",
       }}
     >
-      {/* <Typography variant="h1">{day}</Typography> */}
       {renderPeriods()}
     </Container>
   );
 };
-export default connect()(Schedule);
+export default connect()(withRouter(Schedule));
