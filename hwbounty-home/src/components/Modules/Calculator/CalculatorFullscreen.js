@@ -15,7 +15,10 @@ import { addStyles, EditableMathField, StaticMathField } from "react-mathquill";
 import * as math from "mathjs";
 import { NumPad, SymbolPad } from "./CalcTools";
 
-export const CalculatorFullscreen = (props) => {};
+export const CalculatorFullscreen = (props) => {
+  console.log("calcS");
+  return <Paper>hello</Paper>;
+};
 
 export const CalculatorLeftTab = (props) => {};
 

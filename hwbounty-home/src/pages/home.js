@@ -16,6 +16,7 @@ import ForumSearch from "../components/Home/ForumSearch";
 import KeybindEditor from "../components/Home/KeybindEditor";
 import Calendar from "../components/Calendar/Calendar";
 import ModuleViewer from "../components/Modules/ModuleViewer";
+import FullscreenModuleViewer from "../components/Modules/FullscreenModuleViewer";
 
 // Redux
 import { connect } from "react-redux";
@@ -54,6 +55,7 @@ export const Home = (props) => {
   const DesktopLayout = () => {
     return (
       <div className={classes.desktopLayout}>
+        <FullscreenModuleViewer />
         <Grid
           container
           spacing={3}
@@ -64,9 +66,6 @@ export const Home = (props) => {
             <Calendar />
           </Grid>
           <Grid item md={5}>
-            <h1>HWBounty</h1>
-            <ForumSearch />
-            <br />
             <ModuleViewer />
           </Grid>
           <Grid item md={1} />

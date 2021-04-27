@@ -82,7 +82,12 @@ const App = (props) => {
           <Router>
             <Switch>
               <Route exact path="/" component={johnsHome} />
-              <Route exact path="/schoologyCallback" component={schoologyOauthRedirect}/>
+              <Route path="/betterHome" component={Home} />
+              <Route
+                exact
+                path="/schoologyCallback"
+                component={schoologyOauthRedirect}
+              />
               {/* <Route path="/jHome" component={Home}/> */}
               <Route path="/test" component={null} />
               <Route path="/login" component={Login} />

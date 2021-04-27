@@ -129,6 +129,7 @@ export const PageSearch = (props) => {
           top: 50,
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
+          display: "none",
         }}
       >
         <List
