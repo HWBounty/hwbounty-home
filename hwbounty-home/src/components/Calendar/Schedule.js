@@ -40,14 +40,21 @@ const useButtonStyles = makeStyles({
 const generatePeriodColors = (stops) => {
   let retarr = [];
   for (let index = 0; index < stops; index++)
-    retarr.push(`hsl(${200 + (index / stops) * 90}, 90%, 70%)`);
+    retarr.push([200 + (index / stops) * 90, 90, 70]);
   return retarr;
 };
 
 const PeriodButton = (props) => {
   const classes = useButtonStyles();
-  const { period, name, zoom, color } = props;
-
+  const { period, name, zoom, color, timeStart, timeEnd,tSS,tES } = props;
+  //% from 0 to 100
+  let timePassed = 0;
+  //If we are past the end time, set time passed to 100%
+  if (Date.now()- timeEnd > 0) timePassed = 100;
+  //If we are in class, set time passed to (current-start)/(End-start) * 100
+  else if (Date.now() - timeStart > 0 && timeEnd- Date.now() > 0 ) timePassed = (Date.now() - timeStart) * 100 / (timeEnd-timeStart);
+  //If the class is upcoming, set time passed to 0
+  else timePassed = 0;
   const [expanded, setExpanded] = React.useState(false);
   const handleButtonClicked = () => {
     setExpanded(!expanded);
@@ -58,13 +65,14 @@ const PeriodButton = (props) => {
     const newWindow = window.open(link, "_blank", "noopener,noreferrer");
     if (newWindow) newWindow.opener = null;
   };
-
+  let notDoneCol = color.filter(x=>true);
+  notDoneCol[2] = 90;
   return (
     <div>
       <Card
         className={classes.root}
         onClick={handleButtonClicked}
-        style={{ background: color }}
+        style={{ background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${color[2]}%) 0%, hsl(${color[0]},${color[1]}%,${color[2]}%) ${timePassed}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${notDoneCol[2]}%) ${timePassed+0.000001}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${notDoneCol[2]}%) 100%)` }}
       >
         <Typography variant="h5" display="block" style={{
           fontSize: 30
@@ -74,7 +82,7 @@ const PeriodButton = (props) => {
         <Typography align="left" style={{
           fontSize: 16,
           margin: 10
-        }}>{period}</Typography>
+        }}>{period} ({tSS}-{tES})</Typography>
         <Collapse in={expanded}>
           {React.Children.toArray(
             zoom.map((z) => {
@@ -101,10 +109,12 @@ const parsePeriods = (scheduleData, zoomLinkInfo) => {
     "saturday",
     "sunday",
   ][scheduleDay.isoWeekday() - 1];
+
   let allClasses = scheduleData.classes;
   let classes = new Map();
   let nameOverrides = JSON.parse(scheduleData.schedule.nameOverrides);
-
+  let convertedMoment = moment().tz(JSON.parse(scheduleData.schedule.schedule).timePeriod).utcOffset();
+  let currentMoment = moment().utcOffset();
   zoomLinkInfo.forEach((x) => {
     classes.set(x.course.id, x);
   });
@@ -133,14 +143,17 @@ const parsePeriods = (scheduleData, zoomLinkInfo) => {
             })
             .flat(10000)
           : [],
-
+      timeStart: moment(x.timeStart, "hh:mma").add((convertedMoment - currentMoment) / 60, "hours").unix() * 1000,
+      timeEnd: moment(x.timeEnd, "hh:mma").add((convertedMoment - currentMoment) / 60, "hours").unix() * 1000,
+      tSS: x.timeStart,
+      tES: x.timeEnd,
     };
   });
 };
 let done = false;
 const fetchAndSet = async (setCourseInfo, setScheduleData, setCannotFetch) => {
   try {
-    if (! localStorage.getItem("DBIdToken"))throw new Error("something bad happened?");
+    if (!localStorage.getItem("DBIdToken")) throw new Error("something bad happened?");
     if (localStorage.getItem("cachedSchedule"))
       setScheduleData(JSON.parse(localStorage.getItem("cachedSchedule")));
     if (localStorage.getItem("cachedCourseInfo"))
@@ -201,6 +214,10 @@ export const Schedule = (props) => {
               name={p.name}
               zoom={p.zoom}
               color={p.color}
+              timeStart={p.timeStart}
+              timeEnd={p.timeEnd}
+              tSS={p.tSS}
+              tES={p.tES}
             />
           );
         })

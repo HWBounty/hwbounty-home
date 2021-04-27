@@ -5,10 +5,15 @@ class Notifications {
 		}
 	}
 	static pushNotification(icon, img, title, text) {
-		if (Notification.permission !== "granted") {
-			Notification.requestPermission();
+		try {
+			if (Notification.permission !== "granted") {
+				Notification.requestPermission();
+			}
+			return new Notification(title || "HWBounty Notification", {body: text || "", icon: icon, image: img});
+		} catch (error) {
+			
 		}
-		return new Notification(title || "HWBounty Notification", {body: text || "", icon: icon, image: img});
+		
 	}
 }
 export default Notifications;

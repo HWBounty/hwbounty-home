@@ -96,12 +96,10 @@ class Player {
 		this.socket.on("getTrackInfo", this.handleSongInfo);
 		this.socket.on("addSongsToQueue",this.addToQueue);
 		this.tryingToPlay = false;
-		setInterval(() => {
-			this.processQueue();
-		}, 100);
 		//change player info "Reactively"
 		setInterval(() => {
 			this.updateMe.setState(Object.assign(this.updateMe.state, { updateMe: !this.updateMe.state.updateMe }));
+			this.processQueue();
 		}, 100);
 		setInterval(()=>{
 			localStorage.setItem("queue",JSON.stringify(this.songQueue));
@@ -157,7 +155,7 @@ class Player {
 						this.queue.unshift(res);
 					}
 				}
-			}, 1);
+			}, 10);
 
 			this.socket.on("video-data-stream", (data) => {
 				if (data.link !== songURL) return

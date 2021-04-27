@@ -1,10 +1,5 @@
 import { Component } from "react";
-import ss from 'socket.io-stream';
 import { connect } from "react-redux";
-import socketClient, { io } from 'socket.io-client';
-import { appendBuffer, withWaveHeader } from "../../util/musicHelper1";
-import { loadFile } from "../../util/musicUtils";
-import { Socket } from "socket.io";
 import { Container, Paper, Tab, Tabs } from "@material-ui/core";
 import MusicPlayer from "./MusicPlayer";
 import Player from "./Player";
@@ -65,6 +60,7 @@ class MusicModule extends Component {
 		self.setState(Object.assign(self.state, { tab: newValue }));
 	};
 	render() {
+		// return null;
 		if (!localStorage.getItem("DBIdToken")) return null;
 		return (
 			<div>

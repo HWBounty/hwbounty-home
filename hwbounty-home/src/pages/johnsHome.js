@@ -46,9 +46,12 @@ class JHome extends Component {
     this.state = {
       user: null,
     };
-    setInterval(() => {
-      this.forceUpdate();
-    }, 100);
+    setTimeout(()=>{
+      setInterval(() => {
+        this.forceUpdate();
+      }, 1000);
+    },1000-(Date.now()%1000))
+
   }
   getGreeting() {
     if (this.state.user) {
@@ -101,7 +104,9 @@ class JHome extends Component {
     if (currentClass) {
 
       let endingInString = `${currentClass.timeEnd - Date.now() > 60000 ?
-        `${Math.round(moment.duration(currentClass.timeEnd - Date.now()).asMinutes())} minutes` :
+        currentClass.timeEnd - Date.now() > 3600000 ?
+          `${Math.round(moment.duration(currentClass.timeEnd - Date.now()).asHours())} hours` :
+          `${Math.round(moment.duration(currentClass.timeEnd - Date.now()).asMinutes())} minutes` :
         `${Math.round(moment.duration(currentClass.timeEnd - Date.now()).asSeconds())} seconds`}`;
 
       //Try to push a notif if class is starting soon
@@ -121,9 +126,11 @@ class JHome extends Component {
 
     if (nextClass) {
       let startingInString = `${nextClass.timeStart - Date.now() > 60000 ?
-        `${Math.round(moment.duration(nextClass.timeStart - Date.now()).asMinutes())} minutes` :
+        nextClass.timeStart - Date.now() > 3600000 ?
+          `${Math.round(moment.duration(nextClass.timeStart - Date.now()).asHours())} hours` :
+          `${Math.round(moment.duration(nextClass.timeStart - Date.now()).asMinutes())} minutes` :
         `${Math.round(moment.duration(nextClass.timeStart - Date.now()).asSeconds())} seconds`}`;
-      if (Date.now() - nextClass.timeStart < 120 * 1000 && Date.now() - lastTimeBasedNotif > 240 * 1000) {
+      if (nextClass.timeStart - Date.now() < 120 * 1000 && Date.now() - lastTimeBasedNotif > 240 * 1000) {
         lastTimeBasedNotif = Date.now();
 
         Notifications.pushNotification(undefined, undefined,
@@ -138,10 +145,12 @@ class JHome extends Component {
     //Check for what was the previous class
     let lastClass = formattedClasses.filter(x => Date.now() > x.timeEnd).pop();
     if (lastClass) {
-      let lastEnded = `${nextClass.timeStart - Date.now() > 60000 ?
-        `${Math.round(moment.duration(lastClass.timeEnd - Date.now()).asMinutes())} minutes` :
-        `${Math.round(moment.duration(lastClass.timeEnd - Date.now()).asSeconds())} seconds`}`;
-      return `${getPeriodName(lastClass.period)} ended ${lastClass} ago`;
+      let lastEnded = `${Date.now() - lastClass.timeEnd > 60000 ?
+        Date.now() - lastClass.timeEnd > 60000 ?
+          `${Math.round(moment.duration(Date.now() - lastClass.timeEnd).asHours())} hours` :
+          `${Math.round(moment.duration(Date.now() - lastClass.timeEnd).asMinutes())} minutes` :
+        `${Math.round(moment.duration(Date.now() - lastClass.timeEnd).asSeconds())} seconds`}`;
+      return `${getPeriodName(lastClass.period)} ended ${lastEnded} ago`;
     }
 
     //If no classes exist for the day
