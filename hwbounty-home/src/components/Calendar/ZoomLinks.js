@@ -73,9 +73,11 @@ class ZoomLinksPage extends Component {
       this.setState({ zoomLinks: res.data });
     } else this.setState({ zoomLinks: res.status });
   }
+  componentDidMount(){
+    this.fetchZoomLinks();
+  }
   render() {
     if (!this.state.zoomLinks && !localStorage.getItem("zoomLinks")) {
-      this.fetchZoomLinks();
       return <Typography variant="h4">Fetching Zoom Links</Typography>;
     }
     if (!this.state.zoomLinks && localStorage.getItem("zoomLinks")) {
