@@ -28,9 +28,6 @@ const getHighestThumbnail = (thumbnails) => {
 		if (x.height * x.width > best.height * best.width) best = x;
 	});
 	return best.url;
-	// 	height: 110
-	// url: "https://i.ytimg.com/vi/8pm_KoguqPM/hqdefault.jpg?sqp=-oaymwEbCMQBEG5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLDev0be3mUX8bFZb-TmX4jAKy29Tg"
-	// width: 196
 }
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 /**
@@ -79,15 +76,6 @@ class Player {
 
 		
 		this.songQueue = [
-
-			// "https://www.youtube.com/watch?v=8s69HbvJChA",
-			// "https://www.youtube.com/watch?v=hoYRx9eR7Ck",
-			// "https://www.youtube.com/watch?v=XTKBYfyNMdQ",
-			// "https://www.youtube.com/watch?v=NuB-1myGido",
-			// "https://www.youtube.com/watch?v=CtKsPCebhPs",
-			// "https://www.youtube.com/watch?v=nkll0StZJLA",
-			// "https://www.youtube.com/watch?v=5aduiLwOb70",
-			// "https://www.youtube.com/watch?v=lVfq2uRuqv0",
 		];
 		try {
 			/**
@@ -108,19 +96,16 @@ class Player {
 		this.socket.on("getTrackInfo", this.handleSongInfo);
 		this.socket.on("addSongsToQueue",this.addToQueue);
 		this.tryingToPlay = false;
-		setInterval(() => {
-			this.processQueue();
-		}, 100);
 		//change player info "Reactively"
 		setInterval(() => {
 			this.updateMe.setState(Object.assign(this.updateMe.state, { updateMe: !this.updateMe.state.updateMe }));
+			this.processQueue();
 		}, 100);
 		setInterval(()=>{
 			localStorage.setItem("queue",JSON.stringify(this.songQueue));
 		},250);
 		this.searchResults = null;
 		this.socket.on("querySongs", (data) => {
-			console.log("got query!",data);
 			this.searchResults = data
 		});
 		// this is so that We can reset the data connection and stuff when we need to
@@ -153,18 +138,24 @@ class Player {
 			let wait = true;
 			this.sourceBuffer.onupdateend = () => { wait = false };
 			let chunkcount = 0;
+			let trials = 0;
+			setInterval(()=>{
+				if (trials >= 0) trials-=2;
+			},100)
 			let inter = setInterval(() => {
 				if (this.stopPlaying) clearInterval(inter);
 				if (wait) return;
+				if (trials > 20) return;
 				if (this.queue.length && this.mediaSource.readyState === "open" && this.sourceBuffer) {
 					let res = this.queue.shift();
 					try {
 						this.sourceBuffer.appendBuffer(res);
 					} catch (error) {
+						trials++;
 						this.queue.unshift(res);
 					}
 				}
-			}, 1);
+			}, 10);
 
 			this.socket.on("video-data-stream", (data) => {
 				if (data.link !== songURL) return
@@ -173,7 +164,6 @@ class Player {
 					this.sourceBuffer.appendBuffer(uIntArray);
 					// sourceBuffer.appendBuffer(uIntArray.buffer);
 					chunkcount++;
-					console.log("firstChunk", this.mediaSource.readyState)
 					this.tryingToPlay = false;
 					this.video.play();
 				}
@@ -191,29 +181,23 @@ class Player {
 				// this.songInfoMap.set(songURL, cleanedInfo);
 			})
 			this.socket.on("video-data-done", () => {
-				console.log("data done stream!");
 			})
 		})();
 		
 	}
 	addToQueue(...songLinks) {
 		Player.self.songQueue = Player.self.songQueue.concat(songLinks);
-		console.log(Player.self.songQueue);
 	}
 	handleSongInfo(link, data) {
 		if (data) {
 			Player.self.songInfoMap.set(link, cleanAndParseInfoFromYAPI(data));
-			console.log("added",Player.self.songInfoMap.get(link).songName)
-			console.log(link, Player.self.songInfoMap.get(link));
 		} else {
-			console.log(link, data);
 			Player.self.songInfoMap.delete(link);
 		}
 	}
 	processQueue() {
 		Player.self.songQueue.forEach(x => {
 			if (!Player.self.songInfoMap.has(x)) {
-				console.log(`Sending ${x}`);
 				Player.self.socket.emit("getTrackInfo", x);
 				Player.self.songInfoMap.set(x, "LoadingInData");
 			}

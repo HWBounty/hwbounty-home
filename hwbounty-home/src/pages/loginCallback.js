@@ -144,7 +144,6 @@ class Signup extends Component {
 				}
 			}
 		}
-		// console.log(this.state)
 	};
 	render() {
 		const {

@@ -6,7 +6,6 @@ import { MuiThemeProvider, withStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 
 // MUI Treasury
-// import { useRoundInputBaseStyles } from "@mui-treasury/styles/inputBase/round";
 
 import theme from "../../util/theme";
 import {
@@ -20,6 +19,7 @@ import {
 } from "@material-ui/core";
 
 import Fuse from "fuse.js";
+import { useHistory } from "react-router-dom";
 /*
 TODO: remove mui theme provider here, it should work without it!!!
 (maybe check pallete or something?, color is sent but dark mode is not)
@@ -47,15 +47,14 @@ const fuseOptions = {
 };
 const fuse = new Fuse(pageArray, fuseOptions);
 export const PageSearch = (props) => {
+  const history = useHistory();
   const [query, setQuery] = useState("");
-  // const roundInput = useRoundInputBaseStyles();
-
+  const swapPage = (path) => {
+    setQuery("");
+    history.push(path);
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    const url = "https://forums.hwbounty.help/?" + query;
-    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
-    if (newWindow) newWindow.opener = null;
   };
 
   const handleChange = (event) => {
@@ -74,9 +73,9 @@ export const PageSearch = (props) => {
               textAlign: "left",
             }}
           >
-            <Button fullWidth>
+            <Button fullWidth onClick={(x) => swapPage(result.item.path)}>
               <Typography
-                variant="h4"
+                variant="h5"
                 style={{
                   fontSize: 20,
                   fontFamily: "'Work Sans', sans-serif",
@@ -84,6 +83,8 @@ export const PageSearch = (props) => {
                   marginRight: 40,
                   top: 0,
                   left: 10,
+                  fontWeight: 700,
+                  lineHeight: 1.235,
                 }}
                 align="left"
               >
@@ -108,8 +109,14 @@ export const PageSearch = (props) => {
       })
     );
   };
+  let pageOptions = renderResults();
   return (
-    <Container maxWidth="xs">
+    <Container
+      maxWidth="xs"
+      style={{
+        margin: 0,
+      }}
+    >
       <MuiThemeProvider theme={theme}>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -121,32 +128,33 @@ export const PageSearch = (props) => {
           />
         </form>
       </MuiThemeProvider>
-      <Paper
-        style={{
-          minWidth: 396,
-          height: 160,
-          position: "absolute",
-          top: 50,
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-          display: "none",
-        }}
-      >
-        <List
+      {pageOptions.length ? (
+        <Paper
           style={{
             minWidth: 396,
-            height: 440,
-            overflowX: "hidden",
-            overflowY: "scroll",
-            scrollbarWidth: "none",
+            height: 160,
             position: "absolute",
-            padding: 0,
-            margin: 0,
+            top: 50,
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0,
           }}
         >
-          {renderResults()}
-        </List>
-      </Paper>
+          <List
+            style={{
+              minWidth: 396,
+              height: 440,
+              overflowX: "hidden",
+              overflowY: "scroll",
+              scrollbarWidth: "none",
+              position: "absolute",
+              padding: 0,
+              margin: 0,
+            }}
+          >
+            {pageOptions}
+          </List>
+        </Paper>
+      ) : null}
     </Container>
   );
 };

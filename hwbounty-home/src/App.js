@@ -43,16 +43,6 @@ if (token) {
   store.dispatch({ type: SET_AUTHENTICATED });
   store.dispatch(getUserData());
 }
-
-// Very messy. Me no likey...
-// let urlQuery = queryString.parse(window.location.search);
-// if (urlQuery.oauth_token) {
-//   const DBIdToken = `Bearer ${urlQuery.oauth_token}`;
-//   localStorage.setItem("DBIdToken", DBIdToken);
-//   axios.defaults.headers.common["Authorization"] = DBIdToken;
-//   store.dispatch({ type: SET_AUTHENTICATED });
-//   store.dispatch(getUserData());
-// }
 //==========================================================//
 
 const App = (props) => {
@@ -77,14 +67,13 @@ const App = (props) => {
         <CssBaseline />
         <KeybindManager />
         <div className="App">
-          <Navbar />
-          <AuthPopup />
           <Router>
+            <Navbar />
+            <AuthPopup />
+            <MusicModule />
             <Switch>
               <Route exact path="/" component={johnsHome} />
-              <Route path="/betterHome" component={Home} />
               <Route
-                exact
                 path="/schoologyCallback"
                 component={schoologyOauthRedirect}
               />
@@ -98,7 +87,6 @@ const App = (props) => {
               <Route path="/module/:module" component={null} />
             </Switch>
           </Router>
-          <MusicModule />
         </div>
       </MuiThemeProvider>
     </ShortcutProvider>

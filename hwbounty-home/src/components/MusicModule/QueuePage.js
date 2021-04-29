@@ -26,23 +26,16 @@ const QueuePage = (props) => {
 					return (
 						<ListItem>
 							<div style={{
-								// display: "inline-block",
 								background: `url(${data?.bestThumbnail?.url || ""})center/cover`,
 								minHeight: "64px",
 								minWidth: "64px",
 								maxHeight: "128px",
 								maxWidth: "128px",
 								borderRadius: "2px",
-								// marginBottom: "1vh"
 							}} />
 							<Typography variant="caption" style={{
-								// display: "inline-block",
 								marginLeft: "1vw"
 							}}>{i+1}) {(data?.songName || songURL)}</Typography>
-							{/* <Typography variant="h6" style={{
-								display: "inline-block",
-								marginLeft: "1vw"
-							}}>{parseSecsToEnglish()}</Typography> */}
 						</ListItem>
 					);
 				}))

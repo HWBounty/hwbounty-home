@@ -1,10 +1,5 @@
 import { Component } from "react";
-import ss from 'socket.io-stream';
 import { connect } from "react-redux";
-import socketClient, { io } from 'socket.io-client';
-import { appendBuffer, withWaveHeader } from "../../util/musicHelper1";
-import { loadFile } from "../../util/musicUtils";
-import { Socket } from "socket.io";
 import { Container, Paper, Tab, Tabs } from "@material-ui/core";
 import MusicPlayer from "./MusicPlayer";
 import Player from "./Player";
@@ -18,9 +13,6 @@ const getHighestThumbnail = (thumbnails) => {
 		if (x.height * x.width > best.height * best.width) best = x;
 	});
 	return best.url;
-	// 	height: 110
-	// url: "https://i.ytimg.com/vi/8pm_KoguqPM/hqdefault.jpg?sqp=-oaymwEbCMQBEG5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLDev0be3mUX8bFZb-TmX4jAKy29Tg"
-	// width: 196
 }
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 /**
@@ -68,14 +60,10 @@ class MusicModule extends Component {
 		self.setState(Object.assign(self.state, { tab: newValue }));
 	};
 	render() {
+		// return null;
 		if (!localStorage.getItem("DBIdToken")) return null;
 		return (
 			<div>
-
-
-				<video id="streamingVideoForMusic" style={{
-					display: "none"
-				}} />
 				<Container id="musicContainer" style={{
 					minWidth: 350,
 					minHeight:500,

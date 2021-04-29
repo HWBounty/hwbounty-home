@@ -22,7 +22,6 @@ const styles = {
   },
   assignmentDue: {
     marginRight: 10,
-    //textTransform: "none",
   },
 };
 
