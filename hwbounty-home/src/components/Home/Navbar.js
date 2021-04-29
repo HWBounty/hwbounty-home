@@ -32,7 +32,9 @@ const styles = {
     marginLeft: "auto",
   },
 };
-
+let themeValue = 0;
+let alreadySet = 0;
+export const getTheme = ()=>{return themeValue};
 export const Navbar = (props) => {
   const {
     classes,
@@ -41,7 +43,7 @@ export const Navbar = (props) => {
     setAuthPopupOpen,
   } = props;
   const [user, setUser] = useState(null)
-  const [themeValue, setThemeVal] = useState(theme);
+  // const [themeValue, setThemeVal] = useState(theme);
 
   if (user) {
     if (!localStorage.getItem("user"))
@@ -55,10 +57,12 @@ export const Navbar = (props) => {
   }
   const toggleTheme = () => {
     const newVal = themeValue === 1 ? 0 : themeValue + 1;
-    setThemeVal(newVal);
+    localStorage.setItem("theme",newVal);
+    themeValue = newVal;
+    // setThemeVal(newVal);
     props.setTheme(newVal);
   };
-
+  if (~~localStorage.getItem("theme") && !alreadySet){ toggleTheme();alreadySet++}
   const UserButton = () => {
     return (
       <div>

@@ -60,7 +60,7 @@ class MusicModule extends Component {
 		self.setState(Object.assign(self.state, { tab: newValue }));
 	};
 	render() {
-		// return null;
+		return null;
 		if (!localStorage.getItem("DBIdToken")) return null;
 		return (
 			<div>

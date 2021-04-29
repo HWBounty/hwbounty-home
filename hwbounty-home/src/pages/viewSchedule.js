@@ -205,7 +205,7 @@ class Schedule extends Component {
             >
               <Button onClick={
 				  ()=> this.props.history.push(`/schedule/set/${this.props.location.pathname.split("/").pop()}`)
-			  }>Use this Schedule</Button>
+			  } disabled={!JSON.parse(localStorage.getItem("user") || "[]")?.schoologyKey}>{JSON.parse(localStorage.getItem("user") || "[]")?.schoologyKey ?"Use this Schedule": "Link School Account First"}</Button>
             </Container>
           </Card>
         </Container>
