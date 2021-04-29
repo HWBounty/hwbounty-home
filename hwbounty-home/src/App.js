@@ -82,9 +82,9 @@ const App = (props) => {
                 component={schoologyOauthRedirect}
               />
               {/* <Route path="/jHome" component={Home}/> */}
-              <Route path="/test" component={newSignup} />
+              <Route path="/test" component={null} />
               <Route path="/login" component={Login} />
-              <Route path="/signup" component={Signup} />
+              <Route path="/signup" component={newSignup} />
               <Route path="/schedules" component={ScheduleCatalog} />
               <Route exact path="/schedule" component={ScheduleInfo} />
               <Route path="/schedule/view" component={viewSchedule} />
