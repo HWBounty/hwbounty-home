@@ -235,7 +235,6 @@ export const Schedule = (props) => {
       <CircularProgress />
     </div>);
   }
-  console.log(scheduleData, courseInfo);
   if (!scheduleData?.schedule) return (
     <div>
       <Typography>Seems like you dont have a schedule setup! Please go over to the schedules catalog and set a schedule!</Typography>
