@@ -140,12 +140,12 @@ class ScheduleInfo extends Component {
 				<div style={{
 					marginTop: "5%"
 				}}>
-					<Card style={Object.assign({
+					<Card style={{
 						display: "block",
 						verticalAlign: "top",
 						width: "90%",
 						margin: "5%",
-					},{background: getTheme() ? "rgba(45,45,45,1)" : undefined})}>
+					}}>
 						<CTimeSmall />
 						<Typography variant="h5" style={{
 							fontSize: 28
@@ -161,7 +161,6 @@ class ScheduleInfo extends Component {
 						/* max-height: 50vw!important; */
 						/* height: 50vw; */
 						width: "90%",
-						background: "rgba(20, 20, 20, 0.1)",
 
 						borderRadius: 5,
 						borderWidth: 0,
@@ -185,10 +184,10 @@ class ScheduleInfo extends Component {
 					/* max-height: 50vw!important; */
 					/* height: 50vw; */
 					width: "60%",
-					background: getTheme() ? "rgba(45,45,45,1)" : "rgba(240,240,240,1)",
+					maxWidth: "60%",
 					display: "inline-block",
 
-					borderRadius: 5,
+					borderRadius: 10,
 					borderWidth: 0,
 
 				}}>
@@ -201,9 +200,20 @@ class ScheduleInfo extends Component {
 					height: "30vw",
 					marginLeft: "2vw",
 					padding: "2%",
-					background: getTheme() ? "rgba(45,45,45,1)" : "rgba(240,240,240,1)",
-					position: "relative"
-				}}>
+					position: "relative",
+					background: "rgba(0,0,0,0)",
+				}} />
+				<Card style={{
+					display: "inline-block",
+					verticalAlign: "top",
+					width: "30vw",
+					height: "30vw",
+					marginLeft: "2vw",
+					padding: "2%",
+					position: "fixed",
+					right:"5%",
+					top: "14.5%",
+				}} >
 					<div style={{
 						position: "absolute",
 						top: "50%",
@@ -219,6 +229,7 @@ class ScheduleInfo extends Component {
 					</div>
 
 				</Card>
+
 			</div >
 
 		)
