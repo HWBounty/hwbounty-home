@@ -35,6 +35,9 @@ import setSchedule from "./pages/setSchedule";
 import MusicModule from "./components/MusicModule/MusicModule";
 import johnsHome from "./pages/johnsHome";
 import schoologyOauthRedirect from "./pages/schoologyOauthRedirect";
+import { ModuleViewer } from "./components/Modules/ModuleViewer";
+import ScheduleInfo from "./pages/ScheduleInfo";
+import newSignup from "./pages/newSignup";
 
 //=================Check for oauth token====================//
 const token = localStorage.DBIdToken;
@@ -72,19 +75,21 @@ const App = (props) => {
             <AuthPopup />
             <MusicModule />
             <Switch>
-              <Route exact path="/" component={johnsHome} />
+              <Route exact path="/" component={ScheduleInfo} />
               <Route
+                exact
                 path="/schoologyCallback"
                 component={schoologyOauthRedirect}
               />
               {/* <Route path="/jHome" component={Home}/> */}
-              <Route path="/test" component={null} />
+              <Route path="/test" component={newSignup} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
               <Route path="/schedules" component={ScheduleCatalog} />
+              <Route exact path="/schedule" component={ScheduleInfo} />
               <Route path="/schedule/view" component={viewSchedule} />
               <Route path="/schedule/set" component={setSchedule} />
-              <Route path="/module/:module" component={null} />
+              <Route path="/module/" component={ModuleViewer} />
             </Switch>
           </Router>
         </div>

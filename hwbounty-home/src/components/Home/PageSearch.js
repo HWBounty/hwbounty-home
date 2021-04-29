@@ -20,6 +20,7 @@ import {
 
 import Fuse from "fuse.js";
 import { useHistory } from "react-router-dom";
+import { getTheme } from "./Navbar";
 /*
 TODO: remove mui theme provider here, it should work without it!!!
 (maybe check pallete or something?, color is sent but dark mode is not)
@@ -38,6 +39,17 @@ const pageArray = [
     name: "Schedules",
     path: "/schedules",
     description: "Find the perfect schedule for you!",
+  },
+  {
+    name: "Ideal Gas Calculator",
+    path: "/module/gaslawscalc",
+    description: "Gas Law Calculator PV=NRT (Chemistry)",
+  },
+  {
+    name: "Schedule",
+    path: "/schedule",
+    description:
+      "Your current schedule, with a clock, zoom links, and periods!",
   },
 ];
 const fuseOptions = {
@@ -62,51 +74,54 @@ export const PageSearch = (props) => {
   };
   const renderResults = () => {
     return React.Children.toArray(
-      fuse.search(query).map((result) => {
-        return (
-          <ListItem
-            align="left"
-            style={{
-              minWidth: 396,
-              margin: 0,
-              padding: 0,
-              textAlign: "left",
-            }}
-          >
-            <Button fullWidth onClick={(x) => swapPage(result.item.path)}>
-              <Typography
-                variant="h5"
-                style={{
-                  fontSize: 20,
-                  fontFamily: "'Work Sans', sans-serif",
-                  marginLeft: 0,
-                  marginRight: 40,
-                  top: 0,
-                  left: 10,
-                  fontWeight: 700,
-                  lineHeight: 1.235,
-                }}
-                align="left"
-              >
-                {result.item.name}
-              </Typography>
-              <Typography
-                variant="h5"
-                style={{
-                  fontSize: 16,
-                  fontFamily: "'Work Sans', sans-serif",
-                  textAlign: "right",
-                  marginLeft: 40,
-                  display: "block",
-                  position: "relative",
-                }}
-              >
-                {result.item.description}
-              </Typography>
-            </Button>
-          </ListItem>
-        );
-      })
+      fuse
+        .search(query)
+        .filter((x, i) => i < 3)
+        .map((result) => {
+          return (
+            <ListItem
+              align="left"
+              style={{
+                minWidth: 396,
+                margin: 0,
+                padding: 0,
+                textAlign: "left",
+              }}
+            >
+              <Button fullWidth onClick={(x) => swapPage(result.item.path)}>
+                <Typography
+                  variant="h5"
+                  style={{
+                    fontSize: 20,
+                    fontFamily: `-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"`,
+                    marginLeft: 0,
+                    marginRight: 40,
+                    top: 0,
+                    left: 10,
+                    fontWeight: 700,
+                    lineHeight: 1.235,
+                  }}
+                  align="left"
+                >
+                  {result.item.name}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  style={{
+                    fontSize: 16,
+                    fontFamily: `-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"`,
+                    textAlign: "right",
+                    marginLeft: 40,
+                    display: "block",
+                    position: "relative",
+                  }}
+                >
+                  {result.item.description.substring(0, 25)}
+                </Typography>
+              </Button>
+            </ListItem>
+          );
+        })
     );
   };
   let pageOptions = renderResults();
@@ -125,6 +140,9 @@ export const PageSearch = (props) => {
             value={query}
             fullWidth
             {...props}
+            style={{
+              color: getTheme() ? "white" : "black",
+            }}
           />
         </form>
       </MuiThemeProvider>

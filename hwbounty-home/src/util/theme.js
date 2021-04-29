@@ -17,12 +17,12 @@ const rawTheme = createMuiTheme({
   },
   typography: {
     useNextVariants: true,
-    fontFamily: "'Work Sans', sans-serif",
+    fontFamily: `-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"`,
     fontSize: 14,
     fontWeightLight: 300, // Work Sans
     fontWeightRegular: 400, // Work Sans
     fontWeightMedium: 700, // Roboto Condensed
-    fontFamilySecondary: "'Roboto Condensed', sans-serif",
+    fontFamilySecondary: `-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"`,
   },
 
   spreadIt: {
@@ -75,9 +75,11 @@ const theme = {
     h5: {
       ...rawTheme.typography.h5,
       fontSize: 20,
+      fontFamily: "'Oswald'",
       fontWeight: rawTheme.typography.fontWeightLight,
     },
     h6: {
+      fontFamily: "'Nunito'",
       ...rawTheme.typography.h6,
       ...fontHeader,
       fontSize: 18,

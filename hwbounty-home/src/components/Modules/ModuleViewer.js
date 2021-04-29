@@ -14,6 +14,9 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // Modules
 import Calculator from "./Calculator/Calculator";
 import EssayEditor from "./EssayEditor/EssayEditor";
+import { useLocation } from "react-router-dom";
+import GasLaws from "./GasLaws";
+import { Container } from "@material-ui/core";
 
 const styles = {
   root: {
@@ -25,25 +28,27 @@ const styles = {
 export const ModuleViewer = (props) => {
   const {
     classes,
-    UI: { module },
+    // UI: { module },
   } = props;
-
+  let loc = useLocation();
+  let modName = loc.pathname.split("/").pop().toLowerCase();
   const Module = (props) => {
-    switch (module) {
-      case 1:
+    switch (modName) {
+      case "calculator":
         return <Calculator />;
-      case 2:
+      case "essay":
         return <EssayEditor />;
-      case 0:
+      case "gaslawscalc":
+        return <GasLaws />;
       default:
         return null;
     }
   };
 
   return (
-    <div className={classes.root}>
+    <Container>
       <Module />
-    </div>
+    </Container>
   );
 };
 

@@ -26,6 +26,7 @@ import { getRandomBackground } from "../util/randomBackground";
 import momenttz from "moment-timezone";
 import moment from "moment";
 import Notifications from "../util/notifications";
+import Schedule from "../components/Calendar/Schedule";
 let lastTimeBasedNotif = 0;
 const CTime = (props) => {
   const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date()) // default value can be anything you want
@@ -36,9 +37,9 @@ const CTime = (props) => {
   return <Typography variant="h5" style={
     {
       fontSize: 64,
-      fontFamily: "'Work Sans', sans-serif",
+      fontFamily: `-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"`,
     }
-  }>{moment().format(window.innerWidth <= 1000 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")}</Typography>
+  }>{moment().format(window.innerWidth <= 1000 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")}</Typography>
 }
 class JHome extends Component {
   constructor(props) {
@@ -160,22 +161,24 @@ class JHome extends Component {
     this.getGreeting();
     return (
       <div className="base" id="baseHome">
-        <Container
+        {/* <Container
           className="base"
           style={{
             backgroundColor: `rgb(50,150,150)`,
-            minHeight: "10vh",
+            minHeight: "calc(10vh,100)",
             maxWidth: "100vw",
             width: "100%",
           }}
         >
-          <div id="welcomeTextDiv">
+          <div id="welcomeTextDiv" style={{
+            margin: 10
+          }}>
             <CTime />
             <Typography variant="h5" id="welcomeText">
               {this.getTimePhrase()}
             </Typography>
           </div>
-        </Container>
+        </Container> */}
         <Card id="calenderContainer">
           <Calendar id="calender" />
         </Card>

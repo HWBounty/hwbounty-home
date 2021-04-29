@@ -57,13 +57,14 @@ class SetSchedule extends Component {
 		self.setState({setting: true});
 		let periodChoices = self.state.periodChoices;
 		// eslint-disable-next-line no-restricted-globals
-		let schedule = location.href.split("?id=").pop();
+		let sch = this.props.location.pathname.split("/").pop();
+		console.log(sch);
 		console.log({
-			scheduleID: schedule,
+			scheduleID: sch,
 			classes: periodChoices
 		});
 		let res = await axios.post(`https://api.hwbounty.help/schedules/set`, {
-			scheduleID: schedule,
+			scheduleID: sch,
 			classes: periodChoices
 		}).catch(console.trace);
 		if (res.status === 200) {
