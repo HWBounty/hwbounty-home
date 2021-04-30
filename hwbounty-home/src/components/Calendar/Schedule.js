@@ -80,7 +80,11 @@ const PeriodButton = (props) => {
       <Card
         className={classes.root}
         onClick={handleButtonClicked}
-        style={{ background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${color[2]}%) 0%, hsl(${color[0]},${color[1]}%,${color[2]}%) ${timePassed}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${notDoneCol[2]}%) ${timePassed + 0.000001}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${notDoneCol[2]}%) 100%)` }}
+        style={{
+          background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${color[2]}%) 0%, hsl(${color[0]},${color[1]}%,${color[2]}%) ${timePassed}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${notDoneCol[2]}%) ${timePassed + 0.000001}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${notDoneCol[2]}%) 100%)`,
+          borderRadius: 20
+        }}
+
       >
         <Typography variant="h5" align="left" style={{
           marginTop: "-2.3%",
@@ -92,18 +96,18 @@ const PeriodButton = (props) => {
         </Typography>
         {expanded ? null :
           <Typography align="left" variant="h5" style={{
-            fontSize: window.innerWidth <=1250? window.innerWidth ** 0.3+16: window.innerWidth ** 0.4 + 16,
+            fontSize: window.innerWidth <= 1250 ? window.innerWidth ** 0.35 + 10 : window.innerWidth ** 0.4 + 10,
             margin: 10,
             marginBottom: 10,
             marginTop: 0,
-            bottom: window.innerWidth <=1250? "70%": "1%",
+            bottom: window.innerWidth <= 1250 ? "70%" : "1%",
             left: "5%",
             position: "absolute",
             fontFamily: "'Nunito'",
           }}>{period}</Typography>}
         {expanded ? null :
           <Typography align="right" variant="h5" style={{
-            fontSize: window.innerWidth <=1250? window.innerWidth ** 0.3+16: window.innerWidth ** 0.4 + 16,
+            fontSize: window.innerWidth <= 1250 ? window.innerWidth ** 0.45 + 6: window.innerWidth ** 0.4 +6,
             margin: 10,
             marginBottom: 10,
             marginTop: 0,

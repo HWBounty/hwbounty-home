@@ -38,6 +38,7 @@ import schoologyOauthRedirect from "./pages/schoologyOauthRedirect";
 import { ModuleViewer } from "./components/Modules/ModuleViewer";
 import ScheduleInfo from "./pages/ScheduleInfo";
 import newSignup from "./pages/newSignup";
+import { Profile } from "./pages/profile";
 
 //=================Check for oauth token====================//
 const token = localStorage.DBIdToken;
@@ -90,6 +91,7 @@ const App = (props) => {
               <Route path="/schedule/view" component={viewSchedule} />
               <Route path="/schedule/set" component={setSchedule} />
               <Route path="/module/" component={ModuleViewer} />
+              <Route path="/user/" component={Profile} />
             </Switch>
           </Router>
         </div>

@@ -174,7 +174,7 @@ class ScheduleInfo extends Component {
 						/* max-height: 50vw!important; */
 						/* height: 50vw; */
 						width: "90%",
-
+						
 						borderRadius: 5,
 						borderWidth: 0,
 
@@ -199,7 +199,7 @@ class ScheduleInfo extends Component {
 					width: "60%",
 					maxWidth: "60%",
 					display: "inline-block",
-
+					background: "rgba(0,0,0,0)",
 					borderRadius: 10,
 					borderWidth: 0,
 
@@ -225,7 +225,7 @@ class ScheduleInfo extends Component {
 					padding: "2%",
 					position: "fixed",
 					right:"5%",
-					top: "14.5%",
+					top: "19.5vh",
 				}} >
 					<div style={{
 						position: "absolute",
