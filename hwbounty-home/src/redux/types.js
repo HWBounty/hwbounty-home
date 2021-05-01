@@ -18,6 +18,9 @@ export const MARK_NOTIFICATIONS_READ = "MARK_NOTIFICATIONS_READ";
 export const CONFIRM_SIGNUP = "CONFIRM_SIGNUP";
 export const SET_SCHOOLOGY_LINKED = "SET_SCHOOLOGY_LINKED";
 
+// Const vars
+export const _maxThemeVal = 1;
+
 // API Base URL
 export const hwbountyAPI = "https://api.hwbounty.help";
 export const schoologyAPI = "https://api.schoology.com/v1"; // may not work

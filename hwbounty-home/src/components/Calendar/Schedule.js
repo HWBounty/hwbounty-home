@@ -11,8 +11,11 @@ import moment from "moment";
 import { useState } from "react";
 import axios from "axios";
 import { CircularProgress, Container } from "@material-ui/core";
-import { linkUserSchoology } from "../../redux/actions/userActions"
-import { getTheme } from "../Home/Navbar";
+
+// Redux
+import { connect } from "react-redux";
+import { linkUserSchoology } from "../../redux/actions/userActions";
+
 const decodeHTML = (string) => {
   const map = { gt: ">" /* , … */ };
   return string.replace(/&(#(?:x[0-9a-f]+|\d+)|[a-z]+);?/gi, ($0, $1) => {
@@ -38,30 +41,41 @@ const useButtonStyles = makeStyles({
   },
 });
 
-const generatePeriodColors = (stops) => {
+const generatePeriodColors = (stops, theme) => {
   let retarr = [];
   for (let index = 0; index < stops; index++)
     //50 => 25, 70 => 30 for Dark mode
 
-    retarr.push([0 + (index / stops) * 360, getTheme() ? 30 : 50, getTheme() ? 30 : 70]);
+    retarr.push([0 + (index / stops) * 360, theme ? 30 : 50, theme ? 30 : 70]);
   return retarr;
 };
 
 const PeriodButton = (props) => {
   const classes = useButtonStyles();
-  const { period, name, zoom, color, timeStart, timeEnd, tSS, tES, duration } = props;
+  const {
+    theme,
+    period,
+    name,
+    zoom,
+    color,
+    timeStart,
+    timeEnd,
+    tSS,
+    tES,
+    duration,
+  } = props;
   //% from 0 to 100
   let timePassed = 0;
   //If we are past the end time, set time passed to 100%
   if (Date.now() - timeEnd > 0) timePassed = 100;
   //If we are in class, set time passed to (current-start)/(End-start) * 100
-  else if (Date.now() - timeStart > 0 && timeEnd - Date.now() > 0) timePassed = (Date.now() - timeStart) * 100 / (timeEnd - timeStart);
+  else if (Date.now() - timeStart > 0 && timeEnd - Date.now() > 0)
+    timePassed = ((Date.now() - timeStart) * 100) / (timeEnd - timeStart);
   //If the class is upcoming, set time passed to 0
   else timePassed = 0;
   const [expanded, setExpanded] = React.useState(false);
   const handleButtonClicked = () => {
-    if (zoom.length)
-      setExpanded(!expanded);
+    if (zoom.length) setExpanded(!expanded);
   };
 
   const handleZoomLinkClicked = (event, link) => {
@@ -69,60 +83,92 @@ const PeriodButton = (props) => {
     const newWindow = window.open(link, "_blank", "noopener,noreferrer");
     if (newWindow) newWindow.opener = null;
   };
-  let notDoneCol = color.filter(x => true);
+  let notDoneCol = color.filter((x) => true);
   //Set to 40 for Darkmode
-  notDoneCol[2] = getTheme() ? 50 : 90;
-  color[2] = getTheme() ? 40 : 80;
+  notDoneCol[2] = theme ? 50 : 90;
+  color[2] = theme ? 40 : 80;
   return (
-    <div style={{
-      marginBottom: "2vh",
-    }}>
+    <div
+      style={{
+        marginBottom: "2vh",
+      }}
+    >
       <Card
         className={classes.root}
         onClick={handleButtonClicked}
         style={{
-          background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${color[2]}%) 0%, hsl(${color[0]},${color[1]}%,${color[2]}%) ${timePassed}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${notDoneCol[2]}%) ${timePassed + 0.000001}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${notDoneCol[2]}%) 100%)`,
-          borderRadius: 20
+          background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${
+            color[2]
+          }%) 0%, hsl(${color[0]},${color[1]}%,${
+            color[2]
+          }%) ${timePassed}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${
+            notDoneCol[2]
+          }%) ${timePassed + 0.000001}%, hsl(${notDoneCol[0]},${
+            notDoneCol[1]
+          }%,${notDoneCol[2]}%) 100%)`,
+          borderRadius: 20,
         }}
-
       >
-        <Typography variant="h5" align="left" style={{
-          marginTop: "-2.3%",
-          marginLeft: "4%",
-          fontSize: window.innerWidth ** 0.4 + 48,
-          marginBottom: 40,
-        }}>
+        <Typography
+          variant="h5"
+          align="left"
+          style={{
+            marginTop: "-2.3%",
+            marginLeft: "4%",
+            fontSize: window.innerWidth ** 0.4 + 48,
+            marginBottom: 40,
+          }}
+        >
           {name}
         </Typography>
-        {expanded ? null :
-          <Typography align="left" variant="h5" style={{
-            fontSize: window.innerWidth <= 1250 ? window.innerWidth ** 0.35 + 10 : window.innerWidth ** 0.4 + 10,
-            margin: 10,
-            marginBottom: 10,
-            marginTop: 0,
-            bottom: window.innerWidth <= 1250 ? "70%" : "1%",
-            left: "5%",
-            position: "absolute",
-            fontFamily: "'Nunito'",
-          }}>{period}</Typography>}
-        {expanded ? null :
-          <Typography align="right" variant="h5" style={{
-            fontSize: window.innerWidth <= 1250 ? window.innerWidth ** 0.45 + 6: window.innerWidth ** 0.4 +6,
-            margin: 10,
-            marginBottom: 10,
-            marginTop: 0,
-            position: "absolute",
-            bottom: "1%",
-            right: "5%",
-            fontFamily: "'Nunito'",
-          }}>{tSS}-{tES} ({Math.round(duration / 60000)} mins)</Typography>}
-
+        {expanded ? null : (
+          <Typography
+            align="left"
+            variant="h5"
+            style={{
+              fontSize:
+                window.innerWidth <= 1250
+                  ? window.innerWidth ** 0.35 + 10
+                  : window.innerWidth ** 0.4 + 10,
+              margin: 10,
+              marginBottom: 10,
+              marginTop: 0,
+              bottom: window.innerWidth <= 1250 ? "70%" : "1%",
+              left: "5%",
+              position: "absolute",
+              fontFamily: "'Nunito'",
+            }}
+          >
+            {period}
+          </Typography>
+        )}
+        {expanded ? null : (
+          <Typography
+            align="right"
+            variant="h5"
+            style={{
+              fontSize:
+                window.innerWidth <= 1250
+                  ? window.innerWidth ** 0.45 + 6
+                  : window.innerWidth ** 0.4 + 6,
+              margin: 10,
+              marginBottom: 10,
+              marginTop: 0,
+              position: "absolute",
+              bottom: "1%",
+              right: "5%",
+              fontFamily: "'Nunito'",
+            }}
+          >
+            {tSS}-{tES} ({Math.round(duration / 60000)} mins)
+          </Typography>
+        )}
 
         <Collapse in={expanded}>
           {React.Children.toArray(
             zoom.map((z) => {
               return (
-                <Button onClick={(e) => handleZoomLinkClicked(e, z.link)} >
+                <Button onClick={(e) => handleZoomLinkClicked(e, z.link)}>
                   {z.title}
                 </Button>
               );
@@ -133,7 +179,8 @@ const PeriodButton = (props) => {
     </div>
   );
 };
-const parsePeriods = (scheduleData, zoomLinkInfo) => {
+
+const parsePeriods = (scheduleData, zoomLinkInfo, theme) => {
   let scheduleDay = moment(Date.now());
   let dotw = [
     "monday",
@@ -148,13 +195,15 @@ const parsePeriods = (scheduleData, zoomLinkInfo) => {
   let allClasses = scheduleData.classes;
   let classes = new Map();
   let nameOverrides = JSON.parse(scheduleData.schedule.nameOverrides);
-  let convertedMoment = moment().tz(JSON.parse(scheduleData.schedule.schedule).timePeriod).utcOffset();
+  let convertedMoment = moment()
+    .tz(JSON.parse(scheduleData.schedule.schedule).timePeriod)
+    .utcOffset();
   let currentMoment = moment().utcOffset();
   zoomLinkInfo.forEach((x) => {
     classes.set(x.course.id, x);
   });
   let today = JSON.parse(scheduleData.schedule.schedule)[dotw];
-  let colors = generatePeriodColors(today.length);
+  let colors = generatePeriodColors(today.length, theme);
   return today.map((x, i) => {
     let courseInfo = classes.has(
       allClasses[x.period] && allClasses[x.period].value
@@ -171,15 +220,21 @@ const parsePeriods = (scheduleData, zoomLinkInfo) => {
       zoom:
         courseInfo && courseInfo.links
           ? courseInfo.links
-            .map((linkGroup) => {
-              return linkGroup.links.map((link) => {
-                return { link: link, title: decodeHTML(linkGroup.title) };
-              });
-            })
-            .flat(10000)
+              .map((linkGroup) => {
+                return linkGroup.links.map((link) => {
+                  return { link: link, title: decodeHTML(linkGroup.title) };
+                });
+              })
+              .flat(10000)
           : [],
-      timeStart: moment(x.timeStart, "hh:mma").add((convertedMoment - currentMoment) / 60, "hours").unix() * 1000,
-      timeEnd: moment(x.timeEnd, "hh:mma").add((convertedMoment - currentMoment) / 60, "hours").unix() * 1000,
+      timeStart:
+        moment(x.timeStart, "hh:mma")
+          .add((convertedMoment - currentMoment) / 60, "hours")
+          .unix() * 1000,
+      timeEnd:
+        moment(x.timeEnd, "hh:mma")
+          .add((convertedMoment - currentMoment) / 60, "hours")
+          .unix() * 1000,
       tSS: x.timeStart,
       tES: x.timeEnd,
       duration: x.timeEnd - x.timeStart,
@@ -189,16 +244,20 @@ const parsePeriods = (scheduleData, zoomLinkInfo) => {
 let done = false;
 const fetchAndSet = async (setCourseInfo, setScheduleData, setCannotFetch) => {
   try {
-    if (!localStorage.getItem("DBIdToken")) throw new Error("something bad happened?");
+    if (!localStorage.getItem("DBIdToken"))
+      throw new Error("something bad happened?");
     if (localStorage.getItem("cachedSchedule"))
       setScheduleData(JSON.parse(localStorage.getItem("cachedSchedule")));
     if (localStorage.getItem("cachedCourseInfo"))
       setCourseInfo(JSON.parse(localStorage.getItem("cachedCourseInfo")));
     let [schedule, courses] = await Promise.all([
       axios.get("https://api.hwbounty.help/schedule/@me").catch(console.trace),
-      axios.get("https://api.hwbounty.help/sgy/getZoomLinks").catch(console.trace),
+      axios
+        .get("https://api.hwbounty.help/sgy/getZoomLinks")
+        .catch(console.trace),
     ]);
-    if (!schedule?.data || !courses?.data || schedule?.status === 500) throw new Error("something bad happened?");
+    if (!schedule?.data || !courses?.data || schedule?.status === 500)
+      throw new Error("something bad happened?");
     localStorage.setItem("cachedCourseInfo", JSON.stringify(courses.data));
     localStorage.setItem("cachedSchedule", JSON.stringify(schedule.data));
     setScheduleData(schedule.data);
@@ -208,12 +267,15 @@ const fetchAndSet = async (setCourseInfo, setScheduleData, setCannotFetch) => {
   }
 };
 export const Schedule = (props) => {
+  const {
+    UI: { theme },
+  } = props;
+
   const [courseInfo, setCourseInfo] = useState(null);
   const [scheduleData, setScheduleData] = useState(null);
-  const [fetching, setFetching] = useState(false)
-  const [cannotFetch, setCannotFetch] = useState(false)
-  if ((!scheduleData || !courseInfo)) {
-
+  const [fetching, setFetching] = useState(false);
+  const [cannotFetch, setCannotFetch] = useState(false);
+  if (!scheduleData || !courseInfo) {
     if (!fetching) {
       setFetching(true);
       fetchAndSet(setCourseInfo, setScheduleData, setCannotFetch);
@@ -222,34 +284,44 @@ export const Schedule = (props) => {
     if (cannotFetch)
       return (
         <div>
-          <Typography>Seems like you dont have a school account linked! Please link your schoology account to get access to this feature!</Typography>
-          <Button variant="contained" onClick={x => {
-            linkUserSchoology();
-          }
-
-          }>
+          <Typography>
+            Seems like you dont have a school account linked! Please link your
+            schoology account to get access to this feature!
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={(x) => {
+              linkUserSchoology();
+            }}
+          >
             Link Schoology Account
-        </Button>
+          </Button>
         </div>
-
-
-      )
-    return (<div>
-      <Typography>Fetching Schedule Data/ Zoom Links...</Typography>
-      <CircularProgress />
-    </div>);
+      );
+    return (
+      <div>
+        <Typography>Fetching Schedule Data/ Zoom Links...</Typography>
+        <CircularProgress />
+      </div>
+    );
   }
-  if (!scheduleData?.schedule) return (
-    <div>
-      <Typography>Seems like you dont have a schedule setup! Please go over to the schedules catalog and set a schedule!</Typography>
-    </div>)
-  const periods = parsePeriods(scheduleData, courseInfo);
+  if (!scheduleData?.schedule)
+    return (
+      <div>
+        <Typography>
+          Seems like you dont have a schedule setup! Please go over to the
+          schedules catalog and set a schedule!
+        </Typography>
+      </div>
+    );
+  const periods = parsePeriods(scheduleData, courseInfo, theme);
   return (
     <Container style={{ marginBottom: "50px", width: "100%", padding: "0px" }}>
       {React.Children.toArray(
         periods.map((p) => {
           return (
             <PeriodButton
+              theme={theme}
               period={p.period}
               name={p.name}
               zoom={p.zoom}
@@ -267,4 +339,8 @@ export const Schedule = (props) => {
   );
 };
 
-export default Schedule;
+const mapStateToProps = (state) => ({
+  UI: state.UI,
+});
+
+export default connect(mapStateToProps)(Schedule);

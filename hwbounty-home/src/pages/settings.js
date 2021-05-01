@@ -1,66 +1,80 @@
-import { Card, FormControlLabel, FormGroup, makeStyles, Paper, Typography, withStyles, Switch } from "@material-ui/core";
-import { useState } from "react";
-import { connect } from "react-redux";
-import { getTheme } from "../components/Home/Navbar";
+// React
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { setTheme, setAuthPopupOpen } from "../redux/actions/uiActions";
-const styles = (theme) => ({
-	...theme.spreadIt,
-});
-const useStyles = makeStyles((theme) => ({
-	root: {
-		display: 'flex',
-		'& > *': {
-			margin: theme.spacing(1),
-		},
-	},
-	small: {
-		width: theme.spacing(3),
-		height: theme.spacing(3),
-	},
-	large: {
-		width: theme.spacing(16),
-		height: theme.spacing(16),
-	},
-	paper: {
-		width: "80vw",
-		height: "80vw",
-		display: "inline-block",
 
-	},
-	title: {
-		fontSize: "60px",
-		// fontFamily: "",
-	},
-	formLabel: {
-		display: "block"
-	}
+// MUI
+import Card from "@material-ui/core/Card";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+import Switch from "@material-ui/core/Switch";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+// Redux
+import { connect } from "react-redux";
+import { setTheme, setAuthPopupOpen } from "../redux/actions/uiActions";
+
+const useStyles = makeStyles((theme) => ({
+  ...theme.spreadIt,
+  root: {
+    display: "flex",
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+  },
+  large: {
+    width: theme.spacing(16),
+    height: theme.spacing(16),
+  },
+  paper: {
+    width: "80vw",
+    height: "80vw",
+    display: "inline-block",
+  },
+  title: {
+    fontSize: "60px",
+    // fontFamily: "",
+  },
+  formLabel: {
+    display: "block",
+  },
 }));
 export const Settings = (props) => {
-	const classes = useStyles();
-	const [darkMode, setDarkMode] = useState(!!getTheme());
-	console.log(Object.keys(props));
-	const toggleTheme = (newVal) => {
-		localStorage.setItem("theme", newVal);
-		// setThemeVal(newVal);
-		props.setTheme(newVal);
-	};
-	const toggleDarkmode = (event, nv) => {
-		setDarkMode(nv);
-		toggleTheme(nv);
-	}
-	return (
-		<Paper className={classes.paper}>
-			<Typography variant="h5" className={classes.title}>
-				Settings
-			</Typography>
-			<FormGroup row>
-				<FormControlLabel
-					control={<Switch checked={darkMode} onChange={toggleDarkmode} name="darkmodeToggle" />}
-					label="Dark Mode :)"
-					className={classes.formLabel}
-				/>
-				{/* <FormControlLabel
+  const classes = useStyles();
+  const {
+    UI: { theme },
+    setTheme,
+  } = props;
+
+  const toggleDarkmode = (event, nv) => {
+    const newVal = nv ? 1 : 0;
+    localStorage.setItem("theme", newVal);
+    setTheme(newVal);
+  };
+
+  return (
+    <Paper className={classes.paper}>
+      <Typography variant="h5" className={classes.title}>
+        Settings
+      </Typography>
+      <FormGroup row>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={theme === 1}
+              onChange={toggleDarkmode}
+              name="darkmodeToggle"
+            />
+          }
+          label="Dark Mode :)"
+          className={classes.formLabel}
+        />
+        {/* <FormControlLabel
 					control={
 						<Switch
 							checked={state.checkedB}
@@ -74,18 +88,16 @@ export const Settings = (props) => {
 				<FormControlLabel control={<Switch />} label="Uncontrolled" />
 				<FormControlLabel disabled control={<Switch />} label="Disabled" />
 				<FormControlLabel disabled control={<Switch checked />} label="Disabled" /> */}
-			</FormGroup>
-		</Paper>
-	)
+      </FormGroup>
+    </Paper>
+  );
 };
 Settings.propTypes = {
-	setTheme: PropTypes.func.isRequired,
+  setTheme: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
-	UI: state.UI,
-	user: state.user,
+  UI: state.UI,
+  user: state.user,
 });
 
-export default connect(mapStateToProps, { setTheme, setAuthPopupOpen })(
-	withStyles(styles)(Settings)
-);
+export default connect(mapStateToProps, { setTheme })(Settings);

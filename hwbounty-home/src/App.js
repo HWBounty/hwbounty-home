@@ -1,11 +1,11 @@
 // React
 import React, { useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { SnackbarProvider } from 'notistack';
+import { SnackbarProvider } from "notistack";
 // Redux
 import { connect } from "react-redux";
 import store from "./redux/store";
-import { SET_AUTHENTICATED } from "./redux/types";
+import { SET_AUTHENTICATED, SET_THEME } from "./redux/types";
 import { logoutUser, getUserData } from "./redux/actions/userActions";
 
 // Styling
@@ -35,23 +35,28 @@ import setSchedule from "./pages/setSchedule";
 import MusicModule from "./components/MusicModule/MusicModule";
 import johnsHome from "./pages/johnsHome";
 import schoologyOauthRedirect from "./pages/schoologyOauthRedirect";
-import { ModuleViewer } from "./components/Modules/ModuleViewer";
+import ModuleViewer from "./components/Modules/ModuleViewer";
 import ScheduleInfo from "./pages/ScheduleInfo";
 import newSignup from "./pages/newSignup";
-import { Profile } from "./pages/profile";
+import Profile from "./pages/profile";
 import signupCallback from "./pages/signupCallback";
 import LoadIntoCache from "./LoadIntoCache";
-import { Sidebar } from "./components/Sidebar";
-import { Settings } from "./pages/settings";
+import Sidebar from "./components/Sidebar";
+import Settings from "./pages/settings";
 
-//=================Check for oauth token====================//
+//=================Checks on App start====================//
 const token = localStorage.DBIdToken;
 if (token) {
   axios.defaults.headers.common["Authorization"] = token;
   store.dispatch({ type: SET_AUTHENTICATED });
   store.dispatch(getUserData());
 }
-//==========================================================//
+
+const themeCache = parseInt(localStorage.theme);
+if (themeCache) {
+  store.dispatch({ type: SET_THEME, payload: themeCache });
+}
+//========================================================//
 
 const App = (props) => {
   const { theme } = props.UI;
@@ -77,9 +82,7 @@ const App = (props) => {
           <KeybindManager />
 
           <div className="App">
-
             <Router>
-
               {localStorage.getItem("DBIdToken") && <Sidebar />}
 
               <AuthPopup />
@@ -88,7 +91,6 @@ const App = (props) => {
               <Navbar />
 
               <Switch>
-
                 <Route exact path="/" component={ScheduleInfo} />
                 <Route
                   exact

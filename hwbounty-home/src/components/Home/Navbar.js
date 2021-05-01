@@ -1,10 +1,11 @@
 // React
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // Redux
 import { connect } from "react-redux";
 import { setTheme, setAuthPopupOpen } from "../../redux/actions/uiActions";
+import { _maxThemeVal } from "../../redux/types";
 
 // MUI Components & Styling
 import AppBar from "@material-ui/core/AppBar";
@@ -32,9 +33,7 @@ const styles = {
     marginLeft: "auto",
   },
 };
-let themeValue = 0;
-let alreadySet = 0;
-export const getTheme = ()=>{return themeValue};
+
 export const Navbar = (props) => {
   const {
     classes,
@@ -42,27 +41,32 @@ export const Navbar = (props) => {
     user: { authenticated },
     setAuthPopupOpen,
   } = props;
-  const [user, setUser] = useState(null)
-  // const [themeValue, setThemeVal] = useState(theme);
+  const [user, setUser] = useState(null);
+  const [themeValue, setThemeVal] = useState(theme);
 
-  if (user) {
-    if (!localStorage.getItem("user"))
-      localStorage.setItem("user", JSON.stringify(user));
-  } else {
-    axios.get("https://api.hwbounty.help/@me").then((res) => {
-      if (res.status === 200 && res.data && res.data.password) {
-       setUser(res.data);
-      }
-    }).catch(console.trace);
-  }
+  useEffect(() => {
+    if (user) {
+      if (!localStorage.getItem("user"))
+        localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      axios
+        .get("https://api.hwbounty.help/@me")
+        .then((res) => {
+          if (res.status === 200 && res.data && res.data.password) {
+            setUser(res.data);
+          }
+        })
+        .catch(console.trace);
+    }
+  });
+
   const toggleTheme = () => {
-    const newVal = themeValue === 1 ? 0 : themeValue + 1;
-    localStorage.setItem("theme",newVal);
-    themeValue = newVal;
-    // setThemeVal(newVal);
+    const newVal = themeValue === _maxThemeVal ? 0 : themeValue + 1;
+    localStorage.setItem("theme", newVal);
+    setThemeVal(newVal);
     props.setTheme(newVal);
   };
-  if (~~localStorage.getItem("theme") && !alreadySet){ toggleTheme();alreadySet++}
+
   const UserButton = () => {
     return (
       <div>
@@ -76,11 +80,13 @@ export const Navbar = (props) => {
   };
 
   return (
-    <div className={classes.root} style={{
-      minHeight:75
-    }}>
-      <Toolbar style={{
-      }}>
+    <div
+      className={classes.root}
+      style={{
+        minHeight: 75,
+      }}
+    >
+      <Toolbar style={{}}>
         {/* <PageSearch/> */}
         <IconButton onClick={toggleTheme} className={classes.iconButton}>
           {themeValue === 0 ? <DarkThemeIcon /> : <LightThemeIcon />}
@@ -93,6 +99,7 @@ export const Navbar = (props) => {
 
 Navbar.propTypes = {
   setTheme: PropTypes.func.isRequired,
+  setAuthPopupOpen: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

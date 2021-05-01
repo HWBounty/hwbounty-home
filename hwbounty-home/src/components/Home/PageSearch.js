@@ -6,8 +6,6 @@ import { MuiThemeProvider, withStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 
 // MUI Treasury
-
-import theme from "../../util/theme";
 import {
   Button,
   Container,
@@ -20,7 +18,8 @@ import {
 
 import Fuse from "fuse.js";
 import { useHistory } from "react-router-dom";
-import { getTheme } from "./Navbar";
+
+import { connect } from "react-redux";
 /*
 TODO: remove mui theme provider here, it should work without it!!!
 (maybe check pallete or something?, color is sent but dark mode is not)
@@ -60,6 +59,9 @@ const fuseOptions = {
 const fuse = new Fuse(pageArray, fuseOptions);
 export const PageSearch = (props) => {
   const history = useHistory();
+  const {
+    UI: { theme },
+  } = props;
   const [query, setQuery] = useState("");
   const swapPage = (path) => {
     setQuery("");
@@ -141,7 +143,7 @@ export const PageSearch = (props) => {
             fullWidth
             {...props}
             style={{
-              color: getTheme() ? "white" : "black",
+              color: theme ? "white" : "black",
             }}
           />
         </form>
@@ -177,4 +179,6 @@ export const PageSearch = (props) => {
   );
 };
 
-export default withStyles(styles)(PageSearch);
+export default connect((state) => ({ UI: state.UI }))(
+  withStyles(styles)(PageSearch)
+);
