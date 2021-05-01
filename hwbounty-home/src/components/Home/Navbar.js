@@ -80,9 +80,8 @@ export const Navbar = (props) => {
       minHeight:75
     }}>
       <Toolbar style={{
-        zIndex: 10000000,
       }}>
-        <PageSearch/>
+        {/* <PageSearch/> */}
         <IconButton onClick={toggleTheme} className={classes.iconButton}>
           {themeValue === 0 ? <DarkThemeIcon /> : <LightThemeIcon />}
         </IconButton>

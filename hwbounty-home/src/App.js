@@ -1,7 +1,7 @@
 // React
 import React, { useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
+import { SnackbarProvider } from 'notistack';
 // Redux
 import { connect } from "react-redux";
 import store from "./redux/store";
@@ -39,6 +39,10 @@ import { ModuleViewer } from "./components/Modules/ModuleViewer";
 import ScheduleInfo from "./pages/ScheduleInfo";
 import newSignup from "./pages/newSignup";
 import { Profile } from "./pages/profile";
+import signupCallback from "./pages/signupCallback";
+import LoadIntoCache from "./LoadIntoCache";
+import { Sidebar } from "./components/Sidebar";
+import { Settings } from "./pages/settings";
 
 //=================Check for oauth token====================//
 const token = localStorage.DBIdToken;
@@ -66,37 +70,49 @@ const App = (props) => {
   });
 
   return (
-    <ShortcutProvider ignoreTagNames={["input", "textarea"]}>
-      <MuiThemeProvider theme={dynamicTheme}>
-        <CssBaseline />
-        <KeybindManager />
-        <div className="App">
-          <Router>
-            <Navbar />
-            <AuthPopup />
-            <MusicModule />
-            <Switch>
-              <Route exact path="/" component={ScheduleInfo} />
-              <Route
-                exact
-                path="/schoologyCallback"
-                component={schoologyOauthRedirect}
-              />
-              {/* <Route path="/jHome" component={Home}/> */}
-              <Route path="/test" component={null} />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={newSignup} />
-              <Route path="/schedules" component={ScheduleCatalog} />
-              <Route exact path="/schedule" component={ScheduleInfo} />
-              <Route path="/schedule/view" component={viewSchedule} />
-              <Route path="/schedule/set" component={setSchedule} />
-              <Route path="/module/" component={ModuleViewer} />
-              <Route path="/user/" component={Profile} />
-            </Switch>
-          </Router>
-        </div>
-      </MuiThemeProvider>
-    </ShortcutProvider>
+    <SnackbarProvider maxSnack={5}>
+      <ShortcutProvider ignoreTagNames={["input", "textarea"]}>
+        <MuiThemeProvider theme={dynamicTheme}>
+          <CssBaseline />
+          <KeybindManager />
+
+          <div className="App">
+
+            <Router>
+
+              {localStorage.getItem("DBIdToken") && <Sidebar />}
+
+              <AuthPopup />
+              <MusicModule />
+              <LoadIntoCache />
+              <Navbar />
+
+              <Switch>
+
+                <Route exact path="/" component={ScheduleInfo} />
+                <Route
+                  exact
+                  path="/schoologyCallback"
+                  component={schoologyOauthRedirect}
+                />
+                <Route path="/signupcallback" component={signupCallback} />
+                {/* <Route path="/jHome" component={Home}/> */}
+                <Route path="/test" component={null} />
+                <Route path="/login" component={Login} />
+                <Route path="/signup" component={newSignup} />
+                <Route path="/schedules" component={ScheduleCatalog} />
+                <Route exact path="/schedule" component={ScheduleInfo} />
+                <Route path="/schedule/view" component={viewSchedule} />
+                <Route path="/schedule/set" component={setSchedule} />
+                <Route path="/module/" component={ModuleViewer} />
+                <Route path="/user/" component={Profile} />
+                <Route path="/settings/" component={Settings} />
+              </Switch>
+            </Router>
+          </div>
+        </MuiThemeProvider>
+      </ShortcutProvider>
+    </SnackbarProvider>
   );
 };
 
