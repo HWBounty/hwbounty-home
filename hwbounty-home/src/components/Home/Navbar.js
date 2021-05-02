@@ -88,9 +88,9 @@ export const Navbar = (props) => {
     >
       <Toolbar style={{}}>
         {/* <PageSearch/> */}
-        <IconButton onClick={toggleTheme} className={classes.iconButton}>
+        {/* <IconButton onClick={toggleTheme} className={classes.iconButton}>
           {themeValue === 0 ? <DarkThemeIcon /> : <LightThemeIcon />}
-        </IconButton>
+        </IconButton> */}
         <UserButton />
       </Toolbar>
     </div>
