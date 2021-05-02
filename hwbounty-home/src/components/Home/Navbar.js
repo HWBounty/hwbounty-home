@@ -42,7 +42,6 @@ export const Navbar = (props) => {
     setAuthPopupOpen,
   } = props;
   const [user, setUser] = useState(null);
-  const [themeValue, setThemeVal] = useState(theme);
 
   useEffect(() => {
     if (user) {
@@ -61,9 +60,8 @@ export const Navbar = (props) => {
   });
 
   const toggleTheme = () => {
-    const newVal = themeValue === _maxThemeVal ? 0 : themeValue + 1;
+    const newVal = theme === _maxThemeVal ? 0 : theme + 1;
     localStorage.setItem("theme", newVal);
-    setThemeVal(newVal);
     props.setTheme(newVal);
   };
 
@@ -89,7 +87,7 @@ export const Navbar = (props) => {
       <Toolbar style={{}}>
         {/* <PageSearch/> */}
         <IconButton onClick={toggleTheme} className={classes.iconButton}>
-          {themeValue === 0 ? <DarkThemeIcon /> : <LightThemeIcon />}
+          {theme === 0 ? <DarkThemeIcon /> : <LightThemeIcon />}
         </IconButton>
         <UserButton />
       </Toolbar>
