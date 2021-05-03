@@ -106,7 +106,7 @@ const App = (props) => {
                 <Route exact path="/schedule" component={ScheduleInfo} />
                 <Route path="/schedule/view" component={viewSchedule} />
                 <Route path="/schedule/set" component={setSchedule} />
-                <Route path="/module/" component={ModuleViewer} />
+                <Route path="/modules/" component={ModuleViewer} />
                 <Route path="/user/" component={Profile} />
                 <Route path="/settings/" component={Settings} />
               </Switch>
