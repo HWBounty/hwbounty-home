@@ -134,6 +134,9 @@ const useStyles = makeStyles((theme) => ({
   formGroup: {
     display: "inline",
   },
+  card:{
+    boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)!important",
+  },
 }));
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -333,9 +336,6 @@ export const Home = (props) => {
     };
     const pageArray = Object.values(Pages);
     const fuse = new Fuse(pageArray, fuseOptions);
-    console.log(fuse
-      .search(query)
-      .filter((x, i) => i < 10));
     return <div>
       {React.Children.toArray(fuse
       .search(query)
@@ -353,7 +353,6 @@ export const Home = (props) => {
     return (
       <div >
 
-        <h1>HWBounty</h1>
         <Card onClick={redirectToSchedule} classes={classes.time} style={{
           position: "fixed",
           width: "30vw",
@@ -368,9 +367,9 @@ export const Home = (props) => {
           <Typography>{getTimePhrase()}</Typography>
         </Card>
         <Card style={{
-          position: "fixed",
+          position: "absolute",
           width: "55vw",
-          maxHeight: "30%",
+          maxHeight: "200px",
           borderRadius: 10,
           top: "10%",
           left: "40%",
@@ -383,16 +382,50 @@ export const Home = (props) => {
           </form>
         </Card>
         <Card style={{
-          position: "fixed",
+          position: "absolute",
           width: "55vw",
           maxHeight: "40%",
-          minHeight: "300px",
-          height: "300px",
+          minHeight: "256px",
+          height: "256px",
           borderRadius: 10,
-          top: "30%",
+          top: "calc(130px + 15%)",
           left: "40%",
           textAlign: "center",
           padding: "0",
+          overflowX: "scroll",
+        }}>
+          {React.Children.toArray(renderSearchPages())}
+        </Card>
+        <Typography style={{
+          position: "absolute",
+          width: "55vw",
+          maxHeight: "40%",
+          minHeight: "256px",
+          height: "256px",
+          borderRadius: 10,
+          top: "calc(300px + 32vh)",
+          left: "40%",
+          // marginTop:"100",
+          textAlign: "center",
+          padding: "0",
+          marginBottom: "100px",
+          overflowX: "scroll",
+          fontFamily: "Nunito",
+          fontSize: "32px"
+        }} variant="h5">Recommended Modules</Typography>
+        <Card style={{
+          position: "absolute",
+          width: "55vw",
+          maxHeight: "40%",
+          minHeight: "256px",
+          height: "256px",
+          borderRadius: 10,
+          top: "calc(350px + 33vh)",
+          left: "40%",
+          // marginTop:"100",
+          textAlign: "center",
+          padding: "0",
+          marginBottom: "100px",
           overflowX: "scroll",
         }}>
           {React.Children.toArray(renderSearchPages())}

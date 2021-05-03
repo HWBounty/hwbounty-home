@@ -9,14 +9,15 @@ const useStyles = makeStyles((theme) => ({
 		display: "inline-block",
 		margin: "25px",
 		paddingTop: 0,
-		height: "256px",
-		boxShadow: "5px 10px",
+		height: "200px",
+		zIndex: 100000000,
+		boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)!important",
 	},
 	actionArea: {
 		
 	},
 	media: {
-		height: 168,
+		height: 120,
 	},
 }));
 export const ModuleCard = (props) => {

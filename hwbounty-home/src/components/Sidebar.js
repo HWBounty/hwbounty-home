@@ -25,7 +25,7 @@ import { AccountIconButton } from "./User/AccountIconButton";
 import { Avatar, TextField } from "@material-ui/core";
 import { PageSearch } from "./Home/PageSearch";
 const drawerWidth = 240;
-const locations = {
+let locations = {
 	Home: "/",
 	Schedule: "/schedule",
 	Profile: `/user/${JSON.parse(localStorage.getItem("user"))?.publicID}`,
@@ -35,6 +35,19 @@ const locations = {
 	},
 	Settings: "/settings",
 };
+//updates profile Endpoint
+setInterval(()=>{
+	locations = {
+		Home: "/",
+		Schedule: "/schedule",
+		Profile: `/user/${JSON.parse(localStorage.getItem("user"))?.publicID}`,
+		"Sign Out": () => {
+			localStorage.clear();
+			window.location.reload();
+		},
+		Settings: "/settings",
+	}
+},1000);
 const styles = (theme) => ({
 	...theme.spreadIt,
 });
@@ -116,9 +129,9 @@ export const Sidebar = (props) => {
 			</div>
 		);
 	};
-	const onSubmit = (e)=>{
+	const onSubmit = (e) => {
 		e.preventDefault();
-		console.log(e,document.getElementById("goPage").value);
+		console.log(e, document.getElementById("goPage").value);
 	}
 	return (
 		<div
@@ -170,7 +183,7 @@ export const Sidebar = (props) => {
 				</div>
 				<Divider />
 				<List>
-					{["Home", "Schedule", "Profile", "Sign Out", "Settings"].map(
+					{["Home", "Schedule", "Profile", "Settings", "Sign Out",].map(
 						(text, index) => (
 							<ListItem button key={text} onClick={(x) => onClckItem(text)}>
 								<ListItemIcon>
@@ -179,8 +192,9 @@ export const Sidebar = (props) => {
 											<Home />,
 											<Today />,
 											<AccountCircle />,
-											<ExitToAppIcon />,
 											<Settings />,
+											<ExitToAppIcon />,
+
 										][index]
 									}
 								</ListItemIcon>

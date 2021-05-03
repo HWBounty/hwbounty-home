@@ -104,7 +104,7 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
   user: state.user,
 });
-
+  
 export default connect(mapStateToProps, { setTheme, setAuthPopupOpen })(
   withStyles(styles)(Navbar)
 );

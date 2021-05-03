@@ -5,7 +5,7 @@ export const Pages = {
 		name: "Home",
 		desc: "The main landing page",
 		tags: "home mainpage main dashboard nya",
-		icon: "https://dazai.app/assets/img/scenery/Screen%20Shot%202021-03-02%20at%2011.45.47%20PM.png",
+		icon: "https://media.discordapp.net/attachments/806706215693975552/811328597297070150/dylandrip.png",
 		defaultColorLightMode: lmBG,
 		defaultColorDarkMode: dmBG,
 		path: "/",

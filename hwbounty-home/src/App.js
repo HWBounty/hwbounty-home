@@ -53,7 +53,7 @@ if (token) {
   store.dispatch(getUserData());
 }
 
-const themeCache = parseInt(localStorage.theme);
+const themeCache = localStorage.theme !== null ? parseInt(localStorage.theme) : localStorage.theme = 1;
 if (themeCache) {
   store.dispatch({ type: SET_THEME, payload: themeCache });
 }
