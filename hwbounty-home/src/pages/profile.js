@@ -37,7 +37,8 @@ const chipStyles = makeStyles((theme) => ({
 		fontSize: (props) => `${props.size * 0.8125}rem`,
 		height: (props) => `${props.size * 32}px`,
 		borderRadius: "9999px",
-		backgroundColor: (color) => `${color}!important`,
+		backgroundColor: (props) => `${props.color}!important`,
+		margin: "10px",
 	},
 	avatar: {
 		"&&": {
@@ -74,24 +75,31 @@ const useStyles = makeStyles({
 	large: {
 		width: "100px",
 		height: "100px",
-		"&:hover": {
-			boxShadow: "0px 2px 5px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important"
-		}
+
 	},
 	profileDiv: {
-		position: "absolute",
+		position: "relative",
 		top: 0,
 		left: 0,
-		transform: "translate(17%,17%)",
+		transform: "translate(25%,0%)",
 		marginTop: "1vh",
 		borderRadius: 1000,
-		width: "15vw",
-		height: "15vw",
-		boxShadow: "0px 2px 5px -1px rgb(0 0 0 / 20%), 4px 6px 8px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important"
+		width: "20vw",
+		height: "20vw",
+		boxShadow: "0px 2px 5px -1px rgb(0 0 0 / 20%), 4px 6px 8px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important",
+		"&:hover": {
+			boxShadow: "14px 20px 20px -1px rgb(0 0 0 / 20%), 4px 6px 8px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important",
+			"-webkit-filter": "blur(5px)",
+			"-moz-filter": "blur(5px)",
+			"-o-filter": "blur(5px)",
+			"-ms-filter": "blur(5px)",
+			"filter": "blur(5px)",
+		},
+
 	},
 	profileBuffer: {
 		width: "10vw",
-		height: "14vw",
+		height: "24vw",
 	},
 	profileHoverText: {
 		"&:hover": {
@@ -118,26 +126,28 @@ const useStyles = makeStyles({
 	},
 	card: {
 		borderRadius: "1vw!important",
-		background: theme => theme ? "rgb(110,121,120)" : "rgb(239,239,239)",
+		background: theme => theme ? "rgb(67,67,67)" : "rgb(239,239,239)",
 		boxShadow: "0px 2px 5px -1px rgb(0 0 0 / 20%), 4px 6px 8px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important"
 	},
 	mainInfoCard: {
-		position: "absolute",
-		top: "10%",
-		left: "5%",
-		maxWidth: "20%",
+		position: "relative",
+		maxWidth: "30%",
 		maxHeight: "80%",
-		minWidth: "20%",
+		minWidth: "30%",
 		minHeight: "80%",
-		display: "inline-block",
+		height: "90vh!important",
+		display: "block",
+		marginTop: "5%",
+		marginLeft: "5%",
 	},
 	nameandPasswordCard: {
+		display: "inline-block",
 		position: "absolute",
-		top: "15%",
-		left: "30%",
-		maxWidth: "60%",
-		maxHeight: "40%",
-		minWidth: "60%",
+		top: "10%",
+		right: "10%",
+		margin: 0,
+		maxHeight: "25%",
+		minWidth: "50%",
 		minHeight: "25%",
 	},
 	mainInfoEverything: {
@@ -146,7 +156,7 @@ const useStyles = makeStyles({
 	},
 	name: {
 		marginTop: "3vh",
-		fontSize: 64,
+		fontSize: 48,
 	},
 	bio: {
 		marginTop: "3vh",
@@ -156,25 +166,42 @@ const useStyles = makeStyles({
 		display: "inline-block",
 	},
 	text: {
-		color: theme => theme ? "rgb(159,222,215)" : "rgb(115,115,115)",
+		color: theme => theme ? "rgb(252,252,252)" : "rgb(0,0,0)",
 	},
 	DMtext: {
 		color: theme => theme ? "rgb(252,252,252)" : "rgb(0,0,0)",
 	},
 	infoLabel: {
 		fontFamily: "Poppins",
-		fontSize: window.innerHeight / 30,
+		fontSize: window.innerHeight / 50,
 		marginLeft: "5%",
 		textAlign: "left",
 	},
 	infoText: {
 		fontFamily: "Nunito",
-		fontSize: window.innerHeight / 15,
+		fontSize: window.innerHeight / 30,
 		textAlign: "center",
 	},
 	chip: {
 		size: "large",
 		// height: window.innerHeight / 
+	},
+	balanceCard: {
+		display: "inline-block",
+		position: "absolute",
+		top: "40%",
+		right: "30%",
+		margin: 0,
+		padding: 0,
+		maxHeight: "10%",
+		minWidth: "30%",
+		minHeight: "10%",
+	},
+	balanceText: {
+		position: "absolute",
+		top: "50%",
+		left: "10%",
+		transform: "translate(0%,-50%)"
 	}
 });
 export const Profile = (props) => {
@@ -244,9 +271,11 @@ export const Profile = (props) => {
 		}
 	};
 	const postBio = async () => {
+		enqueueSnackbar("Updating bio...");
 		let updateSelf = await axios.post(`${hwbountyAPI}/updateSelf`, {
 			bio: bio,
 		});
+		enqueueSnackbar("Bio updated!");
 	};
 	const stopEditingBio = () => {
 		if (!bio) setBio(userData.bio);
@@ -280,7 +309,7 @@ export const Profile = (props) => {
 	};
 	if (userData) {
 		return (
-			<Container>
+			<div>
 				<input type="file" onChange={updatePfp} id="pfpFileInput" style={{
 					display: "none",
 				}} />
@@ -288,18 +317,11 @@ export const Profile = (props) => {
 					<div className={classes.mainInfoEverything}>
 
 
-						<img src={pfp || "https://cdn1.iconfinder.com/data/icons/materia-human/24/013_003_account_profile_circle-512.png"} className={classes.profileDiv} onMouseEnter={() => setShowPfpChangeMSG(true)}
-							onMouseLeave={() => setShowPfpChangeMSG(false)} alt="Nya" />
-
-						<div className={`${classes.profileDiv} ${classes.profileHoverText}`} onClick={
-							JSON.parse(localStorage.getItem("user"))?.privateID ===
-							userData.privateID && onClickPfp
-						} >
-							<p className={classes.profileHoverTextText}>Change<br />
-							Avatar </p>
-
-						</div>
-						<div className={classes.profileBuffer}></div>
+						<img src={pfp || "https://cdn1.iconfinder.com/data/icons/materia-human/24/013_003_account_profile_circle-512.png"} className={classes.profileDiv}
+							onClick={
+								JSON.parse(localStorage.getItem("user"))?.privateID ===
+								userData.privateID && onClickPfp
+							} ></img>
 					</div>
 					<Typography variant="h5" className={classes.name}>{userData.firstName} {userData.lastName}</Typography>
 					<Typography variant="h5" onClick={handleEditBio} className={classes.bio}>
@@ -340,12 +362,13 @@ export const Profile = (props) => {
 						// 	}}
 						// />
 					) : null}
-				</Card>
-				<Card className={`${classes.card} ${classes.nameandPasswordCard}`}>
+				</Card><Card className={`${classes.card} ${classes.nameandPasswordCard}`}>
 					<Typography variant="h5" className={`${classes.text} ${classes.infoLabel}`}>Username: </Typography>
 					<Typography variant="h5" className={`${classes.text} ${classes.infoText}`}>@{userData.publicID}</Typography>
 					<Typography variant="h5" className={`${classes.text} ${classes.infoLabel}`}>Tags: </Typography>
 					<div className={`${classes.text} ${classes.infoText}`}> {renderChips(userData.tags)}</div>
+				</Card><Card className={`${classes.card} ${classes.balanceCard}`}>
+					<Typography variant="h5" className={`${classes.text} ${classes.infoText} ${classes.balanceText}`}>Balance: {userData.bal} Croks</Typography>
 				</Card>
 				{/* <Card>
           <Typography
@@ -447,7 +470,7 @@ export const Profile = (props) => {
             </div>
           </Container>
         </Card> */}
-			</Container>
+			</div>
 		);
 	}
 	return null;
