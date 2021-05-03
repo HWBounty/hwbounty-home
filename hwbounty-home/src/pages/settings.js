@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
   formLabel: {
     display: "block",
   },
+  formGroup: {
+	  display: "inline",
+  },
 }));
 export const Settings = (props) => {
   const classes = useStyles();
@@ -62,7 +65,7 @@ export const Settings = (props) => {
       <Typography variant="h5" className={classes.title}>
         Settings
       </Typography>
-      <FormGroup row>
+      <FormGroup row className={classes.formGroup}>
         <FormControlLabel
           control={
             <Switch

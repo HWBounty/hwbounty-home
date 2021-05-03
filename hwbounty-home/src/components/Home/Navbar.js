@@ -86,9 +86,9 @@ export const Navbar = (props) => {
     >
       <Toolbar style={{}}>
         {/* <PageSearch/> */}
-        <IconButton onClick={toggleTheme} className={classes.iconButton}>
-          {theme === 0 ? <DarkThemeIcon /> : <LightThemeIcon />}
-        </IconButton>
+        {/* <IconButton onClick={toggleTheme} className={classes.iconButton}>
+          {themeValue === 0 ? <DarkThemeIcon /> : <LightThemeIcon />}
+        </IconButton> */}
         <UserButton />
       </Toolbar>
     </div>
@@ -104,7 +104,7 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
   user: state.user,
 });
-
+  
 export default connect(mapStateToProps, { setTheme, setAuthPopupOpen })(
   withStyles(styles)(Navbar)
 );

@@ -43,6 +43,7 @@ import signupCallback from "./pages/signupCallback";
 import LoadIntoCache from "./LoadIntoCache";
 import Sidebar from "./components/Sidebar";
 import Settings from "./pages/settings";
+import home from "./pages/home";
 
 //=================Checks on App start====================//
 const token = localStorage.DBIdToken;
@@ -52,7 +53,7 @@ if (token) {
   store.dispatch(getUserData());
 }
 
-const themeCache = parseInt(localStorage.theme);
+const themeCache = localStorage.theme !== null ? parseInt(localStorage.theme) : localStorage.theme = 1;
 if (themeCache) {
   store.dispatch({ type: SET_THEME, payload: themeCache });
 }
@@ -83,15 +84,15 @@ const App = (props) => {
 
           <div className="App">
             <Router>
-              {localStorage.getItem("DBIdToken") && <Sidebar />}
+              {localStorage.getItem("DBIdToken")? <Sidebar /> : <Navbar />}
 
               <AuthPopup />
               <MusicModule />
               <LoadIntoCache />
-              <Navbar />
+              
 
               <Switch>
-                <Route exact path="/" component={ScheduleInfo} />
+                <Route exact path="/" component={home} />
                 <Route
                   exact
                   path="/schoologyCallback"
