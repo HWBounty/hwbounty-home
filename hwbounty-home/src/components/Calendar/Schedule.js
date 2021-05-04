@@ -38,6 +38,7 @@ const useButtonStyles = makeStyles({
     paddingBottom: 10,
     display: "block",
     cursor: "pointer",
+    position:"relative",
   },
 });
 
@@ -110,16 +111,19 @@ const PeriodButton = (props) => {
             notDoneCol[1]
           }%,${notDoneCol[2]}%) 100%)`,
           borderRadius: 20,
+          padding: "10px",
         }}
       >
         <Typography
           variant="h5"
           align="left"
           style={{
-            marginTop: "-2.3%",
             marginLeft: "4%",
             fontSize: window.innerWidth ** 0.4 + 32,
             marginBottom: 40,
+            position: "relative",
+            marginTop: "6%",
+            left: "5%"
           }}
         >
           {name}
@@ -138,6 +142,7 @@ const PeriodButton = (props) => {
               marginTop: 0,
               bottom: window.innerWidth <= 1250 ? "70%" : "1%",
               left: "5%",
+              top: "10%",
               position: "absolute",
               fontFamily: "'Nunito'",
             }}
