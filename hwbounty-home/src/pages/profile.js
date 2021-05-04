@@ -87,6 +87,10 @@ const useStyles = makeStyles({
 		width: "20vw",
 		height: "20vw",
 		boxShadow: "0px 2px 5px -1px rgb(0 0 0 / 20%), 4px 6px 8px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important",
+
+
+	},
+	hoverBlur: {
 		"&:hover": {
 			boxShadow: "14px 20px 20px -1px rgb(0 0 0 / 20%), 4px 6px 8px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important",
 			"-webkit-filter": "blur(5px)",
@@ -95,7 +99,6 @@ const useStyles = makeStyles({
 			"-ms-filter": "blur(5px)",
 			"filter": "blur(5px)",
 		},
-
 	},
 	profileBuffer: {
 		width: "10vw",
@@ -223,13 +226,20 @@ export const Profile = (props) => {
 	const { enqueueSnackbar } = useSnackbar();
 	const renderChips = (data) => {
 		if (!data) return null;
+		data = data.split(",");
+		if (parseInt(userData?.premiumEndsAt) && Date.now() < parseInt(userData.premiumEndsAt)) data.push({
+			// premiumEndsAt
+			name: "Premium Member",
+			color: "rgb(118,137,211)",
+			description: `A Premium member of HWBounty! Ends in ${moment(parseInt(JSON.parse(localStorage.getItem("user"))?.premiumEndsAt)).fromNow()}`
+		})
 		return React.Children.toArray(
-			data.split(",").map((x) => {
+			data.map((x) => {
 				return (
 					<CustomChip
-						label={badges[x]?.name || "Unknown Badge!"}
-						color={badges[x]?.color}
-						onClick={() => enqueueSnackbar(`${badges[x].description}`)}
+						label={x.name || badges[x]?.name || "Unknown Badge!"}
+						color={x.color || badges[x]?.color}
+						onClick={() => enqueueSnackbar(`${x.description || badges[x].description}`)}
 						size={(window.innerHeight * window.innerWidth) ** 0.025}
 					/>
 				);
@@ -284,7 +294,6 @@ export const Profile = (props) => {
 	};
 	const updateBio = (event, nv) => {
 		let val = (nv || event.target.value);
-		if (!val) return;
 		if (val.length > 256) {
 			enqueueSnackbar(`Your Bio is at the 250 char. limit!`);
 			val = val.substring(0, 256);
@@ -317,58 +326,71 @@ export const Profile = (props) => {
 					<div className={classes.mainInfoEverything}>
 
 
-						<img src={pfp || "https://cdn1.iconfinder.com/data/icons/materia-human/24/013_003_account_profile_circle-512.png"} className={classes.profileDiv}
+						<img src={pfp || "https://cdn1.iconfinder.com/data/icons/materia-human/24/013_003_account_profile_circle-512.png"} className={`${classes.profileDiv} ${JSON.parse(localStorage.getItem("user"))?.privateID ===
+							userData.privateID && classes.hoverBlur}`}
 							onClick={
 								JSON.parse(localStorage.getItem("user"))?.privateID ===
 								userData.privateID && onClickPfp
 							} ></img>
 					</div>
 					<Typography variant="h5" className={classes.name}>{userData.firstName} {userData.lastName}</Typography>
-					<Typography variant="h5" onClick={handleEditBio} className={classes.bio}>
+					{!editingBio ? (<Typography variant="h5" onClick={handleEditBio} className={classes.bio} style={{
+						width: "100%",
+						minWidth: "80%",
+						textAlign: "center",
+						background: "rgba(0,0,0,0)",
+						height: "30vh",
+						maxHeight: "30vh",
+						minHeight: "30vh",
+					}}>
 						{!editingBio ? bio : ""}
-					</Typography >
-					{editingBio ? (
-						<textarea
-							id="bioTextField"
-							label=""
-							onBlur={stopEditingBio}
-							onChange={updateBio}
-							style={{
-								width: "100%",
-								minWidth: "80%",
-								textAlign: "center",
-								background: "rgba(0,0,0,0)",
-								height: "30vh",
-								maxHeight: "30vh",
-								minHeight: "30vh",
-							}}
-							className={`${classes.bio} ${classes.DMtext}`}
-							value={bio}
-						>
+					</Typography >)
+						: (
+							<textarea
+								id="bioTextField"
+								label=""
+								onBlur={stopEditingBio}
+								onChange={updateBio}
+								style={{
+									width: "100%",
+									minWidth: "80%",
+									textAlign: "center",
+									background: "rgba(0,0,0,0.25)",
+									height: "30vh",
+									maxHeight: "30vh",
+									minHeight: "30vh",
+									borderRadius: "2vw",
+									border: 'none',
+									outline: "none",
+									padding: "2vh",
+								}}
+								className={`${classes.bio} ${classes.DMtext}`}
+								value={bio}
+							>
 
-						</textarea>
-						// <TextField
-						// 	id="bioTextField"
-						// 	label=""
-						// 	multiline
-						// 	rows={8}
-						// 	rowsMax={8}
-						// 	value={bio}
-						// 	onBlur={stopEditingBio}
-						// 	onChange={updateBio}
-						// 	style={{
-						// 		width: "100%",
-						// 		textAlign:"center",
-						// 	}}
-						// />
-					) : null}
+							</textarea>
+							// <TextField
+							// 	id="bioTextField"
+							// 	label=""
+							// 	multiline
+							// 	rows={8}
+							// 	rowsMax={8}
+							// 	value={bio}
+							// 	onBlur={stopEditingBio}
+							// 	onChange={updateBio}
+							// 	style={{
+							// 		width: "100%",
+							// 		textAlign:"center",
+							// 	}}
+							// />
+						)}
 				</Card><Card className={`${classes.card} ${classes.nameandPasswordCard}`}>
 					<Typography variant="h5" className={`${classes.text} ${classes.infoLabel}`}>Username: </Typography>
 					<Typography variant="h5" className={`${classes.text} ${classes.infoText}`}>@{userData.publicID}</Typography>
 					<Typography variant="h5" className={`${classes.text} ${classes.infoLabel}`}>Tags: </Typography>
 					<div className={`${classes.text} ${classes.infoText}`}> {renderChips(userData.tags)}</div>
 				</Card><Card className={`${classes.card} ${classes.balanceCard}`}>
-					<Typography variant="h5" className={`${classes.text} ${classes.infoText} ${classes.balanceText}`}>Balance: {userData.bal} Croks</Typography>
+					<Typography variant="h5" className={`${classes.text} ${classes.infoText} ${classes.balanceText}`}>Balance: {userData.bal} <img src="https://i.ibb.co/Twp60L0/frog.png" height={window.innerHeight / 25} width={window.innerHeight / 25} style={{ verticalAlign: "middle", marginTop: window.innerHeight/-100 }} /></Typography>
 				</Card>
 				{/* <Card>
           <Typography

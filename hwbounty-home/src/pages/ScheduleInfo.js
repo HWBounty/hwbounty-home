@@ -4,6 +4,7 @@ import { Component, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Schedule from "../components/Calendar/Schedule";
 import Notifications from "../util/notifications";
+import { withSnackbar } from 'notistack';
 const CTime = (props) => {
   const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date()); // default value can be anything you want
   return (
@@ -237,6 +238,7 @@ class ScheduleInfo extends Component {
     }
   }
   render() {
+
     if (window.innerWidth <= 1000) {
       return (
         <div
@@ -353,4 +355,4 @@ class ScheduleInfo extends Component {
     );
   }
 }
-export default connect()(ScheduleInfo);
+export default connect()(withSnackbar(ScheduleInfo));

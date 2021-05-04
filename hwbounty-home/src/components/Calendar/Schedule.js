@@ -1,5 +1,5 @@
 // React
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 
 // MUI
 import Button from "@material-ui/core/Button";
@@ -11,7 +11,7 @@ import moment from "moment";
 import { useState } from "react";
 import axios from "axios";
 import { CircularProgress, Container } from "@material-ui/core";
-
+import { useSnackbar } from "notistack";
 // Redux
 import { connect } from "react-redux";
 import { linkUserSchoology } from "../../redux/actions/userActions";
@@ -65,6 +65,7 @@ const PeriodButton = (props) => {
     duration,
   } = props;
   //% from 0 to 100
+  const { enqueueSnackbar } = useSnackbar();
   let timePassed = 0;
   //If we are past the end time, set time passed to 100%
   if (Date.now() - timeEnd > 0) timePassed = 100;
@@ -76,7 +77,9 @@ const PeriodButton = (props) => {
   const [expanded, setExpanded] = React.useState(false);
   const handleButtonClicked = () => {
     if (zoom.length) setExpanded(!expanded);
+    else enqueueSnackbar("No Zoom Links found for this class!");
   };
+  
 
   const handleZoomLinkClicked = (event, link) => {
     event.stopPropagation();
@@ -115,7 +118,7 @@ const PeriodButton = (props) => {
           style={{
             marginTop: "-2.3%",
             marginLeft: "4%",
-            fontSize: window.innerWidth ** 0.4 + 48,
+            fontSize: window.innerWidth ** 0.4 + 32,
             marginBottom: 40,
           }}
         >
@@ -266,11 +269,23 @@ const fetchAndSet = async (setCourseInfo, setScheduleData, setCannotFetch) => {
     setCannotFetch(true);
   }
 };
+const useForceUpdate = () => {
+  const set = useState(0)[1];
+  return () => set((s) => s + 1);
+};
 export const Schedule = (props) => {
   const {
     UI: { theme },
   } = props;
-
+  const forceUpdate = useForceUpdate();
+  useEffect(() => {
+    setTimeout(
+      () => setInterval(() => forceUpdate(), 5000),
+      1000 - (Date.now() % 1000)
+    );
+    return () => {
+    }
+  }, [])
   const [courseInfo, setCourseInfo] = useState(null);
   const [scheduleData, setScheduleData] = useState(null);
   const [fetching, setFetching] = useState(false);

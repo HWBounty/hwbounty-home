@@ -40,7 +40,7 @@ const CTime = (props) => {
       <Typography
         variant="h5"
         style={{
-          fontSize: "5.5vw",
+          fontSize: "3.5vw",
           textAlign: "left",
         }}
       >
@@ -53,7 +53,7 @@ const CTime = (props) => {
       <Typography
         variant="h5"
         style={{
-          fontSize: "2.5vw",
+          fontSize: "1.5vw",
           textAlign: "left",
         }}
       >
@@ -81,6 +81,7 @@ const CTimeSmall = (props) => {
         style={{
           fontSize: "10vw",
         }}
+        align="left"
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
@@ -93,6 +94,7 @@ const CTimeSmall = (props) => {
         style={{
           fontSize: "5.65vw",
         }}
+        align="left"
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
@@ -134,9 +136,17 @@ const useStyles = makeStyles((theme) => ({
   formGroup: {
     display: "inline",
   },
-  card:{
+  card: {
     boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)!important",
   },
+  timeUntilText: {
+    fontSize: window.innerHeight / 25,
+    fontFamily: "Nunito",
+  },
+  timeUntilTextMobile: {
+    fontSize: window.innerWidth / 20,
+    fontFamily: "Nunito",
+  }
 }));
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -338,13 +348,13 @@ export const Home = (props) => {
     const fuse = new Fuse(pageArray, fuseOptions);
     return <div>
       {React.Children.toArray(fuse
-      .search(query)
-      .filter((x, i) => i < 10)
-      .map(result => {
-        return (
-          <ModuleCard icon={result.item.icon} name={result.item.name} desc={result.item.desc} path={result.item.path} color={theme ? result.item.defaultColorDarkMode : result.item.defaultColorLightMode} />
-        );
-      }))}
+        .search(query)
+        .filter((x, i) => i < 10)
+        .map(result => {
+          return (
+            <ModuleCard icon={result.item.icon} name={result.item.name} desc={result.item.desc} path={result.item.path} color={theme ? result.item.defaultColorDarkMode : result.item.defaultColorLightMode} />
+          );
+        }))}
 
     </div>
     // ModuleCard
@@ -363,8 +373,9 @@ export const Home = (props) => {
           paddingLeft: 20,
           textAlign: "center",
         }}>
+          <Typography className={classes.timeUntilText} align="left">{getTimePhrase()}</Typography>
           {<CTime />}
-          <Typography>{getTimePhrase()}</Typography>
+
         </Card>
         <Card style={{
           position: "absolute",
@@ -437,7 +448,76 @@ export const Home = (props) => {
       </div>
     );
   }
-  return null;
+  else {
+    return (
+      <div >
+
+        <Card onClick={redirectToSchedule} classes={classes.time} style={{
+          width: "80vw",
+          maxHeight: "40%",
+          borderRadius: 10,
+          paddingLeft: 20,
+          margin: "10vw",
+          textAlign: "center",
+        }}>
+          <Typography className={classes.timeUntilTextMobile} align="left">{getTimePhrase()}</Typography>
+          {<CTimeSmall />}
+
+        </Card>
+        <Card style={{
+          width: "80vw",
+          margin: "10vw",
+          maxHeight: "40%",
+
+          borderRadius: 10,
+          textAlign: "center",
+        }}>
+          <form>
+            <TextField placeholder={"Search for Page..."} label={"Search"} classes={classes.searchBox} id="pageSearchBox" style={{
+              width: "90%",
+            }} />
+          </form>
+        </Card>
+        <Card style={{
+          width: "80vw",
+          margin: "10vw",
+          maxHeight: "40%",
+          minHeight: "256px",
+          height: "256px",
+          borderRadius: 10,
+          textAlign: "center",
+          overflowX: "scroll",
+        }}>
+          {React.Children.toArray(renderSearchPages())}
+        </Card>
+        <Typography style={{
+          width: "100vw",
+          borderRadius: 10,
+          // marginTop:"100",
+          textAlign: "center",
+          padding: "0",
+          fontFamily: "Nunito",
+          fontSize: "32px"
+        }} variant="h5" align="center">Recommended Modules</Typography>
+        <Card style={{
+          width: "80vw",
+          margin: "10vw",
+          maxHeight: "40%",
+          minHeight: "256px",
+          height: "256px",
+          borderRadius: 10,
+          textAlign: "center",
+          overflowX: "scroll",
+        }}>
+          {React.Children.toArray(renderSearchPages())}
+        </Card>
+
+        {/* <ForumSearch />
+        <DesktopLayout />
+        <MobileLayout /> */}
+      </div>
+    );
+  }
 
 };
 
