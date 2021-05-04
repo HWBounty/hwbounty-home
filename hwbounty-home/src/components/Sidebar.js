@@ -164,14 +164,12 @@ export const Sidebar = (props) => {
       </IconButton>
       <Drawer
         className={classes.drawer}
-        variant="persistent"
+        //variant="persistent"
         anchor="left"
         open={open}
+        onClose={handleDrawerClose}
         classes={{
           paper: classes.drawerPaper,
-        }}
-        style={{
-          display: open ? "block" : "none",
         }}
       >
         <div className={classes.drawerHeader}>

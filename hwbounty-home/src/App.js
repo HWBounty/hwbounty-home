@@ -20,8 +20,7 @@ import KeybindManager from "./util/keybinds/keybind";
 
 // Pages
 import Home from "./pages/home";
-import Login from "./pages/login";
-import Signup from "./pages/signup";
+import Modules from "./pages/modules";
 import newSignup from "./pages/newSignup";
 import Profile from "./pages/profile";
 import signupCallback from "./pages/signupCallback";
@@ -33,13 +32,13 @@ import ScheduleCatalog from "./pages/schedules";
 import viewSchedule from "./pages/viewSchedule";
 import setSchedule from "./pages/setSchedule";
 import schoologyOauthRedirect from "./pages/schoologyOauthRedirect";
+import PageNotFound from "./pages/404";
 
 // Components
 import Navbar from "./components/Home/Navbar";
 import AuthPopup from "./components/User/Authentication/AuthPopup";
 import Sidebar from "./components/Sidebar";
 import MusicModule from "./components/MusicModule/MusicModule";
-import ModuleViewer from "./components/Modules/ModuleViewer";
 
 // Tools
 import axios from "axios";
@@ -66,6 +65,7 @@ if (themeCache) {
 const App = (props) => {
   const {
     UI: { theme },
+    user: { authenticated },
   } = props;
 
   const dynamicTheme = createMuiTheme({
@@ -90,7 +90,7 @@ const App = (props) => {
 
           <div className="App">
             <Router>
-              {localStorage.getItem("DBIdToken") ? <Sidebar /> : <Navbar />}
+              {authenticated ? <Sidebar /> : <Navbar />}
 
               <AuthPopup />
               <MusicModule />
@@ -104,17 +104,15 @@ const App = (props) => {
                   component={schoologyOauthRedirect}
                 />
                 <Route path="/signupcallback" component={signupCallback} />
-                {/* <Route path="/jHome" component={Home}/> */}
-                <Route path="/test" component={null} />
-                <Route path="/login" component={Login} />
                 <Route path="/signup" component={newSignup} />
                 <Route path="/schedules" component={ScheduleCatalog} />
                 <Route exact path="/schedule" component={ScheduleInfo} />
                 <Route path="/schedule/view" component={viewSchedule} />
                 <Route path="/schedule/set" component={setSchedule} />
-                <Route path="/modules/" component={ModuleViewer} />
+                <Route path="/modules/" component={Modules} />
                 <Route path="/user/" component={Profile} />
                 <Route path="/settings/" component={Settings} />
+                <Route path="*" component={PageNotFound} />
               </Switch>
             </Router>
           </div>
