@@ -1,7 +1,7 @@
 import { SET_AUTH_POPUP_OPEN, SET_MODULE, SET_THEME } from "../types";
 
 const initialState = {
-  theme: 0, // [light, dark, titan]
+  theme: 1, // [light, dark, titan]
   module: 1,
   moduleFullscreen: false,
   authPopupOpen: false,

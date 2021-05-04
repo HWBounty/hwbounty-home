@@ -20,30 +20,30 @@ import KeybindManager from "./util/keybinds/keybind";
 
 // Pages
 import Home from "./pages/home";
-import Login from "./pages/login";
+import Modules from "./pages/modules";
+import newSignup from "./pages/newSignup";
+import Profile from "./pages/profile";
+import signupCallback from "./pages/signupCallback";
+import Settings from "./pages/settings";
+import home from "./pages/home";
+import ScheduleInfo from "./pages/ScheduleInfo";
+import johnsHome from "./pages/johnsHome";
+import ScheduleCatalog from "./pages/schedules";
+import viewSchedule from "./pages/viewSchedule";
+import setSchedule from "./pages/setSchedule";
+import schoologyOauthRedirect from "./pages/schoologyOauthRedirect";
+import PageNotFound from "./pages/404";
+
 // Components
 import Navbar from "./components/Home/Navbar";
 import AuthPopup from "./components/User/Authentication/AuthPopup";
+import Sidebar from "./components/Sidebar";
+import MusicModule from "./components/MusicModule/MusicModule";
 
 // Tools
 import axios from "axios";
 import queryString from "query-string";
-import Signup from "./pages/signup";
-import ScheduleCatalog from "./pages/schedules";
-import viewSchedule from "./pages/viewSchedule";
-import setSchedule from "./pages/setSchedule";
-import MusicModule from "./components/MusicModule/MusicModule";
-import johnsHome from "./pages/johnsHome";
-import schoologyOauthRedirect from "./pages/schoologyOauthRedirect";
-import ModuleViewer from "./components/Modules/ModuleViewer";
-import ScheduleInfo from "./pages/ScheduleInfo";
-import newSignup from "./pages/newSignup";
-import Profile from "./pages/profile";
-import signupCallback from "./pages/signupCallback";
 import LoadIntoCache from "./LoadIntoCache";
-import Sidebar from "./components/Sidebar";
-import Settings from "./pages/settings";
-import home from "./pages/home";
 
 //=================Checks on App start====================//
 const token = localStorage.DBIdToken;
@@ -53,14 +53,20 @@ if (token) {
   store.dispatch(getUserData());
 }
 
-const themeCache = localStorage.theme !== null ? parseInt(localStorage.theme) : localStorage.theme = 1;
+const themeCache =
+  localStorage.theme !== null
+    ? parseInt(localStorage.theme)
+    : (localStorage.theme = 1);
 if (themeCache) {
   store.dispatch({ type: SET_THEME, payload: themeCache });
 }
 //========================================================//
 
 const App = (props) => {
-  const { theme } = props.UI;
+  const {
+    UI: { theme },
+    user: { authenticated },
+  } = props;
 
   const dynamicTheme = createMuiTheme({
     ...themeFile,
@@ -84,12 +90,11 @@ const App = (props) => {
 
           <div className="App">
             <Router>
-              {localStorage.getItem("DBIdToken")? <Sidebar /> : <Navbar />}
+              {authenticated ? <Sidebar /> : <Navbar />}
 
               <AuthPopup />
               <MusicModule />
               <LoadIntoCache />
-              
 
               <Switch>
                 <Route exact path="/" component={home} />
@@ -99,17 +104,15 @@ const App = (props) => {
                   component={schoologyOauthRedirect}
                 />
                 <Route path="/signupcallback" component={signupCallback} />
-                {/* <Route path="/jHome" component={Home}/> */}
-                <Route path="/test" component={null} />
-                <Route path="/login" component={Login} />
                 <Route path="/signup" component={newSignup} />
                 <Route path="/schedules" component={ScheduleCatalog} />
                 <Route exact path="/schedule" component={ScheduleInfo} />
                 <Route path="/schedule/view" component={viewSchedule} />
                 <Route path="/schedule/set" component={setSchedule} />
-                <Route path="/module/" component={ModuleViewer} />
+                <Route path="/modules/" component={Modules} />
                 <Route path="/user/" component={Profile} />
                 <Route path="/settings/" component={Settings} />
+                <Route path="*" component={PageNotFound} />
               </Switch>
             </Router>
           </div>
@@ -121,6 +124,7 @@ const App = (props) => {
 
 const mapStateToProps = (state) => ({
   UI: state.UI,
+  user: state.user,
 });
 
 export default connect(mapStateToProps)(App);
