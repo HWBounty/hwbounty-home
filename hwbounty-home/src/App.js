@@ -44,6 +44,7 @@ import MusicModule from "./components/MusicModule/MusicModule";
 import axios from "axios";
 import queryString from "query-string";
 import LoadIntoCache from "./LoadIntoCache";
+import { SchoologyButton } from "./components/SchoologyButton";
 
 //=================Checks on App start====================//
 const token = localStorage.DBIdToken;
@@ -112,6 +113,7 @@ const App = (props) => {
                 <Route path="/modules/" component={Modules} />
                 <Route path="/user/" component={Profile} />
                 <Route path="/settings/" component={Settings} />
+                <Route exact path = "/login/schoology" component={SchoologyButton} />
                 <Route path="*" component={PageNotFound} />
               </Switch>
             </Router>

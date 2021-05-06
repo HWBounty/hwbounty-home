@@ -45,7 +45,7 @@ export const getUserData = () => async (dispatch) => {
 		}
 };
 
-const setAuthorizationHeader = (token) => {
+export const setAuthorizationHeader = (token) => {
   const DBIdToken = `Bearer ${token}`;
   localStorage.setItem("DBIdToken", DBIdToken);
   axios.defaults.headers.common["Authorization"] = DBIdToken;

@@ -33,12 +33,13 @@ const decodeHTML = (string) => {
 const useButtonStyles = makeStyles({
   root: {
     border: 0,
-    borderRadius: 3,
-    marginTop: 10,
+    borderRadius: "1.25vw!important",
+    marginTop: "2vw",
     paddingBottom: 10,
     display: "block",
     cursor: "pointer",
     position:"relative",
+    boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.6)!important",
   },
 });
 
@@ -47,7 +48,7 @@ const generatePeriodColors = (stops, theme) => {
   for (let index = 0; index < stops; index++)
     //50 => 25, 70 => 30 for Dark mode
 
-    retarr.push([0 + (index / stops) * 360, theme ? 30 : 50, theme ? 30 : 70]);
+    retarr.push([0 + (index / stops) * 360, 0, theme ? 30 : 70]);
   return retarr;
 };
 
@@ -88,9 +89,9 @@ const PeriodButton = (props) => {
     if (newWindow) newWindow.opener = null;
   };
   let notDoneCol = color.filter((x) => true);
-  //Set to 40 for Darkmode
-  notDoneCol[2] = theme ? 50 : 90;
-  color[2] = theme ? 40 : 80;
+  //Set to 40 for Darkmode  
+  notDoneCol[2] = theme ? 30 : 90;
+  color[2] = theme ? 20 : 75;
   return (
     <div
       style={{
@@ -120,10 +121,12 @@ const PeriodButton = (props) => {
           style={{
             marginLeft: "4%",
             fontSize: window.innerWidth ** 0.4 + 32,
-            marginBottom: 40,
+            marginBottom: window.innerWidth <= 1250
+            ?"12%":"6%",
             position: "relative",
-            marginTop: "6%",
-            left: "5%"
+            marginTop: window.innerWidth <= 1250
+            ?"4%":"2%",
+            // left: "5%"
           }}
         >
           {name}
@@ -135,40 +138,19 @@ const PeriodButton = (props) => {
             style={{
               fontSize:
                 window.innerWidth <= 1250
-                  ? window.innerWidth ** 0.35 + 10
+                  ? window.innerWidth ** 0.3 + 10
                   : window.innerWidth ** 0.4 + 10,
               margin: 10,
               marginBottom: 10,
               marginTop: 0,
               bottom: window.innerWidth <= 1250 ? "70%" : "1%",
-              left: "5%",
-              top: "10%",
+              left: "4%",
+              bottom: "10%",
               position: "absolute",
               fontFamily: "'Nunito'",
             }}
           >
-            {period}
-          </Typography>
-        )}
-        {expanded ? null : (
-          <Typography
-            align="right"
-            variant="h5"
-            style={{
-              fontSize:
-                window.innerWidth <= 1250
-                  ? window.innerWidth ** 0.45 + 6
-                  : window.innerWidth ** 0.4 + 6,
-              margin: 10,
-              marginBottom: 10,
-              marginTop: 0,
-              position: "absolute",
-              bottom: "1%",
-              right: "5%",
-              fontFamily: "'Nunito'",
-            }}
-          >
-            {tSS}-{tES} ({Math.round(duration / 60000)} mins)
+            {period}&nbsp;&nbsp;&nbsp;{tSS}-{tES} ({Math.round(duration / 60000)} mins)
           </Typography>
         )}
 

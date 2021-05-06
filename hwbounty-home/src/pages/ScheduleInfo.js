@@ -276,6 +276,7 @@ class ScheduleInfo extends Component {
 
               borderRadius: 5,
               borderWidth: 0,
+              background: "rgba(0,0,0,0)",
             }}
           >
             <Schedule />
@@ -316,10 +317,12 @@ class ScheduleInfo extends Component {
             padding: "2%",
             position: "relative",
             background: "rgba(0,0,0,0)",
+            borderRadius: "1.25vw!important",
           }}
         />
         <Card
           style={{
+            borderRadius: "1.25vw!important",
             display: "inline-block",
             verticalAlign: "top",
             width: "30vw",
@@ -329,6 +332,7 @@ class ScheduleInfo extends Component {
             position: "fixed",
             right: "5%",
             top: "19.5vh",
+            
           }}
         >
           <div
@@ -337,6 +341,7 @@ class ScheduleInfo extends Component {
               top: "50%",
               left: "50%",
               transform: "translate(-50%,-50%)",
+             
             }}
           >
             <CTime />
