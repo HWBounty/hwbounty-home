@@ -7,7 +7,7 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import Collapse from "@material-ui/core/Collapse";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import moment from "moment";
+import moment from "moment-timezone";
 import { useState } from "react";
 import axios from "axios";
 import { CircularProgress, Container } from "@material-ui/core";

@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useRef } from "react";
+import React, { lazy, Suspense, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 // Redux
@@ -18,21 +18,7 @@ import themeFile from "./util/theme";
 import { ShortcutProvider, ShortcutConsumer } from "react-keybind";
 import KeybindManager from "./util/keybinds/keybind";
 
-// Pages
-import Home from "./pages/home";
-import Modules from "./pages/modules";
-import newSignup from "./pages/newSignup";
-import Profile from "./pages/profile";
-import signupCallback from "./pages/signupCallback";
-import Settings from "./pages/settings";
-import home from "./pages/home";
-import ScheduleInfo from "./pages/ScheduleInfo";
-import johnsHome from "./pages/johnsHome";
-import ScheduleCatalog from "./pages/schedules";
-import viewSchedule from "./pages/viewSchedule";
-import setSchedule from "./pages/setSchedule";
-import schoologyOauthRedirect from "./pages/schoologyOauthRedirect";
-import PageNotFound from "./pages/404";
+
 
 // Components
 import Navbar from "./components/Home/Navbar";
@@ -45,7 +31,19 @@ import axios from "axios";
 import queryString from "query-string";
 import LoadIntoCache from "./LoadIntoCache";
 import { SchoologyButton } from "./components/SchoologyButton";
-
+// Pages
+const Modules = lazy(() => import("./pages/modules"));
+const newSignup = lazy(() => import("./pages/newSignup"));
+const Profile = lazy(() => import("./pages/profile"));
+const signupCallback = lazy(() => import("./pages/signupCallback"));
+const Settings = lazy(() => import("./pages/settings"));
+const home = lazy(() => import("./pages/home"));
+const ScheduleInfo = lazy(() => import("./pages/ScheduleInfo"));
+const ScheduleCatalog = lazy(() => import("./pages/schedules"));
+const viewSchedule = lazy(() => import("./pages/viewSchedule"));
+const setSchedule = lazy(() => import("./pages/setSchedule"));
+const schoologyOauthRedirect = lazy(() => import("./pages/schoologyOauthRedirect"));
+const PageNotFound = lazy(() => import("./pages/404"));
 //=================Checks on App start====================//
 const token = localStorage.DBIdToken;
 if (token) {
@@ -91,6 +89,7 @@ const App = (props) => {
 
           <div className="App">
             <Router>
+            <Suspense fallback={<div>Loading...</div>}>
               {authenticated ? <Sidebar /> : <Navbar />}
 
               <AuthPopup />
@@ -116,6 +115,7 @@ const App = (props) => {
                 <Route exact path = "/login/schoology" component={SchoologyButton} />
                 <Route path="*" component={PageNotFound} />
               </Switch>
+              </Suspense>
             </Router>
           </div>
         </MuiThemeProvider>
