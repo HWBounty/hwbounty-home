@@ -1,0 +1,2 @@
+(this["webpackJsonphwbounty-home"]=this["webpackJsonphwbounty-home"]||[]).push([[11],{556:function(e,t,n){"use strict";n.r(t);var h=n(188),s=n(2);t.default=function(e){return Object(s.jsx)(h.a,{children:Object(s.jsx)("div",{children:"hello sir"})})}}}]);
+//# sourceMappingURL=11.ded6a646.chunk.js.map
