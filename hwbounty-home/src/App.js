@@ -31,6 +31,7 @@ import axios from "axios";
 import queryString from "query-string";
 import LoadIntoCache from "./LoadIntoCache";
 import { SchoologyButton } from "./components/SchoologyButton";
+import CalculatorBackend from "./util/calculator";
 // Pages
 const Modules = lazy(() => import("./pages/modules"));
 const newSignup = lazy(() => import("./pages/newSignup"));
@@ -66,7 +67,9 @@ const App = (props) => {
     UI: { theme },
     user: { authenticated },
   } = props;
-
+  useEffect(()=>{
+    new CalculatorBackend();
+  })
   const dynamicTheme = createMuiTheme({
     ...themeFile,
     palette: {

@@ -14,12 +14,16 @@ import mathquillToMathJS from "../../../util/latex/preprocessMathQuill";
 import { addStyles, EditableMathField, StaticMathField } from "react-mathquill";
 import * as math from "mathjs";
 import { NumPad, SymbolPad } from "./CalcTools";
+import CalculatorBackend from "../../../util/calculator";
 
 // required for latex to format correctly
 addStyles();
 const history = [];
-const parser = math.parser();
-
+const maths = math.create(math.all,{
+  number : "BigNumber",
+  precision: 64
+})
+const parser = maths.parser();
 const styles = (theme) => ({
   ...theme.spreadIt,
   symbolPadGrid: {
@@ -59,13 +63,21 @@ export const Calculator = (props) => {
   const handleInputChange = (val) => {
     setExpression(val.latex());
   };
-
+    
   const handleSubmit = (val) => {
     try {
-      const ans = parser.evaluate(mathquillToMathJS(val.latex()));
-      setAnswer(ans.toString());
+      const ans = CalculatorBackend.self.solveEquation(mathquillToMathJS(val.latex()));
+      console.log(ans)
+      if (!ans.steps.length){
+        let ans = parser.evaluate(mathquillToMathJS(val.latex()));
+        setAnswer(`${ans.toExponential(10)} `);
+      }
+      
+      else
+      setAnswer(ans.steps.pop().newEquation.ascii());
       setError(false);
-    } catch {
+    } catch (er){
+      console.log(er);
       setAnswer("ERROR!!!!");
       setError(true);
     }
@@ -86,8 +98,8 @@ export const Calculator = (props) => {
   };
 
   return (
-    <Paper className={classes.paper}>
-      <div className={classes.rootPadding}>
+    <Paper /*className={classes.paper}*/>
+      <div /*className={classes.rootPadding}*/>
         <InputBase
           inputComponent={LatexInput}
           inputProps={{
@@ -95,11 +107,11 @@ export const Calculator = (props) => {
             onSubmit: handleSubmit,
             mathquillDidMount: handleMathquillMount,
           }}
-          className={classes.input}
+          /*className={classes.input}*/
           value={expression}
           fullWidth
         ></InputBase>
-        <Grid container spacing={2} className={classes.symbolPadGrid}>
+        <Grid container spacing={2} /*className={classes.symbolPadGrid}*/ >
           <Grid item xs>
             <NumPad onClick={handleNumberPressed} />
           </Grid>
