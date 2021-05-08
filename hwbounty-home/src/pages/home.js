@@ -147,7 +147,7 @@ export const Home = (props) => {
     );
     // ModuleCard
   };  
-  if (window.innerWidth >= 1250) {
+  if (window.innerWidth >= 1300) {
     return (
       <div >
 
@@ -255,72 +255,7 @@ export const Home = (props) => {
   }
   else {
     return (
-      <div >
-
-        <Card onClick={redirectToSchedule} classes={classes.time} style={{
-          width: "80vw",
-          maxHeight: "40%",
-          borderRadius: 10,
-          paddingLeft: 20,
-          margin: "10vw",
-          textAlign: "center",
-        }}>
-          <Typography className={classes.timeUntilTextMobile} align="left">{getTimePhrase()}</Typography>
-          {<CTimeSmall />}
-
-        </Card>
-        <Card style={{
-          width: "80vw",
-          margin: "10vw",
-          maxHeight: "40%",
-
-          borderRadius: 10,
-          textAlign: "center",
-        }}>
-          <form>
-            <TextField placeholder={"Search for Page..."} label={"Search"} classes={classes.searchBox} id="pageSearchBox" style={{
-              width: "90%",
-            }} />
-          </form>
-        </Card>
-        <Card style={{
-          width: "80vw",
-          margin: "10vw",
-          maxHeight: "40%",
-          minHeight: "256px",
-          height: "256px",
-          borderRadius: 10,
-          textAlign: "center",
-          overflowX: "scroll",
-        }}>
-          {React.Children.toArray(renderSearchPages())}
-        </Card>
-        <Typography style={{
-          width: "100vw",
-          borderRadius: 10,
-          // marginTop:"100",
-          textAlign: "center",
-          padding: "0",
-          fontFamily: "Nunito",
-          fontSize: "32px"
-        }} variant="h5" align="center">Recommended Modules</Typography>
-        <Card style={{
-          width: "80vw",
-          margin: "10vw",
-          maxHeight: "40%",
-          minHeight: "256px",
-          height: "256px",
-          borderRadius: 10,
-          textAlign: "center",
-          overflowX: "scroll",
-        }}>
-          {React.Children.toArray(renderSearchPages())}
-        </Card>
-
-        {/* <ForumSearch />
-        <DesktopLayout />
-        <MobileLayout /> */}
-      </div>
+      
     );
   }
 
