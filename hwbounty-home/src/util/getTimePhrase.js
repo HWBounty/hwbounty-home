@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import Notifications from "../util/notifications";
 let lastTimeBasedNotif = 0;
 export const getTimePhrase = () => {
@@ -142,6 +142,7 @@ export const getTimePhrase = () => {
       //If no classes exist for the day
       return `No classes today! Take a break, you deserve it :)`;
     } catch (error) {
+      console.trace(error);
       return "";
     }
   };

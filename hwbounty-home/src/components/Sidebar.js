@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -37,22 +37,18 @@ let locations = {
   Settings: "/settings",
 };
 //updates profile Endpoint
-useEffect(()=>{
-  const id = setInterval(() => {
-    locations = {
-      Home: "/",
-      Schedule: "/schedule",
-      Profile: `/user/${JSON.parse(localStorage.getItem("user"))?.publicID}`,
-      "Sign Out": () => {
-        localStorage.clear();
-        window.location.reload();
-      },
-      Settings: "/settings",
-    };
-  }, 1000);
-  return clearInterval(id);
-})
-
+setInterval(() => {
+  locations = {
+    Home: "/",
+    Schedule: "/schedule",
+    Profile: `/user/${JSON.parse(localStorage.getItem("user"))?.publicID}`,
+    "Sign Out": () => {
+      localStorage.clear();
+      window.location.reload();
+    },
+    Settings: "/settings",
+  };
+}, 1000);
 
 const styles = (theme) => ({
   ...theme.spreadIt,

@@ -21,6 +21,7 @@ import { ModuleCard } from "../components/ModuleCard";
 import CTime from "../components/Home/CTime";
 import CTimeSmall from "../components/Home/CTimeSmall";
 import getTimePhrase from "../util/getTimePhrase";
+import MobileHome from "./mobileHome";
 
 
 
@@ -254,9 +255,7 @@ export const Home = (props) => {
     );
   }
   else {
-    return (
-      
-    );
+    return (<MobileHome />);
   }
 
 };
