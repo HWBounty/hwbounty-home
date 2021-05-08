@@ -3,7 +3,6 @@ import moment from "moment";
 import { useState } from "react";
 
 export const CTime = (props) => {
-    const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date()); // default value can be anything you want
     return (
       <div
         style={{
@@ -16,7 +15,7 @@ export const CTime = (props) => {
           variant="h5"
           style={{
             fontSize: "3.5vw",
-            textAlign: "left",
+            fontFamily: "Poppins",
           }}
         >
           {
@@ -28,13 +27,14 @@ export const CTime = (props) => {
         <Typography
           variant="h5"
           style={{
-            fontSize: "1.5vw",
-            textAlign: "left",
+            fontSize: "1.65vw",
+            fontFamily: "Poppins",
+            fontWeight: "20",
           }}
         >
           {
             /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-            "M/D/YYYY dddd"
+            "dddd M/D/YYYY"
           )
           }
         </Typography>

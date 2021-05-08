@@ -1,10 +1,9 @@
-import { Card, makeStyles, TextField, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { Card, InputBase, makeStyles, TextField, Typography } from "@material-ui/core";
+import React, { useEffect, useRef, useState } from "react";
 import Fuse from "fuse.js";
 import Pages from "../util/pageDictionary";
 import { ModuleCard } from "../components/ModuleCard";
 import useForceUpdate from "../util/useForceUpdate";
-import CTimeSmall from "../components/Home/CTimeSmall";
 import { useHistory } from "react-router";
 import getTimePhrase from "../util/getTimePhrase";
 import { connect } from "react-redux";
@@ -42,12 +41,15 @@ const useStyles = makeStyles((theme) => ({
     },
     card: {
       boxShadow:
-        "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)!important",
+        "10px 15px 36px 2px rgba(0,0,0,0.5)!important",
         background: (theme)=> theme? "rgb(51,51,51)":"rgb(230,230,230)",
+        borderRadius: "1.5vw",
     },
     timeUntilText: {
-      fontSize: window.innerHeight / 25,
-      fontFamily: "Nunito",
+      fontSize: "1.5vw",
+      fontFamily: "Poppins",
+      color: "rgb(251,251,251)",
+      textAlign: "center",
     },
     timeUntilTextMobile: {
       fontSize: window.innerWidth / 20,
@@ -59,17 +61,22 @@ const useStyles = makeStyles((theme) => ({
         verticalAlign: "middle",
     },
     greetingIMG:{
-        width: "20vw",
-        height: "20vw",
+        width: "6vw",
+        height: "6vw",
         verticalAlign: "middle",
+        display: "inline-block",
+    },
+    searchBarText:{
+      height: "90%",
+      width: "50vw",
+      fontSize: "1.5vw",
     },
     greetingDiv: {
         marginTop: "10vw",
     },
     time: {
-      width: "60vh",
-      height: "50vh",
-        borderRadius: 10,
+      width: "25vw",
+      height: "25vw",
         marginBottom: "5vw",
         textAlign: "center",  
         position: "fixed",
@@ -78,29 +85,88 @@ const useStyles = makeStyles((theme) => ({
         color: (theme)=> !theme? "rgb(88,88,88)":"rgb(230,230,230)",
     },
     searchBar: {
-        width: "80vw",
+        width: "60vw",
         marginTop: "5vw",
-        margin: "10vw",
-        padding: "3vw",
+        // margin: "10vw",
+        verticalAlign:"middle",
       //   maxHeight: "40%",
-
-        borderRadius: 10,
+      height: "10vh",
         textAlign: "center",
+        left: "35vw",
+        top: "5%",
+        position: "absolute",
+        display: "flex",
+        alignItems: "center",
+      },
+      scheduleText: {
+        fontFamily: "Poppins",
+        fontSize: "2vw",
+        margin: "10%",
+        marginTop: "5%",
+        marginBottom: "5%",
+      },
+      scheduleImg:{
+        background: "url(https://github.com/HWBounty/HWBountyAssets/blob/main/nya1.png?raw=true)center/cover",
+        width: "80%",
+        height: "40%",
+        borderRadius: "1vw",
+        display:"flex",
+        alignItems: "center",
+        margin: "10%",
+        marginTop: "5%",
+        marginBottom: "5%",
+        verticalAlign: "middle",
+      },
+      rightSide: {
+        position: "relative",
+        width: ""
       }
   }));
+export const TimeCard = (props)=>{
+  const forceUpdate = useForceUpdate();
+  const {
+      theme
+    } = props;
+    const history = useHistory();
+    const redirectToSchedule = () => {
+      history.push("/schedule");
+    };
+  const classes = useStyles(theme);
+  const timeout = useRef();
+  const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+  useEffect(() => {
+    let run = true;
+      (async ()=>{
+        await sleep(1000-Date.now()%1000)
+        let lastTime = Date.now();
+        while (run){
+          await sleep(1000);
+          forceUpdate();
+          console.log(Date.now()-lastTime);
+          lastTime = Date.now();
+        }
+      })();
+    return () => {
+      run=false;
+      alert("timeout cleared1")
+    }
+},[]);
+  return (
+    <Card onClick={redirectToSchedule} className={`${classes.time} ${classes.card}`}>
+    <Typography className={classes.scheduleText} align="left">Schedule</Typography>
+    <div className={`${classes.scheduleImg}`}>
+      <Typography className={classes.timeUntilText} align="center">{getTimePhrase()}</Typography>
+    </div>
+      <CTime />
+    </Card>
+  )
+}
 export const DesktopHome = (props)=>{
-    const forceUpdate = useForceUpdate();
     const {
         UI: { theme },
       } = props;
     const classes = useStyles(theme);
-    useEffect(() => {
-        const id = setTimeout(
-            () => setInterval(() => forceUpdate(), 1000),
-            1000 - (Date.now() % 1000)
-          );
-          return () => clearTimeout(id);
-    });
+
     const history = useHistory();
     const redirectToSchedule = () => {
       history.push("/schedule");
@@ -144,25 +210,20 @@ export const DesktopHome = (props)=>{
       };  
     return (
         <div >
-        <div className={classes.greetingDiv}>
-            
-            <Typography className={classes.greetingText} align="center" style={{
-            fontSize: `${50-(JSON.parse(localStorage.getItem("user"))?.firstName ? `Welcome back ${JSON.parse(localStorage.getItem("user"))?.firstName}!` : "Welcome to HWBounty!").length*2.35}vw`
-        }}><img src="https://cdn.discordapp.com/attachments/836672960566919228/838871035117568120/frogfinal-01.png" className={classes.greetingIMG}/> {JSON.parse(localStorage.getItem("user"))?.firstName ? `Welcome back ${JSON.parse(localStorage.getItem("user"))?.firstName}!` : "Welcome to HWBounty!"} </Typography>
-        </div>
-        <Card onClick={redirectToSchedule} className={`${classes.time} ${classes.card}`}>
-        
-          <CTime />
-          <Typography className={classes.timeUntilTextMobile} align="center">{getTimePhrase()}</Typography>
-        </Card>
+          <TimeCard theme={theme}/>
         <Card 
         className={`${classes.card} ${classes.searchBar}`}
         >
           <form>
-            <TextField placeholder={"Search for Page..."} label={"Navigate To Page"} classes={classes.searchBox} id="pageSearchBox" style={{
-              width: "90%",
-            }} />
+          <img src="https://cdn.discordapp.com/attachments/836672960566919228/838871035117568120/frogfinal-01.png" className={classes.greetingIMG}/>
+          <InputBase
+              placeholder="Search…"
+              className={`${classes.searchBarText}`}
+              inputProps={{ 'aria-label': 'search' }}
+            />
           </form>
+          
+          
         </Card>
         <Card style={{
           width: "80vw",
