@@ -16,8 +16,9 @@ export const CTimeSmall = (props) => {
           variant="h5"
           style={{
             fontSize: "10vw",
+            fontFamily: "Oswald",
           }}
-          align="left"
+          // align="left"
         >
           {
             /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
@@ -29,8 +30,9 @@ export const CTimeSmall = (props) => {
           variant="h5"
           style={{
             fontSize: "5.65vw",
+            fontFamily: "Nunito",
           }}
-          align="left"
+          // align="left"
         >
           {
             /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(

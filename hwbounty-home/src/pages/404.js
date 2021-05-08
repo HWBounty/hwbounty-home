@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     position: "absolute",
     top: 0,
     left: 0,
-    background: "#74d3ca",
+    background: "#69b4acff",
     width: "100%",
     height: "100%",
  },

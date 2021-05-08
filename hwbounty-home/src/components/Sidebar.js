@@ -149,8 +149,10 @@ export const Sidebar = (props) => {
         onClick={handleDrawerOpen}
         style={{
           position: "fixed",
-          top: "1%",
-          left: "1%",
+          top: window.innerWidth > 1500 ? "1%": undefined,
+          left: window.innerWidth > 1500 ? "1%": undefined,
+          bottom : window.innerWidth <= 1500 ? "1%": undefined,
+          right : window.innerWidth <= 1500 ? "1%": undefined,
           zIndex: 10000,
           display: open && "none",
         }}
@@ -161,7 +163,7 @@ export const Sidebar = (props) => {
       <Drawer
         className={classes.drawer}
         //variant="persistent"
-        anchor="left"
+        anchor={window.innerWidth > 1500 ? "left": "right"}
         open={open}
         onClose={handleDrawerClose}
         classes={{

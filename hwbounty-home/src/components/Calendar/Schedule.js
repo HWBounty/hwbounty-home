@@ -121,10 +121,10 @@ const PeriodButton = (props) => {
           style={{
             marginLeft: "4%",
             fontSize: window.innerWidth ** 0.4 + 32,
-            marginBottom: window.innerWidth <= 1250
+            marginBottom: window.innerWidth <= 1300
             ?"12%":"6%",
             position: "relative",
-            marginTop: window.innerWidth <= 1250
+            marginTop: window.innerWidth <= 1300
             ?"4%":"2%",
             // left: "5%"
           }}
@@ -137,13 +137,13 @@ const PeriodButton = (props) => {
             variant="h5"
             style={{
               fontSize:
-                window.innerWidth <= 1250
+                window.innerWidth <= 1300
                   ? window.innerWidth ** 0.3 + 10
                   : window.innerWidth ** 0.4 + 10,
               margin: 10,
               marginBottom: 10,
               marginTop: 0,
-              bottom: window.innerWidth <= 1250 ? "70%" : "1%",
+              bottom: window.innerWidth <= 1300 ? "70%" : "1%",
               left: "4%",
               bottom: "10%",
               position: "absolute",
@@ -266,12 +266,11 @@ export const Schedule = (props) => {
   } = props;
   const forceUpdate = useForceUpdate();
   useEffect(() => {
-    setTimeout(
+    const id = setTimeout(
       () => setInterval(() => forceUpdate(), 5000),
       1000 - (Date.now() % 1000)
     );
-    return () => {
-    }
+    return () => clearTimeout(id);
   }, [])
   const [courseInfo, setCourseInfo] = useState(null);
   const [scheduleData, setScheduleData] = useState(null);

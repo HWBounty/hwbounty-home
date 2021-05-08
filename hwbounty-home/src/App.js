@@ -57,7 +57,7 @@ const themeCache =
   localStorage.theme !== null
     ? parseInt(localStorage.theme)
     : (localStorage.theme = 1);
-if (themeCache) {
+if (themeCache !== null) {
   store.dispatch({ type: SET_THEME, payload: themeCache });
 }
 //========================================================//
