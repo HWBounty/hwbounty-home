@@ -266,12 +266,11 @@ export const Schedule = (props) => {
   } = props;
   const forceUpdate = useForceUpdate();
   useEffect(() => {
-    setTimeout(
+    const id = setTimeout(
       () => setInterval(() => forceUpdate(), 5000),
       1000 - (Date.now() % 1000)
     );
-    return () => {
-    }
+    return () => clearTimeout(id);
   }, [])
   const [courseInfo, setCourseInfo] = useState(null);
   const [scheduleData, setScheduleData] = useState(null);
