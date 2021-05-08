@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
         width: "80vw",
         maxHeight: "40%",
         borderRadius: 10,
-        paddingLeft: 20,
+        padding: "5vh",
         margin: "10vw",
         marginTop: "5vw",
         marginBottom: "5vw",
