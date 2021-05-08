@@ -42,8 +42,8 @@ const useStyles = makeStyles((theme) => ({
     card: {
       boxShadow:
         "10px 15px 36px 2px rgba(0,0,0,0.5)!important",
-        background: (theme)=> theme? "rgb(51,51,51)":"rgb(230,230,230)",
-        borderRadius: "1.5vw",
+        background: (theme)=> theme? "rgb(35,35,35)":"rgb(230,230,230)",
+        borderRadius: "1vw",
     },
     timeUntilText: {
       fontSize: "1.5vw",
@@ -70,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
       height: "90%",
       width: "50vw",
       fontSize: "1.5vw",
+      fontFamily:"Nunito",
     },
     greetingDiv: {
         marginTop: "10vw",
@@ -97,6 +98,23 @@ const useStyles = makeStyles((theme) => ({
         position: "absolute",
         display: "flex",
         alignItems: "center",
+      },
+    searchResults: {
+        width: "60vw",
+        marginTop: "5vw",
+        // margin: "10vw",
+        verticalAlign:"middle",
+      //   maxHeight: "40%",
+      padding: "1vw",
+      height: "60vh",
+        textAlign: "center",
+        left: "35vw",
+        top: "25%",
+        padding: "5vh",
+        position: "absolute",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       },
       scheduleText: {
         fontFamily: "Poppins",
@@ -140,15 +158,13 @@ export const TimeCard = (props)=>{
         await sleep(1000-Date.now()%1000)
         let lastTime = Date.now();
         while (run){
-          await sleep(1000);
+          await sleep(1000-Date.now()%1000);
           forceUpdate();
-          console.log(Date.now()-lastTime);
           lastTime = Date.now();
         }
       })();
     return () => {
       run=false;
-      alert("timeout cleared1")
     }
 },[]);
   return (
@@ -166,7 +182,7 @@ export const DesktopHome = (props)=>{
         UI: { theme },
       } = props;
     const classes = useStyles(theme);
-
+    const forceUpdate = useForceUpdate();
     const history = useHistory();
     const redirectToSchedule = () => {
       history.push("/schedule");
@@ -183,11 +199,15 @@ export const DesktopHome = (props)=>{
         const pageArray = Object.values(Pages);
         const fuse = new Fuse(pageArray, fuseOptions);
         return (
-          <div>
+          <div style={
+            {
+              maxWidth: "768px"
+            }
+          }>
             {React.Children.toArray(
               fuse
                 .search(query)
-                .filter((x, i) => i < 10)
+                .filter((x, i) => i < 4)
                 .map((result) => {
                   return (
                     <ModuleCard
@@ -215,43 +235,21 @@ export const DesktopHome = (props)=>{
         className={`${classes.card} ${classes.searchBar}`}
         >
           <form>
-          <img src="https://cdn.discordapp.com/attachments/836672960566919228/838871035117568120/frogfinal-01.png" className={classes.greetingIMG}/>
+          <img src="https://cdn.discordapp.com/attachments/836672960566919228/840713461515812864/frogmg-01.png" className={classes.greetingIMG}/>
           <InputBase
               placeholder="Search…"
               className={`${classes.searchBarText}`}
               inputProps={{ 'aria-label': 'search' }}
+              id="pageSearchBox"
+              onChange={forceUpdate}
             />
           </form>
           
           
         </Card>
         <Card style={{
-          width: "80vw",
-          marginTop: "5vw",
-          margin: "10vw",
-          maxHeight: "40%",
-          minHeight: "256px",
-          height: "256px",
-          borderRadius: 10,
-          textAlign: "center",
-          overflowX: "scroll",
-          marginBottom: "10vw",
-        }} className={`${classes.card}`}>
+        }} className={`${classes.card} ${classes.searchResults}`}>
           {React.Children.toArray(renderSearchPages())}
-        </Card>
-        <Card style={{
-          width: "80vw",
-          marginTop: "5vw",
-          margin: "10vw",
-          maxHeight: "10vw%",
-          minHeight: "10vw",
-          height: "10vw",
-          borderRadius: 10,
-          textAlign: "center",
-          overflowX: "scroll",
-          marginBottom: "10vw",
-          backgroundColor: "rgba(0,0,0,0)"
-        }}>
         </Card>
 
         {/* <ForumSearch />

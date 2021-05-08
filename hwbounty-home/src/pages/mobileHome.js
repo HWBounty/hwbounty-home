@@ -1,5 +1,5 @@
 import { Card, makeStyles, TextField, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Fuse from "fuse.js";
 import Pages from "../util/pageDictionary";
 import { ModuleCard } from "../components/ModuleCard";
@@ -42,14 +42,14 @@ const useStyles = makeStyles((theme) => ({
     card: {
       boxShadow:
         "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)!important",
-        background: (theme)=> theme? "rgb(51,51,51)":"rgb(230,230,230)",
+        background: (theme)=> theme? "rgb(35,35,35)":"rgb(230,230,230)",
     },
     timeUntilText: {
       fontSize: window.innerHeight / 25,
       fontFamily: "Nunito",
     },
     timeUntilTextMobile: {
-      fontSize: window.innerWidth / 20,
+      fontSize: window.innerWidth / 30,
       fontFamily: "Nunito",
     },
     greetingText:{
@@ -93,17 +93,27 @@ export const MobileHome = (props)=>{
         UI: { theme },
       } = props;
     const classes = useStyles(theme);
-    useEffect(() => {
-        const id = setTimeout(
-            () => setInterval(() => forceUpdate(), 1000),
-            1000 - (Date.now() % 1000)
-          );
-          return () => clearTimeout(id);
-    });
     const history = useHistory();
     const redirectToSchedule = () => {
       history.push("/schedule");
     };
+    const timeout = useRef();
+    const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+    useEffect(() => {
+      let run = true;
+        (async ()=>{
+          await sleep(1000-Date.now()%1000)
+          let lastTime = Date.now();
+          while (run){
+            await sleep(1000-Date.now()%1000);
+            forceUpdate();
+            lastTime = Date.now();
+          }
+        })();
+      return () => {
+        run=false;
+      }
+  },[]);
     const renderSearchPages = () => {
 
         let query = document.getElementById("pageSearchBox")?.value;

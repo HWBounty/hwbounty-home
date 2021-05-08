@@ -96,7 +96,7 @@ const App = (props) => {
               {authenticated ? <Sidebar /> : <Navbar />}
 
               <AuthPopup />
-              <MusicModule />
+              {/* <MusicModule /> */}
               <LoadIntoCache />
 
               <Switch>
