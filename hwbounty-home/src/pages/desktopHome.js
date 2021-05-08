@@ -8,6 +8,7 @@ import CTimeSmall from "../components/Home/CTimeSmall";
 import { useHistory } from "react-router";
 import getTimePhrase from "../util/getTimePhrase";
 import { connect } from "react-redux";
+import CTime from "../components/Home/CTime";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -66,14 +67,14 @@ const useStyles = makeStyles((theme) => ({
         marginTop: "10vw",
     },
     time: {
-        width: "80vw",
-        maxHeight: "40%",
+      width: "60vh",
+      height: "50vh",
         borderRadius: 10,
-        padding: "5vh",
-        margin: "10vw",
-        marginTop: "5vw",
         marginBottom: "5vw",
         textAlign: "center",  
+        position: "fixed",
+        top: "15%",
+        left: "5%",
         color: (theme)=> !theme? "rgb(88,88,88)":"rgb(230,230,230)",
     },
     searchBar: {
@@ -87,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
       }
   }));
-export const MobileHome = (props)=>{
+export const DesktopHome = (props)=>{
     const forceUpdate = useForceUpdate();
     const {
         UI: { theme },
@@ -151,7 +152,7 @@ export const MobileHome = (props)=>{
         </div>
         <Card onClick={redirectToSchedule} className={`${classes.time} ${classes.card}`}>
         
-          <CTimeSmall />
+          <CTime />
           <Typography className={classes.timeUntilTextMobile} align="center">{getTimePhrase()}</Typography>
         </Card>
         <Card 
@@ -202,4 +203,4 @@ const mapStateToProps = (state) => ({
     user: state.user,
     UI: state.UI,
   });
-export default connect(mapStateToProps)(MobileHome);
+export default connect(mapStateToProps)(DesktopHome);

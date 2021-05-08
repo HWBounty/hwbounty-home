@@ -22,6 +22,7 @@ import CTime from "../components/Home/CTime";
 import CTimeSmall from "../components/Home/CTimeSmall";
 import getTimePhrase from "../util/getTimePhrase";
 import MobileHome from "./mobileHome";
+import DesktopHome from "./desktopHome";
 
 
 
@@ -149,110 +150,7 @@ export const Home = (props) => {
     // ModuleCard
   };  
   if (window.innerWidth >= 1300) {
-    return (
-      <div >
-
-        <Card onClick={redirectToSchedule} classes={classes.time} style={{
-          position: "fixed",
-          width: "30vw",
-          maxHeight: "40%",
-          borderRadius: 10,
-          top: "10%",
-          left: "5%",
-          paddingLeft: 20,
-          textAlign: "center",
-        }}>
-          <Typography className={classes.timeUntilText} align="left">{getTimePhrase()}</Typography>
-          {<CTime />}
-
-        </Card>
-        <Card
-          style={{
-            position: "absolute",
-            width: "55vw",
-            maxHeight: "200px",
-            borderRadius: 10,
-            top: "10%",
-            left: "40%",
-            textAlign: "center",
-          }}
-        >
-          <form>
-            <TextField
-              placeholder={"Search for Page..."}
-              label={"Search"}
-              classes={classes.searchBox}
-              id="pageSearchBox"
-              style={{
-                width: "90%",
-              }}
-            />
-          </form>
-        </Card>
-        <Card
-          style={{
-            position: "absolute",
-            width: "55vw",
-            maxHeight: "40%",
-            minHeight: "256px",
-            height: "256px",
-            borderRadius: 10,
-            top: "calc(130px + 15%)",
-            left: "40%",
-            textAlign: "center",
-            padding: "0",
-            overflowX: "scroll",
-          }}
-        >
-          {React.Children.toArray(renderSearchPages())}
-        </Card>
-        <Typography
-          style={{
-            position: "absolute",
-            width: "55vw",
-            maxHeight: "40%",
-            minHeight: "256px",
-            height: "256px",
-            borderRadius: 10,
-            top: "calc(300px + 32vh)",
-            left: "40%",
-            // marginTop:"100",
-            textAlign: "center",
-            padding: "0",
-            marginBottom: "100px",
-            overflowX: "scroll",
-            fontFamily: "Nunito",
-            fontSize: "32px",
-          }}
-          variant="h5"
-        >
-          Recommended Modules
-        </Typography>
-        <Card
-          style={{
-            position: "absolute",
-            width: "55vw",
-            maxHeight: "40%",
-            minHeight: "256px",
-            height: "256px",
-            borderRadius: 10,
-            top: "calc(350px + 33vh)",
-            left: "40%",
-            // marginTop:"100",
-            textAlign: "center",
-            padding: "0",
-            marginBottom: "100px",
-            overflowX: "scroll",
-          }}
-        >
-          {React.Children.toArray(renderSearchPages())}
-        </Card>
-
-        {/* <ForumSearch />
-        <DesktopLayout />
-        <MobileLayout /> */}
-      </div>
-    );
+    return (<DesktopHome />);
   }
   else {
     return (<MobileHome />);
