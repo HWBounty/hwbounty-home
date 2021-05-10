@@ -19,10 +19,10 @@ import CalculatorBackend from "../../../util/calculator";
 // required for latex to format correctly
 addStyles();
 const history = [];
-const maths = math.create(math.all,{
-  number : "BigNumber",
-  precision: 64
-})
+const maths = math.create(math.all, {
+  number: "BigNumber",
+  precision: 64,
+});
 const parser = maths.parser();
 const styles = (theme) => ({
   ...theme.spreadIt,
@@ -63,20 +63,19 @@ export const Calculator = (props) => {
   const handleInputChange = (val) => {
     setExpression(val.latex());
   };
-    
+
   const handleSubmit = (val) => {
     try {
-      const ans = CalculatorBackend.self.solveEquation(mathquillToMathJS(val.latex()));
-      console.log(ans)
-      if (!ans.steps.length){
+      const ans = CalculatorBackend.self.solveEquation(
+        mathquillToMathJS(val.latex())
+      );
+      console.log(ans);
+      if (!ans.steps.length) {
         let ans = parser.evaluate(mathquillToMathJS(val.latex()));
         setAnswer(`${ans.toExponential(10)} `);
-      }
-      
-      else
-      setAnswer(ans.steps.pop().newEquation.ascii());
+      } else setAnswer(ans.steps.pop().newEquation.ascii());
       setError(false);
-    } catch (er){
+    } catch (er) {
       console.log(er);
       setAnswer("ERROR!!!!");
       setError(true);
@@ -98,30 +97,28 @@ export const Calculator = (props) => {
   };
 
   return (
-    <Paper /*className={classes.paper}*/>
-      <div /*className={classes.rootPadding}*/>
-        <InputBase
-          inputComponent={LatexInput}
-          inputProps={{
-            onChange: handleInputChange,
-            onSubmit: handleSubmit,
-            mathquillDidMount: handleMathquillMount,
-          }}
-          /*className={classes.input}*/
-          value={expression}
-          fullWidth
-        ></InputBase>
-        <Grid container spacing={2} /*className={classes.symbolPadGrid}*/ >
-          <Grid item xs>
-            <NumPad onClick={handleNumberPressed} />
-          </Grid>
-          <Grid item xs>
-            <SymbolPad onClick={handleSymbolPressed} />
-          </Grid>
+    <div className={classes.rootPadding}>
+      <InputBase
+        inputComponent={LatexInput}
+        inputProps={{
+          onChange: handleInputChange,
+          onSubmit: handleSubmit,
+          mathquillDidMount: handleMathquillMount,
+        }}
+        /*className={classes.input}*/
+        value={expression}
+        fullWidth
+      ></InputBase>
+      <Grid container spacing={2} /*className={classes.symbolPadGrid}*/>
+        <Grid item xs>
+          <NumPad onClick={handleNumberPressed} />
         </Grid>
-        <Typography color={error ? "error" : "initial"}>{answer}</Typography>
-      </div>
-    </Paper>
+        <Grid item xs>
+          <SymbolPad onClick={handleSymbolPressed} />
+        </Grid>
+      </Grid>
+      <Typography color={error ? "error" : "initial"}>{answer}</Typography>
+    </div>
   );
 };
 
