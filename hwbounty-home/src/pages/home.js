@@ -2,8 +2,6 @@
 import React, { Component, useEffect, useRef, useState } from "react";
 
 // MUI Stuff
-import Card from "@material-ui/core/Card";
-import Typography from "@material-ui/core/Typography";
 import {
   makeStyles,
   MuiThemeProvider,
@@ -14,13 +12,9 @@ import {
 import Fuse from "fuse.js";
 // Redux
 import { connect } from "react-redux";
-import { Paper, TextField } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import Pages from "../util/pageDictionary";
 import { ModuleCard } from "../components/ModuleCard";
-import CTime from "../components/Home/CTime";
-import CTimeSmall from "../components/Home/CTimeSmall";
-import getTimePhrase from "../util/getTimePhrase";
 import MobileHome from "./mobileHome";
 import DesktopHome from "./desktopHome";
 
@@ -101,9 +95,23 @@ export const Home = (props) => {
   const forceUpdate = useForceUpdate();
   const classes = useStyles();
   const [rerenderPage, setRerenderPage] = useState(0);
+  const timeout = useRef();
+  const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
   useEffect(() => {
-    setTimeout(() => setInterval(forceUpdate, 125), 1000 - (Date.now() % 1000));
-  });
+    let run = true;
+      (async ()=>{
+        await sleep(1000-Date.now()%1000)
+        let lastTime = Date.now();
+        while (run){
+          await sleep(1000-Date.now()%1000);
+          forceUpdate();
+          lastTime = Date.now();
+        }
+      })();
+    return () => {
+      run=false;
+    }
+},[]);
 
   const history = useHistory();
   const redirectToSchedule = () => {
