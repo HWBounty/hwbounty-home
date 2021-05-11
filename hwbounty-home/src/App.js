@@ -32,6 +32,7 @@ import queryString from "query-string";
 import LoadIntoCache from "./LoadIntoCache";
 import { SchoologyButton } from "./components/SchoologyButton";
 import CalculatorBackend from "./util/calculator";
+
 // Pages
 const Modules = lazy(() => import("./pages/modules"));
 const newSignup = lazy(() => import("./pages/newSignup"));
@@ -45,6 +46,7 @@ const viewSchedule = lazy(() => import("./pages/viewSchedule"));
 const setSchedule = lazy(() => import("./pages/setSchedule"));
 const schoologyOauthRedirect = lazy(() => import("./pages/schoologyOauthRedirect"));
 const PageNotFound = lazy(() => import("./pages/404"));
+const LoadingPage = lazy(() => import("./pages/loadingPage"));
 //=================Checks on App start====================//
 const token = localStorage.DBIdToken;
 if (token) {
@@ -53,10 +55,11 @@ if (token) {
   store.dispatch(getUserData());
 }
 
-const themeCache =
+let themeCache =
   localStorage.theme !== null
     ? parseInt(localStorage.theme)
     : (localStorage.theme = 1);
+themeCache = isNaN(themeCache)? 1: 0; 
 if (themeCache !== null) {
   store.dispatch({ type: SET_THEME, payload: themeCache });
 }
@@ -90,9 +93,33 @@ const App = (props) => {
           <CssBaseline />
           <KeybindManager />
 
+
           <div className="App">
             <Router>
-            <Suspense fallback={<div>Loading...</div>}>
+            <video src="https://github.com/HWBounty/HWBountyAssets/blob/main/frog2.mov?raw=true" style={
+            {
+              display: "none",
+            }  
+          }/>
+            <Suspense fallback={          <div style={{
+            position: "absolute",
+            top: "0%",
+            left: "0%",
+            width: "100%",
+            height: "100%",
+            zIndex: "10000000000000",
+            background : "rgb(222,221,222)"
+          }}>
+          <video src="https://github.com/HWBounty/HWBountyAssets/blob/main/frog2.mov?raw=true" autoPlay control loop style={
+            {
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%,-50%)",
+              zIndex: "10000000000000",
+            }  
+          }/>
+          </div>}>
               {authenticated ? <Sidebar /> : <Navbar />}
 
               <AuthPopup />
@@ -115,6 +142,7 @@ const App = (props) => {
                 <Route path="/modules/" component={Modules} />
                 <Route path="/user/" component={Profile} />
                 <Route path="/settings/" component={Settings} />
+                <Route path="/loadingPage/" component={LoadingPage} />
                 <Route exact path = "/login/schoology" component={SchoologyButton} />
                 <Route path="*" component={PageNotFound} />
               </Switch>
