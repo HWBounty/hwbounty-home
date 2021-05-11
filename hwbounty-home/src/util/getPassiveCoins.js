@@ -37,6 +37,7 @@ class PassiveCoins{
 
     }
      onPrize(bundleID){
+         const genNonce = this.generateNonce;
          console.log("queueing snackbar!")
         PassiveCoins.enqueueSnackbar("While using HWBounty, you found some coins hidden on the page!", {
             persist : true,
@@ -46,7 +47,7 @@ class PassiveCoins{
                     PassiveCoins.closeSnackbar(key);
                 },1000*60*3);
                 let claimCoins = async (key)=>{
-                    this.socket.emit("claimCoins",bundleID, await this.generateNonce());
+                    this.socket.emit("claimCoins",bundleID, await genNonce());
                     PassiveCoins.closeSnackbar(key);
                 }
                 return (<Button onClick={()=>claimCoins(key)}>
