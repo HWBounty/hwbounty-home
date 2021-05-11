@@ -9,7 +9,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 const styles = (theme) => ({
   ...theme.spreadIt,
   root: {
-    ...theme.spreadIt.paper,
     marginLeft: 300, // temporary until john fixes his stuff
     marginRight: 30,
     marginTop: 50,
@@ -24,9 +23,9 @@ const styles = (theme) => ({
 const Modules = (props) => {
   const { classes } = props;
   return (
-    <Paper className={classes.root}>
+    <div className={classes.root}>
       <CalculatorModule />
-    </Paper>
+    </div>
   );
 };
 

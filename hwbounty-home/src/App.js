@@ -18,8 +18,6 @@ import themeFile from "./util/theme";
 import { ShortcutProvider, ShortcutConsumer } from "react-keybind";
 import KeybindManager from "./util/keybinds/keybind";
 
-
-
 // Components
 import Navbar from "./components/Home/Navbar";
 import AuthPopup from "./components/User/Authentication/AuthPopup";
@@ -44,7 +42,9 @@ const ScheduleInfo = lazy(() => import("./pages/ScheduleInfo"));
 const ScheduleCatalog = lazy(() => import("./pages/schedules"));
 const viewSchedule = lazy(() => import("./pages/viewSchedule"));
 const setSchedule = lazy(() => import("./pages/setSchedule"));
-const schoologyOauthRedirect = lazy(() => import("./pages/schoologyOauthRedirect"));
+const schoologyOauthRedirect = lazy(() =>
+  import("./pages/schoologyOauthRedirect")
+);
 const PageNotFound = lazy(() => import("./pages/404"));
 const LoadingPage = lazy(() => import("./pages/loadingPage"));
 //=================Checks on App start====================//
@@ -59,7 +59,7 @@ let themeCache =
   localStorage.theme !== null
     ? parseInt(localStorage.theme)
     : (localStorage.theme = 1);
-themeCache = isNaN(themeCache)? 1: 0; 
+themeCache = isNaN(themeCache) ? 1 : 0;
 if (themeCache !== null) {
   store.dispatch({ type: SET_THEME, payload: themeCache });
 }
@@ -70,9 +70,9 @@ const App = (props) => {
     UI: { theme },
     user: { authenticated },
   } = props;
-  useEffect(()=>{
+  useEffect(() => {
     new CalculatorBackend();
-  })
+  });
   const dynamicTheme = createMuiTheme({
     ...themeFile,
     palette: {
@@ -93,59 +93,73 @@ const App = (props) => {
           <CssBaseline />
           <KeybindManager />
 
-
           <div className="App">
             <Router>
-            <video src="https://github.com/HWBounty/HWBountyAssets/blob/main/frog2.mov?raw=true" style={
-            {
-              display: "none",
-            }  
-          }/>
-            <Suspense fallback={          <div style={{
-            position: "absolute",
-            top: "0%",
-            left: "0%",
-            width: "100%",
-            height: "100%",
-            zIndex: "10000000000000",
-            background : "rgb(222,221,222)"
-          }}>
-          <video src="https://github.com/HWBounty/HWBountyAssets/blob/main/frog2.mov?raw=true" autoPlay control loop style={
-            {
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%,-50%)",
-              zIndex: "10000000000000",
-            }  
-          }/>
-          </div>}>
-              {authenticated ? <Sidebar /> : <Navbar />}
+              <video
+                src="https://github.com/HWBounty/HWBountyAssets/blob/main/frog2.mov?raw=true"
+                style={{
+                  display: "none",
+                }}
+              />
+              <Suspense
+                fallback={
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "0%",
+                      left: "0%",
+                      width: "100%",
+                      height: "100%",
+                      zIndex: "10000000000000",
+                      background: "rgb(222,221,222)",
+                    }}
+                  >
+                    <video
+                      src="https://github.com/HWBounty/HWBountyAssets/blob/main/frog2.mov?raw=true"
+                      autoPlay
+                      control
+                      loop
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%,-50%)",
+                        zIndex: "10000000000000",
+                      }}
+                    />
+                  </div>
+                }
+              >
+                {authenticated ? <Sidebar /> : <Navbar />}
 
-              <AuthPopup />
-              {/* <MusicModule /> */}
-              <LoadIntoCache />
+                <AuthPopup />
+                {/* <MusicModule /> */}
+                <LoadIntoCache />
 
-              <Switch>
-                <Route exact path="/" component={home} />
-                <Route
-                  exact
-                  path="/schoologyCallback"
-                  component={schoologyOauthRedirect}
-                />
-                <Route path="/signupcallback" component={signupCallback} />
-                <Route path="/signup" component={newSignup} />
-                <Route path="/schedules" component={ScheduleCatalog} />
-                <Route exact path="/schedule" component={ScheduleInfo} />
-                <Route path="/schedule/view" component={viewSchedule} />
-                <Route path="/schedule/set" component={setSchedule} />
-                <Route path="/modules/" component={Modules} />
-                <Route path="/user/" component={Profile} />
-                <Route path="/settings/" component={Settings} />
-                <Route path="/loadingPage/" component={LoadingPage} />
-                <Route exact path = "/login/schoology" component={SchoologyButton} />
-                <Route path="*" component={PageNotFound} />
-              </Switch>
+                <Switch>
+                  <Route exact path="/" component={home} />
+                  <Route
+                    exact
+                    path="/schoologyCallback"
+                    component={schoologyOauthRedirect}
+                  />
+                  <Route path="/signupcallback" component={signupCallback} />
+                  <Route path="/signup" component={newSignup} />
+                  <Route path="/schedules" component={ScheduleCatalog} />
+                  <Route exact path="/schedule" component={ScheduleInfo} />
+                  <Route path="/schedule/view" component={viewSchedule} />
+                  <Route path="/schedule/set" component={setSchedule} />
+                  <Route path="/modules/" component={Modules} />
+                  <Route path="/user/" component={Profile} />
+                  <Route path="/settings/" component={Settings} />
+                  <Route path="/loadingPage/" component={LoadingPage} />
+                  <Route
+                    exact
+                    path="/login/schoology"
+                    component={SchoologyButton}
+                  />
+                  <Route path="*" component={PageNotFound} />
+                </Switch>
               </Suspense>
             </Router>
           </div>

@@ -72,7 +72,7 @@ export const Calculator = (props) => {
       console.log(ans);
       if (!ans.steps.length) {
         let ans = parser.evaluate(mathquillToMathJS(val.latex()));
-        setAnswer(`${ans.toExponential(10)} `);
+        setAnswer(`${ans}`);
       } else setAnswer(ans.steps.pop().newEquation.ascii());
       setError(false);
     } catch (er) {
@@ -109,7 +109,7 @@ export const Calculator = (props) => {
         value={expression}
         fullWidth
       ></InputBase>
-      <Grid container spacing={2} /*className={classes.symbolPadGrid}*/>
+      <Grid container spacing={2} className={classes.symbolPadGrid}>
         <Grid item xs>
           <NumPad onClick={handleNumberPressed} />
         </Grid>
