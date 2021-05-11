@@ -9,6 +9,7 @@ import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
+import BuildIcon from "@material-ui/icons/Build";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -29,6 +30,7 @@ const drawerWidth = 240;
 let locations = {
   Home: "/",
   Schedule: "/schedule",
+  Modules: "/modules",
   Profile: `/user/${JSON.parse(localStorage.getItem("user"))?.publicID}`,
   "Sign Out": () => {
     localStorage.clear();
@@ -39,14 +41,8 @@ let locations = {
 //updates profile Endpoint
 setInterval(() => {
   locations = {
-    Home: "/",
-    Schedule: "/schedule",
+    ...locations,
     Profile: `/user/${JSON.parse(localStorage.getItem("user"))?.publicID}`,
-    "Sign Out": () => {
-      localStorage.clear();
-      window.location.reload();
-    },
-    Settings: "/settings",
   };
 }, 1000);
 
@@ -190,24 +186,30 @@ export const Sidebar = (props) => {
         </div>
         <Divider />
         <List>
-          {["Home", "Schedule", "Profile", "Settings", "Sign Out"].map(
-            (text, index) => (
-              <ListItem button key={text} onClick={(x) => onClckItem(text)}>
-                <ListItemIcon>
-                  {
-                    [
-                      <Home />,
-                      <Today />,
-                      <AccountCircle />,
-                      <Settings />,
-                      <ExitToAppIcon />,
-                    ][index]
-                  }
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            )
-          )}
+          {[
+            "Home",
+            "Schedule",
+            "Modules",
+            "Profile",
+            "Settings",
+            "Sign Out",
+          ].map((text, index) => (
+            <ListItem button key={text} onClick={(x) => onClckItem(text)}>
+              <ListItemIcon>
+                {
+                  [
+                    <Home />,
+                    <Today />,
+                    <BuildIcon />,
+                    <AccountCircle />,
+                    <Settings />,
+                    <ExitToAppIcon />,
+                  ][index]
+                }
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
         </List>
         {/* <Divider />
 		<List>

@@ -9,17 +9,31 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 
+// Components
+import Calculator from "./Calculator";
+
 // Math related
 import mathquillToMathJS from "../../../util/latex/preprocessMathQuill";
 import { addStyles, EditableMathField, StaticMathField } from "react-mathquill";
 import * as math from "mathjs";
 import { NumPad, SymbolPad } from "./CalcTools";
 
-export const CalculatorFullscreen = (props) => {
-  console.log("calcS");
-  return <Paper>hello</Paper>;
+const styles = (theme) => ({
+  ...theme.spreadIt,
+});
+
+export const CalculatorModule = (props) => {
+  const { classes } = props;
+
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={5}>
+        <Paper className={classes.paper}>
+          <Calculator />
+        </Paper>
+      </Grid>
+    </Grid>
+  );
 };
 
-export const CalculatorLeftTab = (props) => {};
-
-export const CalculatorRightTab = (props) => {};
+export default withStyles(styles)(CalculatorModule);

@@ -18,8 +18,6 @@ import { ModuleCard } from "../components/ModuleCard";
 import MobileHome from "./mobileHome";
 import DesktopHome from "./desktopHome";
 
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -61,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   timeUntilTextMobile: {
     fontSize: window.innerWidth / 20,
     fontFamily: "Nunito",
-  }
+  },
 }));
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -99,19 +97,19 @@ export const Home = (props) => {
   const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
   useEffect(() => {
     let run = true;
-      (async ()=>{
-        await sleep(1000-Date.now()%1000)
-        let lastTime = Date.now();
-        while (run){
-          await sleep(1000-Date.now()%1000);
-          forceUpdate();
-          lastTime = Date.now();
-        }
-      })();
+    (async () => {
+      await sleep(1000 - (Date.now() % 1000));
+      let lastTime = Date.now();
+      while (run) {
+        await sleep(1000 - (Date.now() % 1000));
+        forceUpdate();
+        lastTime = Date.now();
+      }
+    })();
     return () => {
-      run=false;
-    }
-},[]);
+      run = false;
+    };
+  }, []);
 
   const history = useHistory();
   const redirectToSchedule = () => {
@@ -156,14 +154,12 @@ export const Home = (props) => {
       </div>
     );
     // ModuleCard
-  };  
+  };
   if (window.innerWidth >= 1300) {
-    return (<DesktopHome />);
+    return <DesktopHome />;
+  } else {
+    return <MobileHome />;
   }
-  else {
-    return (<MobileHome />);
-  }
-
 };
 
 const mapStateToProps = (state) => ({
