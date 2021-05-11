@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core';
 import socketClient, { io } from 'socket.io-client';
 const nullOrUndefined = (thing)=> typeof thing === "undefined" || thing === null;
+let genNonce;
 class PassiveCoins{
     /**
      * @type {PassiveCoins}
@@ -18,7 +19,6 @@ class PassiveCoins{
         console.log(nullOrUndefined(JSON.parse(localStorage.getItem("user"))?.privateID), PassiveCoins.enqueueSnackbar);
         while (nullOrUndefined(JSON.parse(localStorage.getItem("user"))?.privateID) || !PassiveCoins.enqueueSnackbar) await sleep(1000);
         console.log("Assets loaded! Initializing WS!");
-        PassiveCoins.enqueueSnackbar("test");
         this.setupConnection();
     }
     async setupConnection(){
@@ -27,17 +27,17 @@ class PassiveCoins{
          this.socket = socketClient("https://api.hwbounty.help/startEco");
          this.socket.connect();
      }
+     genNonce = this.generateNonce;
      this.socket.emit("identify",await this.generateNonce());
      this.socket.once("identified",async ()=>{
         this.socket.once("disconnect",this.setupConnection);
-        this.socket.on("coinsGained",this.onPrize);
+        this.socket.on("coinsGained",(bid)=>this.onPrize(bid,this.socket));
         this.socket.on("claimComplete",(msg)=>this.onClaim(msg,false));
         this.socket.on("claimFailed",(msg)=>this.onClaim(msg,true));
      });
 
     }
-     onPrize(bundleID){
-         const genNonce = this.generateNonce;
+     onPrize(bundleID,socket){
          console.log("queueing snackbar!")
         PassiveCoins.enqueueSnackbar("While using HWBounty, you found some coins hidden on the page!", {
             persist : true,
@@ -47,11 +47,11 @@ class PassiveCoins{
                     PassiveCoins.closeSnackbar(key);
                 },1000*60*3);
                 let claimCoins = async (key)=>{
-                    this.socket.emit("claimCoins",bundleID, await genNonce());
+                    socket.emit("claimCoins",bundleID, await genNonce());
                     PassiveCoins.closeSnackbar(key);
                 }
                 return (<Button onClick={()=>claimCoins(key)}>
-                Cool!
+                Claim! 
             </Button>);
                 
             }
