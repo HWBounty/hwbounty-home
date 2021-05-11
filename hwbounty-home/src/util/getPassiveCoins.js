@@ -1,5 +1,6 @@
 import { Button } from '@material-ui/core';
 import socketClient, { io } from 'socket.io-client';
+const nullOrUndefined = (thing)=> typeof thing === "undefined" || thing === null;
 class PassiveCoins{
     /**
      * @type {PassiveCoins}
@@ -14,7 +15,11 @@ class PassiveCoins{
     static closeSnackbar = null;
     async waitForLogin(){
         const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-        while (!JSON.parse(localStorage.getItem("user"))?.privateID || !PassiveCoins.enqueueSnackbar) await sleep(1000);
+        console.log(nullOrUndefined(JSON.parse(localStorage.getItem("user"))?.privateID), PassiveCoins.enqueueSnackbar);
+        while (nullOrUndefined(JSON.parse(localStorage.getItem("user"))?.privateID) || !PassiveCoins.enqueueSnackbar) await sleep(1000);
+        console.log("Assets loaded! Initializing WS!");
+        PassiveCoins.enqueueSnackbar("test");
+        this.setupConnection();
     }
     async setupConnection(){
      if (this.socket.disconnected) {
@@ -31,7 +36,8 @@ class PassiveCoins{
      });
 
     }
-    async onPrize(bundleID){
+     onPrize(bundleID){
+         console.log("queueing snackbar!")
         PassiveCoins.enqueueSnackbar("While using HWBounty, you found some coins hidden on the page!", {
             persist : true,
             variant: "info",

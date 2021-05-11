@@ -32,6 +32,8 @@ import queryString from "query-string";
 import LoadIntoCache from "./LoadIntoCache";
 import { SchoologyButton } from "./components/SchoologyButton";
 import CalculatorBackend from "./util/calculator";
+import LoadingPage from "./pages/loadingPage";
+import { GainCoins } from "./components/Modules/GainCoins";
 
 // Pages
 const Modules = lazy(() => import("./pages/modules"));
@@ -46,7 +48,6 @@ const viewSchedule = lazy(() => import("./pages/viewSchedule"));
 const setSchedule = lazy(() => import("./pages/setSchedule"));
 const schoologyOauthRedirect = lazy(() => import("./pages/schoologyOauthRedirect"));
 const PageNotFound = lazy(() => import("./pages/404"));
-const LoadingPage = lazy(() => import("./pages/loadingPage"));
 //=================Checks on App start====================//
 const token = localStorage.DBIdToken;
 if (token) {
@@ -92,7 +93,7 @@ const App = (props) => {
         <MuiThemeProvider theme={dynamicTheme}>
           <CssBaseline />
           <KeybindManager />
-
+          <GainCoins />
 
           <div className="App">
             <Router>
@@ -101,25 +102,7 @@ const App = (props) => {
               display: "none",
             }  
           }/>
-            <Suspense fallback={          <div style={{
-            position: "absolute",
-            top: "0%",
-            left: "0%",
-            width: "100%",
-            height: "100%",
-            zIndex: "10000000000000",
-            background : "rgb(222,221,222)"
-          }}>
-          <video src="https://github.com/HWBounty/HWBountyAssets/blob/main/frog2.mov?raw=true" autoPlay control loop style={
-            {
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%,-50%)",
-              zIndex: "10000000000000",
-            }  
-          }/>
-          </div>}>
+            <Suspense fallback={LoadingPage}>
               {authenticated ? <Sidebar /> : <Navbar />}
 
               <AuthPopup />

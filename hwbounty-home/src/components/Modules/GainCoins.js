@@ -8,5 +8,5 @@ export const GainCoins = (props)=>{
         PassiveCoins.enqueueSnackbar = enqueueSnackbar;
         PassiveCoins.closeSnackbar = closeSnackbar;
     },[]);
-    
+    return null;
 }
