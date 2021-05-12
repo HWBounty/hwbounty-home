@@ -11,6 +11,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 // Components
 import Calculator from "./Calculator";
+import CalcSettings from "./CalcSettings";
 
 // Math related
 import mathquillToMathJS from "../../../util/latex/preprocessMathQuill";
@@ -31,6 +32,7 @@ export const CalculatorModule = (props) => {
         <Paper className={classes.paper}>
           <Calculator />
         </Paper>
+        <CalcSettings />
       </Grid>
     </Grid>
   );

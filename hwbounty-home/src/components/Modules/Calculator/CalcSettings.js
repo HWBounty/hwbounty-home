@@ -7,9 +7,10 @@ const styles = (theme) => ({
 });
 
 export const CalcSettings = (props) => {
+  const { classes } = props;
   return (
-    <Paper>
-      <div></div>
+    <Paper className={classes.paper}>
+      <div>hiiiiiiiii</div>
     </Paper>
   );
 };
