@@ -7,7 +7,7 @@ import {
 	Modal,
 	withStyles,
 } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	Button,
 	Container,
@@ -27,6 +27,17 @@ import React from "react";
 import moment from "moment";
 import { useSnackbar } from "notistack";
 import { connect } from "react-redux";
+import { useAsyncResource } from 'use-async-resource';
+import { Suspense } from "react";
+import LoadingPage from "./loadingPage";
+const fetchUser = (id) => 
+	axios
+		.get(
+			`${hwbountyAPI}/user/${id}`
+		)
+		.catch((er) => {
+			console.trace(er);
+		}).then(res => res.data);
 /*
 TODO: remove mui theme provider here, it should work without it!!!
 (maybe check pallete or something?, color is sent but dark mode is not)
@@ -211,14 +222,31 @@ export const Profile = (props) => {
 	const {
 		UI: { theme },
 	} = props;
-	const [userData, setUserData] = useState(null);
-	const [fetching, setFetching] = useState(false);
+	const history = useHistory();
+	let [userDat,getUserData] = useAsyncResource(fetchUser,`${history.location.pathname.split("/").pop()}`);
+	useEffect(()=>
+		history.listen(location =>{
+			getUserData(`${location.pathname.split("/").pop()}`);
+			
+		})
+	);
+	
+	return (<Suspense fallback={LoadingPage}><ProfileInfo userDat={userDat} theme={theme}/></Suspense>)
+	
+};
+export const ProfileInfo = ({theme, userDat})=>{
+	const userData = userDat();
+	console.log(userData);
 	const [error, setError] = useState(false);
 	const [editingBio, setEditingBio] = useState(false);
-	const history = useHistory();
 	const classes = useStyles(theme);
 	const [bio, setBio] = useState("");
 	const [pfp, setPfp] = useState("");
+	useEffect(()=>{
+		setBio(userData.bio);
+		setPfp(userData.pfp);
+	},[userData])
+
 	const [ShowPfpChangeMSG, setShowPfpChangeMSG] = useState(false);
 	const onClickPfp = () => {
 		document.getElementById("pfpFileInput").click();
@@ -250,26 +278,6 @@ export const Profile = (props) => {
 	if (error) {
 		// history.push()
 		return null;
-	}
-	if (!userData && !fetching) {
-		setFetching(true);
-		(async () => {
-			let fetchres = await axios
-				.get(
-					`${hwbountyAPI}/user/${history.location.pathname.split("/").pop()}`
-				)
-				.catch((er) => {
-					console.trace(er);
-					setError(true);
-				});
-			if (fetchres && fetchres.status === 200) {
-				setBio(fetchres.data.bio);
-				setPfp(fetchres.data.pfp);
-				setUserData(fetchres.data);
-
-				setFetching(false);
-			}
-		})();
 	}
 	const handleEditBio = () => {
 		if (
@@ -303,8 +311,11 @@ export const Profile = (props) => {
 	const updatePfp = (event, nv) => {
 		const FR = new FileReader();
 		FR.onloadend = async (e) => {
-			setPfp(e.target.result || event.target.value);
 			enqueueSnackbar(`Setting New Profile Picture...`);
+			let allTypes=["data:image/gif;base64,","data:image/png;base64,","data:image/jpeg;base64,"]
+			if (!allTypes.includes(e.target.result.substring(0,e.target.result.indexOf(",") + 1))) return enqueueSnackbar("Could not set profile picture! GIFs(Premium), JP(E)Gs and PNGs only please!",{
+				variant: "error",
+			})
 			console.log(
 				e.target.result.substring(0, 25),
 				e.target.result.substring(e.target.result.indexOf(",") + 1)
@@ -312,6 +323,7 @@ export const Profile = (props) => {
 			await axios.post(`${hwbountyAPI}/changePfp`, {
 				base64: e.target.result.substring(e.target.result.indexOf(",") + 1),
 			});
+			setPfp(e.target.result || event.target.value);
 			enqueueSnackbar(`Set new profile picture!`);
 		};
 		FR.readAsDataURL(document.getElementById("pfpFileInput").files[0]);
@@ -390,114 +402,14 @@ export const Profile = (props) => {
 					<Typography variant="h5" className={`${classes.text} ${classes.infoLabel}`}>Tags: </Typography>
 					<div className={`${classes.text} ${classes.infoText}`}> {renderChips(userData.tags)}</div>
 				</Card><Card className={`${classes.card} ${classes.balanceCard}`}>
-					<Typography variant="h5" className={`${classes.text} ${classes.infoText} ${classes.balanceText}`}>Balance: {userData.bal} <img src="https://i.ibb.co/Twp60L0/frog.png" height={window.innerHeight / 25} width={window.innerHeight / 25} style={{ verticalAlign: "middle", marginTop: window.innerHeight/-100 }} /></Typography>
+					<Typography variant="h5" className={`${classes.text} ${classes.infoText} ${classes.balanceText}`}>Balance: {userData.bal} <img src="https://i.ibb.co/Twp60L0/frog.png" height={window.innerHeight / 25} width={window.innerHeight / 25} style={{ verticalAlign: "middle", marginTop: window.innerHeight / -100 }} /></Typography>
 				</Card>
-				{/* <Card>
-          <Typography
-            variant="h5"
-            style={{
-              fontFamily: "Nunito",
-              fontSize: "64px",
-            }}
-          >
-            {userData.firstName} {userData.lastName}
-          </Typography>
-          <Avatar
-            src={
-              pfp ||
-              "https://cdn1.iconfinder.com/data/icons/materia-human/24/013_003_account_profile_circle-512.png"
-            }
-            className={classes.large}
-            style={{
-              display: "inline-block",
-            }}
-            
-          />
-          <Typography
-            variant="h5"
-            style={{
-              fontFamily: "Nunito",
-            }}
-          >
-            @{userData.publicID}
-          </Typography>
-          <Paper
-            style={{
-              display: "inline-block",
-              margin: "10",
-              boxShadow: "none",
-              background: theme ? "rgb(50,50,50)" : "rgb(230,230,230)",
-            }}
-          >
-            {renderChips(userData.tags)}
-          </Paper>
-          <Container
-            style={{
-              display: "block",
-            }}
-          >
-            <Paper
-              style={{
-                background: theme ? "rgb(70,70,70)" : "rgb(240,240,240)",
-                margin: "10",
-                boxShadow: "none",
-                minHeight: "100px",
-                maxWidth: "100%",
-                minWidth: "100%",
-                display: "inline-block",
-              }}
-            >
-              <Typography variant="h5" onClick={handleEditBio}>
-                {!editingBio ? bio : ""}
-              </Typography>
-              {editingBio ? (
-                <TextField
-                  id="bioTextField"
-                  label=""
-                  multiline
-                  rowsMax={4}
-                  value={bio}
-                  onBlur={stopEditingBio}
-                  onChange={updateBio}
-                  style={{
-                    width: "100%",
-                  }}
-                />
-              ) : null}
-            </Paper>
-            <Typography variant="h1">Stats</Typography>
-            <div
-              style={{
-                textAlign: "left",
-                marginLeft: "5vw",
-                marginRight: "5vw",
-              }}
-            >
-              <Typography variant="h5">
-                <b>User ID</b> {userData.privateID}
-              </Typography>
-              <Typography variant="h5">
-                <b>Joined on</b>{" "}
-                {moment(parseInt(userData.createdAt)).format(
-                  "dddd MMMM Do h:mm:ss A"
-                )}{" "}
-                ( {moment(parseInt(userData.createdAt)).fromNow()} )
-              </Typography>
-              <Typography variant="h5">
-                <b>Balance</b>{" "}
-                {typeof userData.bal !== "undefined"
-                  ? `${userData.bal} Coins`
-                  : "Hidden"}
-              </Typography>
-            </div>
-          </Container>
-        </Card> */}
 			</div>
 		);
 	}
+	// throw "not ready!";
 	return null;
-};
-
+}
 export default connect((state) => ({ UI: state.UI }))(
 	withStyles(styles)(Profile)
 );
