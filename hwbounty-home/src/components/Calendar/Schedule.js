@@ -39,7 +39,7 @@ const useButtonStyles = makeStyles({
     display: "block",
     cursor: "pointer",
     position:"relative",
-    boxShadow: "5px 5px 10px 1px rgba(0,0,0,0.6)!important",
+    boxShadow: " 4px 6px 5px 4px rgba(0,0,0,0.2)!important",
   },
 });
 

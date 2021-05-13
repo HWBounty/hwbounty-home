@@ -373,12 +373,12 @@ class ScheduleInfo extends Component {
             position: "relative",
             background: "rgba(0,0,0,0)",
             borderRadius: "1.25vw!important",
+            boxShadow: "none",
           }}
         />
         <Card
           style={{
-            borderRadius: "1.25vw!important",
-            display: "inline-block",
+            display: "inline-flex",
             verticalAlign: "top",
             width: "30vw",
             height: "30vw",
@@ -386,8 +386,8 @@ class ScheduleInfo extends Component {
             padding: "2%",
             position: "fixed",
             right: "5%",
-            top: "19.5vh",
-
+            borderRadius: "1.25vw", 
+            boxShadow: "4px 6px 5px 4px rgba(0,0,0,0.6)",
           }}
         >
           <div
