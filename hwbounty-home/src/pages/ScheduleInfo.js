@@ -26,8 +26,8 @@ const CTime = (props) => {
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-            "h:mm:ss A"
-          )
+          "h:mm:ss A"
+        )
         }
       </Typography>
       <Typography
@@ -39,8 +39,8 @@ const CTime = (props) => {
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-            "M/D/YYYY dddd"
-          )
+          "M/D/YYYY dddd"
+        )
         }
       </Typography>
     </div>
@@ -64,8 +64,8 @@ const CTimeSmall = (props) => {
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-            "h:mm:ss A"
-          )
+          "h:mm:ss A"
+        )
         }
       </Typography>
       <Typography
@@ -76,8 +76,8 @@ const CTimeSmall = (props) => {
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-            "M/D/YYYY dddd"
-          )
+          "M/D/YYYY dddd"
+        )
         }
       </Typography>
     </div>
@@ -91,16 +91,16 @@ class ScheduleInfo extends Component {
       () => setInterval(() => this.forceUpdate(), 1000),
       1000 - (Date.now() % 1000)
     );
-    this.state={
+    this.state = {
       offset: 0,
     }
-    
+
   }
-  goBackADay(salf){
-    salf.setState({offset: salf.state.offset- 1});
+  goBackADay(salf) {
+    salf.setState({ offset: salf.state.offset - 1 });
   }
-  fastForwardADay(salf){
-    salf.setState({offset: salf.state.offset+ 1});
+  fastForwardADay(salf) {
+    salf.setState({ offset: salf.state.offset + 1 });
   }
   getTimePhrase() {
     try {
@@ -147,19 +147,18 @@ class ScheduleInfo extends Component {
       )[0];
 
       if (currentClass) {
-        let endingInString = `${
-          currentClass.timeEnd - Date.now() > 60000
+        let endingInString = `${currentClass.timeEnd - Date.now() > 60000
             ? currentClass.timeEnd - Date.now() > 3600000
               ? `${Math.round(
-                  moment.duration(currentClass.timeEnd - Date.now()).asHours()
-                )} hours`
+                moment.duration(currentClass.timeEnd - Date.now()).asHours()
+              )} hours`
               : `${Math.round(
-                  moment.duration(currentClass.timeEnd - Date.now()).asMinutes()
-                )} minutes`
+                moment.duration(currentClass.timeEnd - Date.now()).asMinutes()
+              )} minutes`
             : `${Math.round(
-                moment.duration(currentClass.timeEnd - Date.now()).asSeconds()
-              )} seconds`
-        }`;
+              moment.duration(currentClass.timeEnd - Date.now()).asSeconds()
+            )} seconds`
+          }`;
 
         //Try to push a notif if class is starting soon
         if (
@@ -188,19 +187,18 @@ class ScheduleInfo extends Component {
       )[0];
 
       if (nextClass) {
-        let startingInString = `${
-          nextClass.timeStart - Date.now() > 60000
+        let startingInString = `${nextClass.timeStart - Date.now() > 60000
             ? nextClass.timeStart - Date.now() > 3600000
               ? `${Math.round(
-                  moment.duration(nextClass.timeStart - Date.now()).asHours()
-                )} hours`
+                moment.duration(nextClass.timeStart - Date.now()).asHours()
+              )} hours`
               : `${Math.round(
-                  moment.duration(nextClass.timeStart - Date.now()).asMinutes()
-                )} minutes`
+                moment.duration(nextClass.timeStart - Date.now()).asMinutes()
+              )} minutes`
             : `${Math.round(
-                moment.duration(nextClass.timeStart - Date.now()).asSeconds()
-              )} seconds`
-        }`;
+              moment.duration(nextClass.timeStart - Date.now()).asSeconds()
+            )} seconds`
+          }`;
         if (
           nextClass.timeStart - Date.now() < 120 * 1000 &&
           Date.now() - lastTimeBasedNotif > 240 * 1000
@@ -227,19 +225,18 @@ class ScheduleInfo extends Component {
         .filter((x) => Date.now() > x.timeEnd)
         .pop();
       if (lastClass) {
-        let lastEnded = `${
-          Date.now() - lastClass.timeEnd > 60000
+        let lastEnded = `${Date.now() - lastClass.timeEnd > 60000
             ? Date.now() - lastClass.timeEnd > 60000
               ? `${Math.round(
-                  moment.duration(Date.now() - lastClass.timeEnd).asHours()
-                )} hours`
+                moment.duration(Date.now() - lastClass.timeEnd).asHours()
+              )} hours`
               : `${Math.round(
-                  moment.duration(Date.now() - lastClass.timeEnd).asMinutes()
-                )} minutes`
+                moment.duration(Date.now() - lastClass.timeEnd).asMinutes()
+              )} minutes`
             : `${Math.round(
-                moment.duration(Date.now() - lastClass.timeEnd).asSeconds()
-              )} seconds`
-        }`;
+              moment.duration(Date.now() - lastClass.timeEnd).asSeconds()
+            )} seconds`
+          }`;
         return `${getPeriodName(lastClass.period)} ended ${lastEnded} ago`;
       }
 
@@ -250,9 +247,9 @@ class ScheduleInfo extends Component {
     }
   }
   render() {
-    
+
     let offset = this.state.offset;
-    let adjustedMoment = moment().add(offset*24,"hours");
+    let adjustedMoment = moment().add(offset * 24, "hours");
     if (window.innerWidth <= 1000) {
       return (
         <div
@@ -293,7 +290,28 @@ class ScheduleInfo extends Component {
               background: "rgba(0,0,0,0)",
             }}
           >
-             <Schedule dayOffset={offset} />
+            <div>
+              <span style={
+                {
+                  display: "inline-flex",
+                  alignItems: "center",
+                }
+              }>
+                <IconButton onClick={x => this.goBackADay(this)}> <ChevronLeft /> </IconButton> <Typography style={{
+                  fontFamily: "Poppins",
+                  fontWeight: "400",
+                  fontSize: "32px"
+                }}>{adjustedMoment.format("dddd MMMM D")}</Typography>
+
+                <IconButton onClick={x => this.fastForwardADay(this)}> <ChevronRight /> </IconButton>
+              </span>
+              <Typography style={{
+                fontFamily: "Nunito",
+                fontWeight: "400",
+                fontSize: "24px"
+              }}>{getWhenSchoolEnds(offset)}</Typography>
+            </div>
+            <Schedule dayOffset={offset} />
           </Card>
         </div>
       );
@@ -328,19 +346,19 @@ class ScheduleInfo extends Component {
                 alignItems: "center",
               }
             }>
-              <IconButton onClick={x=>this.goBackADay(this)}> <ChevronLeft /> </IconButton> <Typography style={{
+              <IconButton onClick={x => this.goBackADay(this)}> <ChevronLeft /> </IconButton> <Typography style={{
                 fontFamily: "Poppins",
-                fontWeight :"400",
+                fontWeight: "400",
                 fontSize: "32px"
               }}>{adjustedMoment.format("dddd MMMM D")}</Typography>
 
-              <IconButton onClick={x=>this.fastForwardADay(this)}> <ChevronRight /> </IconButton>
+              <IconButton onClick={x => this.fastForwardADay(this)}> <ChevronRight /> </IconButton>
             </span>
             <Typography style={{
-                fontFamily: "Nunito",
-                fontWeight :"400",
-                fontSize: "24px"
-              }}>{getWhenSchoolEnds(offset)}</Typography>
+              fontFamily: "Nunito",
+              fontWeight: "400",
+              fontSize: "24px"
+            }}>{getWhenSchoolEnds(offset)}</Typography>
           </div>
           <Schedule dayOffset={offset} />
         </Card>
@@ -369,7 +387,7 @@ class ScheduleInfo extends Component {
             position: "fixed",
             right: "5%",
             top: "19.5vh",
-            
+
           }}
         >
           <div
@@ -378,7 +396,7 @@ class ScheduleInfo extends Component {
               top: "50%",
               left: "50%",
               transform: "translate(-50%,-50%)",
-             
+
             }}
           >
             <CTime />
