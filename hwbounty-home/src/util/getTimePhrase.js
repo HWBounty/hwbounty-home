@@ -5,6 +5,7 @@ export const getTimePhrase = () => {
     try {
       if (!localStorage.getItem("cachedSchedule")) return "";
       let scheduleOBJ = JSON.parse(localStorage.getItem("cachedSchedule"));
+      let classData = JSON.parse(localStorage.getItem("cachedCourseInfo"));
       let schedule = JSON.parse(scheduleOBJ.schedule.schedule);
       let user = JSON.parse(localStorage.getItem("user"));
       let allClasses = scheduleOBJ.classes;
@@ -145,5 +146,63 @@ export const getTimePhrase = () => {
       console.trace(error);
       return "";
     }
+  };
+  export const getWhenSchoolEnds = (offset) => {
+    try {
+      if (!localStorage.getItem("cachedSchedule")) return "";
+      let scheduleOBJ = JSON.parse(localStorage.getItem("cachedSchedule"));
+      let classData = JSON.parse(localStorage.getItem("cachedCourseInfo"));
+      let schedule = JSON.parse(scheduleOBJ.schedule.schedule);
+      let user = JSON.parse(localStorage.getItem("user"));
+      let allClasses = scheduleOBJ.classes;
+      let convertedMoment = moment().tz(schedule.timePeriod).utcOffset();
+      let currentMoment = moment().utcOffset();
+      let currentTime = moment();
+      let getPeriodName = (periodID) => {
+        return (
+          JSON.parse(scheduleOBJ.schedule.nameOverrides)[periodID] || "Break"
+        );
+      };
+      let scheduleDay = moment(Date.now());
+      let ogHasOffset = !!offset;
+      if (offset)
+        offset = ((scheduleDay.isoWeekday() - 1)+ (offset % 7+7)%7)%7;
+      else
+        offset = (scheduleDay.isoWeekday() - 1);
+      let dotw = [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday",
+      ][offset];
+      let formattedClasses =
+        schedule[dotw] &&
+        schedule[dotw].map((clas) => {
+          let courseInfo = classData.filter(x=>x.course.id === allClasses[clas.period].value).length
+            ? allClasses[clas.period]
+            : null;
+          if (!(courseInfo) && clas.period !== "break") return null;
+          return {
+            period: clas.period,
+            timeStart:
+              moment(clas.timeStart, "hh:mma")
+                .add((convertedMoment - currentMoment) / 60, "hours")
+                .unix() * 1000,
+            timeEnd:
+              moment(clas.timeEnd, "hh:mma")
+                .add((convertedMoment - currentMoment) / 60, "hours")
+                .unix() * 1000,
+            endTime: clas.timeEnd,
+          };
+        }).filter(x=>x);
+      formattedClasses.sort((a,b)=> b.timeEnd-a.timeEnd);
+      if (!formattedClasses.length) return "No school today!";
+      return `School ends at ${formattedClasses[0].endTime}`
+      }catch(er){
+        console.trace(er);
+      }
   };
 export default getTimePhrase;

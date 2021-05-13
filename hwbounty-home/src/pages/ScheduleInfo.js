@@ -1,10 +1,12 @@
-import { Card, Typography } from "@material-ui/core";
+import { Card, IconButton, Typography } from "@material-ui/core";
 import moment from "moment";
 import { Component, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Schedule from "../components/Calendar/Schedule";
 import Notifications from "../util/notifications";
 import { withSnackbar } from 'notistack';
+import { ChevronLeft, ChevronRight } from "@material-ui/icons";
+import { getWhenSchoolEnds } from "../util/getTimePhrase";
 const CTime = (props) => {
   const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date()); // default value can be anything you want
   return (
@@ -89,6 +91,16 @@ class ScheduleInfo extends Component {
       () => setInterval(() => this.forceUpdate(), 1000),
       1000 - (Date.now() % 1000)
     );
+    this.state={
+      offset: 0,
+    }
+    
+  }
+  goBackADay(salf){
+    salf.setState({offset: salf.state.offset- 1});
+  }
+  fastForwardADay(salf){
+    salf.setState({offset: salf.state.offset+ 1});
   }
   getTimePhrase() {
     try {
@@ -238,7 +250,9 @@ class ScheduleInfo extends Component {
     }
   }
   render() {
-
+    
+    let offset = this.state.offset;
+    let adjustedMoment = moment().add(offset*24,"hours");
     if (window.innerWidth <= 1000) {
       return (
         <div
@@ -279,7 +293,7 @@ class ScheduleInfo extends Component {
               background: "rgba(0,0,0,0)",
             }}
           >
-            <Schedule />
+             <Schedule dayOffset={offset} />
           </Card>
         </div>
       );
@@ -305,7 +319,30 @@ class ScheduleInfo extends Component {
             borderWidth: 0,
           }}
         >
-          <Schedule />
+          <div style={{
+            textAlign: "left",
+          }}>
+            <span style={
+              {
+                display: "inline-flex",
+                alignItems: "center",
+              }
+            }>
+              <IconButton onClick={x=>this.goBackADay(this)}> <ChevronLeft /> </IconButton> <Typography style={{
+                fontFamily: "Poppins",
+                fontWeight :"400",
+                fontSize: "32px"
+              }}>{adjustedMoment.format("dddd MMMM D")}</Typography>
+
+              <IconButton onClick={x=>this.fastForwardADay(this)}> <ChevronRight /> </IconButton>
+            </span>
+            <Typography style={{
+                fontFamily: "Nunito",
+                fontWeight :"400",
+                fontSize: "24px"
+              }}>{getWhenSchoolEnds(offset)}</Typography>
+          </div>
+          <Schedule dayOffset={offset} />
         </Card>
         <Card
           style={{

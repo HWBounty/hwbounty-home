@@ -65,12 +65,15 @@ const PeriodButton = (props) => {
     tSS,
     tES,
     duration,
+    nofill,
   } = props;
   //% from 0 to 100
   const { enqueueSnackbar } = useSnackbar();
   let timePassed = 0;
   //If we are past the end time, set time passed to 100%
-  if (Date.now() - timeEnd > 0) timePassed = 100;
+  if (nofill > 0 ) timePassed = 0;
+  else if (nofill < 0) timePassed = 100;
+  else if (Date.now() - timeEnd > 0) timePassed = 100;
   //If we are in class, set time passed to (current-start)/(End-start) * 100
   else if (Date.now() - timeStart > 0 && timeEnd - Date.now() > 0)
     timePassed = ((Date.now() - timeStart) * 100) / (timeEnd - timeStart);
@@ -170,8 +173,13 @@ const PeriodButton = (props) => {
   );
 };
 
-const parsePeriods = (scheduleData, zoomLinkInfo, theme) => {
+const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
   let scheduleDay = moment(Date.now());
+  let ogHasOffset = offset;
+  if (offset)
+    offset = ((scheduleDay.isoWeekday() - 1)+ (offset % 7+7)%7)%7;
+  else
+    offset = (scheduleDay.isoWeekday() - 1);
   let dotw = [
     "monday",
     "tuesday",
@@ -180,8 +188,7 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme) => {
     "friday",
     "saturday",
     "sunday",
-  ][scheduleDay.isoWeekday() - 1];
-
+  ][offset];
   let allClasses = scheduleData.classes;
   let classes = new Map();
   let nameOverrides = JSON.parse(scheduleData.schedule.nameOverrides);
@@ -200,13 +207,14 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme) => {
     )
       ? classes.get(allClasses[x.period] && allClasses[x.period].value)
       : null;
+    if (!(courseInfo) && x.period !== "break") return null;
     return {
       period: nameOverrides[x.period] || x.period,
       color: colors[i],
       name:
         courseInfo && courseInfo.course
           ? courseInfo.course.course_title
-          : "No Class",
+          : x.period === "break" ? nameOverrides[x.period]:"No Class",
       zoom:
         courseInfo && courseInfo.links
           ? courseInfo.links
@@ -228,8 +236,9 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme) => {
       tSS: x.timeStart,
       tES: x.timeEnd,
       duration: x.timeEnd - x.timeStart,
+      nofill: ogHasOffset,
     };
-  });
+  }).filter(x=>x);
 };
 let done = false;
 const fetchAndSet = async (setCourseInfo, setScheduleData, setCannotFetch) => {
@@ -264,6 +273,7 @@ export const Schedule = (props) => {
   const {
     UI: { theme },
   } = props;
+  const dayOffset =  props.dayOffset;
   const forceUpdate = useForceUpdate();
   useEffect(() => {
     const id = setTimeout(
@@ -315,7 +325,7 @@ export const Schedule = (props) => {
         </Typography>
       </div>
     );
-  const periods = parsePeriods(scheduleData, courseInfo, theme);
+  const periods = parsePeriods(scheduleData, courseInfo, theme,dayOffset);
   return (
     <Container style={{ marginBottom: "50px", width: "100%", padding: "0px" }}>
       {React.Children.toArray(
@@ -332,6 +342,7 @@ export const Schedule = (props) => {
               tSS={p.tSS}
               tES={p.tES}
               duration={p.timeEnd - p.timeStart}
+              nofill={p.nofill}
             />
           );
         })

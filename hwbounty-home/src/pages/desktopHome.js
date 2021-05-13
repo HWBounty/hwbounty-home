@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     display: "inline",
   },
   card: {
-    boxShadow: "10px 15px 36px 2px rgba(0,0,0,0.5)!important",
+    boxShadow: "8px 11px 16px -4px rgba(0,0,0,0.75)!important",
     background: (theme) => (theme ? "rgb(35,35,35)" : "rgb(230,230,230)"),
     borderRadius: "1vw",
   },
