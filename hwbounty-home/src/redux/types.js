@@ -18,6 +18,16 @@ export const MARK_NOTIFICATIONS_READ = "MARK_NOTIFICATIONS_READ";
 export const CONFIRM_SIGNUP = "CONFIRM_SIGNUP";
 export const SET_SCHOOLOGY_LINKED = "SET_SCHOOLOGY_LINKED";
 
+//======Module reducer types======//
+
+// Calculator
+export const CALC_ADD_HISTORY = "SET_CALC_HISTORY";
+export const CALC_SET_INPUT = "CALC_SET_INPUT";
+export const CALC_ADD_VARIABLE = "CALC_ADD_VARIABLE";
+export const CALC_REMOVE_VARIABLE = "CALC_REMOVE_VARIABLE";
+
+//===============================//
+
 // Const vars
 export const _maxThemeVal = 1;
 

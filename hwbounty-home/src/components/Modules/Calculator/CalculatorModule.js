@@ -28,7 +28,7 @@ export const CalculatorModule = (props) => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={5}>
+      <Grid item xs={8}>
         <Paper className={classes.paper}>
           <Calculator />
         </Paper>

@@ -9,6 +9,13 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 
+// Redux
+import { connect } from "react-redux";
+import { calc_addHistory } from "../../../redux/actions/moduleActions";
+
+// Components
+import History from "./History";
+
 // Math related
 import mathquillToMathJS from "../../../util/latex/preprocessMathQuill";
 import { addStyles, EditableMathField, StaticMathField } from "react-mathquill";
@@ -53,7 +60,7 @@ const LatexInput = (props) => {
 };
 
 export const Calculator = (props) => {
-  const { classes } = props;
+  const { classes, calc_addHistory } = props;
 
   const [expression, setExpression] = useState("");
   const [answer, setAnswer] = useState("");
@@ -69,10 +76,11 @@ export const Calculator = (props) => {
       const ans = CalculatorBackend.self.solveEquation(
         mathquillToMathJS(val.latex())
       );
-      console.log(ans);
+      console.log(ans, expression);
       if (!ans.steps.length) {
         let ans = parser.evaluate(mathquillToMathJS(val.latex()));
         setAnswer(`${ans}`);
+        calc_addHistory({ latex: val.latex(), ans: `${ans}` });
       } else setAnswer(ans.steps.pop().newEquation.ascii());
       setError(false);
     } catch (er) {
@@ -98,6 +106,7 @@ export const Calculator = (props) => {
 
   return (
     <div className={classes.rootPadding}>
+      <History />
       <InputBase
         inputComponent={LatexInput}
         inputProps={{
@@ -122,4 +131,6 @@ export const Calculator = (props) => {
   );
 };
 
-export default withStyles(styles)(Calculator);
+export default connect(null, { calc_addHistory })(
+  withStyles(styles)(Calculator)
+);
