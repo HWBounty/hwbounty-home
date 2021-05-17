@@ -86,7 +86,6 @@ const App = (props) => {
       type: theme === 0 ? "light" : "dark",
     },
   });
-
   return (
     <SnackbarProvider maxSnack={5}>
       <ShortcutProvider ignoreTagNames={["input", "textarea"]}>
@@ -109,7 +108,16 @@ const App = (props) => {
                 <AuthPopup />
                 {/* <MusicModule /> */}
                 <LoadIntoCache />
-
+                {!authenticated && (
+                  <div
+                    id="g_id_onload"
+                    data-client_id="160671237729-g24u8hcgp9ikj6ngks845j9rhh0cu7cq.apps.googleusercontent.com"
+                    data-context="signin"
+                    data-callback="googleAuth"
+                    data-auto_select="true"
+                    data-close_on_tap_outside="false"
+                  ></div>
+                )}
                 <Switch>
                   <Route exact path="/" component={home} />
                   <Route
