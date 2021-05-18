@@ -338,7 +338,7 @@ export const ProfileInfo = ({theme, userDat})=>{
 					<div className={classes.mainInfoEverything}>
 
 
-						<img src={pfp || "https://cdn1.iconfinder.com/data/icons/materia-human/24/013_003_account_profile_circle-512.png"} className={`${classes.profileDiv} ${JSON.parse(localStorage.getItem("user"))?.privateID ===
+						<img src={pfp || "https://github.com/HWBounty/hwbounty-home/blob/gh-pages/logo512.png?raw=true"} className={`${classes.profileDiv} ${JSON.parse(localStorage.getItem("user"))?.privateID ===
 							userData.privateID && classes.hoverBlur}`}
 							onClick={
 								JSON.parse(localStorage.getItem("user"))?.privateID ===

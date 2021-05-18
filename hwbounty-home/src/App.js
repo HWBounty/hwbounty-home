@@ -32,6 +32,7 @@ import { SchoologyButton } from "./components/SchoologyButton";
 import CalculatorBackend from "./util/calculator";
 import LoadingPage from "./pages/loadingPage";
 import { GainCoins } from "./components/Modules/GainCoins";
+import newProfile from "./pages/newProfile";
 
 // Pages
 const Modules = lazy(() => import("./pages/modules"));
@@ -133,6 +134,7 @@ const App = (props) => {
                   <Route path="/schedule/set" component={setSchedule} />
                   <Route path="/modules/" component={Modules} />
                   <Route path="/user/" component={Profile} />
+                  <Route path="/userp/" component={newProfile} />
                   <Route path="/settings/" component={Settings} />
                   <Route path="/loadingPage/" component={LoadingPage} />
                   <Route
