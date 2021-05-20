@@ -11,7 +11,10 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 // Redux
 import { connect } from "react-redux";
-import { calc_addHistory } from "../../../redux/actions/moduleActions";
+import {
+  calc_addHistory,
+  calc_setInput,
+} from "../../../redux/actions/moduleActions";
 
 // Components
 import History from "./History";
@@ -28,7 +31,7 @@ addStyles();
 const history = [];
 const maths = math.create(math.all, {
   number: "BigNumber",
-  precision: 64,
+  precision: 2,
 });
 const parser = maths.parser();
 const styles = (theme) => ({
@@ -60,31 +63,38 @@ const LatexInput = (props) => {
 };
 
 export const Calculator = (props) => {
-  const { classes, calc_addHistory } = props;
+  const {
+    classes,
+    module: {
+      calculator: { input },
+    },
+    calc_addHistory,
+  } = props;
 
-  const [expression, setExpression] = useState("");
   const [answer, setAnswer] = useState("");
   const [error, setError] = useState(false);
 
   const mathField = useRef(null);
-  const handleInputChange = (val) => {
-    setExpression(val.latex());
-  };
+
+  useEffect(() => {
+    try {
+      mathField.current.latex(input ? input : "");
+    } catch {
+      console.log("Expression invalid");
+    }
+  }, [input]);
 
   const handleSubmit = (val) => {
     try {
-      const ans = CalculatorBackend.self.solveEquation(
-        mathquillToMathJS(val.latex())
-      );
-      console.log(ans, expression);
-      if (!ans.steps.length) {
-        let ans = parser.evaluate(mathquillToMathJS(val.latex()));
-        setAnswer(`${ans}`);
-        calc_addHistory({ latex: val.latex(), ans: `${ans}` });
-      } else setAnswer(ans.steps.pop().newEquation.ascii());
+      // const ans = CalculatorBackend.self.solveEquation(
+      //   mathquillToMathJS(val.latex())
+      // );
+      let ans = parser.evaluate(mathquillToMathJS(val.latex()));
+      setAnswer(`${ans}`);
       setError(false);
-    } catch (er) {
-      console.log(er);
+      calc_addHistory({ latex: val.latex(), ans: `${ans}` });
+    } catch (err) {
+      console.log(err);
       setAnswer("ERROR!!!!");
       setError(true);
     }
@@ -92,6 +102,10 @@ export const Calculator = (props) => {
 
   const handleMathquillMount = (val) => {
     mathField.current = val;
+  };
+
+  const handleChange = (val) => {
+    calc_setInput(`${val.latex()}`);
   };
 
   const handleNumberPressed = (num) => {
@@ -110,12 +124,12 @@ export const Calculator = (props) => {
       <InputBase
         inputComponent={LatexInput}
         inputProps={{
-          onChange: handleInputChange,
           onSubmit: handleSubmit,
+          onChange: handleChange,
           mathquillDidMount: handleMathquillMount,
         }}
         /*className={classes.input}*/
-        value={expression}
+        value=""
         fullWidth
       ></InputBase>
       <Grid container spacing={2} className={classes.symbolPadGrid}>
@@ -131,6 +145,10 @@ export const Calculator = (props) => {
   );
 };
 
-export default connect(null, { calc_addHistory })(
+const mapStateToProps = (state) => ({
+  module: state.module,
+});
+
+export default connect(mapStateToProps, { calc_addHistory, calc_setInput })(
   withStyles(styles)(Calculator)
 );
