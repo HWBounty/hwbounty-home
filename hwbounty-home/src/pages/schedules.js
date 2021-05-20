@@ -1,4 +1,4 @@
-import { ButtonBase, Card, Container, List, makeStyles, Paper, Tab, Tabs, TextField, Typography } from "@material-ui/core"
+import { ButtonBase, Card, Container, Divider, Fade, List, ListItem, makeStyles, Paper, Tab, Tabs, TextField, Typography, Zoom } from "@material-ui/core"
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
@@ -39,14 +39,18 @@ const useStyles = makeStyles({
 
 	},
 	catalogItemCard: {
-		minHeight: "70%",
-		maxHeight: "70%",
-		width: "384px",
+		// minHeight: "70%",
+		// maxHeight: "70%",
+		minWidth: "384px",
 		display: "inline-flex",
 		justifyContent: "flex-start",
 		flexDirection: "column",
-		margin: "1rem",
+		height: "80%",
+		margin: "5vmin",
 		padding: "1rem",
+		borderRadius: "1rem",
+		background: (theme) => theme === 1 ? "#353839ff" : "#f3f3f3ff",
+		boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
 	},
 	catalogItemCardButton: {
 		display: "inline-flex",
@@ -59,6 +63,9 @@ const useStyles = makeStyles({
 		fontSize: "2vw",
 		textAlign: "center",
 		fontFamily: "Poppins",
+		fontWeight: "800",
+		marginTop: "1vmin",
+		marginBottom: "1vmin",
 	},
 	catalogItemsDiv: {
 		width: "55%",
@@ -66,33 +73,55 @@ const useStyles = makeStyles({
 		height: "90vh",
 		display: "inline-flex",
 		alignContent: "center",
-		justifyContent: "center",
+		justifyContent: "flex-start",
 		alignItems: "center",
 		flexDirection: "row",
+		flexWrap: "nowrap",
 
 	},
 	scheduleDisplay: {
 		width: "100%",
-
-		height: "40%",
+		borderColor: (theme) => theme === 1 ? "#b7b7b7" : "#666666",
+		borderWidth: "0.05rem!important",
+		// borderStyle: "solid",
+		borderRadius: "2rem",
+		minHeight: "90%",
+		height: "90%",
+		maxHeight: "50vh",
+		// overflowY: "scroll",
+		background: "rgba(0,0,0,0)",
+		boxShadow: "none",
+		alignSelf: "flex-start",
 	},
 	scheduleList: {
-		marginBottom: "5%",
-		overflow: "scroll",
-		maxHeight: "50vh!important",
+		// marginBottom: "5%",
+		overflowY: "auto",
+		maxHeight: "50vh",
+		flexGrow: "1",
+		// maxHeight: "50vh!important",
 	},
-	scheduleDisplayTab:{
+	scheduleDisplayTab: {
 		maxWidth: "14.283%",
 		width: "14.283%",
 		minWidth: "14.283%",
 	},
 	scheduleDisplayPeriod: {
-		fontSize: "1.5vw",
+		fontSize: "2.5vmin",
 		fontFamily: "Nunito",
+		textAlign: "left",
+		fontWeight: "750",
+		textOverflow: "elipsis",
+		overflow: "hidden",
+		whiteSpace: "nowrap",
+		margin: "1vmin",
+		color: (theme)=> theme ===0? "#5c5c5c": "#ffffff"
 	},
 	scheduleDisplayPeriodTime: {
-		fontSize: "1vw",
+		fontSize: "1.5vmin",
 		fontFamily: "Nunito",
+		// textOverflow: "elipsis",
+		// overflow: "hidden",
+		whiteSpace: "nowrap",
 	}
 });
 export const ScheduleCatalog = (props) => {
@@ -117,61 +146,83 @@ export const ScheduleCatalog = (props) => {
 }
 
 const DisplayedScheduleDay = (props) => {
-  const classes = props.classes;
-  const data = props.data;
-  const day = props.day;
-  let overrides = JSON.parse(data.nameOverrides);
-  let dayschedule = JSON.parse(data.schedule)[
-    [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
-    ][day]
-  ].map((x) => {
-    return Object.assign(x, {
-      period: overrides[x.period] || x.period,
-    });
-  });
-  const renderPeriods = () => {
-    let children = React.Children.toArray(
-      dayschedule.map((x) => {
-        return (
-          <Container style={
-		  {
-			  textAlign:"left",
-		  }
-		  }>
-            <Typography className={`${classes.scheduleDisplayPeriod}`}>{x.period}</Typography>
-            <Typography className={`${classes.scheduleDisplayPeriodTime}`}>{x.timeStart}-{x.timeEnd}</Typography>
-          </Container>
-        );
-      })
-    );
-    if (!children.length)
-      return <Typography variant="h3">No School Today!</Typography>;
-    return children;
-  };
-  return (
-    <Container
-      style={{
-        marginBottom: "5%",
-      }}
-	  className = {`${classes.scheduleList}`}
-    >
-      {renderPeriods()}
-    </Container>
-  );
+	const classes = props.classes;
+	const data = props.data;
+	const day = props.day;
+	let overrides = JSON.parse(data.nameOverrides);
+	let dayschedule = JSON.parse(data.schedule)[
+		[
+			"monday",
+			"tuesday",
+			"wednesday",
+			"thursday",
+			"friday",
+			"saturday",
+			"sunday",
+		][day]
+	].map((x) => {
+		return Object.assign(x, {
+			period: overrides[x.period] || x.period,
+		});
+	});
+	const renderPeriods = () => {
+		let resArr = [];
+		for (let i = 0; i< dayschedule.length; i++){
+			resArr.push(dayschedule[i]);
+			if (i+1 !== dayschedule.length){
+				resArr.push("divider");
+			}
+		}
+		dayschedule = resArr;
+		let children = React.Children.toArray(
+			dayschedule.map((x) => {
+				if (x==="divider") return <Divider />
+				return (
+					<ListItem style={{
+						display: "flex",
+						justifyContent: "space-between",
+						alignItems: "center",
+						flexDirection: "row",
+					}}
+					
+					>
+						<Typography className={`${classes.scheduleDisplayPeriod}`}>{x.period}</Typography>
+						<Typography className={`${classes.scheduleDisplayPeriodTime}`}>{x.timeStart}-{x.timeEnd}</Typography>
+						
+					</ListItem>
+					
+				);
+			})
+		);
+		if (!children.length)
+			return <Typography variant="h5">No School Today!</Typography>;
+		return (
+			<List>
+				{children}
+			</List>
+
+
+		)
+
+
+	};
+	return (
+		<Container
+			style={{
+				marginBottom: "5%",
+			}}
+			className={`${classes.scheduleList}`}
+		>
+			{renderPeriods()}
+		</Container>
+	);
 };
 const ScheduleItem = (props) => {
 	let scheduleData = props.schedule;
 	let theme = props.theme;
 	const classes = useStyles(theme);
-	const [cTab,setCTab] = useState(0);
-	const updateTab = (ev,nv)=>{
+	const [cTab, setCTab] = useState(0);
+	const updateTab = (ev, nv) => {
 		setCTab(nv);
 	}
 	/*
@@ -189,7 +240,7 @@ const ScheduleItem = (props) => {
 	*/
 	return (
 		<Paper
-		className={`${classes.scheduleDisplay}`}
+			className={`${classes.scheduleDisplay}`}
 		>
 			<Tabs
 				variant="fullWidth"
@@ -197,8 +248,8 @@ const ScheduleItem = (props) => {
 				scrollButtons="auto"
 				indicatorColor="primary"
 				textColor="primary"
-				value = {cTab}
-				onChange = {updateTab}
+				value={cTab}
+				onChange={updateTab}
 			>
 				<Tab label="M" className={`${classes.scheduleDisplayTab}`} />
 				<Tab label="T" className={`${classes.scheduleDisplayTab}`} />
@@ -209,56 +260,56 @@ const ScheduleItem = (props) => {
 				<Tab label="Su" className={`${classes.scheduleDisplayTab}`} />
 			</Tabs>
 			<List>
-              {cTab === 0 && (
-                <DisplayedScheduleDay
-                  day={cTab}
-                  data={scheduleData}
-				  classes = {classes}
-                />
-              )}
-              {cTab === 1 && (
-                <DisplayedScheduleDay
-                  day={cTab}
-                  data={scheduleData}
-				  classes = {classes}
-                />
-              )}
-              {cTab === 2 && (
-                <DisplayedScheduleDay
-                  day={cTab}
-                  data={scheduleData}
-				  classes = {classes}
-                />
-              )}
-              {cTab === 3 && (
-                <DisplayedScheduleDay
-                  day={cTab}
-                  data={scheduleData}
-				  classes = {classes}
-                />
-              )}
-              {cTab === 4 && (
-                <DisplayedScheduleDay
-                  day={cTab}
-                  data={scheduleData}
-				  classes = {classes}
-                />
-              )}
-              {cTab === 5 && (
-                <DisplayedScheduleDay
-                  day={cTab}
-                  data={scheduleData}
-				  classes = {classes}
-                />
-              )}
-              {cTab === 6 && (
-                <DisplayedScheduleDay
-                  day={cTab}
-                  data={scheduleData}
-				  classes = {classes}
-                />
-              )}
-            </List>
+				{cTab === 0 && (
+					<DisplayedScheduleDay
+						day={cTab}
+						data={scheduleData}
+						classes={classes}
+					/>
+				)}
+				{cTab === 1 && (
+					<DisplayedScheduleDay
+						day={cTab}
+						data={scheduleData}
+						classes={classes}
+					/>
+				)}
+				{cTab === 2 && (
+					<DisplayedScheduleDay
+						day={cTab}
+						data={scheduleData}
+						classes={classes}
+					/>
+				)}
+				{cTab === 3 && (
+					<DisplayedScheduleDay
+						day={cTab}
+						data={scheduleData}
+						classes={classes}
+					/>
+				)}
+				{cTab === 4 && (
+					<DisplayedScheduleDay
+						day={cTab}
+						data={scheduleData}
+						classes={classes}
+					/>
+				)}
+				{cTab === 5 && (
+					<DisplayedScheduleDay
+						day={cTab}
+						data={scheduleData}
+						classes={classes}
+					/>
+				)}
+				{cTab === 6 && (
+					<DisplayedScheduleDay
+						day={cTab}
+						data={scheduleData}
+						classes={classes}
+					/>
+				)}
+			</List>
 		</Paper>
 	)
 }
@@ -269,13 +320,29 @@ const DesktopLayout = (props) => {
 		setSchedulesSearch(nv || e.target.value)
 	}
 	const mapToCards = (arr) => {
+		console.log(arr);
 		return React.Children.toArray(arr.map(schedule => {
 			return (
-				<Card className={`${classes.catalogItemCard}`} onClick={null}>
-						<Typography className={`${classes.catalogItemTitle}`}>{schedule.name}</Typography>
-						<ScheduleItem schedule={schedule} theme={theme}/>
+				<Zoom
+				in
+				timeout={300}
+				style={{transitionDelay:"0ms"}}
+				>
+					<Card className={`${classes.catalogItemCard}`} onClick={null}>
+					<Typography className={`${classes.catalogItemTitle}`}>{schedule.name}</Typography>
+					<div style={{
+						flexGrow: 1,
+						display: "flex",
+						alignItems: "center",
+						justifyItems: "center",
+					}}>
+						<ScheduleItem schedule={schedule} theme={theme} />
+					</div>
+
 
 				</Card>
+				</Zoom>
+				
 			)
 			return null;
 		}));
@@ -294,7 +361,7 @@ const DesktopLayout = (props) => {
 				<TextField id="searchBox" variant="outlined" label="What school are you from?" className={`${classes.catalogLeftSearchBox}`} value={schedulesSearch} onChange={query} />
 			</div>
 			<div className={`${classes.catalogItemsDiv}`}>
-				{mapToCards(schedulesResult)}
+				{!schedulesSearch ? null : mapToCards(schedulesResult)}
 			</div>
 		</div>
 

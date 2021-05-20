@@ -1,4 +1,4 @@
-import { Button, Card, Chip, makeStyles, Typography } from "@material-ui/core";
+import { Button, Card, Chip, Collapse, Fade, Grow, makeStyles, Slide, Typography, Zoom } from "@material-ui/core";
 import axios from "axios";
 import moment from "moment";
 import { useSnackbar } from "notistack";
@@ -30,11 +30,15 @@ const chipStyles = makeStyles((theme) => ({
 		height: (props) => `${props.size * 32}px`,
 		borderRadius: "9999px",
 		backgroundColor: (props) => `${props.color}!important`,
-		margin: "10px",
+		margin: "16px",
+		padding: "8px",
+		display: "flex",
+		justifyContent: "middle",
+		alignItems: "flex-start"
 	},
 	avatar: {
 		"&&": {
-			height: (props) => `${props.size * 24}px`,
+			height: (props) => `${props.size * 24 + 8}px`,
 			width: (props) => `${props.size * 24}px`,
 			fontSize: (props) => `${props.size * 0.75}rem`
 		}
@@ -60,7 +64,7 @@ const CustomChip = (props) => {
 const useStyles = makeStyles({
 	mainCard: {
 		width: "90vw",
-		height: "90vh",
+		minHeight: "90vh",
 		marginLeft: "5vw",
 		marginTop: "5vh",
 		display: "flex",
@@ -68,10 +72,10 @@ const useStyles = makeStyles({
 	profileCard: {
 		minWidth: "25rem",
 		width: "25vw",
-		height: "90vh",
+		// height: "100%",
 		alignSelf: "left",
 		display: "flex",
-
+		flexGrow: 1,
 		justifyContent: "flex-start",
 		alignItems: "center",
 		flexDirection: "column"
@@ -137,63 +141,72 @@ const useStyles = makeStyles({
 	bioTextField: {
 		width: "100%",
 		minWidth: "80%",
+		// padding: "5%",
 		textAlign: "center",
 		background: "rgba(0,0,0,0.25)",
-		height: "50vh",
-		maxHeight: "50vh",
-		minHeight: "50vh",
+		flexGrow: "1",
 		border: 'none',
 		outline: "none",
+		margin: "5%",
+		borderRadius: "10px",
 	},
 	dataDiv: {
-		width: "calc(90vw - 25rem)",
+		// width: "calc(90vw - 25rem)",
 		// marginLeft: "5rem",
 		// background: "rgb(25,25,25)",
-		padding: "5rem",
-		height: "100%",
+		padding: "2rem",
+		minHeight: "90vh",
 		display: "flex",
 		flexDirection: "column",
-
 	},
 	tagsInfo: {
 		fontFamily: "Poppins",
 		fontSize: "1.5rem",
 		textAlign: "left",
-
+		margin: "1.5rem",
 	},
 	tagsDiv: {
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "flex-start",
 		flexWrap: "wrap",
+		margin: "1.5rem",
 	},
 	propertyCard: {
-		minWidth: "25rem",
+		minWidth: "15rem",
 		width: "25vw",
-		minHeight: "17.5rem",
+		minHeight: "15rem",
 		height: "17.5vh",
 		display: "flex",
 		flexDirection: "column",
 		// justifyContent: "center",s
 		alignItems: "center",
 		margin: "2rem",
+		marginTop: "8rem",
+		marginBottom: "5rem",
 	},
 	propertyCardImage: {
-		minWidth: "8rem",
-		width: "8vw",
-		minHeight: "8rem",
-		height: "8vw",
+		// minWidth: "8rem",
+		width: "6rem",
+		// minHeight: "8rem",
+		height: "6rem",
+	},
+	propertyCardImageDiv: {
+		// minWidth: "8rem",
+		width: "8rem",
+		// minHeight: "8rem",
+		height: "8rem",
 		background: (theme) => theme === 1 ? "#3a393cff" : "#f2f3f5ff",
+		padding: "1rem",
 		position: "absolute",
 		transform: "translate(0%,-50%)",
-		padding: ".33rem",
-		borderRadius: "1000vw",
+		borderRadius: "1000vw"
 	},
 	dummySpace: {
 		minWidth: "8rem",
 		width: "8vw",
-		minHeight: "3.75rem",
-		height: "3.75vw",
+		// minHeight: "5rem",
+		// height: "5vw",
 		background: "rgba(0,0,0,0)",
 	},
 	propertiesDiv: {
@@ -202,6 +215,8 @@ const useStyles = makeStyles({
 		flexDirection: "row",
 		justifyContent: "center",
 		alignItems: "center",
+		flexWrap: "wrap",
+
 	},
 	darkerCard: {
 		background: (theme) => theme === 1 ? "#3a393cff" : "#f2f3f5ff",
@@ -209,18 +224,30 @@ const useStyles = makeStyles({
 	balanceLabel: {
 		fontFamily: "Poppins",
 		fontSize: "1.5rem",
-		fontWeight: "200"
+		fontWeight: "200",
+		marginTop: "4.5vw",
 	},
-	balanceText:{
+	balanceText: {
 		fontFamily: "Oswald",
 		fontSize: "3rem",
 	},
 	balInfoButton: {
 		fontFamily: "Poppins",
 		fontWeight: "300",
-		textTransform: "none"
-	}
+		textTransform: "none",
+		marginBottom: "1rem",
+	},
+	footerTextDiv: {
+		flexGrow: "1",
+		display: "flex",
+		background: "rgb(200,200,200)"
+	},
+	footerText: {
+		fontFamily: "Nunito",
+		color: "#999999",
+		fontSize: "1rem",
 
+	}
 });
 export const Profile = (props) => {
 	const {
@@ -258,23 +285,38 @@ export const ProfileInfo = ({ theme, userDat }) => {
 	}
 	const { enqueueSnackbar } = useSnackbar();
 	const renderChips = (data) => {
-		if (!data) return null;
+		if (!data && !(parseInt(userData?.premiumEndsAt) && Date.now() < parseInt(userData.premiumEndsAt))) return null;
+		/** @type {Array<String>} */
 		data = data.split(",");
+		// data
+		data = data.filter(x => x);
+		data.length = 5;
 		if (parseInt(userData?.premiumEndsAt) && Date.now() < parseInt(userData.premiumEndsAt)) data.push({
 			// premiumEndsAt
 			name: "Premium Member",
 			color: "rgb(118,137,211)",
-			description: `A Premium member of HWBounty! Ends in ${moment(parseInt(JSON.parse(localStorage.getItem("user"))?.premiumEndsAt)).fromNow()}`
+			description: `A Premium member of HWBounty! Ends in ${moment(parseInt(userData?.premiumEndsAt)).fromNow()}`
 		})
 		return React.Children.toArray(
-			data.map((x) => {
+			data.map((x, i) => {
 				return (
-					<CustomChip
-						label={x.name || badges[x]?.name || "Unknown Badge!"}
-						color={x.color || badges[x]?.color}
-						onClick={() => enqueueSnackbar(`${x.description || badges[x].description}`)}
-						size={(window.innerHeight * window.innerWidth) ** 0.02}
-					/>
+					<Fade
+						in
+						timeout={250}
+						style={
+							{
+								transitionDelay: `${(i) * 250}ms`
+							}
+						}
+					>
+						<CustomChip
+							label={x.name || badges[x]?.name || "Unknown Badge!"}
+							color={x.color || badges[x]?.color}
+							onClick={() => enqueueSnackbar(`${x.description || badges[x].description}`)}
+							size={(window.innerHeight * window.innerWidth) ** 0.02}
+						/>
+					</Fade>
+
 				);
 			})
 		)
@@ -340,37 +382,65 @@ export const ProfileInfo = ({ theme, userDat }) => {
 					display: "none",
 				}} />
 				<Card className={`${classes.mainCard} ${classes.materialCard}`}>
-					<Card className={`${classes.profileCard} ${classes.materialCard} ${classes.darkerCard}`}>
-						<div>
-							<img src={pfp || "https://github.com/HWBounty/hwbounty-home/blob/gh-pages/logo512.png?raw=true"}
-								className={`${classes.profileDiv} ${JSON.parse(localStorage.getItem("user"))?.privateID === userData.privateID && classes.hoverBlur}`}
-								onClick={
-									JSON.parse(localStorage.getItem("user"))?.privateID ===
-									userData.privateID && onClickPfp
-								}
-								alt="Profile pic"></img>
-							<Typography className={classes.name}>{userData.firstName} {userData.lastName}</Typography>
-							<Typography className={classes.handle}>@{userData.publicID}</Typography>
-						</div>
-						{!editingBio ?
-							(
-								<Typography onClick={handleEditBio} className={`${classes.bio} ${classes.bioText}`}>
-									{!editingBio ? bio : ""}
-								</Typography >
-							)
-							:
-							(
-								<textarea
-									id="bioTextField"
-									label=""
-									onBlur={stopEditingBio}
-									onChange={updateBio}
-									className={`${classes.bio} ${classes.textColor} ${classes.bioTextField}`}
-									value={bio}
-								/>
-							)}
+					<Slide
+						in={true}
+						style={{
+							transformOrigin: "50 0 0",
+							transitionDelay: "300ms"
+						}}
+						timeout={500}
+						direction="up"
+					>
+						<Card className={`${classes.profileCard} ${classes.materialCard} ${classes.darkerCard}`}>
 
-					</Card>
+
+							<div>
+								<Zoom
+									in={true}
+									style={{ transitionDelay: 500 }}
+									timeout={1000}
+								>
+									<img src={pfp || "https://github.com/HWBounty/hwbounty-home/blob/gh-pages/logo512.png?raw=true"}
+										className={`${classes.profileDiv} ${JSON.parse(localStorage.getItem("user"))?.privateID === userData.privateID && classes.hoverBlur}`}
+										onClick={
+											JSON.parse(localStorage.getItem("user"))?.privateID ===
+											userData.privateID && onClickPfp
+										}
+										alt="Profile pic"></img>
+								</Zoom>
+								<Grow
+									timeout={1000}
+									in
+									style={{ transitionDelay: 200 }}
+								>
+									<Typography className={classes.name}>{userData.firstName} {userData.lastName}</Typography>
+								</Grow>
+
+								<Typography className={classes.handle}>@{userData.publicID}</Typography>
+							</div>
+
+
+							{!editingBio ?
+								(
+									<Typography onClick={handleEditBio} className={`${classes.bio} ${classes.bioText}`}>
+										{!editingBio ? bio : ""}
+									</Typography >
+								)
+								:
+								(
+									<textarea
+										id="bioTextField"
+										label=""
+										onBlur={stopEditingBio}
+										onChange={updateBio}
+										className={`${classes.bio} ${classes.textColor} ${classes.bioTextField}`}
+										value={bio}
+									/>
+								)}
+
+						</Card>
+					</Slide>
+
 					<div className={`${classes.dataDiv}`}>
 						<Typography className={`${classes.tagsInfo}`}>
 							Tags:
@@ -379,47 +449,64 @@ export const ProfileInfo = ({ theme, userDat }) => {
 							{renderChips(userData.tags)}
 						</div>
 						<div className={`${classes.propertiesDiv}`}>
-							<Card className={`${classes.propertyCard} ${classes.materialCard} ${classes.darkerCard}`}>
-								<img src="https://github.com/HWBounty/hwbounty-home/blob/gh-pages/logo512.png?raw=true" className={`${classes.propertyCardImage}`} />
-								<div className={classes.dummySpace}/>
-								<Typography className={classes.balanceLabel}>
-									Balance
-								</Typography>
-								<Typography className={classes.balanceLabel}>
-									&nbsp;
-								</Typography>
-								<Typography className={classes.balanceText}>
-									{userData.bal}
-								</Typography>
-								<Typography className={classes.balanceLabel}>
-									&nbsp;
-								</Typography>
-								<Button className={classes.balInfoButton}>
-									Learn About Coins
-								</Button>
-							</Card>
-							<Card className={`${classes.propertyCard} ${classes.materialCard} ${classes.darkerCard}`}>
-								<img src="https://cdn.discordapp.com/avatars/747901310749245561/0d1cca7ffaa402de6a0d73e28734c13f.png?size=" className={`${classes.propertyCardImage}`} />
-								
-								<div className={classes.dummySpace}/>
-								<Typography className={classes.balanceLabel}>
-									School
-								</Typography>
-								<Typography className={classes.balanceLabel}>
-									&nbsp;
-								</Typography>
-								<Typography className={classes.balanceText}>
-									N/A
-								</Typography>
-								<Typography className={classes.balanceLabel}>
-									&nbsp;
-								</Typography>
-								<Button className={classes.balInfoButton}>
-									What is this?
-								</Button>
-							</Card>
-						</div>
+							<Fade
+								timeout={500}
+								in
+								style={{
+									transitionDelay: "700ms",
+									zIndex: "0"
+								}}
+							>
+								<Card className={`${classes.propertyCard} ${classes.materialCard} ${classes.darkerCard}`}>
+									<div className={classes.propertyCardImageDiv}>
+										<img src="https://github.com/HWBounty/hwbounty-home/blob/gh-pages/logo512.png?raw=true" className={`${classes.propertyCardImage}`} />
+									</div>
 
+									<div className={classes.dummySpace} />
+
+									<Typography className={classes.balanceLabel}>
+										Balance
+								</Typography>
+									<Typography className={classes.balanceText}>
+										{userData.bal}
+									</Typography>
+									<Button className={classes.balInfoButton}>
+										Learn About Coins
+								</Button>
+								</Card>
+							</Fade>
+							<Fade
+								in
+								style={
+									{
+										transitionDelay: "1200ms",
+									}
+								}
+								timeout={500}
+							>
+								<Card className={`${classes.propertyCard} ${classes.materialCard} ${classes.darkerCard}`}>
+									<div className={classes.propertyCardImageDiv}>
+										<img src="https://github.com/HWBounty/hwbounty-home/blob/gh-pages/logo512.png?raw=true" className={`${classes.propertyCardImage}`} />
+									</div>
+
+									<div className={classes.dummySpace} />
+									<Typography className={classes.balanceLabel}>
+										School
+								</Typography>
+									<Typography className={classes.balanceText}>
+										N/A
+								</Typography>
+									<Button className={classes.balInfoButton}>
+										What is this?
+								</Button>
+								</Card>
+							</Fade>
+
+						</div>
+						<div className={classes.footerText}>
+							<Typography className={classes.footerText}>User ID: {userData.privateID}</Typography>
+							<Typography className={classes.footerText}>Joined on {moment(parseInt(userData.createdAt)).format("dddd MMMM Do, YYYY")}</Typography>
+						</div>
 					</div>
 				</Card>
 			</div>

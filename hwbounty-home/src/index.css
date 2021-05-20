@@ -9,15 +9,21 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
 }
 ::-webkit-scrollbar {
-  width: 0.25vw;
+  width: 0.25vmin;
+  height: 1vmin;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgb(32, 32, 32);
+  background: #88afab;
 }
+::-webkit-scrollbar-track {
+  background: #a3a3a3;
+}
+.App{
+  overflow-x: scroll;
 
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

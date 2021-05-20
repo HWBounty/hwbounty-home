@@ -102,10 +102,10 @@ export const MobileHome = (props)=>{
     useEffect(() => {
       let run = true;
         (async ()=>{
-          await sleep(1000-Date.now()%1000)
+          await sleep(500-Date.now()%500)
           let lastTime = Date.now();
           while (run){
-            await sleep(1000-Date.now()%1000);
+            await sleep(500-Date.now()%500);
             forceUpdate();
             lastTime = Date.now();
           }

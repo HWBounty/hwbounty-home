@@ -133,8 +133,7 @@ const App = (props) => {
                   <Route path="/schedule/view" component={viewSchedule} />
                   <Route path="/schedule/set" component={setSchedule} />
                   <Route path="/modules/" component={Modules} />
-                  <Route path="/user/" component={Profile} />
-                  <Route path="/userp/" component={newProfile} />
+                  <Route path="/user/" component={newProfile} />
                   <Route path="/settings/" component={Settings} />
                   <Route path="/loadingPage/" component={LoadingPage} />
                   <Route
