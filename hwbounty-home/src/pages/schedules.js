@@ -139,9 +139,9 @@ export const ScheduleCatalog = (props) => {
 			console.log(schedulesResult);
 		})();
 	}
-	if (window.innerWidth < 1300) {
-		return null;
-	}
+	// if (window.innerWidth < 1300) {
+	// 	return null;
+	// }
 	return (<DesktopLayout theme={theme} schedulesSearch={schedulesSearch} setSchedulesSearch={setSchedulesSearch} schedulesResult={schedulesResult} />)
 }
 
