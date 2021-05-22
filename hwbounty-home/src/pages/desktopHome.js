@@ -1,5 +1,6 @@
 import {
   Card,
+  CardMedia,
   InputBase,
   makeStyles,
   TextField,
@@ -13,7 +14,9 @@ import useForceUpdate from "../util/useForceUpdate";
 import { useHistory } from "react-router";
 import getTimePhrase from "../util/getTimePhrase";
 import { connect } from "react-redux";
-import CTime from "../components/Home/CTime";
+import CTime2 from "../components/Home/CTime";
+import { Today } from "@material-ui/icons";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,15 +49,15 @@ const useStyles = makeStyles((theme) => ({
     display: "inline",
   },
   card: {
-    boxShadow: "8px 11px 16px -4px rgba(0,0,0,0.75)!important",
+    boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
     background: (theme) => (theme ? "rgb(80,80,80)" : "rgb(230,230,230)"),
-    borderRadius: "1vw",
+    borderRadius: "1vmin",
   },
   timeUntilText: {
-    fontSize: "1.5vw",
+    fontSize: "1.5rem",
     fontFamily: "Poppins",
-    color: "rgb(251,251,251)",
-    textAlign: "center",
+    textAlign: "left",
+    marginLeft: "10%",
   },
   timeUntilTextMobile: {
     fontSize: window.innerWidth / 20,
@@ -81,8 +84,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "10vw",
   },
   time: {
-    width: "25vw",
-    height: "25vw",
+    width: "40vmin",
+    minHeight: "40vmin",
     marginBottom: "5vw",
     textAlign: "center",
     position: "fixed",
@@ -123,28 +126,30 @@ const useStyles = makeStyles((theme) => ({
   },
   scheduleText: {
     fontFamily: "Poppins",
-    fontSize: "2vw",
+    fontSize: "1.5rem",
     margin: "10%",
     marginTop: "5%",
-    marginBottom: "5%",
-  },
-  scheduleImg: {
-    background:
-      "url(https://github.com/HWBounty/HWBountyAssets/blob/main/nya1.png?raw=true)center/cover",
-    width: "80%",
-    height: "40%",
-    borderRadius: "1vw",
-    display: "flex",
-    alignItems: "center",
-    margin: "10%",
-    marginTop: "5%",
-    marginBottom: "5%",
+    marginBottom: "2.5%",
     verticalAlign: "middle",
+  },
+  scheduleIcon: {
+    verticalAlign: "middle",
+    margin: "0.5vmin",
+    marginRight: "0.25vmin"
   },
   rightSide: {
     position: "relative",
     width: "",
   },
+  scheduleCover: {
+    height: "17.5vmin",
+    filter: theme => `brightness(${theme === 0 ? 70 : 30}%)`
+
+  },
+  miniCard:{
+    width: "30vmin",
+    height: "15vmin",
+  }
 }));
 export const TimeCard = (props) => {
   const forceUpdate = useForceUpdate();
@@ -176,7 +181,13 @@ export const TimeCard = (props) => {
       onClick={redirectToSchedule}
       className={`${classes.time} ${classes.card}`}
     >
+      <CardMedia
+        image="https://i.ibb.co/Jpn86gb/KI-0fw7-R6ndtscv-ROmgu8-MYv-UO5di-Hf-EIrbtv-RGb-Lnv-Bdo72k-NIcy6t-RCklg-ILjkf-Krn-QQZGW9-CZx-CHH9-TN.png"
+        title="hwBounty Scheduule"
+        className={`${classes.scheduleCover}`}
+      />
       <Typography className={classes.scheduleText} align="left">
+        <Today className={classes.scheduleIcon} />
         Schedule
       </Typography>
       <div className={`${classes.scheduleImg}`}>
@@ -184,7 +195,40 @@ export const TimeCard = (props) => {
           {getTimePhrase()}
         </Typography>
       </div>
-      <CTime />
+      &nbsp;
+      <Typography
+        variant="h5"
+        style={{
+          fontSize: "1.5rem",
+          fontFamily: "Poppins",
+          fontWeight: "500",
+          textAlign: "left",
+          marginLeft: "10%",
+        }}
+      >
+        {
+            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+          "h:mm:ss A"
+        )
+        }
+      </Typography>
+     
+      <Typography
+        variant="h5"
+        style={{
+          fontSize: "1.5rem",
+          fontFamily: "Poppins",
+          fontWeight: "500",
+          textAlign: "left",
+          marginLeft: "10%",
+        }}
+      >
+        {
+            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+          "dddd M/D/YYYY"
+        )
+        }
+      </Typography>
     </Card>
   );
 };
@@ -241,6 +285,9 @@ export const DesktopHome = (props) => {
   return (
     <div>
       <TimeCard theme={theme} />
+      {/* <Card className={`${classes.miniCard}`}>
+        hi!
+      </Card> */}
       <Card className={`${classes.card} ${classes.searchBar}`}>
         <form>
           <img
@@ -248,7 +295,7 @@ export const DesktopHome = (props) => {
             className={classes.greetingIMG}
           />
           <InputBase
-            placeholder="Search…"
+            placeholder="&nbsp;What’cha looking for?"
             className={`${classes.searchBarText}`}
             inputProps={{ "aria-label": "search" }}
             id="pageSearchBox"

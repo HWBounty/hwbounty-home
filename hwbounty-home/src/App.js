@@ -33,6 +33,7 @@ import CalculatorBackend from "./util/calculator";
 import LoadingPage from "./pages/loadingPage";
 import { GainCoins } from "./components/Modules/GainCoins";
 import newProfile from "./pages/newProfile";
+import scheduleBuilder from "./pages/scheduleBuilder";
 
 // Pages
 const Modules = lazy(() => import("./pages/modules"));
@@ -88,6 +89,7 @@ const App = (props) => {
     },
   });
   return (
+    
     <SnackbarProvider maxSnack={5}>
       <ShortcutProvider ignoreTagNames={["input", "textarea"]}>
         <MuiThemeProvider theme={dynamicTheme}>
@@ -132,6 +134,7 @@ const App = (props) => {
                   <Route exact path="/schedule" component={ScheduleInfo} />
                   <Route path="/schedule/view" component={viewSchedule} />
                   <Route path="/schedule/set" component={setSchedule} />
+                  <Route path="/schedule/create" component={scheduleBuilder} />
                   <Route path="/modules/" component={Modules} />
                   <Route path="/user/" component={newProfile} />
                   <Route path="/settings/" component={Settings} />

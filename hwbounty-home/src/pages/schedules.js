@@ -1,8 +1,9 @@
-import { ButtonBase, Card, Container, Divider, Fade, List, ListItem, makeStyles, Paper, Tab, Tabs, TextField, Typography, Zoom } from "@material-ui/core"
+import { Button, ButtonBase, Card, Container, Divider, Fade, List, ListItem, makeStyles, Paper, Tab, Tabs, TextField, Typography, Zoom } from "@material-ui/core"
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles({
 	catalogLeft: {
@@ -41,7 +42,7 @@ const useStyles = makeStyles({
 	catalogItemCard: {
 		// minHeight: "70%",
 		// maxHeight: "70%",
-		minWidth: "384px",
+		minWidth: "512px",
 		display: "inline-flex",
 		justifyContent: "flex-start",
 		flexDirection: "column",
@@ -319,17 +320,22 @@ const DesktopLayout = (props) => {
 	const query = (e, nv) => {
 		setSchedulesSearch(nv || e.target.value)
 	}
+	const history = useHistory();
+	const toSchedule= (id)=>{
+		history.push(`/schedule/view/${id}`);
+	}
 	const mapToCards = (arr) => {
 		console.log(arr);
 		return React.Children.toArray(arr.map(schedule => {
 			return (
 				<Zoom
 				in
-				timeout={300}
-				style={{transitionDelay:"0ms"}}
+				timeout={750}
+				style={{transitionDelay:"50ms"}}
 				>
 					<Card className={`${classes.catalogItemCard}`} onClick={null}>
 					<Typography className={`${classes.catalogItemTitle}`}>{schedule.name}</Typography>
+					<Button onClick={()=>toSchedule(schedule.id)} style={{width:"50%",alignSelf: "center"}}>View Schedule</Button>
 					<div style={{
 						flexGrow: 1,
 						display: "flex",

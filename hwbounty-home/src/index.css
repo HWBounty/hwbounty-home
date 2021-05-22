@@ -11,7 +11,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 ::-webkit-scrollbar {
-  width: 0.25vmin;
+  width: 0.5vmin;
   height: 1vmin;
 }
 ::-webkit-scrollbar-thumb {
@@ -21,8 +21,8 @@ body {
   background: #a3a3a3;
 }
 .App{
-  overflow-x: scroll;
-
+  overflow-x: auto;
+  overflow-y: auto;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

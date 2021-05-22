@@ -41,4 +41,38 @@ export const CTime = (props) => {
       </div>
     );
   };
+  export const CTime2 = (props) => {
+    return (
+      <div
+      >
+        <Typography
+          variant="h5"
+          style={{
+            fontSize: "3.5rem",
+            fontFamily: "Poppins",
+          }}
+        >
+          {
+            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+            "h:mm:ss A" 
+          )
+          }
+        </Typography>
+        <Typography
+          variant="h5"
+          style={{
+            fontSize: "3.5rem",
+            fontFamily: "Poppins",
+            fontWeight: "20",
+          }}
+        >
+          {
+            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+            "dddd M/D/YYYY"
+          )
+          }
+        </Typography>
+      </div>
+    );
+  };
 export default CTime;
