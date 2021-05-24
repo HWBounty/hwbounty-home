@@ -32,8 +32,6 @@ import { SchoologyButton } from "./components/SchoologyButton";
 import CalculatorBackend from "./util/calculator";
 import LoadingPage from "./pages/loadingPage";
 import { GainCoins } from "./components/Modules/GainCoins";
-import newProfile from "./pages/newProfile";
-import scheduleBuilder from "./pages/scheduleBuilder";
 
 // Pages
 const Modules = lazy(() => import("./pages/modules"));
@@ -49,7 +47,10 @@ const setSchedule = lazy(() => import("./pages/setSchedule"));
 const schoologyOauthRedirect = lazy(() =>
   import("./pages/schoologyOauthRedirect")
 );
+const LandingPage = lazy(()=> import("./pages/landingPage"));
 const PageNotFound = lazy(() => import("./pages/404"));
+const newProfile = lazy(()=> import("./pages/newProfile"));
+const scheduleBuilder = lazy(()=> import("./pages/scheduleBuilder"))
 //=================Checks on App start====================//
 const token = localStorage.DBIdToken;
 if (token) {
@@ -89,7 +90,7 @@ const App = (props) => {
     },
   });
   return (
-    
+
     <SnackbarProvider maxSnack={5}>
       <ShortcutProvider ignoreTagNames={["input", "textarea"]}>
         <MuiThemeProvider theme={dynamicTheme}>
@@ -122,7 +123,8 @@ const App = (props) => {
                   ></div>
                 )}
                 <Switch>
-                  <Route exact path="/" component={home} />
+                  <Route path="/dashboard" component={home} />
+                  <Route exact path="/" component={authenticated ? home : LandingPage} />
                   <Route
                     exact
                     path="/schoologyCallback"

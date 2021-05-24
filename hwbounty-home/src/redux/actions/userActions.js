@@ -16,7 +16,7 @@ export const loginUser = (userData) => (dispatch) => {
       dispatch({ type: CLEAR_ERRORS });
       setTimeout(() => {
         window.location.reload();
-      },500);
+      },1000);
     })
     .catch((err) => {
       console.log(err);
@@ -42,8 +42,6 @@ export const getUserData = () => async (dispatch) => {
   let data = await axios.get("https://api.hwbounty.help/@me").catch(console.trace);
 		if (data && data.status === 200 && data.data){
 			localStorage.setItem("user",JSON.stringify(data.data));
-		}else{
-			localStorage.clear();
 		}
 };
 
