@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
-    background: (theme) => (theme ? "rgb(80,80,80)" : "rgb(230,230,230)"),
+    background: (theme) => (theme ? "rgb(40,40,40)" : "rgb(230,230,230)"),
     borderRadius: "1vmin",
   },
   timeUntilText: {
@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Poppins",
     textAlign: "left",
     marginLeft: "10%",
+    marginRight: "10%",
   },
   timeUntilTextMobile: {
     fontSize: window.innerWidth / 20,
@@ -87,10 +88,12 @@ const useStyles = makeStyles((theme) => ({
     width: "40vmin",
     minHeight: "40vmin",
     marginBottom: "5vw",
+    paddingBottom: "2vw",
     textAlign: "center",
-    position: "fixed",
-    top: "15%",
-    left: "5%",
+
+    // position: "fixed",
+    // top: "15%",
+    // left: "5%",
     color: (theme) => (!theme ? "rgb(88,88,88)" : "rgb(230,230,230)"),
   },
   searchBar: {
@@ -101,33 +104,31 @@ const useStyles = makeStyles((theme) => ({
     //   maxHeight: "40%",
     height: "10vh",
     textAlign: "center",
-    left: "35vw",
-    top: "5%",
-    position: "absolute",
     display: "flex",
     alignItems: "center",
   },
   searchResults: {
     width: "60vw",
-    marginTop: "5vw",
     // margin: "10vw",
     verticalAlign: "middle",
     //   maxHeight: "40%",
-    padding: "1vw",
-    height: "60vh",
+    // height: "60vh",
     textAlign: "center",
-    left: "35vw",
-    top: "25%",
+    // left: "35vw",
+    // top: "25%",
     padding: "5vh",
-    position: "absolute",
+    paddingTop: "1vh",
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
+    background: "rgba(0,0,0,0)!important",
+    boxShadow: "none!important",
   },
   scheduleText: {
     fontFamily: "Poppins",
-    fontSize: "1.5rem",
+    fontSize: "1.6rem",
     margin: "10%",
+    fontWeight: "500",
     marginTop: "5%",
     marginBottom: "2.5%",
     verticalAlign: "middle",
@@ -146,9 +147,42 @@ const useStyles = makeStyles((theme) => ({
     filter: theme => `brightness(${theme === 0 ? 70 : 30}%)`
 
   },
-  miniCard:{
+  miniCard: {
     width: "30vmin",
     height: "15vmin",
+  },
+  mainDiv: {
+    display: "flex",
+  },
+  timeCardDiv: {
+    width: "calc(40vmin + 5%)",
+    display: "flex",
+    height: "100vh",
+    alignContent: "flex-start",
+    justifyContent: "center",
+    flexWrap: "wrap",
+  },
+  dataDiv: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    flexGrow: 1,
+  },
+  generalLabel: {
+    fontFamily: "Poppins",
+    fontSize: "2rem",
+    textAlign: "left",
+    width: "100%",
+    marginBottom: "2vmin"
+    // paddingLeft: "5%",
+  },
+  qaccessLabel: {
+    marginTop: "15%",
+    width: "35vmin",
+  },
+  reccomendedLabel: {
+    marginTop: "5%",
+    width: "55vw",
   }
 }));
 export const TimeCard = (props) => {
@@ -204,6 +238,7 @@ export const TimeCard = (props) => {
           fontWeight: "500",
           textAlign: "left",
           marginLeft: "10%",
+
         }}
       >
         {
@@ -212,7 +247,7 @@ export const TimeCard = (props) => {
         )
         }
       </Typography>
-     
+
       <Typography
         variant="h5"
         style={{
@@ -252,60 +287,79 @@ export const DesktopHome = (props) => {
     };
     const pageArray = Object.values(Pages);
     const fuse = new Fuse(pageArray, fuseOptions);
+    let searchArr = fuse
+      .search(query)
+      .filter((x, i) => i < 4);
+    while (searchArr.length < 4) {
+      searchArr.push({
+        item: {
+          blank: true,
+        }
+      })
+    }
     return (
       <div
         style={{
-          maxWidth: "768px",
+          // maxWidth: "768px", 
+          display: "flex",
+          flexWrap: "wrap",
+          flexDirection: "row",
         }}
       >
         {React.Children.toArray(
-          fuse
-            .search(query)
-            .filter((x, i) => i < 4)
-            .map((result) => {
-              return (
-                <ModuleCard
-                  icon={result.item.icon}
-                  name={result.item.name}
-                  desc={result.item.desc}
-                  path={result.item.path}
-                  color={
-                    theme
-                      ? result.item.defaultColorDarkMode
-                      : result.item.defaultColorLightMode
-                  }
-                />
-              );
-            })
+
+          searchArr.map((result) => {
+            return (
+              <ModuleCard
+                icon={result.item.icon}
+                name={result.item.name}
+                desc={result.item.desc}
+                path={result.item.path}
+                theme={theme}
+                color={
+                  theme
+                    ? result.item.defaultColorDarkMode
+                    : result.item.defaultColorLightMode
+                }
+              />
+            );
+          })
         )}
       </div>
     );
     // ModuleCard
   };
   return (
-    <div>
-      <TimeCard theme={theme} />
+    <div className={classes.mainDiv}>
+      <div className={classes.timeCardDiv}>
+        <Typography className={`${classes.generalLabel} ${classes.qaccessLabel}`}>Quick Access: </Typography>
+        <TimeCard theme={theme} />
+      </div>
+      <div className={`${classes.dataDiv}`}>
+        <Card className={`${classes.card} ${classes.searchBar}`}>
+          <form>
+            <img
+              src="https://cdn.discordapp.com/attachments/836672960566919228/840713461515812864/frogmg-01.png"
+              className={classes.greetingIMG}
+            />
+            <InputBase
+              placeholder="&nbsp;What’cha looking for?"
+              className={`${classes.searchBarText}`}
+              inputProps={{ "aria-label": "search" }}
+              id="pageSearchBox"
+              onChange={forceUpdate}
+            />
+          </form>
+        </Card>
+        <Typography className={`${classes.generalLabel} ${classes.reccomendedLabel}`}>Reccomended</Typography>
+        <Card style={{}} className={`${classes.card} ${classes.searchResults}`}>
+          {React.Children.toArray(renderSearchPages())}
+        </Card>
+
+      </div>
       {/* <Card className={`${classes.miniCard}`}>
         hi!
       </Card> */}
-      <Card className={`${classes.card} ${classes.searchBar}`}>
-        <form>
-          <img
-            src="https://cdn.discordapp.com/attachments/836672960566919228/840713461515812864/frogmg-01.png"
-            className={classes.greetingIMG}
-          />
-          <InputBase
-            placeholder="&nbsp;What’cha looking for?"
-            className={`${classes.searchBarText}`}
-            inputProps={{ "aria-label": "search" }}
-            id="pageSearchBox"
-            onChange={forceUpdate}
-          />
-        </form>
-      </Card>
-      <Card style={{}} className={`${classes.card} ${classes.searchResults}`}>
-        {React.Children.toArray(renderSearchPages())}
-      </Card>
 
       {/* <ForumSearch />
         <DesktopLayout />
