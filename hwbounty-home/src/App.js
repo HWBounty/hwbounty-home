@@ -32,6 +32,7 @@ import { SchoologyButton } from "./components/SchoologyButton";
 import CalculatorBackend from "./util/calculator";
 import LoadingPage from "./pages/loadingPage";
 import { GainCoins } from "./components/Modules/GainCoins";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 // Pages
 const Modules = lazy(() => import("./pages/modules"));
@@ -106,7 +107,7 @@ const App = (props) => {
                   display: "none",
                 }}
               />
-              <Suspense fallback={LoadingPage}>
+              <Suspense fallback={<div />}>
                 {authenticated ? <Sidebar /> : <Navbar />}
 
                 <AuthPopup />
@@ -122,6 +123,7 @@ const App = (props) => {
                     data-close_on_tap_outside="false"
                   ></div>
                 )}
+                <ErrorBoundary>
                 <Switch>
                   <Route path="/dashboard" component={home} />
                   <Route exact path="/" component={authenticated ? home : LandingPage} />
@@ -148,6 +150,7 @@ const App = (props) => {
                   />
                   <Route path="*" component={PageNotFound} />
                 </Switch>
+                </ErrorBoundary>
               </Suspense>
             </Router>
           </div>

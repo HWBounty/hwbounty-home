@@ -262,7 +262,7 @@ export const Profile = (props) => {
 		})
 	);
 
-	return (<Suspense fallback={LoadingPage}><ProfileInfo userDat={userDat} theme={theme} /></Suspense>)
+	return (<Suspense fallback={<div />}><ProfileInfo userDat={userDat} theme={theme} /></Suspense>)
 
 };
 export const ProfileInfo = ({ theme, userDat }) => {

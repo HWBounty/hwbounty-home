@@ -2,7 +2,10 @@ import { connect } from "react-redux";
 
 //Idk why i did this lmao
 export const LoadingPage = (props) => {
-  const theme = props?.UI?.theme || 1;
+  const {
+    UI: { theme },
+  } = props;
+    
   return (<div style={{
     position: "absolute",
     top: "0%",
