@@ -26,7 +26,7 @@ export const History = (props) => {
     const { latex, ans } = props;
     return (
       <ListItem button onClick={() => calc_setInput(latex)}>
-        <StaticMathField style={{ flex: 1 }}>{latex}</StaticMathField>
+        <StaticMathField style={{ flex: 1, cursor: "pointer" }}>{latex}</StaticMathField>
         <Typography>= {ans}</Typography>
       </ListItem>
     );

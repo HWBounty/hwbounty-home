@@ -21,17 +21,22 @@ import { NumPad, SymbolPad } from "./CalcTools";
 
 const styles = (theme) => ({
   ...theme.spreadIt,
+  root: {
+    margin: "auto",
+  },
 });
 
 export const CalculatorModule = (props) => {
   const { classes } = props;
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} className={classes.root}>
       <Grid item xs={8}>
         <Paper className={classes.paper}>
           <Calculator />
         </Paper>
+      </Grid>
+      <Grid item xs={4}>
         <CalcSettings />
       </Grid>
     </Grid>
