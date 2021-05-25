@@ -38,6 +38,10 @@ const rawTheme = createMuiTheme({
       borderRadius: 2,
     },
   },
+  MuiButtonBase: {
+    // The properties to apply
+    disableRipple: true, // No more ripple, on the whole application 💣!
+  },
 });
 
 const fontHeader = {

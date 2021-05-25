@@ -1,5 +1,6 @@
 import {
   Card,
+  CardMedia,
   InputBase,
   makeStyles,
   TextField,
@@ -13,7 +14,9 @@ import useForceUpdate from "../util/useForceUpdate";
 import { useHistory } from "react-router";
 import getTimePhrase from "../util/getTimePhrase";
 import { connect } from "react-redux";
-import CTime from "../components/Home/CTime";
+import CTime2 from "../components/Home/CTime";
+import { Today } from "@material-ui/icons";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,15 +49,16 @@ const useStyles = makeStyles((theme) => ({
     display: "inline",
   },
   card: {
-    boxShadow: "8px 11px 16px -4px rgba(0,0,0,0.75)!important",
-    background: (theme) => (theme ? "rgb(80,80,80)" : "rgb(230,230,230)"),
-    borderRadius: "1vw",
+    boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
+    background: (theme) => (theme ? "rgb(40,40,40)" : "rgb(230,230,230)"),
+    borderRadius: "1vmin",
   },
   timeUntilText: {
-    fontSize: "1.5vw",
+    fontSize: "1.5rem",
     fontFamily: "Poppins",
-    color: "rgb(251,251,251)",
-    textAlign: "center",
+    textAlign: "left",
+    marginLeft: "10%",
+    marginRight: "10%",
   },
   timeUntilTextMobile: {
     fontSize: window.innerWidth / 20,
@@ -81,13 +85,15 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "10vw",
   },
   time: {
-    width: "25vw",
-    height: "25vw",
+    width: "40vmin",
+    minHeight: "40vmin",
     marginBottom: "5vw",
+    paddingBottom: "2vw",
     textAlign: "center",
-    position: "fixed",
-    top: "15%",
-    left: "5%",
+
+    // position: "fixed",
+    // top: "15%",
+    // left: "5%",
     color: (theme) => (!theme ? "rgb(88,88,88)" : "rgb(230,230,230)"),
   },
   searchBar: {
@@ -98,53 +104,86 @@ const useStyles = makeStyles((theme) => ({
     //   maxHeight: "40%",
     height: "10vh",
     textAlign: "center",
-    left: "35vw",
-    top: "5%",
-    position: "absolute",
     display: "flex",
     alignItems: "center",
   },
   searchResults: {
     width: "60vw",
-    marginTop: "5vw",
     // margin: "10vw",
     verticalAlign: "middle",
     //   maxHeight: "40%",
-    padding: "1vw",
-    height: "60vh",
+    // height: "60vh",
     textAlign: "center",
-    left: "35vw",
-    top: "25%",
+    // left: "35vw",
+    // top: "25%",
     padding: "5vh",
-    position: "absolute",
+    paddingTop: "1vh",
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
+    background: "rgba(0,0,0,0)!important",
+    boxShadow: "none!important",
   },
   scheduleText: {
     fontFamily: "Poppins",
-    fontSize: "2vw",
+    fontSize: "1.6rem",
     margin: "10%",
+    fontWeight: "500",
     marginTop: "5%",
-    marginBottom: "5%",
-  },
-  scheduleImg: {
-    background:
-      "url(https://github.com/HWBounty/HWBountyAssets/blob/main/nya1.png?raw=true)center/cover",
-    width: "80%",
-    height: "40%",
-    borderRadius: "1vw",
-    display: "flex",
-    alignItems: "center",
-    margin: "10%",
-    marginTop: "5%",
-    marginBottom: "5%",
+    marginBottom: "2.5%",
     verticalAlign: "middle",
+  },
+  scheduleIcon: {
+    verticalAlign: "middle",
+    margin: "0.5vmin",
+    marginRight: "0.25vmin"
   },
   rightSide: {
     position: "relative",
     width: "",
   },
+  scheduleCover: {
+    height: "17.5vmin",
+    filter: theme => `brightness(${theme === 0 ? 70 : 30}%)`
+
+  },
+  miniCard: {
+    width: "30vmin",
+    height: "15vmin",
+  },
+  mainDiv: {
+    display: "flex",
+  },
+  timeCardDiv: {
+    width: "calc(40vmin + 5%)",
+    display: "flex",
+    height: "100vh",
+    alignContent: "flex-start",
+    justifyContent: "center",
+    flexWrap: "wrap",
+  },
+  dataDiv: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    flexGrow: 1,
+  },
+  generalLabel: {
+    fontFamily: "Poppins",
+    fontSize: "2rem",
+    textAlign: "left",
+    width: "100%",
+    marginBottom: "2vmin"
+    // paddingLeft: "5%",
+  },
+  qaccessLabel: {
+    marginTop: "15%",
+    width: "35vmin",
+  },
+  reccomendedLabel: {
+    marginTop: "5%",
+    width: "55vw",
+  }
 }));
 export const TimeCard = (props) => {
   const forceUpdate = useForceUpdate();
@@ -176,7 +215,13 @@ export const TimeCard = (props) => {
       onClick={redirectToSchedule}
       className={`${classes.time} ${classes.card}`}
     >
+      <CardMedia
+        image="https://i.ibb.co/Jpn86gb/KI-0fw7-R6ndtscv-ROmgu8-MYv-UO5di-Hf-EIrbtv-RGb-Lnv-Bdo72k-NIcy6t-RCklg-ILjkf-Krn-QQZGW9-CZx-CHH9-TN.png"
+        title="hwBounty Scheduule"
+        className={`${classes.scheduleCover}`}
+      />
       <Typography className={classes.scheduleText} align="left">
+        <Today className={classes.scheduleIcon} />
         Schedule
       </Typography>
       <div className={`${classes.scheduleImg}`}>
@@ -184,7 +229,41 @@ export const TimeCard = (props) => {
           {getTimePhrase()}
         </Typography>
       </div>
-      <CTime />
+      &nbsp;
+      <Typography
+        variant="h5"
+        style={{
+          fontSize: "1.5rem",
+          fontFamily: "Poppins",
+          fontWeight: "500",
+          textAlign: "left",
+          marginLeft: "10%",
+
+        }}
+      >
+        {
+            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+          "h:mm:ss A"
+        )
+        }
+      </Typography>
+
+      <Typography
+        variant="h5"
+        style={{
+          fontSize: "1.5rem",
+          fontFamily: "Poppins",
+          fontWeight: "500",
+          textAlign: "left",
+          marginLeft: "10%",
+        }}
+      >
+        {
+            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+          "dddd M/D/YYYY"
+        )
+        }
+      </Typography>
     </Card>
   );
 };
@@ -208,57 +287,79 @@ export const DesktopHome = (props) => {
     };
     const pageArray = Object.values(Pages);
     const fuse = new Fuse(pageArray, fuseOptions);
+    let searchArr = fuse
+      .search(query)
+      .filter((x, i) => i < 4);
+    while (searchArr.length < 4) {
+      searchArr.push({
+        item: {
+          blank: true,
+        }
+      })
+    }
     return (
       <div
         style={{
-          maxWidth: "768px",
+          // maxWidth: "768px", 
+          display: "flex",
+          flexWrap: "wrap",
+          flexDirection: "row",
         }}
       >
         {React.Children.toArray(
-          fuse
-            .search(query)
-            .filter((x, i) => i < 4)
-            .map((result) => {
-              return (
-                <ModuleCard
-                  icon={result.item.icon}
-                  name={result.item.name}
-                  desc={result.item.desc}
-                  path={result.item.path}
-                  color={
-                    theme
-                      ? result.item.defaultColorDarkMode
-                      : result.item.defaultColorLightMode
-                  }
-                />
-              );
-            })
+
+          searchArr.map((result) => {
+            return (
+              <ModuleCard
+                icon={result.item.icon}
+                name={result.item.name}
+                desc={result.item.desc}
+                path={result.item.path}
+                theme={theme}
+                color={
+                  theme
+                    ? result.item.defaultColorDarkMode
+                    : result.item.defaultColorLightMode
+                }
+              />
+            );
+          })
         )}
       </div>
     );
     // ModuleCard
   };
   return (
-    <div>
-      <TimeCard theme={theme} />
-      <Card className={`${classes.card} ${classes.searchBar}`}>
-        <form>
-          <img
-            src="https://cdn.discordapp.com/attachments/836672960566919228/840713461515812864/frogmg-01.png"
-            className={classes.greetingIMG}
-          />
-          <InputBase
-            placeholder="Search…"
-            className={`${classes.searchBarText}`}
-            inputProps={{ "aria-label": "search" }}
-            id="pageSearchBox"
-            onChange={forceUpdate}
-          />
-        </form>
-      </Card>
-      <Card style={{}} className={`${classes.card} ${classes.searchResults}`}>
-        {React.Children.toArray(renderSearchPages())}
-      </Card>
+    <div className={classes.mainDiv}>
+      <div className={classes.timeCardDiv}>
+        <Typography className={`${classes.generalLabel} ${classes.qaccessLabel}`}>Quick Access: </Typography>
+        <TimeCard theme={theme} />
+      </div>
+      <div className={`${classes.dataDiv}`}>
+        <Card className={`${classes.card} ${classes.searchBar}`}>
+          <form>
+            <img
+              src="https://cdn.discordapp.com/attachments/836672960566919228/840713461515812864/frogmg-01.png"
+              className={classes.greetingIMG}
+            />
+            <InputBase
+              placeholder="&nbsp;What’cha looking for?"
+              className={`${classes.searchBarText}`}
+              inputProps={{ "aria-label": "search" }}
+              id="pageSearchBox"
+              onChange={forceUpdate}
+            />
+          </form>
+        </Card>
+        <Typography className={`${classes.generalLabel} ${classes.reccomendedLabel}`}>Reccomended</Typography>
+        <Card style={{}} className={`${classes.card} ${classes.searchResults}`}>
+          {React.Children.toArray(renderSearchPages())}
+        </Card>
+
+      </div>
+      {/* <Card className={`${classes.miniCard}`}>
+        hi!
+      </Card> */}
 
       {/* <ForumSearch />
         <DesktopLayout />

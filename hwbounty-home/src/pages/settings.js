@@ -14,6 +14,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 // Redux
 import { connect } from "react-redux";
 import { setTheme, setAuthPopupOpen } from "../redux/actions/uiActions";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme) => ({
   ...theme.spreadIt,
@@ -53,9 +54,13 @@ export const Settings = (props) => {
     UI: { theme },
     setTheme,
   } = props;
-
+  const { enqueueSnackbar } = useSnackbar();
   const toggleDarkmode = (event, nv) => {
     const newVal = nv ? 1 : 0;
+    if (newVal === 0)
+    enqueueSnackbar("Ouchy, my eyes")
+    else
+    enqueueSnackbar("Ahhhh much better")
     localStorage.setItem("theme", newVal);
     setTheme(newVal);
   };

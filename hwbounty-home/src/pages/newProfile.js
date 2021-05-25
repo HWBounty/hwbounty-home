@@ -262,7 +262,7 @@ export const Profile = (props) => {
 		})
 	);
 
-	return (<Suspense fallback={LoadingPage}><ProfileInfo userDat={userDat} theme={theme} /></Suspense>)
+	return (<Suspense fallback={<div />}><ProfileInfo userDat={userDat} theme={theme} /></Suspense>)
 
 };
 export const ProfileInfo = ({ theme, userDat }) => {
@@ -286,17 +286,24 @@ export const ProfileInfo = ({ theme, userDat }) => {
 	const { enqueueSnackbar } = useSnackbar();
 	const renderChips = (data) => {
 		if (!data && !(parseInt(userData?.premiumEndsAt) && Date.now() < parseInt(userData.premiumEndsAt))) return null;
+		try{
+			data = data.split(",");
+		}catch(error){
+
+		}
+		data = data || [];
 		/** @type {Array<String>} */
-		data = data.split(",");
+		
 		// data
-		data = data.filter(x => x);
+		
 		data.length = 5;
 		if (parseInt(userData?.premiumEndsAt) && Date.now() < parseInt(userData.premiumEndsAt)) data.push({
 			// premiumEndsAt
 			name: "Premium Member",
 			color: "rgb(118,137,211)",
 			description: `A Premium member of HWBounty! Ends in ${moment(parseInt(userData?.premiumEndsAt)).fromNow()}`
-		})
+		});
+		data = data.filter(x => x);
 		return React.Children.toArray(
 			data.map((x, i) => {
 				return (
@@ -459,7 +466,7 @@ export const ProfileInfo = ({ theme, userDat }) => {
 							>
 								<Card className={`${classes.propertyCard} ${classes.materialCard} ${classes.darkerCard}`}>
 									<div className={classes.propertyCardImageDiv}>
-										<img src="https://github.com/HWBounty/hwbounty-home/blob/gh-pages/logo512.png?raw=true" className={`${classes.propertyCardImage}`} />
+										<img src="https://i.ibb.co/kKrm0M8/coin.png" className={`${classes.propertyCardImage}`} />
 									</div>
 
 									<div className={classes.dummySpace} />

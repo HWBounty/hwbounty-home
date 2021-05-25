@@ -7,6 +7,21 @@ import store from "./redux/store";
 import * as serviceWorker from "./serviceWorker";
 import GoogleOauth from "./util/googleOauth";
 GoogleOauth.bindToGlobal();
+
+if (window.location.protocol === 'http:' && window.location.hostname !== "localhost" && window.location.hostname !== "192.168.0.85") {
+
+  console.log("you are accessing us via "
+    + "an insecure protocol (HTTP). "
+    + "Redirecting you to HTTPS.");
+
+  window.location.href =
+    window.location.href.replace(
+      'http:', 'https:');
+}
+else if (window.location.protocol === "https:") {
+  console.log("you are accessing us via"
+    + " our secure HTTPS protocol.");
+}
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
