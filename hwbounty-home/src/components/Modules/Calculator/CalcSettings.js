@@ -42,6 +42,12 @@ export const CalcSettings = (props) => {
 
     const inputRef = useRef(null);
 
+    useEffect(() => {
+      if (disabled) return;
+      inputRef.current.focus();
+      inputRef.current.select();
+    }, [disabled]);
+
     const handleSubmit = (event) => {
       event.preventDefault();
       setDisabled(true);
@@ -54,9 +60,6 @@ export const CalcSettings = (props) => {
 
     const handleClicked = () => {
       setDisabled(false);
-      inputRef.current.focus();
-      inputRef.current.select();
-      console.log(inputRef.current);
     };
 
     const handleVariableChange = (event) => {
