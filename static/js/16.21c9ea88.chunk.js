@@ -1,0 +1,2 @@
+(this["webpackJsonphwbounty-home"]=this["webpackJsonphwbounty-home"]||[]).push([[16],{1522:function(n,t,e){"use strict";e.r(t),e.d(t,"LandingPage",(function(){return a}));var o=e(992),i=(e(0),e(51)),r=e(52),u=e(5),a=function(n){var t=Object(r.f)();return Object(u.jsx)(o.a,{onClick:function(){return n="/dashboard",void t.push(n);var n},children:"It looks like you are not signed in! We are currently building our landing page, but if you want to go to the dashboard, click me!"})};t.default=Object(i.b)()(a)}}]);
+//# sourceMappingURL=16.21c9ea88.chunk.js.map
