@@ -107,7 +107,7 @@ const App = (props) => {
                   display: "none",
                 }}
               />
-              <Suspense fallback={<div />}>
+              <Suspense fallback={<LoadingPage />}>
                 {authenticated ? <Sidebar /> : <Navbar />}
 
                 <AuthPopup />
