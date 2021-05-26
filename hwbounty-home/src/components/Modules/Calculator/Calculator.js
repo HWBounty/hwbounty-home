@@ -24,6 +24,7 @@ import History from "./History";
 import mathquillToMathJS from "../../../util/latex/preprocessMathQuill";
 import { addStyles, EditableMathField, StaticMathField } from "react-mathquill";
 import { NumPad, SymbolPad } from "./CalcTools";
+import * as math from "mathjs";
 
 // required for latex to format correctly
 addStyles();
@@ -85,6 +86,7 @@ export const Calculator = (props) => {
       //   mathquillToMathJS(val.latex())
       // );
       let ans = parser.evaluate(mathquillToMathJS(val.latex()));
+      ans = math.format(ans, { precision: 14 });
       setAnswer(`${ans}`);
       setError(false);
       calc_addHistory({ latex: val.latex(), ans: `${ans}` });

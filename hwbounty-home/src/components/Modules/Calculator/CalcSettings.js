@@ -89,7 +89,9 @@ export const CalcSettings = (props) => {
   return (
     <Paper className={classes.paper}>
       <div>hiiiiiiii</div>
-      <VariableField name="x" startVal="1023012" />
+      {Object.keys(parser.getAll()).map((key) => (
+        <VariableField name={key} startVal={parser.get(key)} />
+      ))}
     </Paper>
   );
 };
