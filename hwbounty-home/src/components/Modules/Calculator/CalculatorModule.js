@@ -19,6 +19,12 @@ import { addStyles, EditableMathField, StaticMathField } from "react-mathquill";
 import * as math from "mathjs";
 import { NumPad, SymbolPad } from "./CalcTools";
 
+const maths = math.create(math.all, {
+  number: "BigNumber",
+  precision: 2,
+});
+const parser = maths.parser();
+
 const styles = (theme) => ({
   ...theme.spreadIt,
   root: {
@@ -33,11 +39,11 @@ export const CalculatorModule = (props) => {
     <Grid container spacing={2} className={classes.root}>
       <Grid item xs={8}>
         <Paper className={classes.paper}>
-          <Calculator />
+          <Calculator parser={parser} />
         </Paper>
       </Grid>
       <Grid item xs={4}>
-        <CalcSettings />
+        <CalcSettings parser={parser} />
       </Grid>
     </Grid>
   );

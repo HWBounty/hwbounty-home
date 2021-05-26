@@ -1,8 +1,11 @@
 // React
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // MUI
 import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Redux
@@ -22,16 +25,68 @@ const styles = (theme) => ({
 
 export const CalcSettings = (props) => {
   const {
+    classes,
+    parser,
     module: {
       calculator: { variables },
     },
     calc_addVariable,
     calc_removeVariable,
-    classes,
   } = props;
+
+  const VariableField = (props) => {
+    const { name, startVal } = props;
+
+    const [disabled, setDisabled] = useState(true);
+    const [value, setValue] = useState(startVal);
+
+    const inputRef = useRef(null);
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      setDisabled(true);
+      try {
+        parser.set(name, value);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const handleClicked = () => {
+      setDisabled(false);
+      inputRef.current.focus();
+      inputRef.current.select();
+      console.log(inputRef.current);
+    };
+
+    const handleVariableChange = (event) => {
+      // change var given name and new val
+      setValue(event.target.value);
+    };
+
+    return (
+      <Button onClick={handleClicked}>
+        <Typography variant="body1">{name}</Typography>
+        <Typography variant="body1">=</Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            variant="outlined"
+            disabled={disabled}
+            placeholder={value}
+            value={value}
+            inputRef={inputRef}
+            onChange={handleVariableChange}
+            onBlur={handleSubmit}
+          />
+        </form>
+      </Button>
+    );
+  };
+
   return (
     <Paper className={classes.paper}>
       <div>hiiiiiiii</div>
+      <VariableField name="x" startVal="1023012" />
     </Paper>
   );
 };

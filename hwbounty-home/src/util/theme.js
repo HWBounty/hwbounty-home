@@ -38,9 +38,11 @@ const rawTheme = createMuiTheme({
       borderRadius: 2,
     },
   },
-  MuiButtonBase: {
-    // The properties to apply
-    disableRipple: true, // No more ripple, on the whole application 💣!
+  props: {
+    MuiButtonBase: {
+      // The properties to apply
+      disableRipple: true, // No more ripple, on the whole application 💣!
+    },
   },
 });
 
@@ -94,11 +96,13 @@ const theme = {
     },
     body1: {
       ...rawTheme.typography.body2,
+      textTransform: "none",
       fontWeight: rawTheme.typography.fontWeightRegular,
       fontSize: 16,
     },
     body2: {
       ...rawTheme.typography.body1,
+      textTransform: "none",
       fontSize: 14,
     },
   },

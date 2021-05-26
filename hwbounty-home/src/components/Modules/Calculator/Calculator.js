@@ -1,5 +1,6 @@
 // React
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
 // MUI
 import InputBase from "@material-ui/core/InputBase";
@@ -22,18 +23,11 @@ import History from "./History";
 // Math related
 import mathquillToMathJS from "../../../util/latex/preprocessMathQuill";
 import { addStyles, EditableMathField, StaticMathField } from "react-mathquill";
-import * as math from "mathjs";
 import { NumPad, SymbolPad } from "./CalcTools";
-import CalculatorBackend from "../../../util/calculator";
 
 // required for latex to format correctly
 addStyles();
-const history = [];
-const maths = math.create(math.all, {
-  number: "BigNumber",
-  precision: 2,
-});
-const parser = maths.parser();
+
 const styles = (theme) => ({
   ...theme.spreadIt,
   symbolPadGrid: {
@@ -65,6 +59,7 @@ const LatexInput = (props) => {
 export const Calculator = (props) => {
   const {
     classes,
+    parser,
     module: {
       calculator: { input },
     },
@@ -119,30 +114,36 @@ export const Calculator = (props) => {
   };
 
   return (
-    <div className={classes.rootPadding}>
-      <History />
-      <InputBase
-        inputComponent={LatexInput}
-        inputProps={{
-          onSubmit: handleSubmit,
-          onChange: handleChange,
-          mathquillDidMount: handleMathquillMount,
-        }}
-        /*className={classes.input}*/
-        value=""
-        fullWidth
-      ></InputBase>
-      <Grid container spacing={2} className={classes.symbolPadGrid}>
-        <Grid item xs>
-          <NumPad onClick={handleNumberPressed} />
+    <Paper className={classes.paper}>
+      <div className={classes.rootPadding}>
+        <History />
+        <InputBase
+          inputComponent={LatexInput}
+          inputProps={{
+            onSubmit: handleSubmit,
+            onChange: handleChange,
+            mathquillDidMount: handleMathquillMount,
+          }}
+          /*className={classes.input}*/
+          value=""
+          fullWidth
+        ></InputBase>
+        <Grid container spacing={2} className={classes.symbolPadGrid}>
+          <Grid item xs>
+            <NumPad onClick={handleNumberPressed} />
+          </Grid>
+          <Grid item xs>
+            <SymbolPad onClick={handleSymbolPressed} />
+          </Grid>
         </Grid>
-        <Grid item xs>
-          <SymbolPad onClick={handleSymbolPressed} />
-        </Grid>
-      </Grid>
-      <Typography color={error ? "error" : "initial"}>{answer}</Typography>
-    </div>
+        <Typography color={error ? "error" : "initial"}>{answer}</Typography>
+      </div>
+    </Paper>
   );
+};
+
+Calculator.propTypes = {
+  parser: PropTypes.any.isRequired,
 };
 
 const mapStateToProps = (state) => ({
