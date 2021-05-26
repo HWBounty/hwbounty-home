@@ -105,6 +105,21 @@ const useStyles = makeStyles((theme) => ({
     top: "1.05%",
     left: "1%",
   },
+  clickThing: {
+    position: "fixed",
+    top: "1%",
+    bottom: "auto",
+    right: "auto",
+    left: "1%",
+    zIndex: 10000,
+    [theme.breakpoints.down("md")]: {
+      bottom: "1%",
+      right: "1%",
+      zIndex: 10000,
+      top: "auto",
+      left: "auto",
+    }
+  }
 }));
 
 export const Sidebar = (props) => {
@@ -113,7 +128,7 @@ export const Sidebar = (props) => {
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
   const forceUpdate = useForceUpdate();
-  const [openSignout,SetOpenSignout] = React.useState(false);
+  const [openSignout, SetOpenSignout] = React.useState(false);
   const data = {
     SetOpenSignout,
     openSignout
@@ -123,7 +138,7 @@ export const Sidebar = (props) => {
   };
   useEffect(() => {
     let i = setInterval(() => forceUpdate(), 500);
-    return ()=>clearInterval(i);
+    return () => clearInterval(i);
   }, []);
   const handleDrawerClose = () => {
     setOpen(false);
@@ -151,44 +166,24 @@ export const Sidebar = (props) => {
     e.preventDefault();
     console.log(e, document.getElementById("goPage").value);
   };
-  const confirmSignout = (res)=>{
+  const confirmSignout = (res) => {
     SetOpenSignout(false);
-    if (res){
+    if (res) {
       localStorage.clear();
       window.location.reload();
     }
   }
-  const getIcon = ()=>{
+  const getIcon = () => {
     console.log(window.innerWidth)
-    return window.innerWidth > 1300?
-    <IconButton
+    return <IconButton
       color="inherit"
       aria-label="open drawer"
       onClick={handleDrawerOpen}
       style={{
-        position: "fixed",
-        top: "1%",
-        left: "1%",
-        zIndex: 10000,
+
         display: open && "none",
       }}
-      className={clsx(classes.menuButton, open && classes.hide)}
-    >
-      <MenuIcon />
-    </IconButton>
-    :
-    <IconButton
-      color="inherit"
-      aria-label="open drawer"
-      onClick={handleDrawerOpen}
-      style={{
-        position: "fixed",
-        bottom: "1%",
-        right: "1%",
-        zIndex: 10000,
-        display: open && "none",
-      }}
-      className={clsx(classes.menuButton, open && classes.hide)}
+      className={`${clsx(classes.menuButton, open && classes.hide)} ${classes.clickThing}`}
     >
       <MenuIcon />
     </IconButton>
@@ -204,26 +199,26 @@ export const Sidebar = (props) => {
       }
       <Dialog
         open={openSignout}
-        onClose={()=>confirmSignout(false)}
+        onClose={() => confirmSignout(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         {/* <DialogTitle><Typography variant="h5">Are you sure you would like to sign out?</Typography></DialogTitle> */}
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          <Typography style={{
-            fontSize: "1.5rem"
-          }}>Are you sure you would like to sign out?</Typography>
-          <br/>
-            Signing out also clears: <br/>
+            <Typography style={{
+              fontSize: "1.5rem"
+            }}>Are you sure you would like to sign out?</Typography>
+            <br />
+            Signing out also clears: <br />
             - Dark mode/light mode preference.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={()=>confirmSignout(false)} color="primary">
+          <Button onClick={() => confirmSignout(false)} color="primary">
             No
           </Button>
-          <Button onClick={()=>confirmSignout(true)} color="primary" autoFocus>
+          <Button onClick={() => confirmSignout(true)} color="primary" autoFocus>
             Yes
           </Button>
         </DialogActions>

@@ -97,17 +97,9 @@ export const Home = (props) => {
   const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
   useEffect(() => {
     let run = true;
-    (async () => {
-      await sleep(250 - (Date.now() % 250));
-      let lastTime = Date.now();
-      while (run) {
-        await sleep(250 - (Date.now() % 250));
-        forceUpdate();
-        lastTime = Date.now();
-      }
-    })();
+    window.addEventListener("resize", forceUpdate);
     return () => {
-      run = false;
+      window.removeEventListener("resize", forceUpdate);
     };
   }, []);
 
