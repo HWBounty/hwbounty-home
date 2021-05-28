@@ -1,5 +1,6 @@
 import {
-  CALC_ADD_HISTORY,
+  CALC_PUSH_HISTORY,
+  CALC_POP_HISTORY,
   CALC_SET_INPUT,
   CALC_ADD_VARIABLE,
   CALC_REMOVE_VARIABLE,
@@ -18,12 +19,18 @@ const initialState = {
 
 export const moduleReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CALC_ADD_HISTORY:
+    case CALC_PUSH_HISTORY:
       return {
         ...state,
         calculator: {
+          ...state.calculator,
           history: [action.payload, ...state.calculator.history],
         },
+      };
+    case CALC_POP_HISTORY:
+      state.calculator.history.shift();
+      return {
+        ...state,
       };
     case CALC_SET_INPUT:
       return {
@@ -37,6 +44,7 @@ export const moduleReducer = (state = initialState, action) => {
       return {
         ...state,
         calculator: {
+          ...state.calculator,
           variables: [...state.calculator.variables, action.payload],
         },
       };
@@ -47,6 +55,7 @@ export const moduleReducer = (state = initialState, action) => {
       return {
         ...state,
         calculator: {
+          ...state.calculator,
           variables: vars,
         },
       };

@@ -1,12 +1,14 @@
 import {
-  CALC_ADD_HISTORY,
+  CALC_PUSH_HISTORY,
   CALC_SET_INPUT,
   CALC_ADD_VARIABLE,
   CALC_REMOVE_VARIABLE,
+  CALC_POP_HISTORY,
 } from "../types";
 
 export const calc_addHistory = (latex) => (dispatch) => {
-  dispatch({ type: CALC_ADD_HISTORY, payload: latex });
+  dispatch({ type: CALC_PUSH_HISTORY, payload: latex });
+  //dispatch({ type: CALC_POP_HISTORY });
 };
 
 export const calc_setInput = (latex) => (dispatch) => {
