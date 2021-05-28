@@ -19,11 +19,7 @@ import { addStyles, EditableMathField, StaticMathField } from "react-mathquill";
 import * as math from "mathjs";
 import { NumPad, SymbolPad } from "./CalcTools";
 
-const maths = math.create(math.all, {
-  number: "BigNumber",
-  precision: 2,
-});
-const parser = maths.parser();
+const parser = math.parser();
 
 const styles = (theme) => ({
   ...theme.spreadIt,

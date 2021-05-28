@@ -49,7 +49,8 @@ const useStyles = makeStyles((theme) => ({
     display: "inline",
   },
   card: {
-    boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
+    boxShadow:
+      "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
     background: (theme) => (theme ? "rgb(40,40,40)" : "rgb(230,230,230)"),
     borderRadius: "1vmin",
   },
@@ -90,6 +91,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "5vw",
     paddingBottom: "2vw",
     textAlign: "center",
+    cursor: "pointer",
 
     // position: "fixed",
     // top: "15%",
@@ -136,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
   scheduleIcon: {
     verticalAlign: "middle",
     margin: "0.5vmin",
-    marginRight: "0.25vmin"
+    marginRight: "0.25vmin",
   },
   rightSide: {
     position: "relative",
@@ -144,8 +146,7 @@ const useStyles = makeStyles((theme) => ({
   },
   scheduleCover: {
     height: "17.5vmin",
-    filter: theme => `brightness(${theme === 0 ? 70 : 30}%)`
-
+    filter: (theme) => `brightness(${theme === 0 ? 70 : 30}%)`,
   },
   miniCard: {
     width: "30vmin",
@@ -173,7 +174,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "2rem",
     textAlign: "left",
     width: "100%",
-    marginBottom: "2vmin"
+    marginBottom: "2vmin",
     // paddingLeft: "5%",
   },
   qaccessLabel: {
@@ -183,7 +184,7 @@ const useStyles = makeStyles((theme) => ({
   reccomendedLabel: {
     marginTop: "5%",
     width: "55vw",
-  }
+  },
 }));
 export const TimeCard = (props) => {
   const forceUpdate = useForceUpdate();
@@ -238,16 +239,14 @@ export const TimeCard = (props) => {
           fontWeight: "500",
           textAlign: "left",
           marginLeft: "10%",
-
         }}
       >
         {
-            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
           "h:mm:ss A"
         )
         }
       </Typography>
-
       <Typography
         variant="h5"
         style={{
@@ -259,7 +258,7 @@ export const TimeCard = (props) => {
         }}
       >
         {
-            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
           "dddd M/D/YYYY"
         )
         }
@@ -287,27 +286,24 @@ export const DesktopHome = (props) => {
     };
     const pageArray = Object.values(Pages);
     const fuse = new Fuse(pageArray, fuseOptions);
-    let searchArr = fuse
-      .search(query)
-      .filter((x, i) => i < 4);
+    let searchArr = fuse.search(query).filter((x, i) => i < 4);
     while (searchArr.length < 4) {
       searchArr.push({
         item: {
           blank: true,
-        }
-      })
+        },
+      });
     }
     return (
       <div
         style={{
-          // maxWidth: "768px", 
+          // maxWidth: "768px",
           display: "flex",
           flexWrap: "wrap",
           flexDirection: "row",
         }}
       >
         {React.Children.toArray(
-
           searchArr.map((result) => {
             return (
               <ModuleCard
@@ -332,7 +328,11 @@ export const DesktopHome = (props) => {
   return (
     <div className={classes.mainDiv}>
       <div className={classes.timeCardDiv}>
-        <Typography className={`${classes.generalLabel} ${classes.qaccessLabel}`}>Quick Access: </Typography>
+        <Typography
+          className={`${classes.generalLabel} ${classes.qaccessLabel}`}
+        >
+          Quick Access:{" "}
+        </Typography>
         <TimeCard theme={theme} />
       </div>
       <div className={`${classes.dataDiv}`}>
@@ -351,11 +351,14 @@ export const DesktopHome = (props) => {
             />
           </form>
         </Card>
-        <Typography className={`${classes.generalLabel} ${classes.reccomendedLabel}`}>Recommended</Typography>
+        <Typography
+          className={`${classes.generalLabel} ${classes.reccomendedLabel}`}
+        >
+          Reccomended
+        </Typography>
         <Card style={{}} className={`${classes.card} ${classes.searchResults}`}>
           {React.Children.toArray(renderSearchPages())}
         </Card>
-
       </div>
       {/* <Card className={`${classes.miniCard}`}>
         hi!

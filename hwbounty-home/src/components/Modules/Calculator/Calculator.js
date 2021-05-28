@@ -8,7 +8,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 // Redux
 import { connect } from "react-redux";
@@ -24,16 +24,27 @@ import History from "./History";
 import mathquillToMathJS from "../../../util/latex/preprocessMathQuill";
 import { addStyles, EditableMathField, StaticMathField } from "react-mathquill";
 import { NumPad, SymbolPad } from "./CalcTools";
+import * as math from "mathjs";
 
 // required for latex to format correctly
 addStyles();
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   ...theme.spreadIt,
+  paper: {
+    ...theme.spreadIt.paper,
+    height: "80vh",
+  },
+  rootPadding: {
+    ...theme.spreadIt.rootPadding,
+    flexDirection: "column",
+    display: "flex",
+    height: "100%",
+  },
   symbolPadGrid: {
     paddingTop: 15,
   },
-});
+}));
 
 const LatexInput = (props) => {
   const { onChange, onSubmit, mathquillDidMount } = props;
@@ -58,26 +69,20 @@ const LatexInput = (props) => {
 
 export const Calculator = (props) => {
   const {
-    classes,
     parser,
     module: {
       calculator: { input },
     },
     calc_addHistory,
+    calc_setInput,
   } = props;
+
+  const classes = useStyles();
 
   const [answer, setAnswer] = useState("");
   const [error, setError] = useState(false);
 
   const mathField = useRef(null);
-
-  useEffect(() => {
-    try {
-      mathField.current.latex(input ? input : "");
-    } catch {
-      console.log("Expression invalid");
-    }
-  }, [input]);
 
   const handleSubmit = (val) => {
     try {
@@ -85,9 +90,11 @@ export const Calculator = (props) => {
       //   mathquillToMathJS(val.latex())
       // );
       let ans = parser.evaluate(mathquillToMathJS(val.latex()));
+      ans = math.format(ans, { precision: 14 });
       setAnswer(`${ans}`);
       setError(false);
       calc_addHistory({ latex: val.latex(), ans: `${ans}` });
+      calc_setInput("");
     } catch (err) {
       console.log(err);
       setAnswer("ERROR!!!!");
@@ -100,7 +107,7 @@ export const Calculator = (props) => {
   };
 
   const handleChange = (val) => {
-    calc_setInput(`${val.latex()}`);
+    calc_setInput(`${val ? val.latex() : ""}`);
   };
 
   const handleNumberPressed = (num) => {
@@ -151,5 +158,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { calc_addHistory, calc_setInput })(
-  withStyles(styles)(Calculator)
+  Calculator
 );

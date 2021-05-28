@@ -6,6 +6,8 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import AddIcon from "@material-ui/icons/Add";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Redux
@@ -19,7 +21,13 @@ const styles = (theme) => ({
   ...theme.spreadIt,
   paper: {
     ...theme.spreadIt.paper,
-    height: "100%",
+    height: "80vh",
+    overflow: "auto",
+    display: "flex",
+    flexDirection: "column",
+  },
+  variableWrapper: {
+    flex: 1,
   },
 });
 
@@ -88,8 +96,12 @@ export const CalcSettings = (props) => {
 
   return (
     <Paper className={classes.paper}>
-      <div>hiiiiiiii</div>
-      <VariableField name="x" startVal="1023012" />
+      <div className={classes.variableWrapper}>
+        {Object.keys(parser.getAll()).map((key) => (
+          <VariableField name={key} startVal={parser.get(key)} />
+        ))}
+      </div>
+      <AddIcon />
     </Paper>
   );
 };
