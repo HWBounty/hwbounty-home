@@ -31,6 +31,10 @@ addStyles();
 
 const styles = (theme) => ({
   ...theme.spreadIt,
+  paper: {
+    ...theme.spreadIt.paper,
+    height: "80vh",
+  },
   symbolPadGrid: {
     paddingTop: 15,
   },
@@ -65,6 +69,7 @@ export const Calculator = (props) => {
       calculator: { input },
     },
     calc_addHistory,
+    calc_setInput,
   } = props;
 
   const [answer, setAnswer] = useState("");
@@ -90,6 +95,7 @@ export const Calculator = (props) => {
       setAnswer(`${ans}`);
       setError(false);
       calc_addHistory({ latex: val.latex(), ans: `${ans}` });
+      calc_setInput("");
     } catch (err) {
       console.log(err);
       setAnswer("ERROR!!!!");
