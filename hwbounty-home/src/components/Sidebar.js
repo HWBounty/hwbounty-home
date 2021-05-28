@@ -226,7 +226,7 @@ export const Sidebar = (props) => {
       <Drawer
         className={classes.drawer}
         //variant="persistent"
-        anchor={window.innerWidth > 1300 ? "left" : "right"}
+        anchor={window.innerWidth > 960 ? "left" : "right"}
         open={open}
         onClose={handleDrawerClose}
         classes={{

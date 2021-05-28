@@ -38,7 +38,7 @@ const useButtonStyles = makeStyles({
     paddingBottom: 10,
     display: "block",
     cursor: "pointer",
-    position:"relative",
+    position: "relative",
     boxShadow: " 4px 6px 5px 4px rgba(0,0,0,0.2)!important",
   },
 });
@@ -71,7 +71,7 @@ const PeriodButton = (props) => {
   const { enqueueSnackbar } = useSnackbar();
   let timePassed = 0;
   //If we are past the end time, set time passed to 100%
-  if (nofill > 0 ) timePassed = 0;
+  if (nofill > 0) timePassed = 0;
   else if (nofill < 0) timePassed = 100;
   else if (Date.now() - timeEnd > 0) timePassed = 100;
   //If we are in class, set time passed to (current-start)/(End-start) * 100
@@ -84,7 +84,7 @@ const PeriodButton = (props) => {
     if (zoom.length) setExpanded(!expanded);
     else enqueueSnackbar("No Zoom Links found for this class!");
   };
-  
+
 
   const handleZoomLinkClicked = (event, link) => {
     event.stopPropagation();
@@ -105,15 +105,11 @@ const PeriodButton = (props) => {
         className={classes.root}
         onClick={handleButtonClicked}
         style={{
-          background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${
-            color[2]
-          }%) 0%, hsl(${color[0]},${color[1]}%,${
-            color[2]
-          }%) ${timePassed}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${
-            notDoneCol[2]
-          }%) ${timePassed + 0.000001}%, hsl(${notDoneCol[0]},${
-            notDoneCol[1]
-          }%,${notDoneCol[2]}%) 100%)`,
+          background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${color[2]
+            }%) 0%, hsl(${color[0]},${color[1]}%,${color[2]
+            }%) ${timePassed}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${notDoneCol[2]
+            }%) ${timePassed + 0.000001}%, hsl(${notDoneCol[0]},${notDoneCol[1]
+            }%,${notDoneCol[2]}%) 100%)`,
           borderRadius: 20,
           padding: "10px",
         }}
@@ -124,11 +120,11 @@ const PeriodButton = (props) => {
           style={{
             marginLeft: "4%",
             fontSize: window.innerWidth ** 0.4 + 32,
-            marginBottom: window.innerWidth <= 1300
-            ?"12%":"6%",
+            marginBottom: window.innerWidth <= 960
+              ? "12%" : "6%",
             position: "relative",
-            marginTop: window.innerWidth <= 1300
-            ?"4%":"2%",
+            marginTop: window.innerWidth <= 960
+              ? "4%" : "2%",
             // left: "5%"
           }}
         >
@@ -140,13 +136,13 @@ const PeriodButton = (props) => {
             variant="h5"
             style={{
               fontSize:
-                window.innerWidth <= 1300
+                window.innerWidth <= 960
                   ? window.innerWidth ** 0.3 + 10
                   : window.innerWidth ** 0.4 + 10,
               margin: 10,
               marginBottom: 10,
               marginTop: 0,
-              bottom: window.innerWidth <= 1300 ? "70%" : "1%",
+              bottom: window.innerWidth <= 960 ? "70%" : "1%",
               left: "4%",
               bottom: "10%",
               position: "absolute",
@@ -177,7 +173,7 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
   let scheduleDay = moment(Date.now());
   let ogHasOffset = offset;
   if (offset)
-    offset = ((scheduleDay.isoWeekday() - 1)+ (offset % 7+7)%7)%7;
+    offset = ((scheduleDay.isoWeekday() - 1) + (offset % 7 + 7) % 7) % 7;
   else
     offset = (scheduleDay.isoWeekday() - 1);
   let dotw = [
@@ -214,16 +210,16 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
       name:
         courseInfo && courseInfo.course
           ? courseInfo.course.course_title
-          : x.period === "break" ? nameOverrides[x.period]:"No Class",
+          : x.period === "break" ? nameOverrides[x.period] : "No Class",
       zoom:
         courseInfo && courseInfo.links
           ? courseInfo.links
-              .map((linkGroup) => {
-                return linkGroup.links.map((link) => {
-                  return { link: link, title: decodeHTML(linkGroup.title) };
-                });
-              })
-              .flat(10000)
+            .map((linkGroup) => {
+              return linkGroup.links.map((link) => {
+                return { link: link, title: decodeHTML(linkGroup.title) };
+              });
+            })
+            .flat(10000)
           : [],
       timeStart:
         moment(x.timeStart, "hh:mma")
@@ -238,7 +234,7 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
       duration: x.timeEnd - x.timeStart,
       nofill: ogHasOffset,
     };
-  }).filter(x=>x);
+  }).filter(x => x);
 };
 let done = false;
 const fetchAndSet = async (setCourseInfo, setScheduleData, setCannotFetch) => {
@@ -273,7 +269,7 @@ export const Schedule = (props) => {
   const {
     UI: { theme },
   } = props;
-  const dayOffset =  props.dayOffset;
+  const dayOffset = props.dayOffset;
   const forceUpdate = useForceUpdate();
   useEffect(() => {
     const id = setTimeout(
@@ -325,7 +321,7 @@ export const Schedule = (props) => {
         </Typography>
       </div>
     );
-  const periods = parsePeriods(scheduleData, courseInfo, theme,dayOffset);
+  const periods = parsePeriods(scheduleData, courseInfo, theme, dayOffset);
   return (
     <Container style={{ marginBottom: "50px", width: "100%", padding: "0px" }}>
       {React.Children.toArray(

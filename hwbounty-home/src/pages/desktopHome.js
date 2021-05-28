@@ -85,8 +85,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "10vw",
   },
   time: {
-    width: "40vmin",
-    minHeight: "40vmin",
+    width: "38vmin",
+    minHeight: "38vmin",
     marginBottom: "5vw",
     paddingBottom: "2vw",
     textAlign: "center",
@@ -102,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
     // margin: "10vw",
     verticalAlign: "middle",
     //   maxHeight: "40%",
-    height: "10vh",
+    height: "8vmin",
     textAlign: "center",
     display: "flex",
     alignItems: "center",
@@ -351,7 +351,7 @@ export const DesktopHome = (props) => {
             />
           </form>
         </Card>
-        <Typography className={`${classes.generalLabel} ${classes.reccomendedLabel}`}>Reccomended</Typography>
+        <Typography className={`${classes.generalLabel} ${classes.reccomendedLabel}`}>Recommended</Typography>
         <Card style={{}} className={`${classes.card} ${classes.searchResults}`}>
           {React.Children.toArray(renderSearchPages())}
         </Card>

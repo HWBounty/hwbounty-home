@@ -28,7 +28,7 @@ class SignUpPage extends Component {
       emailVerif: false,
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
   signup(self) {
     self.setState({ loading: true });
     let firstName = document.getElementById("firstName").value;
@@ -108,8 +108,8 @@ class SignUpPage extends Component {
     return (
       <Container
         style={{
-          paddingLeft: window.innerWidth <= 1300 ? "0vw" : "20vw",
-          paddingRight: window.innerWidth <= 1300 ? "0vw" : "20vw",
+          paddingLeft: window.innerWidth <= 960 ? "0vw" : "20vw",
+          paddingRight: window.innerWidth <= 960 ? "0vw" : "20vw",
         }}
       >
         <Snackbar open={this.state.emailVerif} autoHideDuration={10000}>

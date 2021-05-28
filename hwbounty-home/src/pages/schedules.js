@@ -115,7 +115,7 @@ const useStyles = makeStyles({
 		overflow: "hidden",
 		whiteSpace: "nowrap",
 		margin: "1vmin",
-		color: (theme)=> theme ===0? "#5c5c5c": "#ffffff"
+		color: (theme) => theme === 0 ? "#5c5c5c" : "#ffffff"
 	},
 	scheduleDisplayPeriodTime: {
 		fontSize: "1.5vmin",
@@ -140,7 +140,7 @@ export const ScheduleCatalog = (props) => {
 			console.log(schedulesResult);
 		})();
 	}
-	// if (window.innerWidth < 1300) {
+	// if (window.innerWidth < 960) {
 	// 	return null;
 	// }
 	return (<DesktopLayout theme={theme} schedulesSearch={schedulesSearch} setSchedulesSearch={setSchedulesSearch} schedulesResult={schedulesResult} />)
@@ -168,16 +168,16 @@ const DisplayedScheduleDay = (props) => {
 	});
 	const renderPeriods = () => {
 		let resArr = [];
-		for (let i = 0; i< dayschedule.length; i++){
+		for (let i = 0; i < dayschedule.length; i++) {
 			resArr.push(dayschedule[i]);
-			if (i+1 !== dayschedule.length){
+			if (i + 1 !== dayschedule.length) {
 				resArr.push("divider");
 			}
 		}
 		dayschedule = resArr;
 		let children = React.Children.toArray(
 			dayschedule.map((x) => {
-				if (x==="divider") return <Divider />
+				if (x === "divider") return <Divider />
 				return (
 					<ListItem style={{
 						display: "flex",
@@ -185,13 +185,13 @@ const DisplayedScheduleDay = (props) => {
 						alignItems: "center",
 						flexDirection: "row",
 					}}
-					
+
 					>
 						<Typography className={`${classes.scheduleDisplayPeriod}`}>{x.period}</Typography>
 						<Typography className={`${classes.scheduleDisplayPeriodTime}`}>{x.timeStart}-{x.timeEnd}</Typography>
-						
+
 					</ListItem>
-					
+
 				);
 			})
 		);
@@ -321,7 +321,7 @@ const DesktopLayout = (props) => {
 		setSchedulesSearch(nv || e.target.value)
 	}
 	const history = useHistory();
-	const toSchedule= (id)=>{
+	const toSchedule = (id) => {
 		history.push(`/schedule/view/${id}`);
 	}
 	const mapToCards = (arr) => {
@@ -329,26 +329,26 @@ const DesktopLayout = (props) => {
 		return React.Children.toArray(arr.map(schedule => {
 			return (
 				<Zoom
-				in
-				timeout={750}
-				style={{transitionDelay:"50ms"}}
+					in
+					timeout={750}
+					style={{ transitionDelay: "50ms" }}
 				>
 					<Card className={`${classes.catalogItemCard}`} onClick={null}>
-					<Typography className={`${classes.catalogItemTitle}`}>{schedule.name}</Typography>
-					<Button onClick={()=>toSchedule(schedule.id)} style={{width:"50%",alignSelf: "center"}}>View Schedule</Button>
-					<div style={{
-						flexGrow: 1,
-						display: "flex",
-						alignItems: "center",
-						justifyItems: "center",
-					}}>
-						<ScheduleItem schedule={schedule} theme={theme} />
-					</div>
+						<Typography className={`${classes.catalogItemTitle}`}>{schedule.name}</Typography>
+						<Button onClick={() => toSchedule(schedule.id)} style={{ width: "50%", alignSelf: "center" }}>View Schedule</Button>
+						<div style={{
+							flexGrow: 1,
+							display: "flex",
+							alignItems: "center",
+							justifyItems: "center",
+						}}>
+							<ScheduleItem schedule={schedule} theme={theme} />
+						</div>
 
 
-				</Card>
+					</Card>
 				</Zoom>
-				
+
 			)
 			return null;
 		}));

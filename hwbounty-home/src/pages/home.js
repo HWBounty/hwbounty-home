@@ -147,7 +147,7 @@ export const Home = (props) => {
     );
     // ModuleCard
   };
-  if (window.innerWidth >= 1300) {
+  if (window.innerWidth >= 960) {
     return <DesktopHome />;
   } else {
     return <MobileHome />;

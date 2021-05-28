@@ -1,4 +1,4 @@
-import { Card, makeStyles, TextField, Typography } from "@material-ui/core";
+import { Card, CardMedia, InputBase, makeStyles, TextField, Typography } from "@material-ui/core";
 import React, { useEffect, useRef, useState } from "react";
 import Fuse from "fuse.js";
 import Pages from "../util/pageDictionary";
@@ -8,208 +8,323 @@ import CTimeSmall from "../components/Home/CTimeSmall";
 import { useHistory } from "react-router";
 import getTimePhrase from "../util/getTimePhrase";
 import { connect } from "react-redux";
+import { Today } from "@material-ui/icons";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      display: "flex",
-      "& > *": {
-        margin: theme.spacing(1),
-      },
+  root: {
+    display: "flex",
+    "& > *": {
+      margin: theme.spacing(1),
     },
-    small: {
-      width: theme.spacing(3),
-      height: theme.spacing(3),
-    },
-    large: {
-      width: theme.spacing(16),
-      height: theme.spacing(16),
-    },
-    paper: {
-      width: "80vw",
-      height: "80vw",
-      display: "inline-block",
-    },
-    title: {
-      fontSize: "60px",
-      // fontFamily: "",
-    },
-    formLabel: {
-      display: "block",
-    },
-    formGroup: {
-      display: "inline",
-    },
-    card: {
-      boxShadow:
-        "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)!important",
-        background: (theme)=> theme? "rgb(35,35,35)":"rgb(230,230,230)",
-    },
-    timeUntilText: {
-      fontSize: window.innerHeight / 25,
-      fontFamily: "Nunito",
-    },
-    timeUntilTextMobile: {
-      fontSize: window.innerWidth / 30,
-      fontFamily: "Nunito",
-    },
-    greetingText:{
-        display: "inline",
-        fontFamily: "Oswald",
-        verticalAlign: "middle",
-    },
-    greetingIMG:{
-        width: "20vw",
-        height: "20vw",
-        verticalAlign: "middle",
-    },
-    greetingDiv: {
-        marginTop: "10vw",
-    },
-    time: {
-        width: "80vw",
-        maxHeight: "40%",
-        borderRadius: 10,
-        padding: "5vh",
-        margin: "10vw",
-        marginTop: "5vw",
-        marginBottom: "5vw",
-        textAlign: "center",  
-        color: (theme)=> !theme? "rgb(88,88,88)":"rgb(230,230,230)",
-    },
-    searchBar: {
-        width: "80vw",
-        marginTop: "5vw",
-        margin: "10vw",
-        padding: "3vw",
-      //   maxHeight: "40%",
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+  },
+  large: {
+    width: theme.spacing(16),
+    height: theme.spacing(16),
+  },
+  paper: {
+    width: "80vw",
+    height: "80vw",
+    display: "inline-block",
+  },
+  title: {
+    fontSize: "60px",
+    // fontFamily: "",
+  },
+  formLabel: {
+    display: "block",
+  },
+  formGroup: {
+    display: "inline",
+  },
+  card: {
+    boxShadow:
+      "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)!important",
+    background: (theme) => theme ? "rgb(35,35,35)" : "rgb(230,230,230)",
+  },
+  timeUntilText: {
+    fontSize: "5vmin",
+    fontFamily: "Poppins",
+    textAlign: "left",
+    marginLeft: "10%",
+    marginRight: "10%",
+  },
+  greetingText: {
+    display: "inline",
+    fontFamily: "Oswald",
+    verticalAlign: "middle",
+  },
+  greetingIMG: {
+    width: "20vw",
+    height: "20vw",
+    verticalAlign: "middle",
+  },
+  searchIMG: {
+    height: "4rem",
+    verticalAlign: "middle",
+  },
+  greetingDiv: {
+    marginTop: "10vw",
+  },
+  time: {
+    width: "80vw",
+    borderRadius: 10,
+    paddingBottom: "5vh",
+    textAlign: "center",
+    color: (theme) => !theme ? "rgb(88,88,88)" : "rgb(230,230,230)",
+  },
+  scheduleText: {
+    fontFamily: "Poppins",
+    fontSize: "1.6rem",
+    margin: "10%",
+    fontWeight: "500",
+    marginTop: "5%",
+    marginBottom: "2.5%",
+    verticalAlign: "middle",
+  },
+  scheduleCover: {
+    height: "17.5vh",
+    filter: theme => `brightness(${theme === 0 ? 70 : 30}%)`
 
-        borderRadius: 10,
-        textAlign: "center",
+  },
+  timeCardDiv: {
+    width: "100vw",
+    display: "flex",
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flexWrap: "nowrap",
+    flexDirection: "column",
+  },
+  searchBar: {
+    width: "80vw",
+    marginTop: "5vw",
+    margin: "10vw",
+    padding: "1vmin",
+    //   maxHeight: "40%",
+    paddingLeft: "2vmin",
+    borderRadius: "100vh",
+    textAlign: "left",
+  },
+  card: {
+    boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
+    background: (theme) => (theme ? "rgb(40,40,40)" : "rgb(240,240,240)"),
+    borderRadius: "1vmin",
+  },
+}));
+export const TimeCardMobile = (props) => {
+  const forceUpdate = useForceUpdate();
+  const { theme } = props;
+  const history = useHistory();
+  const redirectToSchedule = () => {
+    history.push("/schedule");
+  };
+  const classes = useStyles(theme);
+  const timeout = useRef();
+  const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+  useEffect(() => {
+    let run = true;
+    (async () => {
+      await sleep(250 - (Date.now() % 250));
+      let lastTime = Date.now();
+      while (run) {
+        await sleep(250 - (Date.now() % 250));
+        forceUpdate();
+        lastTime = Date.now();
       }
-  }));
-export const MobileHome = (props)=>{
-    const forceUpdate = useForceUpdate();
-    const {
-        UI: { theme },
-      } = props;
-    const classes = useStyles(theme);
-    const history = useHistory();
-    const redirectToSchedule = () => {
-      history.push("/schedule");
+    })();
+    return () => {
+      run = false;
     };
-    const timeout = useRef();
-    const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-    useEffect(() => {
-      let run = true;
-        (async ()=>{
-          await sleep(500-Date.now()%500)
-          let lastTime = Date.now();
-          while (run){
-            await sleep(500-Date.now()%500);
-            forceUpdate();
-            lastTime = Date.now();
-          }
-        })();
-      return () => {
-        run=false;
+  }, []);
+  return (
+    <Card
+      onClick={redirectToSchedule}
+      className={`${classes.time} ${classes.card}`}
+    >
+      <CardMedia
+        image="https://i.ibb.co/Jpn86gb/KI-0fw7-R6ndtscv-ROmgu8-MYv-UO5di-Hf-EIrbtv-RGb-Lnv-Bdo72k-NIcy6t-RCklg-ILjkf-Krn-QQZGW9-CZx-CHH9-TN.png"
+        title="hwBounty Scheduule"
+        className={`${classes.scheduleCover}`}
+      />
+      <Typography className={classes.scheduleText} align="left">
+        <Today className={classes.scheduleIcon} />
+        Schedule
+      </Typography>
+      <div className={`${classes.scheduleImg}`}>
+        <Typography className={classes.timeUntilText} align="center">
+          {getTimePhrase()}
+        </Typography>
+      </div>
+      &nbsp;
+      <Typography
+        variant="h5"
+        style={{
+          fontSize: "5vmin",
+          fontFamily: "Poppins",
+          fontWeight: "500",
+          textAlign: "left",
+          marginLeft: "10%",
+
+        }}
+      >
+        {
+            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+          "h:mm:ss A"
+        )
+        }
+      </Typography>
+
+      <Typography
+        variant="h5"
+        style={{
+          fontSize: "5vmin",
+          fontFamily: "Poppins",
+          fontWeight: "500",
+          textAlign: "left",
+          marginLeft: "10%",
+        }}
+      >
+        {
+            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+          "dddd M/D/YYYY"
+        )
+        }
+      </Typography>
+    </Card>
+  );
+};
+export const MobileHome = (props) => {
+  const forceUpdate = useForceUpdate();
+  const {
+    UI: { theme },
+  } = props;
+  const classes = useStyles(theme);
+  const history = useHistory();
+  const redirectToSchedule = () => {
+    history.push("/schedule");
+  };
+  const timeout = useRef();
+  const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+  useEffect(() => {
+    let run = true;
+    (async () => {
+      await sleep(500 - Date.now() % 500)
+      let lastTime = Date.now();
+      while (run) {
+        await sleep(500 - Date.now() % 500);
+        forceUpdate();
+        lastTime = Date.now();
       }
-  },[]);
-    const renderSearchPages = () => {
+    })();
+    return () => {
+      run = false;
+    }
+  }, []);
+  const renderSearchPages = () => {
 
-        let query = document.getElementById("pageSearchBox")?.value;
-        if (!query) return null;
-        const fuseOptions = {
-          includeScore: true,
-          // Search in `author` and in `tags` array
-          keys: ["name", "description", "tags"],
-        };
-        const pageArray = Object.values(Pages);
-        const fuse = new Fuse(pageArray, fuseOptions);
-        return (
-          <div>
-            {React.Children.toArray(
-              fuse
-                .search(query)
-                .filter((x, i) => i < 10)
-                .map((result) => {
-                  return (
-                    <ModuleCard
-                      icon={result.item.icon}
-                      name={result.item.name}
-                      desc={result.item.desc}
-                      path={result.item.path}
-                      color={
-                        theme
-                          ? result.item.defaultColorDarkMode
-                          : result.item.defaultColorLightMode
-                      }
-                    />
-                  );
-                })
-            )}
-          </div>
-        );
-        // ModuleCard
-      };  
+    let query = document.getElementById("pageSearchBox")?.value;
+    if (!query) return null;
+    const fuseOptions = {
+      includeScore: true,
+      // Search in `author` and in `tags` array
+      keys: ["name", "description", "tags"],
+    };
+    const pageArray = Object.values(Pages);
+    const fuse = new Fuse(pageArray, fuseOptions);
     return (
-        <div >
-        <div className={classes.greetingDiv}>
-            
-            <Typography className={classes.greetingText} align="center" style={{
-            fontSize: `${50-(JSON.parse(localStorage.getItem("user"))?.firstName ? `Welcome back ${JSON.parse(localStorage.getItem("user"))?.firstName}!` : "Welcome to HWBounty!").length*2.35}vw`
-        }}><img src="https://cdn.discordapp.com/attachments/836672960566919228/838871035117568120/frogfinal-01.png" className={classes.greetingIMG}/> {JSON.parse(localStorage.getItem("user"))?.firstName ? `Welcome back ${JSON.parse(localStorage.getItem("user"))?.firstName}!` : "Welcome to HWBounty!"} </Typography>
-        </div>
-        <Card onClick={redirectToSchedule} className={`${classes.time} ${classes.card}`}>
-        
-          <CTimeSmall />
-          <Typography className={classes.timeUntilTextMobile} align="center">{getTimePhrase()}</Typography>
-        </Card>
-        <Card 
-        className={`${classes.card} ${classes.searchBar}`}
-        >
-          <form>
-            <TextField placeholder={"Search for Page..."} label={"Navigate To Page"} classes={classes.searchBox} id="pageSearchBox" style={{
-              width: "90%",
-            }} />
-          </form>
-        </Card>
-        <Card style={{
-          width: "80vw",
-          marginTop: "5vw",
-          margin: "10vw",
-          maxHeight: "40%",
-          minHeight: "256px",
-          height: "256px",
-          borderRadius: 10,
-          textAlign: "center",
-          overflowX: "scroll",
-          marginBottom: "10vw",
-        }} className={`${classes.card}`}>
-          {React.Children.toArray(renderSearchPages())}
-        </Card>
-        <Card style={{
-          width: "80vw",
-          marginTop: "5vw",
-          margin: "10vw",
-          maxHeight: "10vw%",
-          minHeight: "10vw",
-          height: "10vw",
-          borderRadius: 10,
-          textAlign: "center",
-          overflowX: "scroll",
-          marginBottom: "10vw",
-          backgroundColor: "rgba(0,0,0,0)"
-        }}>
-        </Card>
-
-        {/* <ForumSearch />
-        <DesktopLayout />
-        <MobileLayout /> */}
+      <div>
+        {React.Children.toArray(
+          fuse
+            .search(query)
+            .filter((x, i) => i < 10)
+            .map((result) => {
+              return (
+                <ModuleCard
+                  icon={result.item.icon}
+                  name={result.item.name}
+                  desc={result.item.desc}
+                  path={result.item.path}
+                  color={
+                    theme
+                      ? result.item.defaultColorDarkMode
+                      : result.item.defaultColorLightMode
+                  }
+                />
+              );
+            })
+        )}
       </div>
     );
+    // ModuleCard
+  };
+  return (
+    <div >
+      <div className={classes.greetingDiv}>
+
+        <Typography className={classes.greetingText} align="center" style={{
+          fontSize: `${50 - (JSON.parse(localStorage.getItem("user"))?.firstName ? `Welcome back ${JSON.parse(localStorage.getItem("user"))?.firstName}!` : "Welcome to HWBounty!").length * 2.35}vw`
+        }}><img src="https://cdn.discordapp.com/attachments/836672960566919228/838871035117568120/frogfinal-01.png" className={classes.greetingIMG} /> {JSON.parse(localStorage.getItem("user"))?.firstName ? `Welcome back ${JSON.parse(localStorage.getItem("user"))?.firstName}!` : "Welcome to HWBounty!"} </Typography>
+      </div>
+      <Card className={`${classes.card} ${classes.searchBar}`}>
+        <form>
+          <img
+            src="https://cdn.discordapp.com/attachments/836672960566919228/840713461515812864/frogmg-01.png"
+            className={classes.searchIMG}
+          />
+          <InputBase
+            placeholder="&nbsp;What’cha looking for?"
+            className={`${classes.searchBarText}`}
+            inputProps={{ "aria-label": "search" }}
+            id="pageSearchBox"
+            onChange={forceUpdate}
+          />
+        </form>
+      </Card>
+      <div className={classes.timeCardDiv}>
+        <TimeCardMobile theme={theme} />
+      </div>
+      <Card style={{
+        width: "80vw",
+        marginTop: "5vw",
+        margin: "10vw",
+        maxHeight: "40%",
+        minHeight: "256px",
+        height: "256px",
+        borderRadius: 10,
+        textAlign: "center",
+        overflowX: "scroll",
+        marginBottom: "10vw",
+      }} className={`${classes.card}`}>
+        {React.Children.toArray(renderSearchPages())}
+      </Card>
+      <Card style={{
+        width: "80vw",
+        marginTop: "5vw",
+        margin: "10vw",
+        maxHeight: "10vw%",
+        minHeight: "10vw",
+        height: "10vw",
+        borderRadius: 10,
+        textAlign: "center",
+        overflowX: "scroll",
+        marginBottom: "10vw",
+        backgroundColor: "rgba(0,0,0,0)"
+      }}>
+      </Card>
+
+      {/* <ForumSearch />
+        <DesktopLayout />
+        <MobileLayout /> */}
+    </div>
+  );
 }
 const mapStateToProps = (state) => ({
-    user: state.user,
-    UI: state.UI,
-  });
+  user: state.user,
+  UI: state.UI,
+});
 export default connect(mapStateToProps)(MobileHome);
