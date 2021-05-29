@@ -36,6 +36,7 @@
     "react-scripts": "4.0.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "scroll-lock": "^2.1.5",
     "socket.io": "^4.0.1",
     "socket.io-client": "^4.0.1",
     "socket.io-stream": "^0.9.1",

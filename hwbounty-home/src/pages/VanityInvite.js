@@ -1,6 +1,9 @@
-import { Button, Card, makeStyles, TextField, Typography } from "@material-ui/core";
+import { Button, Card, LinearProgress, makeStyles, TextField, Typography } from "@material-ui/core";
+import axios from "axios";
 import { useState } from "react";
 import { connect } from "react-redux";
+import scrollLock from 'scroll-lock';
+import { hwbountyAPI } from "../redux/types";
 
 const useStyles = makeStyles(theme => ({
     headBar: {
@@ -46,13 +49,6 @@ const useStyles = makeStyles(theme => ({
         top: "0%",
         left: "0%",
         backgroundColor: "rgba(105,180,172,0.5)",
-    },
-    cuteHopper: {
-        position: "float",
-        top: "100%",
-        right: "50%",
-        transform: "translate(50%,50%)",
-        zIndex: 2,
     },
     tagLine: {
         fontFamily: "Oswald",
@@ -102,12 +98,12 @@ const useStyles = makeStyles(theme => ({
         // borderRadius: "100rem",
         transform: "scale(50)",
         transition: "all 1s",
-        '&:hover': {
-            backgroundColor: "rgb(23,178,172)!important",
-            transition: "all 1s",
-        },
         position: "absolute",
         zIndex: 100,
+        backgroundColor: "rgb(23,178,172)",
+        '&:hover': {
+            backgroundColor: "rgb(23,178,172)!important",
+        },
     },
     joinButtonPreScaled: {
         position: "absolute",
@@ -135,17 +131,56 @@ const useStyles = makeStyles(theme => ({
         zIndex: 100,
     },
     inputBox: {
-        margin: "0.5rem",
+        margin: "2rem",
+        marginBottom: "0.5rem",
+        marginTop: "0.25rem",
     },
     inputBoxWide: {
-        margin: "1.5rem",
+        margin: "2rem",
+        marginTop: "0rem",
+        marginBottom: "2rem",
+    },
+
+
+
+
+
+
+    signupLeftDiv: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        borderRadius: 0,
+        height: "100%"
+    },
+    signupText: {
+        fontSize: "1.875rem",
+        fontFamily: "Nunito",
+    },
+    signUpButton: {
+        height: "3rem",
+        width: "10rem",
+        textTransform: "none",
+        backgroundColor: "rgb(23,178,172)",
+        '&:hover': {
+            backgroundColor: "rgb(50,200,200)",
+        },
+        '&:disabled': {
+            backgroundColor: "rgb(100,100,100)",
+        },
+        color: them => them === 0 ? "rgb(42,42,42)" : "rgb(255,255,255)",
+    },
+    cuteHopper: {
+        margin: "1rem",
+        marginBottom: 0,
+        height: "8rem",
+        width: "8rem",
     }
 }));
 const TealDiamond = (props) => {
     return (<span style={{ color: "rgb(105,180,172)" }}>♦</span>)
 }
 export const VanityInvite = (props) => {
-    console.log(props);
     const classes = useStyles(props.UI.theme);
     const [invite, setInvite] = useState(
         {
@@ -183,55 +218,107 @@ export const VanityInvite = (props) => {
         }
     );
     const [inForm, setInForm] = useState(false);
+    const [emailError, setEmailError] = useState("");
+    const [usernameError, setUsernameError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [posting, setPosting] = useState(false);
+    const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+    const signup = async () => {
+        setPosting(true);
+        let firstName = document.getElementById("fname").value;
+        let lastName = document.getElementById("lname").value;
+        let email = document.getElementById("email").value;
+        let username = document.getElementById("uname").value;
+        let pass = document.getElementById("p1").value;
+        let cpass = document.getElementById("cp").value;
+        if (pass !== cpass) { setPasswordError("Passwords do not match!"); setPosting(false); return; }
+        if (username.length < 3) {
+            setUsernameError("Username too short! (min. 3 characters)"); setPosting(false); return;
+        }
+        if (username.length > 32) {
+            setUsernameError("Username too long! (max. 32 characters)"); setPosting(false); return;
+        }
+        if (!username.match(/^[a-zA-Z0-9_]*$/g)) {
+            setUsernameError("Username must be alphanumeric. Underscores are allowed."); setPosting(false); return;
+        }
+        let nameTaken = (await axios.get(`${hwbountyAPI}/usernameTaken/${username}`))?.data;
+        if (nameTaken) { setUsernameError("Username already exists!"); setPosting(false); return; }
+        if (!email.match(/\S+@\S+\.\S+/)) {
+            setEmailError("Invalid Email!"); setPosting(false); return;
+        }
+        if ((await axios.get(`https://api.hwbounty.help/emailTaken/${email}`).catch(console.trace))?.data) {
+            setEmailError("Email already in use!"); setPosting(false); return;
+        }
+        const userData = {
+            email, firstName, lastName, username, password: pass,
+            vanitySignup: window.location.href.split('/').pop(),
+
+        };
+        console.log(userData);
+        const result = await axios
+            .post(`${hwbountyAPI}/signup`, userData)
+            .catch((err) => console.log(err));
+        if (result) {
+            document.getElementById("signup").childNodes.item(0).innerText = "Check your Email!";
+            document.getElementById("signup").disabled = true;
+        }
+        setPosting(false);
+
+    }
     if (inForm) {
         return (
-            <div>
+            <div >
                 <div className={classes.joinButtonPreScaled} id="signup2" />
-                <div className={`${classes.headBar}`}>
-                    <img
-                        src="https://cdn.discordapp.com/attachments/836672960566919228/838871035117568120/frogfinal-01.png"
-                        className={classes.greetingIMG}
-                    /> <Typography className={`${classes.hwBountyText}`}>Signup </Typography>
-                </div>
                 <div className={classes.mainPart}>
                     <div className={classes.schoolPhoto}
                         style={{
                             background: `url(${invite.backgroundImage})center/cover`,
+                            width: "100%",
+                            height: "100%",
+                            overflow: "hidden",
                         }} />
-                    <div className={classes.tealOverlay} />
+                    <div className={classes.tealOverlay} style={{
+                        width: "100%",
+                        height: "100%",
+                        overflow: "hidden",
+                    }} />
                     <div className={`${classes.top} ${classes.topDivWrapper}`}>
                         <div class="box" style={{
                         }}>
                             <div class="container">
-                                <Card>
-                                    <Typography className={classes.hwBountyText}>HWBounty Sign Up</Typography>
+                                <Card className={classes.signupLeftDiv}>
+                                    {posting && <LinearProgress />}
+                                    <img className={classes.cuteHopper} src="https://cdn.discordapp.com/attachments/836672960566919228/838871035117568120/frogfinal-01.png" />
+                                    <Typography className={classes.signupText}>HWBounty Sign Up</Typography>
                                     <form style={{
                                         display: "flex",
                                         flexDirection: "column",
                                         alignItems: "stretch"
                                     }}>
                                         <div>
-                                            <TextField label="First Name" variant="outlined" className={classes.inputBox} />
-                                            <TextField label="Last Name" variant="outlined" className={classes.inputBox} />
+                                            <TextField label="First Name" variant="outlined" className={classes.inputBox} id="fname" />
+                                            <TextField label="Last Name" variant="outlined" className={classes.inputBox} id="lname" />
                                         </div>
 
                                         <br />
-                                        <TextField label="Email" variant="outlined" className={classes.inputBoxWide} />
-                                        <TextField label="Username" variant="outlined" className={classes.inputBoxWide} />
-                                        <TextField label="Password" variant="outlined" className={classes.inputBoxWide} />
-                                        <TextField label="Confirm Password" variant="outlined" className={classes.inputBoxWide} />
+                                        <TextField label="Email" variant="outlined" className={classes.inputBoxWide} helperText={emailError} error={!!emailError} id="email" onChange={() => setEmailError("")} />
+                                        <TextField label="Username" variant="outlined" className={classes.inputBoxWide} helperText={usernameError} error={!!usernameError} id="uname" onChange={() => setUsernameError("")} />
+                                        <div>
+                                            <TextField label="Password" variant="outlined" className={classes.inputBoxWide} type="password" helperText={passwordError} error={!!passwordError} id="p1" onChange={() => setPasswordError("")} />
+                                            <TextField label="Confirm Password" variant="outlined" className={classes.inputBoxWide} type="password" helperText={passwordError} error={!!passwordError} id="cp" onChange={() => setPasswordError("")} />
+                                        </div>
+
+
                                         <Button style={{
-                                            width: "25%",
-                                            height: "2rem",
                                             alignSelf: "center"
-                                        }} variant="contained">Go!</Button>
+                                        }} variant="contained" className={`${classes.signUpButton}`} onClick={signup} id="signup">Go!</Button>
                                     </form>
                                 </Card>
                             </div>
                         </div>
                     </div>
 
-                    {/* <img className={classes.cuteHopper} src="https://cdn.discordapp.com/attachments/836672960566919228/838871035117568120/frogfinal-01.png" /> */}
+                    {/*  */}
                 </div>
             </div>
         );
@@ -239,7 +326,7 @@ export const VanityInvite = (props) => {
     const signupClick = () => {
         document.getElementById("signup").classList.add(classes.joinButtonScaled);
         document.getElementById("signup").innerHTML = "";
-        const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
         (async () => {
             await sleep(750);
             setInForm(true);
@@ -257,6 +344,7 @@ export const VanityInvite = (props) => {
                     className={classes.greetingIMG}
                 /> <Typography className={`${classes.hwBountyText}`}>HW Bounty </Typography>
             </div>
+
             <div className={classes.mainPart}>
                 <div className={classes.schoolPhoto}
                     style={{
