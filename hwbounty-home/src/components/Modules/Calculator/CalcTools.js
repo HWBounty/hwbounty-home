@@ -6,17 +6,20 @@ import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles({
   numPadRoot: {},
   symbolPadRoot: {},
   button: {
+    backgroundColor: props => props.theme === 1 ? "rgb(63,63,63)" : "rgb(243,243,243)",
     //flex: 1,
   },
 });
 
-const SymbolButton = ({ onClick, latex, symbol }) => {
-  const classes = useStyles();
+const SymbolButton = (props) => {
+  const { onClick, latex, symbol } = props;
+  const classes = useStyles(props);
   return (
     <Button
       className={classes.button}
@@ -27,9 +30,12 @@ const SymbolButton = ({ onClick, latex, symbol }) => {
     </Button>
   );
 };
-
-export const NumPad = (props) => {
-  const classes = useStyles();
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+});
+export const NumPad = connect(mapStateToProps)((props) => {
+  const classes = useStyles(props);
   const { onClick } = props;
 
   const NumRow = ({ arr }) => {
@@ -57,7 +63,7 @@ export const NumPad = (props) => {
       <NumRow arr={[null, 0, "."]} />
     </Grid>
   );
-};
+});
 
 export const SymbolPad = (props) => {
   const { onClick } = props;

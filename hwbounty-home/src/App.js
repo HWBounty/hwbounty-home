@@ -48,10 +48,11 @@ const setSchedule = lazy(() => import("./pages/setSchedule"));
 const schoologyOauthRedirect = lazy(() =>
   import("./pages/schoologyOauthRedirect")
 );
-const LandingPage = lazy(()=> import("./pages/landingPage"));
+const LandingPage = lazy(() => import("./pages/landingPage"));
+const VanityInvite = lazy(() => import("./pages/VanityInvite"));
 const PageNotFound = lazy(() => import("./pages/404"));
-const newProfile = lazy(()=> import("./pages/newProfile"));
-const scheduleBuilder = lazy(()=> import("./pages/scheduleBuilder"))
+const newProfile = lazy(() => import("./pages/newProfile"));
+const scheduleBuilder = lazy(() => import("./pages/scheduleBuilder"))
 //=================Checks on App start====================//
 const token = localStorage.DBIdToken;
 if (token) {
@@ -124,32 +125,33 @@ const App = (props) => {
                   ></div>
                 )}
                 <ErrorBoundary>
-                <Switch>
-                  <Route path="/dashboard" component={home} />
-                  <Route exact path="/" component={authenticated ? home : LandingPage} />
-                  <Route
-                    exact
-                    path="/schoologyCallback"
-                    component={schoologyOauthRedirect}
-                  />
-                  <Route path="/signupcallback" component={signupCallback} />
-                  <Route path="/signup" component={newSignup} />
-                  <Route path="/schedules" component={ScheduleCatalog} />
-                  <Route exact path="/schedule" component={ScheduleInfo} />
-                  <Route path="/schedule/view" component={viewSchedule} />
-                  <Route path="/schedule/set" component={setSchedule} />
-                  <Route path="/schedule/create" component={scheduleBuilder} />
-                  <Route path="/modules/" component={Modules} />
-                  <Route path="/user/" component={newProfile} />
-                  <Route path="/settings/" component={Settings} />
-                  <Route path="/loadingPage/" component={LoadingPage} />
-                  <Route
-                    exact
-                    path="/login/schoology"
-                    component={SchoologyButton}
-                  />
-                  <Route path="*" component={PageNotFound} />
-                </Switch>
+                  <Switch>
+                    <Route path="/dashboard" component={home} />
+                    <Route exact path="/" component={authenticated ? home : LandingPage} />
+                    <Route
+                      exact
+                      path="/schoologyCallback"
+                      component={schoologyOauthRedirect}
+                    />
+                    <Route path="/signupcallback" component={signupCallback} />
+                    <Route exact path="/signup" component={newSignup} />
+                    <Route path="/signup/*" component={VanityInvite} />
+                    <Route path="/schedules" component={ScheduleCatalog} />
+                    <Route exact path="/schedule" component={ScheduleInfo} />
+                    <Route path="/schedule/view" component={viewSchedule} />
+                    <Route path="/schedule/set" component={setSchedule} />
+                    <Route path="/schedule/create" component={scheduleBuilder} />
+                    <Route path="/modules/" component={Modules} />
+                    <Route path="/user/" component={newProfile} />
+                    <Route path="/settings/" component={Settings} />
+                    <Route path="/loadingPage/" component={LoadingPage} />
+                    <Route
+                      exact
+                      path="/login/schoology"
+                      component={SchoologyButton}
+                    />
+                    <Route path="*" component={PageNotFound} />
+                  </Switch>
                 </ErrorBoundary>
               </Suspense>
             </Router>
