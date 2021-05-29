@@ -22,12 +22,16 @@ const styles = (theme) => ({
   paper: {
     ...theme.spreadIt.paper,
     height: "80vh",
-    overflow: "auto",
     display: "flex",
     flexDirection: "column",
   },
   variableWrapper: {
     flex: 1,
+    overflow: "auto",
+  },
+  addButton: {
+    margin: "auto",
+    align: "right",
   },
 });
 
@@ -76,12 +80,18 @@ export const CalcSettings = (props) => {
     };
 
     return (
-      <Button onClick={handleClicked}>
-        <Typography variant="body1">{name}</Typography>
-        <Typography variant="body1">=</Typography>
+      <Button onClick={handleClicked} fullWidth style={{ display: "flex" }}>
+        <Typography variant="body1" style={{ padding: 10 }}>
+          {name}
+        </Typography>
+        <Typography variant="body1" style={{ flex: 1, textAlign: "left" }}>
+          =
+        </Typography>
         <form onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
+            size="small"
+            style={{ paddingRight: 10 }}
             disabled={disabled}
             placeholder={value}
             value={value}
@@ -94,6 +104,8 @@ export const CalcSettings = (props) => {
     );
   };
 
+  const AddVariable = (props) => {};
+
   return (
     <Paper className={classes.paper}>
       <div className={classes.variableWrapper}>
@@ -101,7 +113,9 @@ export const CalcSettings = (props) => {
           <VariableField name={key} startVal={parser.get(key)} />
         ))}
       </div>
-      <AddIcon />
+      <IconButton className={classes.addButton}>
+        <AddIcon />
+      </IconButton>
     </Paper>
   );
 };
