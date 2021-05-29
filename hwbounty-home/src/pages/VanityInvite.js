@@ -1,6 +1,6 @@
 import { Button, Card, LinearProgress, makeStyles, TextField, Typography } from "@material-ui/core";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import scrollLock from 'scroll-lock';
 import { hwbountyAPI } from "../redux/types";
@@ -182,47 +182,19 @@ const TealDiamond = (props) => {
 }
 export const VanityInvite = (props) => {
     const classes = useStyles(props.UI.theme);
-    const [invite, setInvite] = useState(
-        {
-            "inviteID": "gunn",
-            "name": "Gunn",
-            "creator": "0",
-            "schedule": "1",
-            "classesRegex": "^\\d+",
-            "backgroundImage": "https://dowdleandsonsmech.com/wp-content/uploads/2016/05/Gunn-HS-Finished-No-2.jpg",
-            "uses": 0,
-            "user": {
-                "firstName": "John",
-                "lastName": "Li",
-                "publicID": "Tet",
-                "createdAt": "1619835675925",
-                "bio": "\tYou creatures who have fought with strength, violence, blood and death, who built a tower of corpses that rises to the sky and call yourselves wise, tell me this: What is the difference between you and the dumb beasts?",
-                "privateID": 0,
-                "namePublic": 1,
-                "userscol": null,
-                "bal": 3957,
-                "pbal": 0,
-                "pfp": "https://i.ibb.co/7SXMbxp/c67dc8b9f980.png",
-                "schedule": 1,
-                "classes": "{\"period1\":{\"value\":\"2772296125\"},\"period2\":{\"value\":\"2772297879\"},\"period3\":{\"value\":\"2772299958\"},\"period4\":{\"value\":\"2772302878\"},\"break\":{\"value\":\"None\"},\"period5\":{\"value\":\"2772303225\"},\"period6\":{\"value\":\"2772305559\"},\"period7\":{\"value\":\"2772307416\"},\"period8\":{\"value\":\"None\"},\"period9\":{\"value\":\"2772321865\"}}",
-                "tags": "staff,backendDev",
-                "balpublic": 1,
-                "allowDMsFrom": 0,
-                "premiumEndsAt": "999999999999999",
-                "usernameChangesLeft": 0,
-                "invitedBy": null,
-                "previousNames": "",
-                "username": "Tet"
-            },
-            "valid": true
-        }
-    );
+    const [invite, setInvite] = useState(null);
+    useEffect(async () => {
+        let inv = ((await axios.get(`${hwbountyAPI}/invite/${window.location.href.split("/").pop()}`).catch(console.trace)));
+        console.log(inv.data);
+        setInvite(inv.data);
+    }, []);
     const [inForm, setInForm] = useState(false);
     const [emailError, setEmailError] = useState("");
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [posting, setPosting] = useState(false);
     const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+    if (!invite) return null;
     const signup = async () => {
         setPosting(true);
         let firstName = document.getElementById("fname").value;
@@ -338,12 +310,12 @@ export const VanityInvite = (props) => {
     }
     return (
         <div>
-            <div className={`${classes.headBar}`}>
+            {/* <div className={`${classes.headBar}`}>
                 <img
                     src="https://cdn.discordapp.com/attachments/836672960566919228/838871035117568120/frogfinal-01.png"
                     className={classes.greetingIMG}
                 /> <Typography className={`${classes.hwBountyText}`}>HW Bounty </Typography>
-            </div>
+            </div> */}
 
             <div className={classes.mainPart}>
                 <div className={classes.schoolPhoto}
