@@ -28,6 +28,7 @@ const styles = (theme) => ({
   variableWrapper: {
     flex: 1,
     overflow: "auto",
+    paddingTop: 25,
   },
   addButton: {
     margin: "auto",
@@ -106,12 +107,20 @@ export const CalcSettings = (props) => {
 
   const AddVariable = (props) => {};
 
+  console.log();
+
   return (
     <Paper className={classes.paper}>
       <div className={classes.variableWrapper}>
-        {Object.keys(parser.getAll()).map((key) => (
-          <VariableField name={key} startVal={parser.get(key)} />
-        ))}
+        {Object.keys(parser.getAll()).length !== 0 ? (
+          Object.keys(parser.getAll()).map((key) => (
+            <VariableField name={key} startVal={parser.get(key)} />
+          ))
+        ) : (
+          <h1>
+            Type variables in text box (e.g. x=5) or press the button below
+          </h1>
+        )}
       </div>
       <IconButton className={classes.addButton}>
         <AddIcon />

@@ -26,12 +26,12 @@ import { AccountIconButton } from "./User/AccountIconButton";
 import { Avatar, TextField } from "@material-ui/core";
 import { PageSearch } from "./Home/PageSearch";
 import useForceUpdate from "../util/useForceUpdate";
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 const drawerWidth = 240;
 let locations = {
@@ -118,8 +118,8 @@ const useStyles = makeStyles((theme) => ({
       zIndex: 10000,
       top: "auto",
       left: "auto",
-    }
-  }
+    },
+  },
 }));
 
 export const Sidebar = (props) => {
@@ -131,8 +131,8 @@ export const Sidebar = (props) => {
   const [openSignout, SetOpenSignout] = React.useState(false);
   const data = {
     SetOpenSignout,
-    openSignout
-  }
+    openSignout,
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -172,31 +172,31 @@ export const Sidebar = (props) => {
       localStorage.clear();
       window.location.reload();
     }
-  }
+  };
   const getIcon = () => {
-    console.log(window.innerWidth)
-    return <IconButton
-      color="inherit"
-      aria-label="open drawer"
-      onClick={handleDrawerOpen}
-      style={{
-
-        display: open && "none",
-      }}
-      className={`${clsx(classes.menuButton, open && classes.hide)} ${classes.clickThing}`}
-    >
-      <MenuIcon />
-    </IconButton>
-  }
+    return (
+      <IconButton
+        color="inherit"
+        aria-label="open drawer"
+        onClick={handleDrawerOpen}
+        style={{
+          display: open && "none",
+        }}
+        className={`${clsx(classes.menuButton, open && classes.hide)} ${
+          classes.clickThing
+        }`}
+      >
+        <MenuIcon />
+      </IconButton>
+    );
+  };
   return (
     <div
       style={{
         zIndex: 1000000000,
       }}
     >
-      {
-        getIcon()
-      }
+      {getIcon()}
       <Dialog
         open={openSignout}
         onClose={() => confirmSignout(false)}
@@ -206,19 +206,26 @@ export const Sidebar = (props) => {
         {/* <DialogTitle><Typography variant="h5">Are you sure you would like to sign out?</Typography></DialogTitle> */}
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <Typography style={{
-              fontSize: "1.5rem"
-            }}>Are you sure you would like to sign out?</Typography>
+            <Typography
+              style={{
+                fontSize: "1.5rem",
+              }}
+            >
+              Are you sure you would like to sign out?
+            </Typography>
             <br />
-            Signing out also clears: <br />
-            - Dark mode/light mode preference.
+            Signing out also clears: <br />- Dark mode/light mode preference.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => confirmSignout(false)} color="primary">
             No
           </Button>
-          <Button onClick={() => confirmSignout(true)} color="primary" autoFocus>
+          <Button
+            onClick={() => confirmSignout(true)}
+            color="primary"
+            autoFocus
+          >
             Yes
           </Button>
         </DialogActions>

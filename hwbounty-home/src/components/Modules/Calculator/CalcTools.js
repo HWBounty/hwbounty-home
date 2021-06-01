@@ -12,7 +12,8 @@ const useStyles = makeStyles({
   numPadRoot: {},
   symbolPadRoot: {},
   button: {
-    backgroundColor: props => props.theme === 1 ? "rgb(63,63,63)" : "rgb(243,243,243)",
+    //backgroundColor: (props) =>
+    //props.UI.theme === 1 ? "rgb(63,63,63)" : "rgb(243,243,243)",
     //flex: 1,
   },
 });
@@ -31,12 +32,16 @@ const SymbolButton = (props) => {
   );
 };
 const mapStateToProps = (state) => ({
-  user: state.user,
   UI: state.UI,
 });
 export const NumPad = connect(mapStateToProps)((props) => {
   const classes = useStyles(props);
-  const { onClick } = props;
+  const {
+    onClick,
+    UI: { theme },
+  } = props;
+
+  console.log(theme);
 
   const NumRow = ({ arr }) => {
     return (
@@ -47,7 +52,11 @@ export const NumPad = connect(mapStateToProps)((props) => {
               {num !== null ? (
                 <SymbolButton onClick={onClick} latex={num} symbol={num} />
               ) : (
-                <Button className={classes.button} disabled />
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  disabled
+                />
               )}
             </Grid>
           ))
