@@ -354,7 +354,7 @@ export const DesktopHome = (props) => {
         <Typography
           className={`${classes.generalLabel} ${classes.reccomendedLabel}`}
         >
-          Reccomended
+          Recommended
         </Typography>
         <Card style={{}} className={`${classes.card} ${classes.searchResults}`}>
           {React.Children.toArray(renderSearchPages())}
