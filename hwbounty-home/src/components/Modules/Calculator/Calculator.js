@@ -134,7 +134,7 @@ export const Calculator = (props) => {
           /*className={classes.input}*/
           value=""
           fullWidth
-        ></InputBase>
+        />
         <Grid container spacing={2} className={classes.symbolPadGrid}>
           <Grid item xs>
             <NumPad onClick={handleNumberPressed} />

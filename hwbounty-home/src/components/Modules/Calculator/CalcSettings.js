@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
+import Popover from "@material-ui/core/Popover";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Redux
@@ -46,6 +47,9 @@ export const CalcSettings = (props) => {
     calc_addVariable,
     calc_removeVariable,
   } = props;
+
+  const [popup, setPopupOpen] = useState(false);
+  const iconButtonRef = useRef();
 
   const VariableField = (props) => {
     const { name, startVal } = props;
@@ -105,9 +109,9 @@ export const CalcSettings = (props) => {
     );
   };
 
-  const AddVariable = (props) => {};
-
-  console.log();
+  const handleClicked = () => {
+    setPopupOpen(true);
+  };
 
   return (
     <Paper className={classes.paper}>
@@ -122,9 +126,21 @@ export const CalcSettings = (props) => {
           </h1>
         )}
       </div>
-      <IconButton className={classes.addButton}>
+      <IconButton
+        className={classes.addButton}
+        ref={iconButtonRef}
+        onClick={handleClicked}
+      >
         <AddIcon />
       </IconButton>
+      <Popover
+        open={popup}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        transformOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorEl={iconButtonRef}
+      >
+        <h1>hiiii</h1>
+      </Popover>
     </Paper>
   );
 };
