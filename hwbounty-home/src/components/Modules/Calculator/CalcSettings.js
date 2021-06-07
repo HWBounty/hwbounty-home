@@ -52,73 +52,113 @@ export const CalcSettings = (props) => {
   const iconButtonRef = useRef();
 
   const VariableField = (props) => {
-    const { name, startVal } = props;
+    const { startName, startVal } = props;
 
-    const [disabled, setDisabled] = useState(true);
+    const [nameDisabled, setNameDisabled] = useState(true);
+    const [name, setName] = useState(startName);
+    const nameInputRef = useRef(null);
+
+    const [valueDisabled, setValueDisabled] = useState(true);
     const [value, setValue] = useState(startVal);
-
-    const inputRef = useRef(null);
+    const valueInputRef = useRef(null);
 
     useEffect(() => {
-      if (disabled) return;
-      inputRef.current.focus();
-      inputRef.current.select();
-    }, [disabled]);
+      if (nameDisabled) return;
+      nameInputRef.current.focus();
+      nameInputRef.current.select();
+    }, [nameDisabled]);
+
+    useEffect(() => {
+      if (valueDisabled) return;
+      valueInputRef.current.focus();
+      valueInputRef.current.select();
+    }, [valueDisabled]);
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      setDisabled(true);
+      setValueDisabled(true);
+      setNameDisabled(true);
       try {
         parser.set(name, value);
+        parser.remove(startName);
       } catch (err) {
         console.log(err);
       }
     };
 
-    const handleClicked = () => {
-      setDisabled(false);
+    const handleNameClicked = () => {
+      setNameDisabled(false);
+    };
+
+    const handleValueClicked = () => {
+      setValueDisabled(false);
     };
 
     const handleVariableChange = (event) => {
-      // change var given name and new val
       setValue(event.target.value);
     };
 
+    const handleNameChange = (event) => {
+      setName(event.target.value);
+    };
+
     return (
-      <Button onClick={handleClicked} fullWidth style={{ display: "flex" }}>
-        <Typography variant="body1" style={{ padding: 10 }}>
-          {name}
-        </Typography>
-        <Typography variant="body1" style={{ flex: 1, textAlign: "left" }}>
-          =
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            size="small"
-            style={{ paddingRight: 10 }}
-            disabled={disabled}
-            placeholder={value}
-            value={value}
-            inputRef={inputRef}
-            onChange={handleVariableChange}
-            onBlur={handleSubmit}
-          />
-        </form>
-      </Button>
+      <div style={{ display: "flex" }}>
+        <Button onClick={handleNameClicked}>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              variant="outlined"
+              size="small"
+              style={{ paddingLeft: 10 }}
+              inputProps={{
+                style: { cursor: nameDisabled ? "pointer" : "auto" },
+              }}
+              disabled={nameDisabled}
+              value={name}
+              inputRef={nameInputRef}
+              onChange={handleNameChange}
+              onBlur={handleSubmit}
+            />
+          </form>
+        </Button>
+        <Button
+          onClick={handleValueClicked}
+          fullWidth
+          style={{ display: "flex" }}
+        >
+          <Typography variant="body1" style={{ flex: 1, textAlign: "left" }}>
+            =
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              variant="outlined"
+              size="small"
+              style={{ paddingRight: 10 }}
+              inputProps={{
+                style: { cursor: valueDisabled ? "pointer" : "auto" },
+              }}
+              disabled={valueDisabled}
+              placeholder={value}
+              value={value}
+              inputRef={valueInputRef}
+              onChange={handleVariableChange}
+              onBlur={handleSubmit}
+            />
+          </form>
+        </Button>
+      </div>
     );
   };
 
-  const handleClicked = () => {
-    setPopupOpen(true);
-  };
+  const handleClicked = () => setPopupOpen(true);
+  const handleClosed = () => setPopupOpen(false);
 
   return (
     <Paper className={classes.paper}>
       <div className={classes.variableWrapper}>
         {Object.keys(parser.getAll()).length !== 0 ? (
           Object.keys(parser.getAll()).map((key) => (
-            <VariableField name={key} startVal={parser.get(key)} />
+            <VariableField startName={key} startVal={parser.get(key)} />
           ))
         ) : (
           <h1>
@@ -135,11 +175,12 @@ export const CalcSettings = (props) => {
       </IconButton>
       <Popover
         open={popup}
+        onClose={handleClosed}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         transformOrigin={{ vertical: "bottom", horizontal: "center" }}
-        anchorEl={iconButtonRef}
+        anchorEl={iconButtonRef.current}
       >
-        <h1>hiiii</h1>
+        <TextField style={{ padding: 10 }} autoFocus value="x=5" />
       </Popover>
     </Paper>
   );
