@@ -84,6 +84,14 @@ export const Calculator = (props) => {
 
   const mathField = useRef(null);
 
+  useEffect(() => {
+    try {
+      mathField.current.latex(input ? input : "");
+    } catch {
+      console.log("Expression invalid");
+    }
+  }, [input]);
+
   const handleSubmit = (val) => {
     try {
       // const ans = CalculatorBackend.self.solveEquation(
