@@ -84,25 +84,14 @@ export const Calculator = (props) => {
 
   const mathField = useRef(null);
 
-  useEffect(() => {
-    try {
-      mathField.current.latex(input ? input : "");
-    } catch {
-      console.log("Expression invalid");
-    }
-  }, [input]);
-
   const handleSubmit = (val) => {
     try {
-      // const ans = CalculatorBackend.self.solveEquation(
-      //   mathquillToMathJS(val.latex())
-      // );
       let ans = parser.evaluate(mathquillToMathJS(val.latex()));
       ans = math.format(ans, { precision: 14 });
       setAnswer(`${ans}`);
       setError(false);
       calc_addHistory({ latex: val.latex(), ans: `${ans}` });
-      calc_setInput("");
+      mathField.current.latex("");
     } catch (err) {
       console.log(err);
       setAnswer("ERROR!!!!");
@@ -112,10 +101,6 @@ export const Calculator = (props) => {
 
   const handleMathquillMount = (val) => {
     mathField.current = val;
-  };
-
-  const handleChange = (val) => {
-    calc_setInput(`${val ? val.latex() : ""}`);
   };
 
   const handleNumberPressed = (num) => {
@@ -136,7 +121,7 @@ export const Calculator = (props) => {
           inputComponent={LatexInput}
           inputProps={{
             onSubmit: handleSubmit,
-            onChange: handleChange,
+            //onChange: handleChange,
             mathquillDidMount: handleMathquillMount,
           }}
           /*className={classes.input}*/

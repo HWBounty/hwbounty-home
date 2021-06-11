@@ -41,8 +41,6 @@ export const NumPad = connect(mapStateToProps)((props) => {
     UI: { theme },
   } = props;
 
-  console.log(theme);
-
   const NumRow = ({ arr }) => {
     return (
       <Grid container item spacing={1} wrap="nowrap">

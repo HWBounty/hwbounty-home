@@ -1,5 +1,5 @@
 // React
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // MUI
 import Paper from "@material-ui/core/Paper";
@@ -8,7 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
-import Popover from "@material-ui/core/Popover";
+import DeleteIcon from "@material-ui/icons/Delete";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Redux
@@ -37,19 +37,8 @@ const styles = (theme) => ({
   },
 });
 
-export const CalcSettings = (props) => {
-  const {
-    classes,
-    parser,
-    module: {
-      calculator: { variables },
-    },
-    calc_addVariable,
-    calc_removeVariable,
-  } = props;
-
-  const [popup, setPopupOpen] = useState(false);
-  const iconButtonRef = useRef();
+export const CalcVariables = (props) => {
+  const { classes, parser, calc_addVariable, calc_removeVariable } = props;
 
   const VariableField = (props) => {
     const { startName, startVal } = props;
@@ -81,6 +70,9 @@ export const CalcSettings = (props) => {
       try {
         parser.set(name, value);
         parser.remove(startName);
+
+        calc_addVariable({ name: value });
+        calc_removeVariable(startName);
       } catch (err) {
         console.log(err);
       }
@@ -100,6 +92,11 @@ export const CalcSettings = (props) => {
 
     const handleNameChange = (event) => {
       setName(event.target.value);
+    };
+
+    const handleRemoveVariable = () => {
+      parser.remove(startName);
+      calc_removeVariable(startName);
     };
 
     return (
@@ -138,7 +135,7 @@ export const CalcSettings = (props) => {
                 style: { cursor: valueDisabled ? "pointer" : "auto" },
               }}
               disabled={valueDisabled}
-              placeholder={value}
+              placeholder={`${value}`}
               value={value}
               inputRef={valueInputRef}
               onChange={handleVariableChange}
@@ -146,42 +143,61 @@ export const CalcSettings = (props) => {
             />
           </form>
         </Button>
+        <Button onClick={handleRemoveVariable}>
+          <DeleteIcon />
+        </Button>
       </div>
     );
   };
 
-  const handleClicked = () => setPopupOpen(true);
-  const handleClosed = () => setPopupOpen(false);
+  const addVariable = () => {
+    // map over "common name variables" (abc...)
+    // remove from array based on the variables we already have
+    // we can make this over again cuz i'm lazy...
+    // also not competitive programming soooo....
+    // although O(n) space vs O(n) time so idk...
+    let letters = "abcdefghijklmnopqrstuvwxyz".split("");
+    let x = 1; // increase every loop, we append this to end of each letter until it works...
+    let tmp = letters.filter((c) => {
+      return !(c in parser.getAll());
+    });
+
+    while (tmp.length === 0) {
+      //eslint-disable-next-line
+      tmp = letters.map((c) => c + `${x}`);
+      tmp = tmp.filter((c) => {
+        return !(c in parser.getAll());
+      });
+
+      x++;
+    }
+
+    const varName = tmp[0];
+
+    parser.set(varName, 1);
+    calc_addVariable({ varName: 1 });
+
+    // The problem is that we need to change state in some way, redux wise...
+  };
 
   return (
     <Paper className={classes.paper}>
       <div className={classes.variableWrapper}>
         {Object.keys(parser.getAll()).length !== 0 ? (
-          Object.keys(parser.getAll()).map((key) => (
-            <VariableField startName={key} startVal={parser.get(key)} />
-          ))
+          React.Children.toArray(
+            Object.keys(parser.getAll()).map((key) => (
+              <VariableField startName={key} startVal={parser.get(key)} />
+            ))
+          )
         ) : (
           <h1>
             Type variables in text box (e.g. x=5) or press the button below
           </h1>
         )}
       </div>
-      <IconButton
-        className={classes.addButton}
-        ref={iconButtonRef}
-        onClick={handleClicked}
-      >
+      <IconButton className={classes.addButton} onClick={addVariable}>
         <AddIcon />
       </IconButton>
-      <Popover
-        open={popup}
-        onClose={handleClosed}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        transformOrigin={{ vertical: "bottom", horizontal: "center" }}
-        anchorEl={iconButtonRef.current}
-      >
-        <TextField style={{ padding: 10 }} autoFocus value="x=5" />
-      </Popover>
     </Paper>
   );
 };
@@ -193,4 +209,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   calc_addVariable,
   calc_removeVariable,
-})(withStyles(styles)(CalcSettings));
+})(withStyles(styles)(CalcVariables));

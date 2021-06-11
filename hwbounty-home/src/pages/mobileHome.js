@@ -1,4 +1,11 @@
-import { Card, CardMedia, InputBase, makeStyles, TextField, Typography } from "@material-ui/core";
+import {
+  Card,
+  CardMedia,
+  InputBase,
+  makeStyles,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import React, { useEffect, useRef, useState } from "react";
 import Fuse from "fuse.js";
 import Pages from "../util/pageDictionary";
@@ -44,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     boxShadow:
       "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)!important",
-    background: (theme) => theme ? "rgb(35,35,35)" : "rgb(230,230,230)",
+    background: (theme) => (theme ? "rgb(35,35,35)" : "rgb(230,230,230)"),
   },
   timeUntilText: {
     fontSize: "5vmin",
@@ -75,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10,
     paddingBottom: "5vh",
     textAlign: "center",
-    color: (theme) => !theme ? "rgb(88,88,88)" : "rgb(230,230,230)",
+    color: (theme) => (!theme ? "rgb(88,88,88)" : "rgb(230,230,230)"),
   },
   scheduleText: {
     fontFamily: "Poppins",
@@ -88,8 +95,7 @@ const useStyles = makeStyles((theme) => ({
   },
   scheduleCover: {
     height: "17.5vh",
-    filter: theme => `brightness(${theme === 0 ? 70 : 30}%)`
-
+    filter: (theme) => `brightness(${theme === 0 ? 70 : 30}%)`,
   },
   timeCardDiv: {
     width: "100vw",
@@ -111,7 +117,8 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
   },
   card: {
-    boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
+    boxShadow:
+      "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
     background: (theme) => (theme ? "rgb(40,40,40)" : "rgb(240,240,240)"),
     borderRadius: "1vmin",
   },
@@ -169,16 +176,14 @@ export const TimeCardMobile = (props) => {
           fontWeight: "500",
           textAlign: "left",
           marginLeft: "10%",
-
         }}
       >
         {
-            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "h:mm:ss A"
-        )
+          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+            "h:mm:ss A"
+          )
         }
       </Typography>
-
       <Typography
         variant="h5"
         style={{
@@ -190,9 +195,9 @@ export const TimeCardMobile = (props) => {
         }}
       >
         {
-            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "dddd M/D/YYYY"
-        )
+          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+            "dddd M/D/YYYY"
+          )
         }
       </Typography>
     </Card>
@@ -213,20 +218,19 @@ export const MobileHome = (props) => {
   useEffect(() => {
     let run = true;
     (async () => {
-      await sleep(500 - Date.now() % 500)
+      await sleep(500 - (Date.now() % 500));
       let lastTime = Date.now();
       while (run) {
-        await sleep(500 - Date.now() % 500);
+        await sleep(500 - (Date.now() % 500));
         forceUpdate();
         lastTime = Date.now();
       }
     })();
     return () => {
       run = false;
-    }
+    };
   }, []);
   const renderSearchPages = () => {
-
     let query = document.getElementById("pageSearchBox")?.value;
     if (!query) return null;
     const fuseOptions = {
@@ -263,12 +267,34 @@ export const MobileHome = (props) => {
     // ModuleCard
   };
   return (
-    <div >
+    <div>
       <div className={classes.greetingDiv}>
-
-        <Typography className={classes.greetingText} align="center" style={{
-          fontSize: `${50 - (JSON.parse(localStorage.getItem("user"))?.firstName ? `Welcome back ${JSON.parse(localStorage.getItem("user"))?.firstName}!` : "Welcome to HWBounty!").length * 2.35}vw`
-        }}><img src="https://cdn.discordapp.com/attachments/836672960566919228/838871035117568120/frogfinal-01.png" className={classes.greetingIMG} /> {JSON.parse(localStorage.getItem("user"))?.firstName ? `Welcome back ${JSON.parse(localStorage.getItem("user"))?.firstName}!` : "Welcome to HWBounty!"} </Typography>
+        <Typography
+          className={classes.greetingText}
+          align="center"
+          style={{
+            fontSize: `${
+              50 -
+              (JSON.parse(localStorage.getItem("user"))?.firstName
+                ? `Welcome back ${
+                    JSON.parse(localStorage.getItem("user"))?.firstName
+                  }!`
+                : "Welcome to HWBounty!"
+              ).length *
+                2.35
+            }vw`,
+          }}
+        >
+          <img
+            src="https://cdn.discordapp.com/attachments/836672960566919228/838871035117568120/frogfinal-01.png"
+            className={classes.greetingIMG}
+          />{" "}
+          {JSON.parse(localStorage.getItem("user"))?.firstName
+            ? `Welcome back ${
+                JSON.parse(localStorage.getItem("user"))?.firstName
+              }!`
+            : "Welcome to HWBounty!"}{" "}
+        </Typography>
       </div>
       <Card className={`${classes.card} ${classes.searchBar}`}>
         <form>
@@ -288,41 +314,45 @@ export const MobileHome = (props) => {
       <div className={classes.timeCardDiv}>
         <TimeCardMobile theme={theme} />
       </div>
-      <Card style={{
-        width: "80vw",
-        marginTop: "5vw",
-        margin: "10vw",
-        maxHeight: "40%",
-        minHeight: "256px",
-        height: "256px",
-        borderRadius: 10,
-        textAlign: "center",
-        overflowX: "scroll",
-        marginBottom: "10vw",
-      }} className={`${classes.card}`}>
+      <Card
+        style={{
+          width: "80vw",
+          marginTop: "5vw",
+          margin: "10vw",
+          maxHeight: "40%",
+          minHeight: "256px",
+          height: "256px",
+          borderRadius: 10,
+          textAlign: "center",
+          overflowX: "scroll",
+          marginBottom: "10vw",
+        }}
+        className={`${classes.card}`}
+      >
         {React.Children.toArray(renderSearchPages())}
       </Card>
-      <Card style={{
-        width: "80vw",
-        marginTop: "5vw",
-        margin: "10vw",
-        maxHeight: "10vw%",
-        minHeight: "10vw",
-        height: "10vw",
-        borderRadius: 10,
-        textAlign: "center",
-        overflowX: "scroll",
-        marginBottom: "10vw",
-        backgroundColor: "rgba(0,0,0,0)"
-      }}>
-      </Card>
+      <Card
+        style={{
+          width: "80vw",
+          marginTop: "5vw",
+          margin: "10vw",
+          maxHeight: "10vw%",
+          minHeight: "10vw",
+          height: "10vw",
+          borderRadius: 10,
+          textAlign: "center",
+          overflowX: "scroll",
+          marginBottom: "10vw",
+          backgroundColor: "rgba(0,0,0,0)",
+        }}
+      ></Card>
 
       {/* <ForumSearch />
         <DesktopLayout />
         <MobileLayout /> */}
     </div>
   );
-}
+};
 const mapStateToProps = (state) => ({
   user: state.user,
   UI: state.UI,
