@@ -69,12 +69,12 @@ const LatexInput = (props) => {
 
 export const Calculator = (props) => {
   const {
-    parser,
     module: {
       calculator: { input },
     },
     calc_addHistory,
     calc_setInput,
+    scope,
   } = props;
 
   const classes = useStyles();
@@ -86,8 +86,11 @@ export const Calculator = (props) => {
 
   const handleSubmit = (val) => {
     try {
-      let ans = parser.evaluate(mathquillToMathJS(val.latex()));
+      const node = math.parse(mathquillToMathJS(val.latex()));
+      const compiled = node.compile();
+      let ans = compiled.evaluate(scope);
       ans = math.format(ans, { precision: 14 });
+
       setAnswer(`${ans}`);
       setError(false);
       calc_addHistory({ latex: val.latex(), ans: `${ans}` });
@@ -143,7 +146,7 @@ export const Calculator = (props) => {
 };
 
 Calculator.propTypes = {
-  parser: PropTypes.any.isRequired,
+  scope: PropTypes.any.isRequired,
 };
 
 const mapStateToProps = (state) => ({

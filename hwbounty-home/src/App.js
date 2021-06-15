@@ -1,7 +1,7 @@
 // React
 import React, { lazy, Suspense, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { SnackbarProvider } from "notistack";
+
 // Redux
 import { connect } from "react-redux";
 import store from "./redux/store";
@@ -25,6 +25,7 @@ import Sidebar from "./components/Sidebar";
 import MusicModule from "./components/MusicModule/MusicModule";
 
 // Tools
+import { SnackbarProvider } from "notistack";
 import axios from "axios";
 import queryString from "query-string";
 import LoadIntoCache from "./LoadIntoCache";
@@ -52,7 +53,7 @@ const LandingPage = lazy(() => import("./pages/landingPage"));
 const VanityInvite = lazy(() => import("./pages/VanityInvite"));
 const PageNotFound = lazy(() => import("./pages/404"));
 const newProfile = lazy(() => import("./pages/newProfile"));
-const scheduleBuilder = lazy(() => import("./pages/scheduleBuilder"))
+const scheduleBuilder = lazy(() => import("./pages/scheduleBuilder"));
 //=================Checks on App start====================//
 const token = localStorage.DBIdToken;
 if (token) {
@@ -92,7 +93,6 @@ const App = (props) => {
     },
   });
   return (
-
     <SnackbarProvider maxSnack={5}>
       <ShortcutProvider ignoreTagNames={["input", "textarea"]}>
         <MuiThemeProvider theme={dynamicTheme}>
@@ -127,7 +127,11 @@ const App = (props) => {
                 <ErrorBoundary>
                   <Switch>
                     <Route path="/dashboard" component={home} />
-                    <Route exact path="/" component={authenticated ? home : LandingPage} />
+                    <Route
+                      exact
+                      path="/"
+                      component={authenticated ? home : LandingPage}
+                    />
                     <Route
                       exact
                       path="/schoologyCallback"
@@ -140,7 +144,10 @@ const App = (props) => {
                     <Route exact path="/schedule" component={ScheduleInfo} />
                     <Route path="/schedule/view" component={viewSchedule} />
                     <Route path="/schedule/set" component={setSchedule} />
-                    <Route path="/schedule/create" component={scheduleBuilder} />
+                    <Route
+                      path="/schedule/create"
+                      component={scheduleBuilder}
+                    />
                     <Route path="/modules/" component={Modules} />
                     <Route path="/user/" component={newProfile} />
                     <Route path="/settings/" component={Settings} />

@@ -1,5 +1,6 @@
 // React
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
 // MUI
 import Paper from "@material-ui/core/Paper";
@@ -9,7 +10,12 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Toolbar from "@material-ui/core/Toolbar";
+import Tooltip from "@material-ui/core/Tooltip";
 import withStyles from "@material-ui/core/styles/withStyles";
+
+// Drag-n-Drop
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 // Redux
 import { connect } from "react-redux";
@@ -17,6 +23,9 @@ import {
   calc_addVariable,
   calc_removeVariable,
 } from "../../../redux/actions/moduleActions";
+
+// Calculator
+import VariableField from "./VariableField";
 
 const styles = (theme) => ({
   ...theme.spreadIt,
@@ -31,124 +40,36 @@ const styles = (theme) => ({
     overflow: "auto",
     paddingTop: 25,
   },
+  deleteButton: {
+    //margin: "auto",
+    height: "100%",
+    width: "100%",
+  },
   addButton: {
-    margin: "auto",
-    align: "right",
+    //margin: "auto",
+    height: "100%",
+    width: "100%",
   },
 });
 
+const getItems = (count) =>
+  Array.from({ length: count }, (v, k) => k).map((k) => ({
+    id: `item-${k}`,
+    content: `item ${k}`,
+  }));
+
 export const CalcVariables = (props) => {
-  const { classes, parser, calc_addVariable, calc_removeVariable } = props;
+  const {
+    classes,
+    calc_addVariable,
+    calc_removeVariable,
+    module: {
+      calculator: { variables },
+    },
+    scope,
+  } = props;
 
-  const VariableField = (props) => {
-    const { startName, startVal } = props;
-
-    const [nameDisabled, setNameDisabled] = useState(true);
-    const [name, setName] = useState(startName);
-    const nameInputRef = useRef(null);
-
-    const [valueDisabled, setValueDisabled] = useState(true);
-    const [value, setValue] = useState(startVal);
-    const valueInputRef = useRef(null);
-
-    useEffect(() => {
-      if (nameDisabled) return;
-      nameInputRef.current.focus();
-      nameInputRef.current.select();
-    }, [nameDisabled]);
-
-    useEffect(() => {
-      if (valueDisabled) return;
-      valueInputRef.current.focus();
-      valueInputRef.current.select();
-    }, [valueDisabled]);
-
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      setValueDisabled(true);
-      setNameDisabled(true);
-      try {
-        parser.set(name, value);
-        parser.remove(startName);
-
-        calc_addVariable({ name: value });
-        calc_removeVariable(startName);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    const handleNameClicked = () => {
-      setNameDisabled(false);
-    };
-
-    const handleValueClicked = () => {
-      setValueDisabled(false);
-    };
-
-    const handleVariableChange = (event) => {
-      setValue(event.target.value);
-    };
-
-    const handleNameChange = (event) => {
-      setName(event.target.value);
-    };
-
-    const handleRemoveVariable = () => {
-      parser.remove(startName);
-      calc_removeVariable(startName);
-    };
-
-    return (
-      <div style={{ display: "flex" }}>
-        <Button onClick={handleNameClicked}>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              variant="outlined"
-              size="small"
-              style={{ paddingLeft: 10 }}
-              inputProps={{
-                style: { cursor: nameDisabled ? "pointer" : "auto" },
-              }}
-              disabled={nameDisabled}
-              value={name}
-              inputRef={nameInputRef}
-              onChange={handleNameChange}
-              onBlur={handleSubmit}
-            />
-          </form>
-        </Button>
-        <Button
-          onClick={handleValueClicked}
-          fullWidth
-          style={{ display: "flex" }}
-        >
-          <Typography variant="body1" style={{ flex: 1, textAlign: "left" }}>
-            =
-          </Typography>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              variant="outlined"
-              size="small"
-              style={{ paddingRight: 10 }}
-              inputProps={{
-                style: { cursor: valueDisabled ? "pointer" : "auto" },
-              }}
-              disabled={valueDisabled}
-              placeholder={`${value}`}
-              value={value}
-              inputRef={valueInputRef}
-              onChange={handleVariableChange}
-              onBlur={handleSubmit}
-            />
-          </form>
-        </Button>
-        <Button onClick={handleRemoveVariable}>
-          <DeleteIcon />
-        </Button>
-      </div>
-    );
-  };
+  const [useless, badCode] = useState(0);
 
   const addVariable = () => {
     // map over "common name variables" (abc...)
@@ -159,47 +80,81 @@ export const CalcVariables = (props) => {
     let letters = "abcdefghijklmnopqrstuvwxyz".split("");
     let x = 1; // increase every loop, we append this to end of each letter until it works...
     let tmp = letters.filter((c) => {
-      return !(c in parser.getAll());
+      return !scope.has(c);
     });
 
     while (tmp.length === 0) {
       //eslint-disable-next-line
       tmp = letters.map((c) => c + `${x}`);
       tmp = tmp.filter((c) => {
-        return !(c in parser.getAll());
+        return !scope.has(c);
       });
 
       x++;
     }
 
     const varName = tmp[0];
+    scope.set(varName, 1);
+    forceUpdate();
+  };
 
-    parser.set(varName, 1);
-    calc_addVariable({ varName: 1 });
+  const clearVariables = () => {
+    scope.deleteAll();
+    forceUpdate();
+  };
 
-    // The problem is that we need to change state in some way, redux wise...
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
+
+    // TODO: look at docs for dnd
+    // use redux to store all variables + order
+    // inject into parser on load i guess?
+  };
+
+  const forceUpdate = () => {
+    badCode(useless + 1);
   };
 
   return (
-    <Paper className={classes.paper}>
-      <div className={classes.variableWrapper}>
-        {Object.keys(parser.getAll()).length !== 0 ? (
-          React.Children.toArray(
-            Object.keys(parser.getAll()).map((key) => (
-              <VariableField startName={key} startVal={parser.get(key)} />
-            ))
-          )
-        ) : (
-          <h1>
-            Type variables in text box (e.g. x=5) or press the button below
-          </h1>
-        )}
-      </div>
-      <IconButton className={classes.addButton} onClick={addVariable}>
-        <AddIcon />
-      </IconButton>
-    </Paper>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Paper className={classes.paper}>
+        <div className={classes.variableWrapper}>
+          {scope.localScope.size !== 0 ? (
+            React.Children.toArray(
+              Array.from(scope.localScope.entries()).map(([key, val]) => (
+                <VariableField
+                  scope={scope}
+                  startName={key}
+                  startVal={val}
+                  updateList={forceUpdate}
+                />
+              ))
+            )
+          ) : (
+            <h1>
+              Type variables in text box (e.g. x=5) or press the button below
+            </h1>
+          )}
+        </div>
+        <Toolbar disableGutters>
+          <Tooltip title="Add Variable" placement="top">
+            <Button className={classes.addButton} onClick={addVariable}>
+              <AddIcon />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Clear All" placement="top">
+            <Button className={classes.deleteButton} onClick={clearVariables}>
+              <DeleteIcon color="error" />
+            </Button>
+          </Tooltip>
+        </Toolbar>
+      </Paper>
+    </DragDropContext>
   );
+};
+
+CalcVariables.propTypes = {
+  scope: PropTypes.any.isRequired,
 };
 
 const mapStateToProps = (state) => ({
