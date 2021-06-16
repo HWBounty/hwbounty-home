@@ -22,6 +22,15 @@ class MathScope {
     return this.localScope.keys();
   }
 
+  indexOf(key) {
+    let i = 0;
+    for (const [k, v] of this.localScope) {
+      if (k === key) break;
+      i++;
+    }
+    return i;
+  }
+
   delete(key) {
     const probUseless = this.localScope.delete(key);
     this.toJSON();
@@ -66,6 +75,7 @@ class MathScope {
     }
 
     this.toJSON();
+    console.log(this.localScope);
   }
 
   fromJSON() {

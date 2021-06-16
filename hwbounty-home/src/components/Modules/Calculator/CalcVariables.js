@@ -52,22 +52,8 @@ const styles = (theme) => ({
   },
 });
 
-const getItems = (count) =>
-  Array.from({ length: count }, (v, k) => k).map((k) => ({
-    id: `item-${k}`,
-    content: `item ${k}`,
-  }));
-
 export const CalcVariables = (props) => {
-  const {
-    classes,
-    calc_addVariable,
-    calc_removeVariable,
-    module: {
-      calculator: { variables },
-    },
-    scope,
-  } = props;
+  const { classes, scope } = props;
 
   const [useless, badCode] = useState(0);
 
@@ -106,9 +92,9 @@ export const CalcVariables = (props) => {
   const onDragEnd = (result) => {
     if (!result.destination) return;
 
-    // TODO: look at docs for dnd
-    // use redux to store all variables + order
-    // inject into parser on load i guess?
+    console.log(result.source.index, result.destination.index);
+    scope.reinsert(result.source.index, result.destination.index);
+    ///forceUpdate();
   };
 
   const forceUpdate = () => {
@@ -118,24 +104,43 @@ export const CalcVariables = (props) => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Paper className={classes.paper}>
-        <div className={classes.variableWrapper}>
-          {scope.localScope.size !== 0 ? (
-            React.Children.toArray(
-              Array.from(scope.localScope.entries()).map(([key, val]) => (
-                <VariableField
-                  scope={scope}
-                  startName={key}
-                  startVal={val}
-                  updateList={forceUpdate}
-                />
-              ))
-            )
-          ) : (
-            <h1>
-              Type variables in text box (e.g. x=5) or press the button below
-            </h1>
+        <Droppable droppableId={"calc-droppable"}>
+          {(provided, snapshot) => (
+            <div
+              className={classes.variableWrapper}
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {scope.localScope.size !== 0 ? (
+                Array.from(scope.localScope.entries()).map(([key, val]) => (
+                  <Draggable
+                    index={scope.indexOf(key)}
+                    draggableId={key}
+                    key={key}
+                  >
+                    {(provided, snapshot) => (
+                      <div ref={provided.innerRef} {...provided.draggableProps}>
+                        <VariableField
+                          scope={scope}
+                          startName={key}
+                          startVal={val}
+                          updateList={forceUpdate}
+                          dragHandleProps={provided.dragHandleProps}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ))
+              ) : (
+                <h1>
+                  Type variables in text box (e.g. x=5) or press the button
+                  below
+                </h1>
+              )}
+              {provided.placeholder}
+            </div>
           )}
-        </div>
+        </Droppable>
         <Toolbar disableGutters>
           <Tooltip title="Add Variable" placement="top">
             <Button className={classes.addButton} onClick={addVariable}>

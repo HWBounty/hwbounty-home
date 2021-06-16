@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
+import DragIcon from "@material-ui/icons/DragHandle";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Redux
@@ -17,7 +18,7 @@ import {
 } from "../../../redux/actions/moduleActions";
 
 const VariableField = (props) => {
-  const { startName, startVal, scope, updateList } = props;
+  const { startName, startVal, scope, updateList, dragHandleProps } = props;
 
   const [nameDisabled, setNameDisabled] = useState(true);
   const [name, setName] = useState(startName);
@@ -94,6 +95,12 @@ const VariableField = (props) => {
 
   return (
     <div style={{ display: "flex" }}>
+      <div
+        {...dragHandleProps}
+        style={{ display: "flex", alignItems: "center", paddingLeft: 10 }}
+      >
+        <DragIcon />
+      </div>
       <Button onClick={handleNameClicked}>
         <form onSubmit={handleSubmitName}>
           <TextField
@@ -151,6 +158,7 @@ VariableField.propTypes = {
   updateList: PropTypes.func.isRequired,
   startName: PropTypes.string.isRequired,
   startVal: PropTypes.number.isRequired,
+  dragHandleProps: PropTypes.any.isRequired,
 };
 
 const mapStateToProps = (state) => ({
