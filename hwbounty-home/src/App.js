@@ -37,6 +37,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 
 // Pages
 const Modules = lazy(() => import("./pages/modules"));
+const ModulePicker = lazy(() => import("./pages/modulesPicker"));
 const newSignup = lazy(() => import("./pages/newSignup"));
 const Profile = lazy(() => import("./pages/profile"));
 const signupCallback = lazy(() => import("./pages/signupCallback"));
@@ -77,9 +78,7 @@ const App = (props) => {
     UI: { theme },
     user: { authenticated },
   } = props;
-  useEffect(() => {
-    new CalculatorBackend();
-  });
+
   const dynamicTheme = createMuiTheme({
     ...themeFile,
     palette: {
@@ -148,7 +147,8 @@ const App = (props) => {
                       path="/schedule/create"
                       component={scheduleBuilder}
                     />
-                    <Route path="/modules/" component={Modules} />
+                    <Route path="/modules/:module" component={Modules} />
+                    <Route exact path="/modules" component={ModulePicker} />
                     <Route path="/user/" component={newProfile} />
                     <Route path="/settings/" component={Settings} />
                     <Route path="/loadingPage/" component={LoadingPage} />

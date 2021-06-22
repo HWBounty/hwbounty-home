@@ -1,5 +1,6 @@
 // React
 import { Fragment, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // Redux
@@ -14,7 +15,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // Modules
 import Calculator from "./Calculator/Calculator";
 import EssayEditor from "./EssayEditor/EssayEditor";
-import { useLocation } from "react-router-dom";
 import GasLaws from "./GasLaws";
 import { Container } from "@material-ui/core";
 
@@ -26,14 +26,11 @@ const styles = {
 };
 
 export const ModuleViewer = (props) => {
-  const {
-    classes,
-    // UI: { module },
-  } = props;
-  let loc = useLocation();
-  let modName = loc.pathname.split("/").pop().toLowerCase();
+  const { classes } = props;
+  let { module } = useParams();
+
   const Module = (props) => {
-    switch (modName) {
+    switch (module) {
       case "calculator":
         return <Calculator />;
       case "essay":
