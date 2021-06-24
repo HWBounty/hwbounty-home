@@ -38,7 +38,7 @@ export const ForumSearch = (props) => {
         <form onSubmit={handleSubmit}>
           <InputBase
             classes={roundInput}
-            placeholder="Search on HWBounty Forums..."
+            //placeholder="Search on HWBounty Forums..." /*John, placeholder is for TextField, which is an extension of Input Base...  */
             onChange={handleChange}
             value={query}
             fullWidth

@@ -3,8 +3,12 @@ import {
   CALC_SET_INPUT,
   CALC_ADD_VARIABLE,
   CALC_REMOVE_VARIABLE,
-  CALC_POP_HISTORY,
+  CALC_SET_PARSER,
 } from "../types";
+
+export const calc_setParser = (parser) => (dispatch) => {
+  dispatch({ type: CALC_SET_PARSER, payload: parser });
+};
 
 export const calc_addHistory = (latex) => (dispatch) => {
   dispatch({ type: CALC_PUSH_HISTORY, payload: latex });

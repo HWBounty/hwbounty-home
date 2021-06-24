@@ -1,10 +1,14 @@
 // React
-
-import { Paper } from "@material-ui/core";
-import CalculatorModule from "../components/Modules/Calculator/CalculatorModule";
+import { useParams } from "react-router";
 
 // MUI Stuff
+import { Paper } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
+
+// Modules
+import Calculator from "../components/Modules/Calculator/CalculatorModule";
+import EssayEditor from "../components/Modules/EssayEditor/EssayEditor";
+import GasLaws from "../components/Modules/GasLaws";
 
 const styles = (theme) => ({
   ...theme.spreadIt,
@@ -21,9 +25,12 @@ const styles = (theme) => ({
 
 const Modules = (props) => {
   const { classes } = props;
+  const { module } = useParams();
   return (
     <div className={classes.root}>
-      <CalculatorModule />
+      {module === "calculator" && <Calculator />}
+      {module === "essayeditor" && <EssayEditor />}
+      {module === "gaslaws" && <GasLaws />}
     </div>
   );
 };

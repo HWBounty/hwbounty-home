@@ -46,16 +46,23 @@ export const History = (props) => {
 
   return (
     <div className={classes.root}>
-      <List>
-        {React.Children.toArray(
-          history.map((x) => (
-            <>
-              <Divider />
-              <HistoryButton latex={x.latex} ans={x.ans} />
-            </>
-          ))
-        )}
-      </List>
+      {history.length !== 0 ? (
+        <List>
+          {React.Children.toArray(
+            history.map((x) => (
+              <>
+                <Divider />
+                <HistoryButton latex={x.latex} ans={x.ans} />
+              </>
+            ))
+          )}
+        </List>
+      ) : (
+        <h1>
+          Type an equation to show history...
+          <br /> [insert cool image/space filler here]
+        </h1>
+      )}
     </div>
   );
 };

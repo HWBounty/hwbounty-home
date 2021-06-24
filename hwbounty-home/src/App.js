@@ -1,7 +1,7 @@
 // React
 import React, { lazy, Suspense, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { SnackbarProvider } from "notistack";
+
 // Redux
 import { connect } from "react-redux";
 import store from "./redux/store";
@@ -25,6 +25,7 @@ import Sidebar from "./components/Sidebar";
 import MusicModule from "./components/MusicModule/MusicModule";
 
 // Tools
+import { SnackbarProvider } from "notistack";
 import axios from "axios";
 import queryString from "query-string";
 import LoadIntoCache from "./LoadIntoCache";
@@ -37,6 +38,7 @@ import Login from "./components/User/Authentication/Login";
 
 // Pages
 const Modules = lazy(() => import("./pages/modules"));
+const ModulePicker = lazy(() => import("./pages/modulesPicker"));
 const newSignup = lazy(() => import("./pages/newSignup"));
 const Profile = lazy(() => import("./pages/profile"));
 const signupCallback = lazy(() => import("./pages/signupCallback"));
@@ -53,7 +55,7 @@ const LandingPage = lazy(() => import("./pages/landingPage"));
 const VanityInvite = lazy(() => import("./pages/VanityInvite"));
 const PageNotFound = lazy(() => import("./pages/404"));
 const newProfile = lazy(() => import("./pages/newProfile"));
-const scheduleBuilder = lazy(() => import("./pages/scheduleBuilder"))
+const scheduleBuilder = lazy(() => import("./pages/scheduleBuilder"));
 //=================Checks on App start====================//
 const token = localStorage.DBIdToken;
 if (token) {

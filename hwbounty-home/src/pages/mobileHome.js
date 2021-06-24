@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 	card: {
 		boxShadow:
 			"0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)!important",
-		background: (theme) => theme ? "rgb(35,35,35)" : "rgb(230,230,230)",
+		background: (theme) => (theme ? "rgb(35,35,35)" : "rgb(230,230,230)"),
 	},
 	timeUntilText: {
 		fontSize: "5vmin",
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: 10,
 		paddingBottom: "5vh",
 		textAlign: "center",
-		color: (theme) => !theme ? "rgb(88,88,88)" : "rgb(230,230,230)",
+		color: (theme) => (!theme ? "rgb(88,88,88)" : "rgb(230,230,230)"),
 	},
 	scheduleText: {
 		fontFamily: "Poppins",
@@ -88,8 +88,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	scheduleCover: {
 		height: "17.5vh",
-		filter: theme => `brightness(${theme === 0 ? 70 : 30}%)`
-
+		filter: (theme) => `brightness(${theme === 0 ? 70 : 30}%)`,
 	},
 	timeCardDiv: {
 		width: "100vw",
@@ -111,7 +110,8 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: "left",
 	},
 	card: {
-		boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
+		boxShadow:
+			"0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
 		background: (theme) => (theme ? "rgb(40,40,40)" : "rgb(240,240,240)"),
 		borderRadius: "1vmin",
 	},
@@ -316,7 +316,7 @@ export const MobileHome = (props) => {
 			{/* <ForumSearch />
         <DesktopLayout />
         <MobileLayout /> */}
-		</div>
+		</div >
 	);
 }
 const mapStateToProps = (state) => ({
