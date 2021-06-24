@@ -22,6 +22,7 @@ else if (window.location.protocol === "https:") {
   console.log("you are accessing us via"
     + " our secure HTTPS protocol.");
 }
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

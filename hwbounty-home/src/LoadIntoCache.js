@@ -31,7 +31,7 @@ class LoadIntoCache extends Component {
 			if (data && data.status === 200) {
 				localStorage.setItem("cachedCourseInfo", JSON.stringify(data.data));
 			}
-		})
+		}).catch(console.trace);
 
 	}
 	componentDidMount() {

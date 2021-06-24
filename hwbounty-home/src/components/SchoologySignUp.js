@@ -11,7 +11,14 @@ import { hwbountyAPI } from "../redux/types";
 import { useSnackbar, withSnackbar } from "notistack";
 import { useHistory } from "react-router";
 import { setAuthorizationHeader } from "../redux/actions/userActions"
+import { IconButton, makeStyles } from "@material-ui/core";
+const useStyles = makeStyles((theme => ({
+  logoButton: {
+    height: "2rem",
+  }
+})));
 export const SchoologyButton = (props) => {
+  const classes = useStyles(props);
   const onClick = async () => {
     let thing = await axios.post(`${hwbountyAPI}/schoologyAuth`, {
       redirectURL: `${window.location.href}`
@@ -36,7 +43,8 @@ export const SchoologyButton = (props) => {
           enqueueSnackbar(er.response.data.error || er.response.data);
         });
         if (!thing) return;
-        setAuthorizationHeader(thing.data)
+        setAuthorizationHeader(thing.data);
+        enqueueSnackbar("Signed in!")
         setTimeout(() => history.push("/"), 500);
 
       })()
@@ -44,10 +52,9 @@ export const SchoologyButton = (props) => {
     }
   }, []);
   return (
-    <Button onClick={onClick}>
-
-      Authenticate With Schoology
-    </Button>
+    <IconButton onClick={onClick}>
+      <img src="https://images-na.ssl-images-amazon.com/images/I/410R0kTkO4L.png" className={classes.logoButton} />
+    </IconButton>
   );
 };
 

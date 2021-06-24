@@ -286,22 +286,22 @@ export const ProfileInfo = ({ theme, userDat }) => {
 	const { enqueueSnackbar } = useSnackbar();
 	const renderChips = (data) => {
 		if (!data && !(parseInt(userData?.premiumEndsAt) && Date.now() < parseInt(userData.premiumEndsAt))) return null;
-		try{
+		try {
 			data = data.split(",");
-		}catch(error){
+		} catch (error) {
 
 		}
 		data = data || [];
 		/** @type {Array<String>} */
-		
+
 		// data
-		
+
 		data.length = 5;
 		if (parseInt(userData?.premiumEndsAt) && Date.now() < parseInt(userData.premiumEndsAt)) data.push({
 			// premiumEndsAt
 			name: "Premium Member",
 			color: "rgb(118,137,211)",
-			description: `A Premium member of HWBounty! Ends in ${moment(parseInt(userData?.premiumEndsAt)).fromNow()}`
+			description: `A Premium member of HWBounty! Ends ${moment(parseInt(userData?.premiumEndsAt)).fromNow()}`
 		});
 		data = data.filter(x => x);
 		return React.Children.toArray(

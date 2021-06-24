@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 		boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)!important",
 		flexDirection: "column",
 		alignItems: "flex-start",
-		borderRadius:"1vmin",
+		borderRadius: "1vmin",
 	},
 	actionArea: {
 		flexGrow: 1,
@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
 		height: "50%",
 		filter: props => `brightness(${props.theme === 0 ? 70 : 30}%)`
 	},
-	name:{
+	name: {
 		fontFamily: "Poppins",
 		textAlign: "left",
 		fontSize: "2em",
 		fontWeight: "350",
 	},
-	desc:{
+	desc: {
 		fontFamily: "Nunito",
 		textAlign: "left",
 		fontSize: "1.2em"

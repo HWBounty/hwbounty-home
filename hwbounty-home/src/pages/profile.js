@@ -259,7 +259,7 @@ export const ProfileInfo = ({theme, userDat})=>{
 			// premiumEndsAt
 			name: "Premium Member",
 			color: "rgb(118,137,211)",
-			description: `A Premium member of HWBounty! Ends in ${moment(parseInt(JSON.parse(localStorage.getItem("user"))?.premiumEndsAt)).fromNow()}`
+			description: `A Premium member of HWBounty! Ends ${moment(parseInt(JSON.parse(localStorage.getItem("user"))?.premiumEndsAt)).fromNow()}`
 		})
 		return React.Children.toArray(
 			data.map((x) => {

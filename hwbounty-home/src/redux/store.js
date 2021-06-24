@@ -11,18 +11,18 @@ const initialState = {};
 const middleware = [thunk];
 
 const reducers = combineReducers({
-  user: userReducer,
-  data: dataReducer,
-  UI: uiReducer,
-  module: moduleReducer,
+	user: userReducer,
+	data: dataReducer,
+	UI: uiReducer,
+	module: moduleReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  reducers,
-  initialState,
-  composeEnhancers(applyMiddleware(...middleware))
+	reducers,
+	initialState,
+	composeEnhancers(applyMiddleware(...middleware))
 );
 
 export default store;
