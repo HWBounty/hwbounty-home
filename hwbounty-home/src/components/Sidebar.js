@@ -32,6 +32,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from "react-redux";
+import { SigninPopup } from "./SigninPopup";
 
 const drawerWidth = 240;
 /* Each Location Object
@@ -66,26 +67,28 @@ let locations = {
 		hideIfNotSignedIn: true,
 		icon: <AccountCircle />,
 	},
+
+	Settings: {
+		path: "/settings",
+		hideIfNotSignedIn: false,
+		icon: <Settings />,
+	},
 	"Sign Out":
 	{
 		dataRun: (data) => {
 			data.SetOpenSignout(true);
 		},
+		hideIfSignedIn: false,
 		hideIfNotSignedIn: true,
 		icon: <ExitToAppIcon />,
 	},
 	"Sign In":
 	{
 		dataRun: (data) => {
-			data.SetOpenSignout(true);
+			data.setOpenSignin(true);
 		},
 		hideIfSignedIn: true,
 		icon: <LockOpen />,
-	},
-	Settings: {
-		path: "/settings",
-		hideIfNotSignedIn: false,
-		icon: <Settings />,
 	},
 };
 //updates profile Endpoint
@@ -200,8 +203,8 @@ export const Sidebar = (props) => {
 		setOpen(false);
 	};
 	const onClckItem = (name) => {
-		if (locations[name]?.run)
-			locations[name].run();
+		if (locations[name]?.dataRun)
+			locations[name].dataRun(data);
 		if (locations[name]?.path) {
 
 			history.push(locations[name]?.path);
@@ -270,19 +273,20 @@ export const Sidebar = (props) => {
 							fontSize: "1.5rem"
 						}}>Are you sure you would like to sign out?</Typography>
 						<br />
-            Signing out also clears: <br />
-            - Dark mode/light mode preference.
-        	  </DialogContentText>
+						Signing out also clears: <br />
+						- Dark mode/light mode preference.
+					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={() => confirmSignout(false)} color="primary">
 						No
-          </Button>
+					</Button>
 					<Button onClick={() => confirmSignout(true)} color="primary" autoFocus>
 						Yes
-          </Button>
+					</Button>
 				</DialogActions>
 			</Dialog>
+			<SigninPopup authOpen={openSignin} setter={setOpenSignin} />
 			<Drawer
 				className={classes.drawer}
 				//variant="persistent"
