@@ -13,9 +13,11 @@ import {
   Typography,
   Zoom,
   SvgIcon,
+  LinearProgress,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import axios from "axios";
+import { cosDependencies } from "mathjs";
 import { useEffect, useState } from "react";
 import { Component } from "react";
 import { connect } from "react-redux";
@@ -98,6 +100,7 @@ export const SignupPage = (props) => {
   } = props;
   const classes = useStyles(theme);
   const [pageNumber, setPageNumber] = useState(0);
+  const [showProgress, setShowProgress] = useState(false);
   const getSignupPage = () => {
 
   }
@@ -111,55 +114,73 @@ export const SignupPage = (props) => {
 
   if (localStorage.getItem("DBIdToken")) history.push("/");
   return (
-    <Zoom in
-      style={{ transitionDelay: "1500ms" }}
-      timeout={750}
-    >
-      <Card
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "80.9rem",
-          height: "50rem",
-          borderRadius: "1rem",
-          display: "flex",
+    <div>
+      {showProgress && <LinearProgress />}
 
-        }}
-        className={`${classes.card}`}
+      <Zoom in
+        style={{ transitionDelay: "1500ms" }}
+        timeout={750}
       >
-        <Container style={{
-          minWidth: "55%",
-          marginLeft: "5%",
-          paddingTop: "3%",
-          display: "flex",
-          flexDirection: "column",
-          paddingBottom: "3%",
+        <Card
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "80.9rem",
+            height: "50rem",
+            borderRadius: "1rem",
+            display: "flex",
 
-        }}>
-          <Typography variant="h1" className={`${classes.hwbountyTitle}`}> HWBounty </Typography>
-          <Typography variant="h5" className={`${classes.createAccountText}`}> Create your HWBounty account </Typography>
-          <div style={{ backgroundColor: "", minWidth: "90%", flexGrow: 1 }}>
-            {[<Page0 styles={classes} pageSwitch={setPageNumber} />, <Page1 styles={classes} pageSwitch={setPageNumber} />][pageNumber]}
-          </div>
+          }}
+          className={`${classes.card}`}
+        >
+          <Container style={{
+            minWidth: "55%",
+            marginLeft: "5%",
+            paddingTop: "3%",
+            display: "flex",
+            flexDirection: "column",
+            paddingBottom: "3%",
 
-        </Container>
-        <Container style={{
-          minWidth: "40%",
-          display: "flex",
+          }}>
+            <Typography variant="h1" className={`${classes.hwbountyTitle}`}> HWBounty </Typography>
+            <Typography variant="h5" className={`${classes.createAccountText}`}> Create your HWBounty account </Typography>
+            <div style={{ backgroundColor: "", minWidth: "90%", flexGrow: 1 }}>
+              {[<Page0 styles={classes} pageSwitch={setPageNumber} setPosting={setShowProgress} posting={showProgress} />, <Page1 styles={classes} pageSwitch={setPageNumber} setPosting={setShowProgress} posting={showProgress} />, <Page2 />][pageNumber]}
+            </div>
 
-        }} className={`${classes.rightSideBackground}`}>
-          <img src="https://raw.githubusercontent.com/HWBounty/HWBountyAssets/e516e7e0e6e61185390dbfc06ec14ae68a25eef1/Hopper_rush.svg" width="" />
-        </Container>
+          </Container>
+          <Container style={{
+            minWidth: "40%",
+            display: "flex",
 
-      </Card >
-    </Zoom >
+          }} className={`${classes.rightSideBackground}`}>
+            <img src="https://raw.githubusercontent.com/HWBounty/HWBountyAssets/e516e7e0e6e61185390dbfc06ec14ae68a25eef1/Hopper_rush.svg" width="" />
+          </Container>
+
+        </Card >
+      </Zoom >
+    </div>
   );
+}
+const Page2 = (props) => {
+  return <div>
+    {/* <Typography style={{ textAlign: "left" }} className={`${classes.captionText}`}>Select school account type</Typography> */}
+    <div style={{
+      display: "flex",
+      flexDirection: "column",
+      flexWrap: "nowrap",
+      alignItems: "flex-start",
+      maxHeight: "20rem"
+    }} >
+      Please check your email for a confimration link. Thank you!
+    </div>
+  </div>
 }
 const Page1 = (props) => {
   const classes = props.styles;
-  const { pageSwitch } = props;
+  const { pageSwitch, setPosting, posting } = props;
   const signupWithEmail = () => {
     pageSwitch(0);
   };
@@ -184,47 +205,83 @@ const Page1 = (props) => {
     passwordError: "",
     passwordConfirmError: "",
   })
-  const onSubmit = async () => {
-    const [
-      firstName,
-      lastName,
-      email,
-      username,
-      password,
-      passwordConfirm,
-    ] = [
-        document.getElementById("firstName").value,
-        document.getElementById("lastName").value,
-        document.getElementById("email").value,
-        document.getElementById("username").value,
-        document.getElementById("password").value,
-        document.getElementById("passwordConfirm").value,
-      ];
-    setErrors({
-      firstNameError: !firstName && "First Name required",
-      lastNameError: !lastName && "Last Name required",
-      emailError: !email && "Email required",
-      usernameError: !username && "Username required",
-      passwordError: !passwordConfirm && "Password required",
-      passwordConfirmError: !passwordConfirm && "Please confirm your password",
-    });
-    if (password !== passwordConfirm && password) {
-      setErrors(Object.assign({}, errors, {
-        passwordError: "Passwords do not match",
-        passwordConfirmError: "Passwords do not match",
-      }));
+  let debounce = false;
+  const onSubmit = () => {
+    if (posting || debounce) return;
+    setPosting(true);
+    (async () => {
+      const [
+        firstName,
+        lastName,
+        email,
+        username,
+        password,
+        passwordConfirm,
+      ] = [
+          document.getElementById("firstName").value,
+          document.getElementById("lastName").value,
+          document.getElementById("email").value,
+          document.getElementById("username").value,
+          document.getElementById("password").value,
+          document.getElementById("passwordConfirm").value,
+        ];
 
-    }
-    if (Object.values(errors).filter(x => x).length) return false;
-    const data = {
-      firstName,
-      lastName,
-      email,
-      username,
-      password,
-    };
-    localStorage.setItem("signupStep1Data", JSON.stringify(data));
+      setErrors({
+        firstNameError: errors.firstNameError || (!firstName && "First Name required"),
+        lastNameError: errors.lastNameError || (!lastName && "Last Name required"),
+        emailError: errors.emailError || (!email && "Email required"),
+        usernameError: errors.usernameError || (!username && "Username required"),
+        passwordError: errors.passwordError || (!passwordConfirm && "Password required"),
+        passwordConfirmError: errors.passwordConfirmError || (!passwordConfirm && "Please confirm your password"),
+      });
+      if (password !== passwordConfirm && password) {
+        setErrors(Object.assign({}, errors, {
+          passwordError: "Passwords do not match",
+          passwordConfirmError: "Passwords do not match",
+        }));
 
+      }
+
+      if (Object.values(errors).filter(x => x).length) return setPosting(false);
+      const data = {
+        firstName,
+        lastName,
+        email,
+        username,
+        password,
+      };
+      localStorage.setItem("signupStep1Data", JSON.stringify(data));
+      let nameTaken = (await axios.get(`${hwbountyAPI}/usernameTaken/${username}`))?.data;
+      let errorObject = errors;
+      if (nameTaken) {
+        errorObject = Object.assign({}, errorObject, {
+          usernameError: [null, "Invalid Username!", "Username has been taken!"][nameTaken],
+        });
+
+
+      }
+      if (!email.match(/\S+@\S+\.\S+/)) {
+        errorObject = Object.assign({}, errorObject, {
+          emailError: "Invalid Email!",
+        })
+      }
+
+      if ((await axios.get(`${hwbountyAPI}/emailTaken/${email}`).catch(console.trace))?.data) {
+        errorObject = Object.assign({}, errorObject, {
+          emailError: "Email already in use!",
+        });
+
+      }
+      setPosting(false);
+      setErrors(errorObject);
+      if (Object.values(errors).filter(x => x).length) return false;
+      if ((await axios.post(`${hwbountyAPI}/signup`, data)).data.complete) {
+        setPosting(false);
+        pageSwitch(2);
+      }
+
+
+    })();
   }
   const [firstName, setFirstName] = useState(JSON.parse(localStorage.getItem("signupStep1Data"))?.firstName || "");
   const [lastName, setLastName] = useState(JSON.parse(localStorage.getItem("signupStep1Data"))?.lastName || "");
@@ -235,7 +292,6 @@ const Page1 = (props) => {
 
 
   const onChange = (errorName) => {
-
     ({
       firstName: setFirstName,
       lastName: setLastName,
