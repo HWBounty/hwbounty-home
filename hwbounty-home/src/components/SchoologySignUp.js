@@ -35,7 +35,7 @@ export const SchoologyButton = (props) => {
     if (window.location.search && window.location.search.match(/\?oauth_token=/)) {
       (async () => {
         let thing = await axios.post(`${hwbountyAPI}/schoologyAuth`, {
-          redirectURL: `${window.location.href}`,
+          redirectURL: `${window.location.origin}/schoologyCallback`,
           "oauth_token": window.location.search.split("?oauth_token=").pop(),
           nonce: localStorage.getItem("SchoologyNonce")
         }).catch(er => {
