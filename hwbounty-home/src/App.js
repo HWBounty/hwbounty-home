@@ -180,6 +180,7 @@ const App = (props) => {
                     />
                     <Route path="/modules/:module" component={Modules} />
                     <Route path="/user/" component={newProfile} />
+                    <Route path="/usertest/:userID" component={Profile} />
                     <Route path="/settings/" component={Settings} />
                     <Route path="/loadingPage/" component={LoadingPage} />
                     <Route
