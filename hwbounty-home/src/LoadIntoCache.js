@@ -9,7 +9,7 @@ class LoadIntoCache extends Component {
 	}
 	async updateUser(tries, delay) {
 		await sleep(delay || 0);
-		let data = await axios.get("https://api.hwbounty.help/@me").catch(console.trace);
+		let data = await axios.get("https://api.hwbounty.help/@me").catch(() => { });
 		if (data && data.status === 200 && data.data) {
 			localStorage.setItem("user", JSON.stringify(data.data));
 		} else {
