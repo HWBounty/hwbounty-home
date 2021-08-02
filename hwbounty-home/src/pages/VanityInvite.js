@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 		position: "absolute",
 		top: "0%",
 		left: "0%",
-		filter: "brightness(0.5)",
+		filter: "brightness(0.2)",
 	},
 	tealOverlay: {
 		width: "100%",
@@ -52,6 +52,7 @@ const useStyles = makeStyles(theme => ({
 		top: "0%",
 		left: "0%",
 		backgroundColor: "rgba(105,180,172,0.5)",
+		filter: "brightness(0.5)"
 	},
 	tagLine: {
 		fontFamily: "Oswald",
@@ -83,16 +84,15 @@ const useStyles = makeStyles(theme => ({
 			backgroundColor: "rgb(71 212 206)",
 			transition: "transform 1s",
 		},
-		width: "16rem",
-		height: "4rem",
+		width: "12rem",
+		height: "3rem",
 		borderRadius: "0.5rem",
 		fontFamily: "Poppins",
 		textTransform: "none",
-		fontSize: "2rem",
-		fontWeight: "400",
+		fontSize: "1.5rem",
+		fontWeight: "200",
 		transition: "transform 2s",
 		color: them => them === 0 ? "rgb(42,42,42)" : "rgb(255,255,255)",
-		marginLeft: "4rem",
 	},
 	joinButtonScaled: {
 		fontSize: -100000,
@@ -359,13 +359,13 @@ export const VanityInvite = (props) => {
 									<Typography className={pstyles.perksCardHeader}>Perks:</Typography>
 									<Typography className={pstyles.perksCardList}>
 										<TealDiamond /> Free Premium (1 Month)
-									<br />
+										<br />
 										<TealDiamond /> 500 Coins Signup Bonus
-									<br />
+										<br />
 										<TealDiamond /> Completely Free
-									<br />
+										<br />
 										<TealDiamond /> No Ads for Life
-								</Typography>
+									</Typography>
 									<Typography className={pstyles.perksCardAuthor}>Invite by: &nbsp;<img src={invite.user.pfp} className={pstyles.perksCardAuthorPfp} /> &nbsp;<b>{invite.user.publicID}</b>  &nbsp;(&nbsp;{invite.user.firstName}&nbsp;{invite.user.lastName}&nbsp;)</Typography>
 								</Card>
 							</Zoom>
@@ -410,15 +410,21 @@ export const VanityInvite = (props) => {
 				<div className={classes.schoolPhoto}
 					style={{
 						background: `url(${invite.backgroundImage})center/cover`,
+
 					}} />
 				<div className={classes.tealOverlay} />
 				<div className={`${classes.top} ${classes.topDivWrapper}`}>
 					<Typography className={classes.tagLine}>The modern student’s best friend</Typography>
 					<Typography className={classes.infoLine}><b>{invite.user.firstName}</b> invited you to join HWBounty - [ {invite.name} ]</Typography>
 					<br /><br />
-					<Typography className={classes.infoLine2}>Schedules  <TealDiamond />  Calculators  <TealDiamond />  Homework Help</Typography>
+					<div>
+						<Typography className={classes.infoLine2}>Schedules  <TealDiamond />  Calculators  <TealDiamond />  Homework Help</Typography>
+						<br /><br />
+						<Button variant="contained" className={classes.joinButton} id="signup" onClick={signupClick}>{props?.user?.authenticated ? "Use Preset!" : "Sign me up!"}</Button>
+					</div>
+
 					<br />
-					<Button variant="contained" className={classes.joinButton} id="signup" onClick={signupClick}>{props?.user?.authenticated ? "Use Preset!" : "Sign me up!"}</Button>
+
 
 				</div>
 

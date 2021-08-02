@@ -1,18 +1,26 @@
 import axios from "axios";
+import { useSnackbar, withSnackbar } from "notistack";
 import { Component } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { setAuthorizationHeader } from "../redux/actions/userActions";
 import { hwbountyAPI } from "../redux/types";
 
-class SchoologyOauthPage extends Component{
-	render(){
-		if (window.location.search.match(/\?oauth_token\=/)){
-			axios.post(`${hwbountyAPI}/schoologyLogin`,{
-				oauth_token: window.location.search.match(/\w+$/)[0]
-			}).then(x=>{
-				window.location.href = window.location.origin;
-			});
-		}
-		return null;
+export const SchoologyOauthPage = (props) => {
+	const { enqueueSnackbar } = useSnackbar();
+	const history = useHistory()
+	if (window.location.search.match(/\?oauth_token\=/)) {
+		axios.post(`${hwbountyAPI}/schoologyAuth`, {
+			redirectURL: `${window.location.href}`,
+			oauth_token: window.location.search.match(/\w+$/)[0],
+			nonce: localStorage.getItem("SchoologyNonce"),
+		}).then(thing => {
+			if (!thing) return;
+			setAuthorizationHeader(thing.data);
+			enqueueSnackbar("Signed in!")
+			setTimeout(() => history.push("/"), 500);
+		});
 	}
+	return null;
 }
-export default connect()(SchoologyOauthPage);
+export default connect()(withSnackbar(SchoologyOauthPage));
