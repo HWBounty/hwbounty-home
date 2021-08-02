@@ -28,7 +28,7 @@ import {
 import { useHistory } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { AccountIconButton } from "./User/AccountIconButton";
-import { Avatar, makeStyles, TextField } from "@material-ui/core";
+import { Avatar, makeStyles, TextField, LinearProgress } from "@material-ui/core";
 import { PageSearch } from "./Home/PageSearch";
 import useForceUpdate from "../util/useForceUpdate";
 import Button from "@material-ui/core/Button";
@@ -42,6 +42,8 @@ import { connect } from "react-redux";
 // Drag-n-Drop
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useState } from "react";
+import { AuthPopup } from "./User/Authentication/AuthPopup";
+import LoginPopup from "./LoginPopup";
 
 const drawerWidth = 240;
 /* Each Location Object
@@ -175,6 +177,7 @@ export const Sidebar = (props) => {
 	const forceUpdate = useForceUpdate();
 	const [openSignout, SetOpenSignout] = React.useState(false);
 	const [openSignin, setOpenSignin] = React.useState(false);
+	const [loading, setLoading] = useState(false);
 	const data = {
 		SetOpenSignout,
 		openSignout,
@@ -270,6 +273,15 @@ export const Sidebar = (props) => {
 
 		setSidebarButtons(reorderedButtons);
 	};
+	const onAuthButtonClick = () => {
+		if (authenticated) {
+			setOpenSignin(false);
+			SetOpenSignout(true);
+		} else {
+			setOpenSignin(true);
+			SetOpenSignout(false);
+		}
+	};
 
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>
@@ -311,6 +323,19 @@ export const Sidebar = (props) => {
 							Yes
 						</Button>
 					</DialogActions>
+				</Dialog>
+				<Dialog
+					open={openSignin}
+					onClose={() => setOpenSignin(false)}
+					aria-labelledby="alert-dialog-title"
+					aria-describedby="alert-dialog-description"
+				>
+					{loading && <LinearProgress />}
+					{/* <DialogTitle><Typography variant="h5">Are you sure you would like to sign out?</Typography></DialogTitle> */}
+					<DialogContent style={{
+					}}>
+						<LoginPopup closePopupFunction={setOpenSignin} loadingBarFunction={setLoading} />
+					</DialogContent>
 				</Dialog>
 				<Drawer
 					className={classes.drawer}
@@ -375,7 +400,7 @@ export const Sidebar = (props) => {
 							</div>
 						)}
 					</Droppable>
-					<ListItem button key={"Hi!"}>
+					<ListItem button key={"Hi!"} onClick={onAuthButtonClick}>
 						<ListItemIcon>{<LockOpen />}</ListItemIcon>
 						<ListItemText primary={authenticated ? "Sign Out!" : "Sign In!"} />
 					</ListItem>
