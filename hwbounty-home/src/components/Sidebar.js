@@ -32,6 +32,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from "react-redux";
+import Login from "./User/Authentication/Login";
 
 const drawerWidth = 240;
 /* Each Location Object
@@ -77,7 +78,7 @@ let locations = {
 	"Sign In":
 	{
 		dataRun: (data) => {
-			data.SetOpenSignout(true);
+			data.setOpenSignin(true);
 		},
 		hideIfSignedIn: true,
 		icon: <LockOpen />,
@@ -200,8 +201,9 @@ export const Sidebar = (props) => {
 		setOpen(false);
 	};
 	const onClckItem = (name) => {
-		if (locations[name]?.run)
-			locations[name].run();
+		console.log("clicked! ", name);
+		if (locations[name]?.dataRun)
+			locations[name].dataRun(data);
 		if (locations[name]?.path) {
 
 			history.push(locations[name]?.path);
@@ -270,19 +272,32 @@ export const Sidebar = (props) => {
 							fontSize: "1.5rem"
 						}}>Are you sure you would like to sign out?</Typography>
 						<br />
-            Signing out also clears: <br />
-            - Dark mode/light mode preference.
-        	  </DialogContentText>
+						Signing out also clears: <br />
+						- Dark mode/light mode preference.
+					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={() => confirmSignout(false)} color="primary">
 						No
-          </Button>
+					</Button>
 					<Button onClick={() => confirmSignout(true)} color="primary" autoFocus>
 						Yes
-          </Button>
+					</Button>
 				</DialogActions>
 			</Dialog>
+			<Dialog
+				open={openSignin}
+				onClose={() => SetOpenSignout(false)}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
+			>
+				{/* <DialogTitle><Typography variant="h5">Sign in to continue</Typography></DialogTitle> */}
+				<DialogContent>
+					<Login />
+				</DialogContent>
+			</Dialog>
+
+
 			<Drawer
 				className={classes.drawer}
 				//variant="persistent"
