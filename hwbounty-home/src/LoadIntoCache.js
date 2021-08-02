@@ -18,7 +18,7 @@ class LoadIntoCache extends Component {
 			if (response.status !== 500 && (!tries || tries < 3))
 				await this.updateUser(tries ? tries + 1 : 1, 5000 * tries);
 			else {
-				local
+				localStorage.removeItem("");
 			}
 
 		}
