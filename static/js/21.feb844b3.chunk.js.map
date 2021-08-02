@@ -1,1 +1,0 @@
-{"version":3,"sources":["pages/modulesPicker.js"],"names":["ModulesPicker","props"],"mappings":"0IAQeA,UARO,SAACC,GACrB,OACE,8BACE","file":"static/js/21.feb844b3.chunk.js","sourcesContent":["const ModulesPicker = (props) => {\r\n  return (\r\n    <div>\r\n      <h1>hi</h1>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default ModulesPicker;\r\n"],"sourceRoot":""}
