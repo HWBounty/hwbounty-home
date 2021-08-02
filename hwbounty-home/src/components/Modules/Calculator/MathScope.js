@@ -75,7 +75,6 @@ class MathScope {
     }
 
     this.toJSON();
-    console.log(this.localScope);
   }
 
   fromJSON() {

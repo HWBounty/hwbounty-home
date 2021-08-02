@@ -22,7 +22,6 @@ import MathScope from "./MathScope";
 
 const scope = new MathScope();
 scope.fromJSON();
-console.log(scope);
 
 const styles = (theme) => ({
   ...theme.spreadIt,

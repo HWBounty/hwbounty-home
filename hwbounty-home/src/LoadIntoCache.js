@@ -9,14 +9,16 @@ class LoadIntoCache extends Component {
 	}
 	async updateUser(tries, delay) {
 		await sleep(delay || 0);
-		let data = await axios.get("https://api.hwbounty.help/@me").catch(() => { });
+		let response;
+		let data = await axios.get("https://api.hwbounty.help/@me").catch((er) => { response = er.response });
+		console.log("data", data);
 		if (data && data.status === 200 && data.data) {
 			localStorage.setItem("user", JSON.stringify(data.data));
 		} else {
-			if (!tries || tries < 3)
+			if (response.status !== 500 && (!tries || tries < 3))
 				await this.updateUser(tries ? tries + 1 : 1, 5000 * tries);
 			else {
-				localStorage.clear();
+				local
 			}
 
 		}
@@ -26,12 +28,12 @@ class LoadIntoCache extends Component {
 			if (data && data.status === 200) {
 				localStorage.setItem("cachedSchedule", JSON.stringify(data.data));
 			}
-		}).catch(console.trace);
+		}).catch(() => { });
 		axios.get("https://api.hwbounty.help/sgy/getZoomLinks").then(data => {
 			if (data && data.status === 200) {
 				localStorage.setItem("cachedCourseInfo", JSON.stringify(data.data));
 			}
-		}).catch(console.trace);
+		}).catch(() => { });
 
 	}
 	componentDidMount() {
@@ -52,4 +54,8 @@ class LoadIntoCache extends Component {
 		return null;
 	}
 }
-export default connect()(withRouter(LoadIntoCache));
+const mapStateToProps = (state) => ({
+	user: state.user,
+	UI: state.UI,
+});
+export default connect(mapStateToProps)(withRouter(LoadIntoCache));

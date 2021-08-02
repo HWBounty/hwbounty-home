@@ -18,21 +18,30 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import theme from "../util/theme";
-import { AccountCircle, Home, LockOpen, Settings, Today } from "@material-ui/icons";
+import {
+	AccountCircle,
+	Home,
+	LockOpen,
+	Settings,
+	Today,
+} from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { AccountIconButton } from "./User/AccountIconButton";
 import { Avatar, makeStyles, TextField } from "@material-ui/core";
 import { PageSearch } from "./Home/PageSearch";
 import useForceUpdate from "../util/useForceUpdate";
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import { connect } from "react-redux";
-import Login from "./User/Authentication/Login";
+
+// Drag-n-Drop
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useState } from "react";
 
 const drawerWidth = 240;
 /* Each Location Object
@@ -66,22 +75,6 @@ let locations = {
 		path: `/user/${JSON.parse(localStorage.getItem("user"))?.publicID}`,
 		hideIfNotSignedIn: true,
 		icon: <AccountCircle />,
-	},
-	"Sign Out":
-	{
-		dataRun: (data) => {
-			data.SetOpenSignout(true);
-		},
-		hideIfNotSignedIn: true,
-		icon: <ExitToAppIcon />,
-	},
-	"Sign In":
-	{
-		dataRun: (data) => {
-			data.setOpenSignin(true);
-		},
-		hideIfSignedIn: true,
-		icon: <LockOpen />,
 	},
 	Settings: {
 		path: "/settings",
@@ -167,12 +160,11 @@ const useStyles = makeStyles((theme) => ({
 			zIndex: 10000,
 			top: "auto",
 			left: "auto",
-		}
-	}
+		},
+	},
 }));
 
 export const Sidebar = (props) => {
-
 	const classes = useStyles();
 	const {
 		UI: { theme },
@@ -188,8 +180,7 @@ export const Sidebar = (props) => {
 		openSignout,
 		openSignin,
 		setOpenSignin,
-
-	}
+	};
 	const handleDrawerOpen = () => {
 		setOpen(true);
 	};
@@ -201,16 +192,21 @@ export const Sidebar = (props) => {
 		setOpen(false);
 	};
 	const onClckItem = (name) => {
-		console.log("clicked! ", name);
-		if (locations[name]?.dataRun)
-			locations[name].dataRun(data);
+		if (locations[name]?.run) locations[name].run();
 		if (locations[name]?.path) {
-
 			history.push(locations[name]?.path);
 		}
 
 		handleDrawerClose();
 	};
+
+	const [sidebarButtons, setSidebarButtons] = useState([
+		"Home",
+		"Schedule",
+		"Modules",
+		"Settings",
+		"Profile",
+	]);
 
 	const UserButton = () => {
 		return (
@@ -235,127 +231,160 @@ export const Sidebar = (props) => {
 			localStorage.clear();
 			window.location.reload();
 		}
-	}
+	};
 	const getIcon = () => {
-		return <IconButton
-			color="inherit"
-			aria-label="open drawer"
-			onClick={handleDrawerOpen}
-			style={{
+		return (
+			<IconButton
+				color="inherit"
+				aria-label="open drawer"
+				onClick={handleDrawerOpen}
+				style={{
+					display: open && "none",
+				}}
+				className={`${clsx(classes.menuButton, open && classes.hide)} ${classes.clickThing
+					}`}
+			>
+				<MenuIcon />
+			</IconButton>
+		);
+	};
 
-				display: open && "none",
-			}}
-			className={`${clsx(classes.menuButton, open && classes.hide)} ${classes.clickThing}`}
-		>
-			<MenuIcon />
-		</IconButton>
-	}
+	const reorder = (list, startIndex, endIndex) => {
+		const result = Array.from(list);
+		const [removed] = result.splice(startIndex, 1);
+		result.splice(endIndex, 0, removed);
+
+		return result;
+	};
+
+	const onDragEnd = (result) => {
+		if (!result.destination) return;
+
+		const reorderedButtons = reorder(
+			sidebarButtons,
+			result.source.index,
+			result.destination.index
+		);
+
+		console.log(reorderedButtons);
+
+		setSidebarButtons(reorderedButtons);
+	};
+
 	return (
-		<div
-			style={{
-				zIndex: 1000000000,
-			}}
-		>
-			{
-				getIcon()
-			}
-			<Dialog
-				open={openSignout}
-				onClose={() => confirmSignout(false)}
-				aria-labelledby="alert-dialog-title"
-				aria-describedby="alert-dialog-description"
-			>
-				{/* <DialogTitle><Typography variant="h5">Are you sure you would like to sign out?</Typography></DialogTitle> */}
-				<DialogContent>
-					<DialogContentText id="alert-dialog-description">
-						<Typography style={{
-							fontSize: "1.5rem"
-						}}>Are you sure you would like to sign out?</Typography>
-						<br />
-						Signing out also clears: <br />
-						- Dark mode/light mode preference.
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={() => confirmSignout(false)} color="primary">
-						No
-					</Button>
-					<Button onClick={() => confirmSignout(true)} color="primary" autoFocus>
-						Yes
-					</Button>
-				</DialogActions>
-			</Dialog>
-			<Dialog
-				open={openSignin}
-				onClose={() => SetOpenSignout(false)}
-				aria-labelledby="alert-dialog-title"
-				aria-describedby="alert-dialog-description"
-			>
-				{/* <DialogTitle><Typography variant="h5">Sign in to continue</Typography></DialogTitle> */}
-				<DialogContent>
-					<Login />
-				</DialogContent>
-			</Dialog>
-
-
-			<Drawer
-				className={classes.drawer}
-				//variant="persistent"
-				anchor={window.innerWidth > 960 ? "left" : "right"}
-				open={open}
-				onClose={handleDrawerClose}
-				classes={{
-					paper: classes.drawerPaper,
+		<DragDropContext onDragEnd={onDragEnd}>
+			<div
+				style={{
+					zIndex: 1000000000,
 				}}
 			>
-				<div className={classes.drawerHeader}>
-					<form onSubmit={onSubmit}>
-						<TextField placeholder="Quick Search" id="goPage" />
-					</form>
-					{/* <UserButton /> */}
-					{/* <Typography>{JSON.parse(localStorage.getItem("user"))?.firstName || " "} {JSON.parse(localStorage.getItem("user"))?.lastName || " "}</Typography> */}
-					<IconButton onClick={handleDrawerClose}>
-						{theme.direction === "ltr" ? (
-							<ChevronLeftIcon />
-						) : (
-							<ChevronRightIcon />
+				{getIcon()}
+				<Dialog
+					open={openSignout}
+					onClose={() => confirmSignout(false)}
+					aria-labelledby="alert-dialog-title"
+					aria-describedby="alert-dialog-description"
+				>
+					{/* <DialogTitle><Typography variant="h5">Are you sure you would like to sign out?</Typography></DialogTitle> */}
+					<DialogContent>
+						<DialogContentText id="alert-dialog-description">
+							<Typography
+								style={{
+									fontSize: "1.5rem",
+								}}
+							>
+								Are you sure you would like to sign out?
+							</Typography>
+							<br />
+							Signing out also clears: <br />- Dark mode/light mode preference.
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={() => confirmSignout(false)} color="primary">
+							No
+						</Button>
+						<Button
+							onClick={() => confirmSignout(true)}
+							color="primary"
+							autoFocus
+						>
+							Yes
+						</Button>
+					</DialogActions>
+				</Dialog>
+				<Drawer
+					className={classes.drawer}
+					//variant="persistent"
+					anchor={window.innerWidth > 960 ? "left" : "right"}
+					open={open}
+					onClose={handleDrawerClose}
+					classes={{
+						paper: classes.drawerPaper,
+					}}
+				>
+					<div className={classes.drawerHeader}>
+						<form onSubmit={onSubmit}>
+							<TextField placeholder="Quick Search" id="goPage" />
+						</form>
+						{/* <UserButton /> */}
+						{/* <Typography>{JSON.parse(localStorage.getItem("user"))?.firstName || " "} {JSON.parse(localStorage.getItem("user"))?.lastName || " "}</Typography> */}
+						<IconButton onClick={handleDrawerClose}>
+							{theme.direction === "ltr" ? (
+								<ChevronLeftIcon />
+							) : (
+								<ChevronRightIcon />
+							)}
+						</IconButton>
+					</div>
+					<Divider />
+					<Droppable droppableId="sidebar-droppable">
+						{(provided, snapshot) => (
+							<div {...provided.droppableProps} ref={provided.innerRef}>
+								<List>
+									{sidebarButtons
+										.filter((name) => {
+											let item = locations[name];
+											if (item.hideIfNotSignedIn) return authenticated;
+											if (item.hideIfSignedIn) return !authenticated;
+											return true;
+										})
+										.map((text, index) => (
+											<Draggable key={text} draggableId={text} index={index}>
+												{(provided, snapshot) => (
+													<div
+														ref={provided.innerRef}
+														{...provided.draggableProps}
+														{...provided.dragHandleProps}
+													>
+														<ListItem
+															button
+															key={text}
+															onClick={(x) => onClckItem(text)}
+														>
+															<ListItemIcon>
+																{locations[text].icon}
+															</ListItemIcon>
+															<ListItemText primary={text} />
+														</ListItem>
+													</div>
+												)}
+											</Draggable>
+										))}
+								</List>
+								{provided.placeholder}
+							</div>
 						)}
-					</IconButton>
-				</div>
-				<Divider />
-				<List>
-					{Object.keys(locations)
+					</Droppable>
+					<ListItem button key={"Hi!"}>
+						<ListItemIcon>{<LockOpen />}</ListItemIcon>
+						<ListItemText primary={authenticated ? "Sign Out!" : "Sign In!"} />
+					</ListItem>
+				</Drawer>
 
-						.filter(name => {
-							let item = locations[name];
-							if (item.hideIfNotSignedIn)
-								return authenticated;
-							if (item.hideIfSignedIn)
-								return !authenticated;
-							return true;
-						})
-						.map((text, index) => (
-							<ListItem button key={text} onClick={(x) => onClckItem(text)}>
-								<ListItemIcon>
-									{
-										locations[text].icon
-									}
-								</ListItemIcon>
-								<ListItemText primary={text} />
-							</ListItem>
-						))}
-				</List>
-				{/* <Divider />
-		<List>
-			{['All mail', 'Trash', 'Spam'].map((text, index) => (
-				<ListItem button key={text}>
-					<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-					<ListItemText primary={text} />
-				</ListItem>
-			))}
-		</List> */}
-			</Drawer>
-		</div>
+			</div>
+
+		</DragDropContext>
+
 	);
 };
 
@@ -364,5 +393,4 @@ const mapStateToProps = (state) => ({
 	user: state.user,
 });
 
-
-export default connect(mapStateToProps)((Sidebar));
+export default connect(mapStateToProps)(Sidebar);
