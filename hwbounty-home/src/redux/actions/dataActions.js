@@ -1,4 +1,6 @@
-import { SET_ASSIGNMENTS } from "../types";
+import { SET_ASSIGNMENTS, SET_SCHEDULE, hwbountyAPI } from "../types";
+
+import axios from "axios";
 
 export const getAssignments = () => (dispatch) => {
   const tmpAssignments = [
@@ -29,4 +31,26 @@ export const getAssignments = () => (dispatch) => {
   ];
 
   dispatch({ type: SET_ASSIGNMENTS, payload: tmpAssignments });
+};
+
+export const updateSchedule = () => (dispatch) => {
+  axios
+    .get(`${hwbountyAPI}/schedule/@me`)
+    .then((res) => {
+      if (res && res.status === 200) {
+        localStorage.setItem("cachedSchedule", JSON.stringify(res.data));
+        dispatch({ type: SET_SCHEDULE, payload: res.data });
+      }
+    })
+    .catch(() => {});
+
+  // leave zoom links to local storage
+  axios
+    .get(`${hwbountyAPI}/sgy/getZoomLinks`)
+    .then((data) => {
+      if (data && data.status === 200) {
+        localStorage.setItem("cachedCourseInfo", JSON.stringify(data.data));
+      }
+    })
+    .catch(() => {});
 };

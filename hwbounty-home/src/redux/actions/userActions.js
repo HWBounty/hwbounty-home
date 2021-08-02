@@ -2,6 +2,7 @@ import {
   SET_AUTHENTICATED,
   LOADING_UI,
   CLEAR_ERRORS,
+  SET_USER,
   hwbountyAPI,
 } from "../types";
 import axios from "axios";
@@ -42,13 +43,14 @@ export const linkUserSchoology = () => {
 
 export const logoutUser = () => (dispatch) => {};
 
-export const getUserData = () => async (dispatch) => {
-  let data = await axios
+export const getUserData = () => (dispatch) => {
+  axios
     .get("https://api.hwbounty.help/@me")
+    .then((res) => {
+      localStorage.setItem("user", JSON.stringify(res.data));
+      dispatch({ type: SET_USER, payload: res.data });
+    })
     .catch(console.trace);
-  if (data && data.status === 200 && data.data) {
-    localStorage.setItem("user", JSON.stringify(data.data));
-  }
 };
 
 export const setAuthorizationHeader = (token) => {

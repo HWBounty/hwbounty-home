@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import store from "./redux/store";
 import { hwbountyAPI, SET_AUTHENTICATED, SET_THEME } from "./redux/types";
 import { logoutUser, getUserData } from "./redux/actions/userActions";
+import { updateSchedule } from "./redux/actions/dataActions";
 
 // Styling
 import "./App.css";
@@ -28,7 +29,6 @@ import MusicModule from "./components/MusicModule/MusicModule";
 import { SnackbarProvider } from "notistack";
 import axios from "axios";
 import queryString from "query-string";
-import LoadIntoCache from "./LoadIntoCache";
 import { SchoologyButton } from "./components/SchoologyButton";
 import CalculatorBackend from "./util/calculator";
 import LoadingPage from "./pages/loadingPage";
@@ -60,8 +60,10 @@ const scheduleBuilder = lazy(() => import("./pages/scheduleBuilder"));
 const token = localStorage.DBIdToken;
 if (token) {
   axios.defaults.headers.common["Authorization"] = token;
+
   store.dispatch({ type: SET_AUTHENTICATED });
   store.dispatch(getUserData());
+  store.dispatch(updateSchedule());
 }
 
 let themeCache = -1;
@@ -80,9 +82,7 @@ const App = (props) => {
     UI: { theme },
     user: { authenticated },
   } = props;
-  useEffect(() => {
-    new CalculatorBackend();
-  });
+
   const dynamicTheme = createMuiTheme({
     ...themeFile,
     palette: {
@@ -127,7 +127,6 @@ const App = (props) => {
 
                 <AuthPopup />
                 {/* <MusicModule /> */}
-                <LoadIntoCache />
                 {!authenticated && (
                   <div>
                     <div
