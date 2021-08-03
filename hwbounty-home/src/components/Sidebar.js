@@ -44,6 +44,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useState } from "react";
 import { AuthPopup } from "./User/Authentication/AuthPopup";
 import LoginPopup from "./LoginPopup";
+import axios from "axios";
+import { hwbountyAPI } from "../redux/types";
 
 const drawerWidth = 240;
 /* Each Location Object
@@ -189,10 +191,27 @@ export const Sidebar = (props) => {
 	};
 	useEffect(() => {
 		let i = setInterval(() => forceUpdate(), 500);
+		// axios.get(`${hwbountyAPI}/@`
 		return () => clearInterval(i);
 	}, []);
-	const handleDrawerClose = () => {
+
+	const [sidebarButtons, setSidebarButtons] = useState([
+		"Home",
+		"Schedule",
+		"Modules",
+		"Settings",
+		"Profile",
+	]);
+	const [sidebarReordered, setSidebarReordered] = useState(false);
+	const handleDrawerClose = async () => {
 		setOpen(false);
+		if (sidebarReordered) {
+			setSidebarReordered(false);
+			let updateSelf = await axios.post(`${hwbountyAPI}/updateSelf`, {
+				sidebar: sidebarButtons.join(","),
+			});
+		}
+
 	};
 	const onClckItem = (name) => {
 		if (locations[name]?.run) locations[name].run();
@@ -202,14 +221,6 @@ export const Sidebar = (props) => {
 
 		handleDrawerClose();
 	};
-
-	const [sidebarButtons, setSidebarButtons] = useState([
-		"Home",
-		"Schedule",
-		"Modules",
-		"Settings",
-		"Profile",
-	]);
 
 	const UserButton = () => {
 		return (
@@ -272,6 +283,7 @@ export const Sidebar = (props) => {
 		console.log(reorderedButtons);
 
 		setSidebarButtons(reorderedButtons);
+		setSidebarReordered(true);
 	};
 	const onAuthButtonClick = () => {
 		if (authenticated) {
