@@ -26,6 +26,7 @@ import {
 	Today,
 } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
+import { getUserData } from "../redux/actions/userActions";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { AccountIconButton } from "./User/AccountIconButton";
 import {
@@ -51,6 +52,7 @@ import { AuthPopup } from "./User/Authentication/AuthPopup";
 import LoginPopup from "./LoginPopup";
 import axios from "axios";
 import { hwbountyAPI } from "../redux/types";
+import TetLib from "../util/TetLib";
 
 const drawerWidth = 240;
 /* Each Location Object
@@ -189,6 +191,14 @@ export const Sidebar = (props) => {
 	const [openSignout, SetOpenSignout] = React.useState(false);
 	const [openSignin, setOpenSignin] = React.useState(false);
 	const [loading, setLoading] = useState(false);
+	const [sidebarLayoutChanged, setSidebarLayoutChanged] = useState(false);
+	const [sidebarButtons, setSidebarButtons] = useState([
+		"Home",
+		"Schedule",
+		"Modules",
+		"Settings",
+		"Profile",
+	]);
 	const data = {
 		SetOpenSignout,
 		openSignout,
@@ -204,6 +214,14 @@ export const Sidebar = (props) => {
 	}, []);
 	const handleDrawerClose = () => {
 		setOpen(false);
+		if (sidebarLayoutChanged) {
+			setSidebarLayoutChanged(false);
+			axios.post(`${hwbountyAPI}/updateSelf`, {
+				sidebar: sidebarButtons.join(","),
+			}).then(() => {
+				console.log("sidebar buttons updated");
+			});
+		}
 	};
 	const onClckItem = (name) => {
 		if (locations[name]?.run) locations[name].run();
@@ -214,13 +232,23 @@ export const Sidebar = (props) => {
 		handleDrawerClose();
 	};
 
-	const [sidebarButtons, setSidebarButtons] = useState([
-		"Home",
-		"Schedule",
-		"Modules",
-		"Settings",
-		"Profile",
-	]);
+	useEffect(async () => {
+
+		console.log("getting the dataz");
+		localStorage.removeItem("user")
+		let data = await getUserData();
+		while (!localStorage.user) {
+			await TetLib.sleep(25);
+		}
+		console.log("got the dataz", localStorage.user);
+		console.log(sidebarButtons, "Old | New", JSON.parse(localStorage?.user || "null")?.sidebar?.split(","));
+		setSidebarButtons(JSON.parse(localStorage?.user || "null")?.sidebar?.split(","))
+
+		// while (true) {
+		// 	await TetLib.sleep(25);
+		// 	console.log(sidebarButtons);
+		// }
+	}, []);
 
 	const UserButton = () => {
 		return (
@@ -281,7 +309,9 @@ export const Sidebar = (props) => {
 		);
 
 		console.log(reorderedButtons);
-
+		if (reorderedButtons !== sidebarButtons) {
+			setSidebarLayoutChanged(true);
+		}
 		setSidebarButtons(reorderedButtons);
 	};
 	const onAuthButtonClick = () => {
@@ -427,5 +457,7 @@ const mapStateToProps = (state) => ({
 	UI: state.UI,
 	user: state.user,
 });
-
-export default connect(mapStateToProps)(Sidebar);
+const mapActionsToProps = {
+	getUserData
+};
+export default connect(mapStateToProps, mapActionsToProps)(Sidebar);

@@ -217,7 +217,7 @@ export const LoginPopup = (props) => {
                 justifyContent: "space-between",
             }}>
                 <div>
-                    <Button className={`${classes.secondaryOptionButton}`} onClick={() => closePopupFunction ? closePopupFunction(false) : (() => { window.location.href = `${window.location.origin}/signup` })()}>Don't have an account?</Button>
+                    <Button className={`${classes.secondaryOptionButton}`} onClick={() => (closePopupFunction && closePopupFunction(false) && true) && (() => { window.location.href = `${window.location.origin}/signup` })()}>Don't have an account?</Button>
                 </div>
 
                 <Button className={`${classes.primaryOptionButton}`} disabled={!loginAllowed} onClick={login} id="loginButton">Login</Button>
