@@ -44,6 +44,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { connect } from "react-redux";
+import t from "../util/localization/localization";
 
 // Drag-n-Drop
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -346,22 +347,28 @@ export const Sidebar = (props) => {
 									fontSize: "1.5rem",
 								}}
 							>
-								Are you sure you would like to sign out?
+								{t("sidebar.signOutPrompt.signOutConfirmation")}
 							</Typography>
 							<br />
-							Signing out also clears: <br />- Dark mode/light mode preference.
+							{t(
+								"sidebar.signOutPrompt.signingOutInfo.signingOutClearStart"
+							)}{" "}
+							<br />{" "}
+							{t(
+								"sidebar.signOutPrompt.signingOutInfo.signingOutClearPreference"
+							)}
 						</DialogContentText>
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={() => confirmSignout(false)} color="primary">
-							No
+							{t("sidebar.signOutPrompt.signOutButtons.no")}
 						</Button>
 						<Button
 							onClick={() => confirmSignout(true)}
 							color="primary"
 							autoFocus
 						>
-							Yes
+							{t("sidebar.signOutPrompt.signOutButtons.yes")}
 						</Button>
 					</DialogActions>
 				</Dialog>

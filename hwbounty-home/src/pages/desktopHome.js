@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import CTime2 from "../components/Home/CTime";
 import { Today } from "@material-ui/icons";
 import moment from "moment";
+import t from "../util/localization/localization";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -223,7 +224,7 @@ export const TimeCard = (props) => {
       />
       <Typography className={classes.scheduleText} align="left">
         <Today className={classes.scheduleIcon} />
-        Schedule
+        {t("desktopHome.schedule")}
       </Typography>
       <div className={`${classes.scheduleImg}`}>
         <Typography className={classes.timeUntilText} align="center">
@@ -331,7 +332,7 @@ export const DesktopHome = (props) => {
         <Typography
           className={`${classes.generalLabel} ${classes.qaccessLabel}`}
         >
-          Quick Access:{" "}
+          {t("desktopHome.quickAccess")}
         </Typography>
         <TimeCard theme={theme} />
       </div>
@@ -354,7 +355,7 @@ export const DesktopHome = (props) => {
         <Typography
           className={`${classes.generalLabel} ${classes.reccomendedLabel}`}
         >
-          Recommended
+          {t("desktopHome.recommended")}
         </Typography>
         <Card style={{}} className={`${classes.card} ${classes.searchResults}`}>
           {React.Children.toArray(renderSearchPages())}

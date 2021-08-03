@@ -10,15 +10,17 @@ export const setLocale = (l) => {
   locale = l in Object.keys(LANGUAGES) ? l : locale;
 };
 
-export default t = (translationKey, args = {}) => {
+export const t = (translationKey, args = {}) => {
   let searchTree = LANGUAGES[locale];
   for (const section of translationKey.split(".")) {
     searchTree = searchTree[section];
   }
 
-  for (const variable in Object.keys(args)) {
-    searchTree.replace(variable, args[variable]);
+  for (const variable of Object.keys(args)) {
+    searchTree = searchTree.replace("{{" + variable + "}}", args[variable]);
   }
 
   return searchTree;
 };
+
+export default t;
