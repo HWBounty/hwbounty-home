@@ -28,7 +28,12 @@ import {
 import { useHistory } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { AccountIconButton } from "./User/AccountIconButton";
-import { Avatar, makeStyles, TextField, LinearProgress } from "@material-ui/core";
+import {
+	Avatar,
+	makeStyles,
+	TextField,
+	LinearProgress,
+} from "@material-ui/core";
 import { PageSearch } from "./Home/PageSearch";
 import useForceUpdate from "../util/useForceUpdate";
 import Button from "@material-ui/core/Button";
@@ -76,7 +81,10 @@ let locations = {
 		icon: <BuildIcon />,
 	},
 	Profile: {
-		path: `/user/${JSON.parse(localStorage.getItem("user"))?.publicID}`,
+		path: `/user/${localStorage.getItem("user") !== "undefined"
+				? JSON.parse(localStorage.getItem("user"))?.publicID
+				: ""
+			}`,
 		hideIfNotSignedIn: true,
 		icon: <AccountCircle />,
 	},
@@ -91,7 +99,8 @@ setInterval(() => {
 	locations = {
 		...locations,
 		Profile: {
-			path: `/user/${JSON.parse(localStorage.getItem("user"))?.publicID}`,
+			path: `/user/${JSON.parse(localStorage.getItem("user") || "{}")?.publicID
+				}`,
 			hideIfNotSignedIn: true,
 			icon: <AccountCircle />,
 		},
@@ -191,27 +200,10 @@ export const Sidebar = (props) => {
 	};
 	useEffect(() => {
 		let i = setInterval(() => forceUpdate(), 500);
-		// axios.get(`${hwbountyAPI}/@`
 		return () => clearInterval(i);
 	}, []);
-
-	const [sidebarButtons, setSidebarButtons] = useState([
-		"Home",
-		"Schedule",
-		"Modules",
-		"Settings",
-		"Profile",
-	]);
-	const [sidebarReordered, setSidebarReordered] = useState(false);
-	const handleDrawerClose = async () => {
+	const handleDrawerClose = () => {
 		setOpen(false);
-		if (sidebarReordered) {
-			setSidebarReordered(false);
-			let updateSelf = await axios.post(`${hwbountyAPI}/updateSelf`, {
-				sidebar: sidebarButtons.join(","),
-			});
-		}
-
 	};
 	const onClckItem = (name) => {
 		if (locations[name]?.run) locations[name].run();
@@ -221,6 +213,14 @@ export const Sidebar = (props) => {
 
 		handleDrawerClose();
 	};
+
+	const [sidebarButtons, setSidebarButtons] = useState([
+		"Home",
+		"Schedule",
+		"Modules",
+		"Settings",
+		"Profile",
+	]);
 
 	const UserButton = () => {
 		return (
@@ -283,7 +283,6 @@ export const Sidebar = (props) => {
 		console.log(reorderedButtons);
 
 		setSidebarButtons(reorderedButtons);
-		setSidebarReordered(true);
 	};
 	const onAuthButtonClick = () => {
 		if (authenticated) {
@@ -344,9 +343,11 @@ export const Sidebar = (props) => {
 				>
 					{loading && <LinearProgress />}
 					{/* <DialogTitle><Typography variant="h5">Are you sure you would like to sign out?</Typography></DialogTitle> */}
-					<DialogContent style={{
-					}}>
-						<LoginPopup closePopupFunction={setOpenSignin} loadingBarFunction={setLoading} />
+					<DialogContent style={{}}>
+						<LoginPopup
+							closePopupFunction={setOpenSignin}
+							loadingBarFunction={setLoading}
+						/>
 					</DialogContent>
 				</Dialog>
 				<Drawer
@@ -417,11 +418,8 @@ export const Sidebar = (props) => {
 						<ListItemText primary={authenticated ? "Sign Out!" : "Sign In!"} />
 					</ListItem>
 				</Drawer>
-
 			</div>
-
 		</DragDropContext>
-
 	);
 };
 

@@ -8,6 +8,7 @@ export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
 // Data reducer types
 export const SET_ASSIGNMENTS = "SET_ASSIGNMENTS";
+export const SET_SCHEDULE = "SET_SCHEDULE";
 
 // User reducer types
 export const SET_AUTHENTICATED = "SET_AUTHENTICATED";

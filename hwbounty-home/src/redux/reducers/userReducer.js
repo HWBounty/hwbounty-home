@@ -1,9 +1,10 @@
-import { SET_AUTHENTICATED, SET_SCHOOLOGY_LINKED } from "../types";
+import { SET_AUTHENTICATED, SET_SCHOOLOGY_LINKED, SET_USER } from "../types";
 
 const initialState = {
   loading: false,
   authenticated: false,
   schoologyLinked: false,
+  user: {},
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -17,6 +18,11 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         schoologyLinked: true,
+      };
+    case SET_USER:
+      return {
+        ...state,
+        user: action.payload,
       };
     default:
       return state;

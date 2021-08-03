@@ -2,6 +2,7 @@ import {
   SET_AUTHENTICATED,
   LOADING_UI,
   CLEAR_ERRORS,
+  SET_USER,
   hwbountyAPI,
 } from "../types";
 import axios from "axios";
@@ -16,7 +17,7 @@ export const loginUser = (userData) => (dispatch) => {
       dispatch({ type: CLEAR_ERRORS });
       setTimeout(() => {
         window.location.reload();
-      },1000);
+      }, 1000);
     })
     .catch((err) => {
       console.log(err);
@@ -31,18 +32,25 @@ export const signupUser = (userData) => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
+
 export const linkUserSchoology = () => {
-axios.post(`${hwbountyAPI}/schoologyLogin`,{
-  redirectURL: `${window.origin}/schoologyCallback`
-}).then(res=>res.status === 200 && (window.location.href = res.data))
-}
-export const logoutUser = () => (dispatch) => {
+  axios
+    .post(`${hwbountyAPI}/schoologyLogin`, {
+      redirectURL: `${window.origin}/schoologyCallback`,
+    })
+    .then((res) => res.status === 200 && (window.location.href = res.data));
 };
-export const getUserData = () => async (dispatch) => {
-  let data = await axios.get("https://api.hwbounty.help/@me").catch(console.trace);
-		if (data && data.status === 200 && data.data){
-			localStorage.setItem("user",JSON.stringify(data.data));
-		}
+
+export const logoutUser = () => (dispatch) => {};
+
+export const getUserData = () => (dispatch) => {
+  axios
+    .get("https://api.hwbounty.help/@me")
+    .then((res) => {
+      localStorage.setItem("user", JSON.stringify(res.data));
+      dispatch({ type: SET_USER, payload: res.data });
+    })
+    .catch(console.trace);
 };
 
 export const setAuthorizationHeader = (token) => {
