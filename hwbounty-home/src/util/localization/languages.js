@@ -1,5 +1,7 @@
 import enUS from "./langs/en-US";
 
-export default LANGUAGES = {
+export const LANGUAGES = {
   "en-US": enUS,
 };
+
+export default LANGUAGES;
