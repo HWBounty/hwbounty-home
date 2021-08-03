@@ -128,7 +128,6 @@ export function findClosingBrace(str, startIdx) {
 
   let stack = 1;
 
-  // eslint-disable-next-line no-plusplus
   for (let j = startIdx + 1; j < str.length; j++) {
     if (str[j] === openingBrace) {
       stack += +1;
