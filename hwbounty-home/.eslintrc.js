@@ -4,8 +4,7 @@ module.exports = {
     es2021: true
   },
   extends: [
-    'plugin:react/recommended',
-    'standard'
+    // 'plugin:react/recommended',
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -15,8 +14,9 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
-    'react'
+    "react"
   ],
   rules: {
+    "react/jsx-no-literals": 1,
   }
 }

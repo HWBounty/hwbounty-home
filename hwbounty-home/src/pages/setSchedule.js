@@ -20,7 +20,6 @@ class SetSchedule extends Component {
 		console.log("FETCHING")
 		if (this.state.scheduleData) return console.log(this.state.scheduleData);
 		try {
-			// eslint-disable-next-line no-restricted-globals
 			let [res, selfData, courses] = await Promise.all([axios.get(`https://api.hwbounty.help/schedules/view/${this.props.location.pathname.split("/").pop()}`).catch(er => console.log), axios.get(`https://api.hwbounty.help/@me`).catch(console.trace), axios(`https://api.hwbounty.help/sgy/getCourses`).catch(console.trace)]);
 			if (res.data) {
 				res.data.nameOverrides = JSON.parse(res.data.nameOverrides);
@@ -53,9 +52,8 @@ class SetSchedule extends Component {
 	}
 	async handleSet(self) {
 		if (self.state.setting) return;
-		self.setState({setting: true});
+		self.setState({ setting: true });
 		let periodChoices = self.state.periodChoices;
-		// eslint-disable-next-line no-restricted-globals
 		let sch = this.props.location.pathname.split("/").pop();
 		console.log(sch);
 		let res = await axios.post(`https://api.hwbounty.help/schedules/set`, {
@@ -63,10 +61,9 @@ class SetSchedule extends Component {
 			classes: periodChoices
 		}).catch(console.trace);
 		if (res.status === 200) {
-			// eslint-disable-next-line no-restricted-globals
 			location.href = "https://hwbounty.help";
-		}else{
-			self.setState({setting:false})
+		} else {
+			self.setState({ setting: false })
 		}
 	}
 	handleDropdowns(self) {
@@ -184,7 +181,7 @@ class SetSchedule extends Component {
 							borderTop: "2px solid rgba(160, 160, 160, 0.2)",
 							textAlign: "center",
 						}}>
-							<Button onClick={ev=>this.handleSet(this)}>Set Classes</Button>
+							<Button onClick={ev => this.handleSet(this)}>Set Classes</Button>
 						</Container>
 
 					</Card>

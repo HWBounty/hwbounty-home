@@ -202,7 +202,6 @@ export const VanityInvite = (props) => {
 	const classes = useStyles(props.UI.theme);
 	const pstyles = perksStyles(props);
 	const [invite, setInvite] = useState(null);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(async () => {
 		let inv = ((await axios.get(`${hwbountyAPI}/invite/${window.location.pathname.split("/").pop()}`).catch(console.trace)));
 		// console.log(inv.data);

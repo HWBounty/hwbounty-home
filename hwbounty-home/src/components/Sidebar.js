@@ -82,8 +82,8 @@ let locations = {
 	},
 	Profile: {
 		path: `/user/${localStorage.getItem("user") !== "undefined"
-				? JSON.parse(localStorage.getItem("user"))?.publicID
-				: ""
+			? JSON.parse(localStorage.getItem("user"))?.publicID
+			: ""
 			}`,
 		hideIfNotSignedIn: true,
 		icon: <AccountCircle />,
