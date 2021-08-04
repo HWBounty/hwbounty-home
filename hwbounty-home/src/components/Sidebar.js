@@ -243,221 +243,221 @@ export const Sidebar = (props) => {
 		}
 		console.log("got the dataz", localStorage.user);
 		console.log(sidebarButtons, "Old | New", JSON.parse(localStorage?.user || "null")?.sidebar?.split(","));
-		setSidebarButtons(JSON.parse(localStorage?.user || "null")?.sidebar?.split(","))
+		setSidebarButtons(JSON.parse(localStorage?.user || "null")?.sidebar?.split(",") || sidebarButtons));
 
-		// while (true) {
-		// 	await TetLib.sleep(25);
-		// 	console.log(sidebarButtons);
-		// }
-	}, []);
+	// while (true) {
+	// 	await TetLib.sleep(25);
+	// 	console.log(sidebarButtons);
+	// }
+}, []);
 
-	const UserButton = () => {
-		return (
-			<div>
-				<Avatar
-					src={JSON.parse(localStorage.getItem("user"))?.pfp}
-					height={64}
-					width={64}
-					align="left"
-					className={classes.anchoredAvatar}
-				/>
-			</div>
-		);
-	};
-	const onSubmit = (e) => {
-		e.preventDefault();
-		console.log(e, document.getElementById("goPage").value);
-	};
-	const confirmSignout = (res) => {
-		SetOpenSignout(false);
-		if (res) {
-			localStorage.clear();
-			window.location.reload();
-		}
-	};
-	const getIcon = () => {
-		return (
-			<IconButton
-				color="inherit"
-				aria-label="open drawer"
-				onClick={handleDrawerOpen}
-				style={{
-					display: open && "none",
-				}}
-				className={`${clsx(classes.menuButton, open && classes.hide)} ${classes.clickThing
-					}`}
-			>
-				<MenuIcon />
-			</IconButton>
-		);
-	};
-
-	const reorder = (list, startIndex, endIndex) => {
-		const result = Array.from(list);
-		const [removed] = result.splice(startIndex, 1);
-		result.splice(endIndex, 0, removed);
-
-		return result;
-	};
-
-	const onDragEnd = (result) => {
-		if (!result.destination) return;
-
-		const reorderedButtons = reorder(
-			sidebarButtons,
-			result.source.index,
-			result.destination.index
-		);
-
-		console.log(reorderedButtons);
-		if (reorderedButtons !== sidebarButtons) {
-			setSidebarLayoutChanged(true);
-		}
-		setSidebarButtons(reorderedButtons);
-	};
-	const onAuthButtonClick = () => {
-		if (authenticated) {
-			setOpenSignin(false);
-			SetOpenSignout(true);
-		} else {
-			setOpenSignin(true);
-			SetOpenSignout(false);
-		}
-	};
-
+const UserButton = () => {
 	return (
-		<DragDropContext onDragEnd={onDragEnd}>
-			<div
-				style={{
-					zIndex: 1000000000,
+		<div>
+			<Avatar
+				src={JSON.parse(localStorage.getItem("user"))?.pfp}
+				height={64}
+				width={64}
+				align="left"
+				className={classes.anchoredAvatar}
+			/>
+		</div>
+	);
+};
+const onSubmit = (e) => {
+	e.preventDefault();
+	console.log(e, document.getElementById("goPage").value);
+};
+const confirmSignout = (res) => {
+	SetOpenSignout(false);
+	if (res) {
+		localStorage.clear();
+		window.location.reload();
+	}
+};
+const getIcon = () => {
+	return (
+		<IconButton
+			color="inherit"
+			aria-label="open drawer"
+			onClick={handleDrawerOpen}
+			style={{
+				display: open && "none",
+			}}
+			className={`${clsx(classes.menuButton, open && classes.hide)} ${classes.clickThing
+				}`}
+		>
+			<MenuIcon />
+		</IconButton>
+	);
+};
+
+const reorder = (list, startIndex, endIndex) => {
+	const result = Array.from(list);
+	const [removed] = result.splice(startIndex, 1);
+	result.splice(endIndex, 0, removed);
+
+	return result;
+};
+
+const onDragEnd = (result) => {
+	if (!result.destination) return;
+
+	const reorderedButtons = reorder(
+		sidebarButtons,
+		result.source.index,
+		result.destination.index
+	);
+
+	console.log(reorderedButtons);
+	if (reorderedButtons !== sidebarButtons) {
+		setSidebarLayoutChanged(true);
+	}
+	setSidebarButtons(reorderedButtons);
+};
+const onAuthButtonClick = () => {
+	if (authenticated) {
+		setOpenSignin(false);
+		SetOpenSignout(true);
+	} else {
+		setOpenSignin(true);
+		SetOpenSignout(false);
+	}
+};
+
+return (
+	<DragDropContext onDragEnd={onDragEnd}>
+		<div
+			style={{
+				zIndex: 1000000000,
+			}}
+		>
+			{getIcon()}
+			<Dialog
+				open={openSignout}
+				onClose={() => confirmSignout(false)}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
+			>
+				{/* <DialogTitle><Typography variant="h5">Are you sure you would like to sign out?</Typography></DialogTitle> */}
+				<DialogContent>
+					<DialogContentText id="alert-dialog-description">
+						<Typography
+							style={{
+								fontSize: "1.5rem",
+							}}
+						>
+							{t("sidebar.signOutPrompt.signOutConfirmation")}
+						</Typography>
+						<br />
+						{t(
+							"sidebar.signOutPrompt.signingOutInfo.signingOutClearStart"
+						)}{" "}
+						<br />{" "}
+						{t(
+							"sidebar.signOutPrompt.signingOutInfo.signingOutClearPreference"
+						)}
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={() => confirmSignout(false)} color="primary">
+						{t("sidebar.signOutPrompt.signOutButtons.no")}
+					</Button>
+					<Button
+						onClick={() => confirmSignout(true)}
+						color="primary"
+						autoFocus
+					>
+						{t("sidebar.signOutPrompt.signOutButtons.yes")}
+					</Button>
+				</DialogActions>
+			</Dialog>
+			<Dialog
+				open={openSignin}
+				onClose={() => setOpenSignin(false)}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
+			>
+				{loading && <LinearProgress />}
+				{/* <DialogTitle><Typography variant="h5">Are you sure you would like to sign out?</Typography></DialogTitle> */}
+				<DialogContent style={{}}>
+					<LoginPopup
+						closePopupFunction={setOpenSignin}
+						loadingBarFunction={setLoading}
+					/>
+				</DialogContent>
+			</Dialog>
+			<Drawer
+				className={classes.drawer}
+				//variant="persistent"
+				anchor={window.innerWidth > 960 ? "left" : "right"}
+				open={open}
+				onClose={handleDrawerClose}
+				classes={{
+					paper: classes.drawerPaper,
 				}}
 			>
-				{getIcon()}
-				<Dialog
-					open={openSignout}
-					onClose={() => confirmSignout(false)}
-					aria-labelledby="alert-dialog-title"
-					aria-describedby="alert-dialog-description"
-				>
-					{/* <DialogTitle><Typography variant="h5">Are you sure you would like to sign out?</Typography></DialogTitle> */}
-					<DialogContent>
-						<DialogContentText id="alert-dialog-description">
-							<Typography
-								style={{
-									fontSize: "1.5rem",
-								}}
-							>
-								{t("sidebar.signOutPrompt.signOutConfirmation")}
-							</Typography>
-							<br />
-							{t(
-								"sidebar.signOutPrompt.signingOutInfo.signingOutClearStart"
-							)}{" "}
-							<br />{" "}
-							{t(
-								"sidebar.signOutPrompt.signingOutInfo.signingOutClearPreference"
-							)}
-						</DialogContentText>
-					</DialogContent>
-					<DialogActions>
-						<Button onClick={() => confirmSignout(false)} color="primary">
-							{t("sidebar.signOutPrompt.signOutButtons.no")}
-						</Button>
-						<Button
-							onClick={() => confirmSignout(true)}
-							color="primary"
-							autoFocus
-						>
-							{t("sidebar.signOutPrompt.signOutButtons.yes")}
-						</Button>
-					</DialogActions>
-				</Dialog>
-				<Dialog
-					open={openSignin}
-					onClose={() => setOpenSignin(false)}
-					aria-labelledby="alert-dialog-title"
-					aria-describedby="alert-dialog-description"
-				>
-					{loading && <LinearProgress />}
-					{/* <DialogTitle><Typography variant="h5">Are you sure you would like to sign out?</Typography></DialogTitle> */}
-					<DialogContent style={{}}>
-						<LoginPopup
-							closePopupFunction={setOpenSignin}
-							loadingBarFunction={setLoading}
-						/>
-					</DialogContent>
-				</Dialog>
-				<Drawer
-					className={classes.drawer}
-					//variant="persistent"
-					anchor={window.innerWidth > 960 ? "left" : "right"}
-					open={open}
-					onClose={handleDrawerClose}
-					classes={{
-						paper: classes.drawerPaper,
-					}}
-				>
-					<div className={classes.drawerHeader}>
-						<form onSubmit={onSubmit}>
-							<TextField placeholder="Quick Search" id="goPage" />
-						</form>
-						{/* <UserButton /> */}
-						{/* <Typography>{JSON.parse(localStorage.getItem("user"))?.firstName || " "} {JSON.parse(localStorage.getItem("user"))?.lastName || " "}</Typography> */}
-						<IconButton onClick={handleDrawerClose}>
-							{theme.direction === "ltr" ? (
-								<ChevronLeftIcon />
-							) : (
-								<ChevronRightIcon />
-							)}
-						</IconButton>
-					</div>
-					<Divider />
-					<Droppable droppableId="sidebar-droppable">
-						{(provided, snapshot) => (
-							<div {...provided.droppableProps} ref={provided.innerRef}>
-								<List>
-									{sidebarButtons
-										.filter((name) => {
-											let item = locations[name];
-											if (item.hideIfNotSignedIn) return authenticated;
-											if (item.hideIfSignedIn) return !authenticated;
-											return true;
-										})
-										.map((text, index) => (
-											<Draggable key={text} draggableId={text} index={index}>
-												{(provided, snapshot) => (
-													<div
-														ref={provided.innerRef}
-														{...provided.draggableProps}
-														{...provided.dragHandleProps}
-													>
-														<ListItem
-															button
-															key={text}
-															onClick={(x) => onClckItem(text)}
-														>
-															<ListItemIcon>
-																{locations[text].icon}
-															</ListItemIcon>
-															<ListItemText primary={text} />
-														</ListItem>
-													</div>
-												)}
-											</Draggable>
-										))}
-								</List>
-								{provided.placeholder}
-							</div>
+				<div className={classes.drawerHeader}>
+					<form onSubmit={onSubmit}>
+						<TextField placeholder="Quick Search" id="goPage" />
+					</form>
+					{/* <UserButton /> */}
+					{/* <Typography>{JSON.parse(localStorage.getItem("user"))?.firstName || " "} {JSON.parse(localStorage.getItem("user"))?.lastName || " "}</Typography> */}
+					<IconButton onClick={handleDrawerClose}>
+						{theme.direction === "ltr" ? (
+							<ChevronLeftIcon />
+						) : (
+							<ChevronRightIcon />
 						)}
-					</Droppable>
-					<ListItem button key={"Hi!"} onClick={onAuthButtonClick}>
-						<ListItemIcon>{<LockOpen />}</ListItemIcon>
-						<ListItemText primary={authenticated ? "Sign Out!" : "Sign In!"} />
-					</ListItem>
-				</Drawer>
-			</div>
-		</DragDropContext>
-	);
+					</IconButton>
+				</div>
+				<Divider />
+				<Droppable droppableId="sidebar-droppable">
+					{(provided, snapshot) => (
+						<div {...provided.droppableProps} ref={provided.innerRef}>
+							<List>
+								{sidebarButtons
+									.filter((name) => {
+										let item = locations[name];
+										if (item.hideIfNotSignedIn) return authenticated;
+										if (item.hideIfSignedIn) return !authenticated;
+										return true;
+									})
+									.map((text, index) => (
+										<Draggable key={text} draggableId={text} index={index}>
+											{(provided, snapshot) => (
+												<div
+													ref={provided.innerRef}
+													{...provided.draggableProps}
+													{...provided.dragHandleProps}
+												>
+													<ListItem
+														button
+														key={text}
+														onClick={(x) => onClckItem(text)}
+													>
+														<ListItemIcon>
+															{locations[text].icon}
+														</ListItemIcon>
+														<ListItemText primary={text} />
+													</ListItem>
+												</div>
+											)}
+										</Draggable>
+									))}
+							</List>
+							{provided.placeholder}
+						</div>
+					)}
+				</Droppable>
+				<ListItem button key={"Hi!"} onClick={onAuthButtonClick}>
+					<ListItemIcon>{<LockOpen />}</ListItemIcon>
+					<ListItemText primary={authenticated ? "Sign Out!" : "Sign In!"} />
+				</ListItem>
+			</Drawer>
+		</div>
+	</DragDropContext>
+);
 };
 
 const mapStateToProps = (state) => ({
