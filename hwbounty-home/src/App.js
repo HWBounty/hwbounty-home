@@ -35,6 +35,7 @@ import LoadingPage from "./pages/loadingPage";
 import { GainCoins } from "./components/Modules/GainCoins";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Login from "./components/User/Authentication/Login";
+import ModulesPicker from "./pages/modulesPicker";
 
 // Pages
 const Modules = lazy(() => import("./pages/modules"));
@@ -177,6 +178,7 @@ const App = (props) => {
                       path="/schedule/create"
                       component={scheduleBuilder}
                     />
+                    <Route exact path="/modules" component={ModulesPicker} />
                     <Route path="/modules/:module" component={Modules} />
                     <Route path="/user/" component={newProfile} />
                     <Route path="/usertest/:userID" component={Profile} />
