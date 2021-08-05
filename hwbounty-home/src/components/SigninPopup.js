@@ -38,11 +38,21 @@ export const SigninPopup = (props) => {
 
 			}).then(res => {
 				setAuthorizationHeader(res.data.token);
-				setTimeout(() => {
-					window.location.reload();
-				}, 1000);
+				enqueueSnackbar("Logged in successfully!", {
+					variant: "success"
+				})
+				props.setter(false);
+				setSubmitting(false);
+				// setTimeout(() => {
+				// 	window.location.reload();
+				// }, 1000);
 			}).catch(error => {
-				console.log(error);
+				if (error.response.status === 403) {
+					enqueueSnackbar("Invalid Email or Password!", {
+						variant: "error"
+					})
+				}
+				setSubmitting(false);
 			})
 	};
 	return (
