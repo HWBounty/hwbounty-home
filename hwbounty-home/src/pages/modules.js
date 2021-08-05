@@ -26,6 +26,7 @@ const styles = (theme) => ({
 const Modules = (props) => {
   const { classes } = props;
   const { module } = useParams();
+
   return (
     <div className={classes.root}>
       {module === "calculator" && <Calculator />}

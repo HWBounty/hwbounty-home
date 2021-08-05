@@ -1,8 +1,9 @@
-import { SET_ASSIGNMENTS } from "../types";
+import { SET_ASSIGNMENTS, SET_SCHEDULE } from "../types";
 
 const initialState = {
   loading: false,
   assignments: [],
+  schedule: {},
 };
 
 export const dataReducer = (state = initialState, action) => {
@@ -13,6 +14,11 @@ export const dataReducer = (state = initialState, action) => {
         assignments: action.payload.sort(
           (a, b) => new Date(a.due) - new Date(b.due)
         ),
+      };
+    case SET_SCHEDULE:
+      return {
+        ...state,
+        schedule: action.payload,
       };
     default:
       return state;
