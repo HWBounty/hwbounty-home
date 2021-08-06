@@ -18,6 +18,8 @@ export const enUS = {
     "schedule.comment": "Schedule text",
     quickAccess: "Quick Access:",
     "quickAccess.comment": "Title Text for the quick access area",
+    viewFullSchedule: "View Full Schedule",
+    "viewFullSchedule.comment": "View Full Schedule button",
   },
   errorCode: {
     display: "Error Code: {{code}} {{reason}}",

@@ -108,6 +108,7 @@ const App = (props) => {
         .catch(console.error);
     })();
   }
+  document.body.style.backgroundColor = theme === 1 ? "rgb(48,48,48)" : "rgb(244,247,251)"
   return (
     <SnackbarProvider maxSnack={5}>
       <ShortcutProvider ignoreTagNames={["input", "textarea"]}>

@@ -19,6 +19,7 @@ import { CTime2 } from "../Home/CTime";
 import PeriodList from "./PeriodList";
 import TetLib from "../../util/TetLib";
 import useForceUpdate from "../../util/useForceUpdate";
+import { render } from "react-dom";
 const decodeHTML = (string) => {
 	const map = { gt: ">" /* , … */ };
 	return string.replace(/&(#(?:x[0-9a-f]+|\d+)|[a-z]+);?/gi, ($0, $1) => {
@@ -53,9 +54,10 @@ const useStyles = makeStyles(theme => ({
 
 	},
 	card: {
-		boxShadow:
-			"0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
-		background: (theme) => (theme ? "rgb(40,40,40)" : "rgb(230,230,230)"),
+		boxShadow: theme => theme === 1 ?
+			"0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important" :
+			"0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important",
+		background: (theme) => (theme === 1 ? "rgb(40,40,40)" : "rgb(250,250,250)"),
 		borderRadius: "1vmin",
 	}
 }));
@@ -82,19 +84,19 @@ const SchedulePage = (props) => {
 			run = false;
 		};
 	}, []);
+	const renderMain = () => {
+		if (!document.getElementById("divSize")) {
+			setTimeout(() => forceUpdate(), 1);
+			return null;
+		}
 
-	const classes = useStyles(theme);
-	if (!schedule) return null;
-	return (<div style={{
-		display: "flex",
-		flexDirection: "row",
-		justifyContent: "space-between",
-	}} className={`${classes.fullHeight}`}>
-		<div style={{
-			width: "clamp(0vw, 30%, 50vw)",
-			position: "fixed",
+		return (<div style={{
+			// width: "clamp(0vw, 30%, 50vw)",
+			flexGrow: "1",
 			marginTop: "2rem",
 			marginLeft: "5rem",
+			position: "fixed",
+			marginRight: "5rem",
 		}}
 			className={`${classes.fullHeight}`}
 		>
@@ -105,21 +107,28 @@ const SchedulePage = (props) => {
 					maxHeight: "95%",
 					minHeight: "95%",
 					padding: "1rem",
+					width: `calc(${document.getElementById("divSize").offsetWidth}px - 6rem)`,
 				}}
 			>
 				<CTime2 />
+				<br />
 				<Divider />
 			</Card>
+		</div>)
+	};
+	const classes = useStyles(theme);
+	if (!schedule) return null;
+	return (<div style={{
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "space-between",
+		maxwidth: "calc(100vw - 5rem)",
+		position: "relative",
+	}} className={`${classes.fullHeight}`}>
+		<div style={{ flexGrow: "1" }} id="divSize">
+			{renderMain()}
 		</div>
-		<div style={{
-			minWidth: "30%",
-			marginLeft: "5vw",
-			marginTop: "2rem",
-		}}
-			className={`${classes.fullHeight}`}
-		>
-		</div>
-		<Container style={{ display: "flex", /*backgroundColor: "black",*/ justifyContent: "center", width: "60vw" }} className={`${classes.fullHeight}`}>
+		<Container style={{ display: "flex", /*backgroundColor: "black",*/ justifyContent: "center", width: "33vw" }} className={`${classes.fullHeight}`}>
 			<PeriodList scheduleData={schedule} zoomLinkInfo={[]} offset={4} />
 		</Container>
 

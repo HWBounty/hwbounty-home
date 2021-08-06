@@ -13,8 +13,9 @@ const useStyles = makeStyles(theme => ({
 		fontWeight: "200",
 	},
 	card: {
-		boxShadow:
-			"0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
+		boxShadow: theme => theme === 1 ?
+			"0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important" :
+			"0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important",
 	}
 }));
 const generatePeriodColors = (stops, theme) => {
@@ -96,9 +97,10 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
 const PeriodList = (props) => {
 	const classes = useStyles(props.UI.theme);
 	const periodData = parsePeriods(props.scheduleData, props.zoomLinkInfo, props.UI.theme, props.offset);
-	let periodMapped = periodData.map((periodData) => {
+	let periodColors = generatePeriodColors(periodData.length, 0);
+	let periodMapped = periodData.map((periodData, i) => {
 		return (
-			<PeriodButton color={"rgb(40,40,40)"} name={periodData.name} UI={props.UI} startTime={periodData.tSS} endTime={periodData.tES} duration={`${Math.round((periodData.timeEnd - periodData.timeStart) / (1000 * 60))} minutes`}>
+			<PeriodButton color={props.UI.theme ? "rgb(40,40,40)" : `rgb(250,250,250)`} name={periodData.name} UI={props.UI} startTime={periodData.tSS} endTime={periodData.tES} duration={`${Math.round((periodData.timeEnd - periodData.timeStart) / (1000 * 60))} minutes`}>
 			</PeriodButton>
 		);
 	})
@@ -107,7 +109,7 @@ const PeriodList = (props) => {
 		{React.Children.toArray(periodMapped)}
 	</div>)
 }
-const cardWidth = "40rem";
+const cardWidth = "25vw";
 const cardHeight = "9rem";
 const PeriodButton = (props) => {
 	const classes = useStyles(props.UI.theme);
@@ -123,7 +125,7 @@ const PeriodButton = (props) => {
 			alignItems: "flex-start",
 			margin: "2rem"
 		}} className={`${classes.card}`}>
-			<Typography className={`${classes.cardTitle}`}>{props.name}</Typography>
+			<Typography className={`${classes.cardTitle}`} style={{ color: props.UI.theme === 1 ? "white" : "rgb(110,110,110)" }}>{props.name}</Typography>
 			<Typography className={`${classes.cardSubtitles1}`}>{`${props.startTime} - ${props.endTime} (${props.duration})`}</Typography>
 		</Card>
 	)

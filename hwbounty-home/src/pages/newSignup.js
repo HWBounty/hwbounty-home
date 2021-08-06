@@ -46,9 +46,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: "1rem"
   },
   listBG: {
-    backgroundColor: (theme) => theme === 1 ? "rgb(50,50,50)" : "rgb(245,245,245)",
+    backgroundColor: (theme) => theme === 1 ? "rgb(50,50,50)" : "rgb(250,250,250)",
     borderStyle: "solid",
-    borderColor: (theme) => theme === 1 ? "rgb(60,60,60)" : "rgb(240,240,240)",
+    borderColor: (theme) => theme === 1 ? "rgb(60,60,60)" : "rgb(245,245,245)",
 
   },
   listText: {

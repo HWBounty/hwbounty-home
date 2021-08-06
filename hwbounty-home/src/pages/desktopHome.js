@@ -1,6 +1,7 @@
 import {
   Card,
   CardMedia,
+  Divider,
   InputBase,
   makeStyles,
   TextField,
@@ -50,13 +51,14 @@ const useStyles = makeStyles((theme) => ({
     display: "inline",
   },
   card: {
-    boxShadow:
-      "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
-    background: (theme) => (theme ? "rgb(40,40,40)" : "rgb(230,230,230)"),
+    boxShadow: theme => theme === 1 ?
+      "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important" :
+      "0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important",
+    background: (theme) => (theme ? "rgb(40,40,40)" : "rgb(250,250,250)"),
     borderRadius: "1vmin",
   },
   timeUntilText: {
-    fontSize: "1.5rem",
+    fontSize: "1.25rem",
     fontFamily: "Poppins",
     textAlign: "left",
     marginLeft: "10%",
@@ -90,10 +92,16 @@ const useStyles = makeStyles((theme) => ({
     width: "38vmin",
     minHeight: "38vmin",
     marginBottom: "5vw",
-    paddingBottom: "2vw",
+    paddingBottom: "1.5rem",
     textAlign: "center",
     cursor: "pointer",
-
+    transition: "all 0.2s",
+    "&:hover": {
+      boxShadow: theme => theme === 1 ?
+        "0 5px 12px rgba(0,0,0,0.3), 0 5px 12px rgba(0,0,0,0.4)!important" :
+        "0 5px 16px rgba(0,0,0,0.15), 0 5px 16px rgba(0,0,0,0.015)!important",
+    },
+    transform: "scale(1)",
     // position: "fixed",
     // top: "15%",
     // left: "5%",
@@ -129,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
   },
   scheduleText: {
     fontFamily: "Poppins",
-    fontSize: "1.6rem",
+    fontSize: "1.5rem",
     margin: "10%",
     fontWeight: "500",
     marginTop: "5%",
@@ -161,13 +169,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     height: "100vh",
     alignContent: "flex-start",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    marginLeft: "5vw",
     flexWrap: "wrap",
   },
   dataDiv: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "flex-start",
     flexGrow: 1,
   },
   generalLabel: {
@@ -222,10 +231,11 @@ export const TimeCard = (props) => {
         title="hwBounty Scheduule"
         className={`${classes.scheduleCover}`}
       />
-      <Typography className={classes.scheduleText} align="left">
+      {/* <Typography className={classes.scheduleText} align="left">
         <Today className={classes.scheduleIcon} />
         {t("desktopHome.schedule")}
-      </Typography>
+      </Typography> */}
+      <br />
       <div className={`${classes.scheduleImg}`}>
         <Typography className={classes.timeUntilText} align="center">
           {getTimePhrase()}
@@ -235,7 +245,7 @@ export const TimeCard = (props) => {
       <Typography
         variant="h5"
         style={{
-          fontSize: "1.5rem",
+          fontSize: "1rem",
           fontFamily: "Poppins",
           fontWeight: "500",
           textAlign: "left",
@@ -244,14 +254,14 @@ export const TimeCard = (props) => {
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-            "h:mm:ss A"
-          )
+          "h:mm:ss A"
+        )
         }
       </Typography>
       <Typography
         variant="h5"
         style={{
-          fontSize: "1.5rem",
+          fontSize: "1rem",
           fontFamily: "Poppins",
           fontWeight: "500",
           textAlign: "left",
@@ -260,8 +270,26 @@ export const TimeCard = (props) => {
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-            "dddd M/D/YYYY"
-          )
+          "dddd M/D/YYYY"
+        )
+        }
+      </Typography>
+      <br />
+      <Divider />
+      <br />
+      <Typography
+        variant="h5"
+        style={{
+          fontSize: "1rem",
+          fontFamily: "Poppins",
+          fontWeight: "500",
+          textAlign: "left",
+          marginLeft: "10%",
+          color: "#69B4AC"
+        }}
+      >
+        {
+          t("desktopHome.viewFullSchedule")
         }
       </Typography>
     </Card>
@@ -296,33 +324,24 @@ export const DesktopHome = (props) => {
       });
     }
     return (
-      <div
-        style={{
-          // maxWidth: "768px",
-          display: "flex",
-          flexWrap: "wrap",
-          flexDirection: "row",
-        }}
-      >
-        {React.Children.toArray(
-          searchArr.map((result) => {
-            return (
-              <ModuleCard
-                icon={result.item.icon}
-                name={result.item.name}
-                desc={result.item.desc}
-                path={result.item.path}
-                theme={theme}
-                color={
-                  theme
-                    ? result.item.defaultColorDarkMode
-                    : result.item.defaultColorLightMode
-                }
-              />
-            );
-          })
-        )}
-      </div>
+      React.Children.toArray(
+        searchArr.map((result) => {
+          return (
+            <ModuleCard
+              icon={result.item.icon}
+              name={result.item.name}
+              desc={result.item.desc}
+              path={result.item.path}
+              theme={theme}
+              color={
+                theme
+                  ? result.item.defaultColorDarkMode
+                  : result.item.defaultColorLightMode
+              }
+            />
+          );
+        })
+      )
     );
     // ModuleCard
   };
@@ -357,9 +376,9 @@ export const DesktopHome = (props) => {
         >
           {t("desktopHome.recommended")}
         </Typography>
-        <Card style={{}} className={`${classes.card} ${classes.searchResults}`}>
+        <div style={{}} className={`${classes.searchResults}`}>
           {React.Children.toArray(renderSearchPages())}
-        </Card>
+        </div>
       </div>
       {/* <Card className={`${classes.miniCard}`}>
         hi!
