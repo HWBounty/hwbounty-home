@@ -8,7 +8,7 @@ import * as serviceWorker from "./serviceWorker";
 import GoogleOauth from "./util/googleOauth";
 GoogleOauth.bindToGlobal();
 
-if (window.location.protocol === 'http:' && window.location.hostname !== "localhost" && window.location.hostname !== "192.168.0.85") {
+if (window.location.protocol === 'http:' && window.location.hostname !== "localhost" && !window.location.hostname.match(/192\.168\./)) {
 
   console.log("you are accessing us via "
     + "an insecure protocol (HTTP). "

@@ -36,6 +36,7 @@ import { GainCoins } from "./components/Modules/GainCoins";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Login from "./components/User/Authentication/Login";
 import ModulesPicker from "./pages/modulesPicker";
+import newSchedule from "./pages/newSchedule";
 
 // Pages
 const Modules = lazy(() => import("./pages/modules"));
@@ -171,6 +172,7 @@ const App = (props) => {
                     <Route exact path="/signup" component={newSignup} />
                     <Route path="/signup/*" component={VanityInvite} />
                     <Route path="/schedules" component={ScheduleCatalog} />
+                    <Route exact path="/beta" component={newSchedule} />
                     <Route exact path="/schedule" component={ScheduleInfo} />
                     <Route path="/schedule/view" component={viewSchedule} />
                     <Route path="/schedule/set" component={setSchedule} />
