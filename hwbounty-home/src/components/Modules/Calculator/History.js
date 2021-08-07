@@ -15,6 +15,9 @@ import { calc_setInput } from "../../../redux/actions/moduleActions";
 // Math
 import { StaticMathField } from "react-mathquill";
 
+// Translation
+import t from "../../../util/localization/localization";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
@@ -39,7 +42,9 @@ export const History = (props) => {
         <StaticMathField style={{ flex: 1, cursor: "pointer" }}>
           {latex}
         </StaticMathField>
-        <Typography>= {ans}</Typography>
+        <Typography>
+          {t("calculator.equals") + " "} {ans}
+        </Typography>
       </ListItem>
     );
   };
@@ -59,8 +64,8 @@ export const History = (props) => {
         </List>
       ) : (
         <h1>
-          Type an equation to show history...
-          <br /> [insert cool image/space filler here]
+          {t("calculator.history.explanation")}
+          <br /> {t("calculator.history.placeholder")}
         </h1>
       )}
     </div>

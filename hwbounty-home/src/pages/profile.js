@@ -11,6 +11,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import axios from "axios";
 import { hwbountyAPI } from "../redux/types";
 
+// Translation
+
 const useStyles = makeStyles({
   root: {
     width: "80vw",
@@ -52,7 +54,7 @@ const Profile = (props) => {
           <Avatar src={userData.pfp} />
         </div>
       </Card>
-      <Card className={classes.childCard}>hihiiii</Card>
+      <Card className={classes.childCard}>{t("profile.hi")}</Card>
     </Card>
   );
 };

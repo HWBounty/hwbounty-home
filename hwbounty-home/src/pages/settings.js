@@ -16,6 +16,9 @@ import { connect } from "react-redux";
 import { setTheme, setAuthPopupOpen } from "../redux/actions/uiActions";
 import { useSnackbar } from "notistack";
 
+// Translation
+import t from "../util/localization/localization";
+
 const useStyles = makeStyles((theme) => ({
   ...theme.spreadIt,
   root: {
@@ -45,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
   },
   formGroup: {
-	  display: "inline",
+    display: "inline",
   },
 }));
 export const Settings = (props) => {
@@ -57,10 +60,8 @@ export const Settings = (props) => {
   const { enqueueSnackbar } = useSnackbar();
   const toggleDarkmode = (event, nv) => {
     const newVal = nv ? 1 : 0;
-    if (newVal === 0)
-    enqueueSnackbar("Ouchy, my eyes")
-    else
-    enqueueSnackbar("Ahhhh much better")
+    if (newVal === 0) enqueueSnackbar("Ouchy, my eyes");
+    else enqueueSnackbar("Ahhhh much better");
     localStorage.setItem("theme", newVal);
     setTheme(newVal);
   };
@@ -68,7 +69,7 @@ export const Settings = (props) => {
   return (
     <Paper className={classes.paper}>
       <Typography variant="h5" className={classes.title}>
-        Settings
+        {t("settings.title")}
       </Typography>
       <FormGroup row className={classes.formGroup}>
         <FormControlLabel

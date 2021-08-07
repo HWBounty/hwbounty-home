@@ -7,6 +7,9 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
+// Translation
+import t from "../../../util/localization/localization";
+
 const styles = (theme) => ({
   ...theme.spreadIt,
 });
@@ -25,7 +28,7 @@ export const EssayEditor = (props) => {
         style={{ height: "100%" }}
       >
         <Typography variant="h5">
-          Please enable fullscreen mode (f) to use
+          {t("essayEditor.enableFullscreen")}
         </Typography>
       </Box>
     </Paper>
