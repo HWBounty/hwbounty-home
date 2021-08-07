@@ -14,6 +14,9 @@ const rawTheme = createMuiTheme({
       dark: "#b64fc8",
       contrastText: "#fff",
     },
+    background: {
+      default: "#f4f7f9",
+    },
   },
   typography: {
     useNextVariants: true,

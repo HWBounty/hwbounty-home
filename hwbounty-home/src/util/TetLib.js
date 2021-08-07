@@ -1,5 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 
+const { default: axios } = require("axios");
+
 module.exports = {
 	sleep: (delay) => new Promise((resolve) => setTimeout(resolve, delay)),
 	text_truncate: (str, len) => {

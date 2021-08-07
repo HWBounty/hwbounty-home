@@ -16,6 +16,8 @@ const CalculatorModule = {
 	description: "A Calculator :D", // just a description
 	pinnable: true,
 }
+/** @type {ModuleData} */
+const 
 ModuleDictionary.set("calculatorModule", CalculatorModule);
 
 
