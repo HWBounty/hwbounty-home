@@ -20,6 +20,12 @@ import PeriodList from "./PeriodList";
 import TetLib from "../../util/TetLib";
 import useForceUpdate from "../../util/useForceUpdate";
 import { render } from "react-dom";
+import { SpeedDial, SpeedDialAction, SpeedDialIcon } from "@material-ui/lab";
+
+import EditIcon from '@material-ui/icons/Edit';
+
+import { CreateIcon } from '@material-ui/icons/Create';
+import { Today } from "@material-ui/icons";
 const decodeHTML = (string) => {
 	const map = { gt: ">" /* , … */ };
 	return string.replace(/&(#(?:x[0-9a-f]+|\d+)|[a-z]+);?/gi, ($0, $1) => {
@@ -64,11 +70,30 @@ const useStyles = makeStyles(theme => ({
 const SchedulePage = (props) => {
 	const {
 		UI: { theme },
+		user,
 		schedule
 	} = props;
 	const forceUpdate = useForceUpdate();
-	const [user, setUser] = useState(null);
-	const { sleep } = TetLib
+	const [scheduleData, setScheduleData] = useState(false);
+	const [speedDialOpen, setSpeedDialOpen] = useState(false);
+	const handleOpen = () => {
+		setSpeedDialOpen(true);
+	};
+
+	const handleClose = () => {
+		setSpeedDialOpen(false);
+	};
+	const { sleep } = TetLib;
+	console.log(user);
+	const speedDialActions = [
+		{ icon: <EditIcon />, name: 'Create a new event' },
+	];
+	if (user.user.privateID === schedule.schedule.createdBy) {
+		speedDialActions.push({
+			icon: <Today />,
+			name: "Add an Alternate Schedule Day"
+		});
+	}
 	useEffect(() => {
 		let run = true;
 		(async () => {
@@ -131,7 +156,25 @@ const SchedulePage = (props) => {
 		<Container style={{ display: "flex", /*backgroundColor: "black",*/ justifyContent: "center", width: "33vw" }} className={`${classes.fullHeight}`}>
 			<PeriodList scheduleData={schedule} zoomLinkInfo={[]} offset={4} />
 		</Container>
-
+		<SpeedDial
+			ariaLabel="SpeedDial openIcon example"
+			className={classes.speedDial}
+			hidden={false}
+			icon={<SpeedDialIcon />}
+			onClose={handleClose}
+			onOpen={handleOpen}
+			open={speedDialOpen}
+			style={{ position: "absolute", bottom: "16px", right: "16px" }}
+		>
+			{speedDialActions.map((action) => (
+				<SpeedDialAction
+					key={action.name}
+					icon={action.icon}
+					tooltipTitle={action.name}
+					onClick={handleClose}
+				/>
+			))}
+		</SpeedDial>
 	</div>)
 }
 

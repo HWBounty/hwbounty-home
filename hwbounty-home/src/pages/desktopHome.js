@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme => theme === 1 ?
       "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important" :
       "0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important",
-    background: (theme) => (theme ? "rgb(40,40,40)" : "rgb(250,250,250)"),
+    backgroundColor: (theme) => (theme === 1 ? "rgb(40,40,40)" : "rgb(244,250,251)"),
     borderRadius: "1vmin",
   },
   timeUntilText: {
@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
     // position: "fixed",
     // top: "15%",
     // left: "5%",
-    color: (theme) => (!theme ? "rgb(88,88,88)" : "rgb(230,230,230)"),
+    color: (theme) => (!theme ? "rgb(88,88,88)" : "rgb(244 250 251)"),
   },
   searchBar: {
     width: "60vw",
