@@ -44,7 +44,7 @@ const rawTheme = createMuiTheme({
   props: {
     MuiButtonBase: {
       // The properties to apply
-      disableRipple: true, // No more ripple, on the whole application 💣!
+      // disableRipple: true, // No more ripple, on the whole application 💣!
     },
   },
 });
