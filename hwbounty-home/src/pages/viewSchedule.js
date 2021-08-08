@@ -19,6 +19,7 @@ import { connect } from "react-redux";
 import moment from "moment";
 import ReactMarkdown from "react-markdown";
 import { withRouter } from "react-router-dom";
+import t from "../util/localization/localization";
 
 class Schedule extends Component {
   constructor(props) {
@@ -31,11 +32,14 @@ class Schedule extends Component {
   }
   async fetchScheduleData() {
     if (this.state.scheduleData) return;
-	const location = this.props.location;
-	let id = location.pathname.split("/").pop() || location?.state?.query ||  location.search.split("?id=").pop();
-    let res = await axios.get(
-      `https://api.hwbounty.help/schedules/view/${id}`
-    ).catch(console.trace);
+    const location = this.props.location;
+    let id =
+      location.pathname.split("/").pop() ||
+      location?.state?.query ||
+      location.search.split("?id=").pop();
+    let res = await axios
+      .get(`https://api.hwbounty.help/schedules/view/${id}`)
+      .catch(console.trace);
     if (res.data) {
       res.data.nameOverrides = JSON.parse(
         res.data.nameOverrides.replace(/\\"/g, '"')
@@ -166,7 +170,7 @@ class Schedule extends Component {
                     marginRight: "3%",
                   }}
                 >
-                  By:
+                  {t("viewSchedule.by")}
                 </Typography>
                 <Avatar
                   src={this.state.scheduleData.user.pfp}
@@ -191,7 +195,7 @@ class Schedule extends Component {
               </span>
             </Container>
             <Typography>
-              Last Updated:{" "}
+              {t("viewSchedule.lastUpdated")}{" "}
               {moment(parseInt(this.state.scheduleData.lastUpdated)).fromNow()}
             </Typography>
             <ReactMarkdown>{this.state.scheduleData.description}</ReactMarkdown>
@@ -203,9 +207,23 @@ class Schedule extends Component {
                 textAlign: "center",
               }}
             >
-              <Button onClick={
-				  ()=> this.props.history.push(`/schedule/set/${this.props.location.pathname.split("/").pop()}`)
-			  } disabled={!JSON.parse(localStorage.getItem("user") || "[]")?.schoologyKey}>{JSON.parse(localStorage.getItem("user") || "[]")?.schoologyKey ?"Use this Schedule": "Link School Account First"}</Button>
+              <Button
+                onClick={() =>
+                  this.props.history.push(
+                    `/schedule/set/${this.props.location.pathname
+                      .split("/")
+                      .pop()}`
+                  )
+                }
+                disabled={
+                  !JSON.parse(localStorage.getItem("user") || "[]")
+                    ?.schoologyKey
+                }
+              >
+                {JSON.parse(localStorage.getItem("user") || "[]")?.schoologyKey
+                  ? "Use this Schedule"
+                  : "Link School Account First"}
+              </Button>
             </Container>
           </Card>
         </Container>
@@ -247,7 +265,7 @@ const DisplayedScheduleDay = (props) => {
       })
     );
     if (!children.length)
-      return <Typography variant="h3">No School Today!</Typography>;
+      return <Typography variant="h3">{t("viewSchedule.noSchool")}</Typography>;
     return children;
   };
   return (

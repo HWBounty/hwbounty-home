@@ -17,6 +17,9 @@ import {
   calc_removeVariable,
 } from "../../../redux/actions/moduleActions";
 
+// Translation
+import t from "../../../util/localization/localization";
+
 const VariableField = (props) => {
   const { startName, startVal, scope, updateList, dragHandleProps } = props;
 
@@ -127,7 +130,7 @@ const VariableField = (props) => {
           variant="body1"
           style={{ flex: 1, textAlign: "left", paddingRight: 10 }}
         >
-          =
+          {t("calculator.equals")}
         </Typography>
         <form onSubmit={handleSubmitValue}>
           <TextField

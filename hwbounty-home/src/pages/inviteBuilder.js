@@ -252,7 +252,7 @@ export const ScheduleBuilder = (props) => {
           <ChevronLeftRounded /> {t("inviteBuilder.backToSearch")}
         </Button>
         <Typography className={`${classes.minititle}`}>
-          Make your own schedule
+          {t("inviteBuilder.makeSchedule")}
         </Typography>
         <List component="nav" aria-label="main mailbox folders">
           <ListItem
@@ -261,7 +261,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 0)}
             className={`${classes.listItemText}`}
           >
-            Monday
+            {t("days.monday")}
           </ListItem>
           <ListItem
             button
@@ -269,7 +269,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 1)}
             className={`${classes.listItemText}`}
           >
-            Tuesday
+            {t("days.tuesday")}
           </ListItem>
           <ListItem
             button
@@ -277,7 +277,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 2)}
             className={`${classes.listItemText}`}
           >
-            Wednesday
+            {t("days.wednesday")}
           </ListItem>
           <ListItem
             button
@@ -285,7 +285,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 3)}
             className={`${classes.listItemText}`}
           >
-            Thursday
+            {t("days.thursday")}
           </ListItem>
           <ListItem
             button
@@ -293,7 +293,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 4)}
             className={`${classes.listItemText}`}
           >
-            Friday
+            {t("days.friday")}
           </ListItem>
           <ListItem
             button
@@ -301,7 +301,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 5)}
             className={`${classes.listItemText}`}
           >
-            Saturday
+            {t("days.saturday")}
           </ListItem>
           <ListItem
             button
@@ -309,7 +309,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 6)}
             className={`${classes.listItemText}`}
           >
-            Sunday
+            {t("days.sunday")}
             {/* <ListItemText primary="Sunday" className={`${classes.listItemText}`}/> */}
           </ListItem>
         </List>
@@ -331,12 +331,12 @@ export const ScheduleBuilder = (props) => {
         <Zoom in={createBlock}>
           <Card className={`${classes.blockBuilderCard}`}>
             <Typography className={`${classes.mediumTitle}`}>
-              Create a schedule block
+              {t("inviteBuilder.createSchedule")}
             </Typography>
 
             <div>
               <Typography className={`${classes.periodTitle}`}>
-                Class Start Time
+                {t("inviteBuilder.classStart")}
               </Typography>
               <TextField
                 id="filled-basic"

@@ -1,16 +1,17 @@
 // React
 import React from "react";
 
-// MUI
+// Translation
+import t from "../../util/localization/localization";
 
 export const KeybindEditor = (props) => {
   return (
     <div>
-      <h1>Keybinds:</h1>
+      <h1>{t("keybindEditor.keybindsTitle")}</h1>
       <ul>
-        <li>(c) - calculator</li>
-        <li>(f) - fullscreen module</li>
-        <li>3: nothing</li>
+        <li>{t("keybindEditor.keybinds.calculator")}</li>
+        <li>{t("keybindEditor.keybinds.fullscreen")}</li>
+        <li>{t("keybindEditor.keybinds.nothing")}</li>
       </ul>
     </div>
   );

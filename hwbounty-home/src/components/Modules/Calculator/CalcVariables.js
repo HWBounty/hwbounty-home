@@ -27,6 +27,9 @@ import {
 // Calculator
 import VariableField from "./VariableField";
 
+// Translation
+import t from "../../../util/localization/localization";
+
 const styles = (theme) => ({
   ...theme.spreadIt,
   paper: {
@@ -132,10 +135,7 @@ export const CalcVariables = (props) => {
                   </Draggable>
                 ))
               ) : (
-                <h1>
-                  Type variables in text box (e.g. x=5) or press the button
-                  below
-                </h1>
+                <h1>{t("calculator.calcVariables.explanation")}</h1>
               )}
               {provided.placeholder}
             </div>

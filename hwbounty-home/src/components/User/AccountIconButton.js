@@ -14,6 +14,9 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { Route } from "react-router";
 
+// Localization
+import t from "../../util/localization/localization";
+
 export const AccountIconButton = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const {
@@ -34,11 +37,13 @@ export const AccountIconButton = (props) => {
       // return ;
     } else {
       //literal mega hack
-      location.href = location.href.split("/").slice(0, -1).concat("login").join("/");
+      location.href = location.href
+        .split("/")
+        .slice(0, -1)
+        .concat("login")
+        .join("/");
     }
-
-
-  }
+  };
   const openSchoologyOAuth = () => {
     axios({
       method: "post",
@@ -65,11 +70,15 @@ export const AccountIconButton = (props) => {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <img src={JSON.parse(localStorage.getItem("user"))?.pfp} style={{
-          maxHeight: 40,
-          maxWidth: 40,
-          borderRadius: 20
-        }} alt=""/>
+        <img
+          src={JSON.parse(localStorage.getItem("user"))?.pfp}
+          style={{
+            maxHeight: 40,
+            maxWidth: 40,
+            borderRadius: 20,
+          }}
+          alt=""
+        />
       </IconButton>
       <Menu
         anchorEl={anchorEl}
@@ -80,10 +89,15 @@ export const AccountIconButton = (props) => {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         transformOrigin={{ vertical: "top", horizontal: "center" }}
       >
-
-        <MenuItem onClick={openSchoologyOAuth}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleAuthLogs}>{localStorage.getItem("DBIdToken") ? "Logout" : "Login"}</MenuItem>
+        <MenuItem onClick={openSchoologyOAuth}>
+          {t("accountIconButton.profile")}
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          {t("accountIconButton.myProfile")}
+        </MenuItem>
+        <MenuItem onClick={handleAuthLogs}>
+          {localStorage.getItem("DBIdToken") ? "Logout" : "Login"}
+        </MenuItem>
       </Menu>
     </div>
   );

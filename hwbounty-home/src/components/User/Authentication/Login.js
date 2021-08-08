@@ -11,6 +11,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
+// Translation
+import t from "../../../util/localization/localization";
+
 const useStyles = makeStyles({
   inputField: {
     display: "block",
@@ -39,7 +42,7 @@ const Login = (props) => {
   };
   return (
     <Fragment>
-      <DialogTitle>Login</DialogTitle>
+      <DialogTitle>{t("login.login")}</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
@@ -58,7 +61,7 @@ const Login = (props) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleSubmit}>Submit</Button>
+        <Button onClick={handleSubmit}>{t("login.signIn")}</Button>
       </DialogActions>
     </Fragment>
   );

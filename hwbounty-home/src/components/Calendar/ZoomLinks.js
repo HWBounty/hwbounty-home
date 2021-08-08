@@ -10,6 +10,9 @@ import axios from "axios";
 import { Card } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
+// Translation
+import t from "../../util/localization/localization";
+
 const useButtonStyles = makeStyles({
   card: {
     background: "linear-gradient(45deg, #a7acd9 30%, #9e8fb2 90%)",
@@ -67,24 +70,30 @@ class ZoomLinksPage extends Component {
     };
   }
   async fetchZoomLinks() {
-    let res = await axios.get("https://api.hwbounty.help/sgy/getZoomLinks").catch(console.trace);
+    let res = await axios
+      .get("https://api.hwbounty.help/sgy/getZoomLinks")
+      .catch(console.trace);
     if (res.status == 200) {
       localStorage.setItem("zoomLinks", JSON.stringify(res.data));
       this.setState({ zoomLinks: res.data });
     } else this.setState({ zoomLinks: res.status });
   }
-  componentDidMount(){
+  componentDidMount() {
     this.fetchZoomLinks();
   }
   render() {
     if (!this.state.zoomLinks && !localStorage.getItem("zoomLinks")) {
-      return <Typography variant="h4">Fetching Zoom Links</Typography>;
+      return <Typography variant="h4">{t("zoomLinks.fetching")}</Typography>;
     }
     if (!this.state.zoomLinks && localStorage.getItem("zoomLinks")) {
       this.state = { zoomLinks: JSON.parse(localStorage.getItem("zoomLinks")) };
     }
     if (Math.floor(this.state.zoomLinks / 100) === 4) {
-      return <Typography variant="h4">Schoology Not Linked!</Typography>;
+      return (
+        <Typography variant="h4">
+          {t("zoomLinks.schoologyNotLinked")}
+        </Typography>
+      );
     }
     return (
       <div>
