@@ -95,7 +95,15 @@ const App = (props) => {
         ...themeFile.palette.secondary,
       },
       type: theme === 0 ? "light" : "dark",
+      text: {
+        primary: (theme === 0 ? "rgba(0,0,0,0.87)" : "#fff"),
+      }
     },
+    props: {
+      MuiTypography: {
+        color: "textPrimary"
+      }
+    }
   });
   if (localStorage.getItem("vanityInvite")) {
     let vaninv = localStorage.getItem("vanityInvite");
