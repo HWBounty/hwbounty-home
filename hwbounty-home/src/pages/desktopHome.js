@@ -6,6 +6,7 @@ import {
   Divider,
   makeStyles,
   Typography,
+  InputBase,
 } from "@material-ui/core";
 
 import Fuse from "fuse.js";
@@ -259,8 +260,8 @@ export const TimeCard = (props) => {
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-            "h:mm:ss A"
-          )
+          "h:mm:ss A"
+        )
         }
       </Typography>
       <Typography
@@ -275,8 +276,8 @@ export const TimeCard = (props) => {
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-            "dddd M/D/YYYY"
-          )
+          "dddd M/D/YYYY"
+        )
         }
       </Typography>
       <br />

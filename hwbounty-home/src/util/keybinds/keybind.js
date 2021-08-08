@@ -47,12 +47,12 @@ export const KeybindManager = (props) => {
   //     ]);
   //   };
   // }, []);
-  useEffect(() => {
-    effect
-    return () => {
-      cleanup
-    }
-  }, [input])
+  // useEffect(() => {
+  //   effect
+  //   return () => {
+  //     cleanup
+  //   }
+  // }, [input])
   return null;
 };
 

@@ -57,7 +57,7 @@ const drawerWidth = 240;
 {
   path: "/",
   dataRun: (data) => {
-	data.SetOpenSignout(true);
+  data.SetOpenSignout(true);
   },
   hideIfNotSignedIn: false,
 }
@@ -81,11 +81,10 @@ let locations = {
     icon: <BuildIcon />,
   },
   Profile: {
-    path: `/user/${
-      localStorage.getItem("user") !== "undefined"
-        ? JSON.parse(localStorage.getItem("user"))?.publicID
-        : ""
-    }`,
+    path: `/user/${localStorage.getItem("user") !== "undefined"
+      ? JSON.parse(localStorage.getItem("user"))?.publicID
+      : ""
+      }`,
     hideIfNotSignedIn: true,
     icon: <AccountCircle />,
   },
@@ -100,9 +99,8 @@ setInterval(() => {
   locations = {
     ...locations,
     Profile: {
-      path: `/user/${
-        JSON.parse(localStorage.getItem("user") || "{}")?.publicID
-      }`,
+      path: `/user/${JSON.parse(localStorage.getItem("user") || "{}")?.publicID
+        }`,
       hideIfNotSignedIn: true,
       icon: <AccountCircle />,
     },
@@ -139,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: "rgb(244,250,251)",
+    backgroundColor: theme => theme === 0 && "rgb(244,250,251)",
   },
   drawerHeader: {
     display: "flex",
@@ -169,11 +167,11 @@ const useStyles = makeStyles((theme) => ({
     bottom: "auto",
     right: "auto",
     left: "1%",
-    zIndex: 10000,
+    zIndex: 1299,
     [theme.breakpoints.down(960)]: {
       bottom: "1%",
       right: "1%",
-      zIndex: 10000,
+      zIndex: 1299,
       top: "auto",
       left: "auto",
     },
@@ -181,11 +179,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Sidebar = (props) => {
-  const classes = useStyles();
+
   const {
     UI: { theme },
     user: { authenticated },
   } = props;
+  const classes = useStyles(theme);
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
   const forceUpdate = useForceUpdate();
@@ -250,7 +249,7 @@ export const Sidebar = (props) => {
     );
     setSidebarButtons(
       JSON.parse(localStorage?.user || "null")?.sidebar?.split(",") ||
-        sidebarButtons
+      sidebarButtons
     );
 
     // while (true) {
@@ -292,9 +291,8 @@ export const Sidebar = (props) => {
         style={{
           display: open && "none",
         }}
-        className={`${clsx(classes.menuButton, open && classes.hide)} ${
-          classes.clickThing
-        }`}
+        className={`${clsx(classes.menuButton, open && classes.hide)} ${classes.clickThing
+          }`}
       >
         <MenuIcon />
       </IconButton>

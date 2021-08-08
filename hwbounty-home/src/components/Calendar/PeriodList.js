@@ -5,7 +5,7 @@ import { makeStyles, Card, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 
 import moment from "moment";
-
+import "moment-timezone";
 const useStyles = makeStyles((theme) => ({
   cardTitle: {
     fontFamily: "Raleway",
@@ -77,12 +77,12 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
         zoom:
           courseInfo && courseInfo.links
             ? courseInfo.links
-                .map((linkGroup) => {
-                  return linkGroup.links.map((link) => {
-                    return { link: link, title: decodeHTML(linkGroup.title) };
-                  });
-                })
-                .flat(10000)
+              .map((linkGroup) => {
+                return linkGroup.links.map((link) => {
+                  return { link: link, title: decodeHTML(linkGroup.title) };
+                });
+              })
+              .flat(10000)
             : [],
         timeStart:
           moment(x.timeStart, "hh:mma")
