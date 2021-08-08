@@ -2,7 +2,7 @@
 import React from "react";
 
 // Styling
-import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
+import { Button, makeStyles, Typography } from "@material-ui/core";
 import { useHistory } from "react-router";
 
 // Translation Strings

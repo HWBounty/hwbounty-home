@@ -1,9 +1,6 @@
-// React
-import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // MUI
-import Card from "@material-ui/core/Card";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import Paper from "@material-ui/core/Paper";
@@ -13,7 +10,9 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 
 // Redux
 import { connect } from "react-redux";
-import { setTheme, setAuthPopupOpen } from "../redux/actions/uiActions";
+
+import { setTheme } from "../redux/actions/uiActions";
+
 import { useSnackbar } from "notistack";
 
 // Translation

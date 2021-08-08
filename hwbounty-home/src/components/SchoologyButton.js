@@ -1,16 +1,18 @@
-// React
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-// MUI
 import Button from "@material-ui/core/Button";
 
-// Redux
 import { connect } from "react-redux";
+
 import axios from "axios";
-import { hwbountyAPI } from "../redux/types";
+
 import { useSnackbar, withSnackbar } from "notistack";
+
 import { useHistory } from "react-router";
+
+import { hwbountyAPI } from "../redux/types";
 import { setAuthorizationHeader } from "../redux/actions/userActions";
+
 export const SchoologyButton = (props) => {
   const onClick = async () => {
     let thing = await axios.post(`${hwbountyAPI}/schoologyAuth`, {

@@ -2,7 +2,6 @@
 import React from "react";
 
 // MUI
-import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -12,7 +11,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // Components
 import Schedule from "./Schedule";
 import Assignments from "./Assignments";
-import ZoomLinks from "./ZoomLinks";
 
 const styles = (theme) => ({
   ...theme.spreadIt,

@@ -2,9 +2,7 @@
 import React, { Component } from "react";
 
 // MUI
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import Collapse from "@material-ui/core/Collapse";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import axios from "axios";
 import { Card } from "@material-ui/core";

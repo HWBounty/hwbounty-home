@@ -1,28 +1,23 @@
 // React
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+
 import PropTypes from "prop-types";
 
 // Redux
 import { connect } from "react-redux";
+
 import { setTheme, setAuthPopupOpen } from "../../redux/actions/uiActions";
 import { _maxThemeVal } from "../../redux/types";
 
 // MUI Components & Styling
-import AppBar from "@material-ui/core/AppBar";
-import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
 import themeFile from "../../util/theme";
 
-// MUI Icons
-import DarkThemeIcon from "@material-ui/icons/Brightness4Rounded";
-import LightThemeIcon from "@material-ui/icons/Brightness7Rounded";
-
 import AccountIconButton from "../User/AccountIconButton";
+
 import axios from "axios";
-import PageSearch from "./PageSearch";
 
 // Translation
 import t from "../../util/localization/localization";

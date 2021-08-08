@@ -8,7 +8,6 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DragIcon from "@material-ui/icons/DragIndicator";
-import withStyles from "@material-ui/core/styles/withStyles";
 
 // Redux
 import { connect } from "react-redux";

@@ -1,3 +1,5 @@
+import React, { Component, useState } from "react";
+
 import {
   Card,
   Container,
@@ -6,14 +8,19 @@ import {
   MuiThemeProvider,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
+
 import { connect } from "react-redux";
+
 import { useRoundInputBaseStyles } from "@mui-treasury/styles/inputBase/round";
+
 import theme from "../util/theme";
-import { Component } from "react";
+
 import axios from "axios";
+
 import { Link, useHistory } from "react-router-dom";
+
 import ReactMarkdown from "react-markdown";
+
 import t from "../util/localization/localization";
 
 let semiGlobalState = null;

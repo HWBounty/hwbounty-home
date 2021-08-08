@@ -1,50 +1,49 @@
 /* I need this to make hovers */
-@media (max-width: 1000px) {            
-	#musicContainer{
-		display: none;
-	}
-
- }
+@media (max-width: 1000px) {
+  #musicContainer {
+    display: none;
+  }
+}
 #musicContainer {
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	width: 20%;
-	min-width: 350;
-	height: 0;
-	margin-right: 5%;
-	padding: 0;
-	transition: all 0.6s;
-	margin-bottom: -450px;
-	margin-right: 0;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 20%;
+  min-width: 350;
+  height: 0;
+  margin-right: 5%;
+  padding: 0;
+  transition: all 0.6s;
+  margin-bottom: -450px;
+  margin-right: 0;
 }
-#musicContainer:hover{
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	width: 20%;
-	margin: 0.1%;
-	/* margin-bottom: 27%; */
-	padding: 0;
-	transition: all 0.3s;
-	margin-bottom: 0%;
+#musicContainer:hover {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 20%;
+  margin: 0.1%;
+  /* margin-bottom: 27%; */
+  padding: 0;
+  transition: all 0.3s;
+  margin-bottom: 0%;
 }
-#musicContainer:focus-within{
-	position: block;
-	bottom: 0;
-	right: 0;
-	width: 350;
-	min-width: 350;
-	height: 650;
-	margin: 0.5%;
-	margin-bottom: 1%;
-	padding: 0;
-	
-	/* margin-bottom: 10%; */
+#musicContainer:focus-within {
+  position: block;
+  bottom: 0;
+  right: 0;
+  width: 350;
+  min-width: 350;
+  height: 650;
+  margin: 0.5%;
+  margin-bottom: 1%;
+  padding: 0;
+
+  /* margin-bottom: 10%; */
 }
-body{
-	overflow-x: hidden;
+body {
+  overflow-x: hidden;
 }
 .MuiList-root::-webkit-scrollbar {
-	width: 5px;
+  width: 5px;
 }

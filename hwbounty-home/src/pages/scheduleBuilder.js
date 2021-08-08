@@ -1,30 +1,24 @@
+import { useState } from "react";
+
 import {
   Button,
   Card,
   IconButton,
-  InputBase,
   List,
   ListItem,
-  ListItemText,
   makeStyles,
   Modal,
-  Select,
   TextField,
   Typography,
   Zoom,
 } from "@material-ui/core";
-import {
-  AddRounded,
-  ChevronLeft,
-  ChevronLeftRounded,
-  CloseRounded,
-  Remove,
-} from "@material-ui/icons";
+import { AddRounded, ChevronLeftRounded, Remove } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
+
 import moment from "moment";
-import { useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+
 import { connect } from "react-redux";
+
 import useForceUpdate from "../util/useForceUpdate";
 import t from "../util/localization/localization";
 

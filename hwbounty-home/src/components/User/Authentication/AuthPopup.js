@@ -1,19 +1,18 @@
 // React
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 // MUI
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 
 // Redux
 import { connect } from "react-redux";
+
 import { setAuthPopupOpen } from "../../../redux/actions/uiActions";
 import { loginUser, signupUser } from "../../../redux/actions/userActions";
 
 // Components
 import Login from "./Login";
-import Signup from "./Signup";
 
 export const AuthPopup = (props) => {
   const {

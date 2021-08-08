@@ -1,3 +1,5 @@
+import React, { Suspense, useEffect, useState } from "react";
+
 import {
   Button,
   Card,
@@ -10,15 +12,19 @@ import {
   Typography,
   Zoom,
 } from "@material-ui/core";
+
 import axios from "axios";
+
 import moment from "moment";
+
 import { useSnackbar } from "notistack";
-import React from "react";
-import { Suspense } from "react";
-import { useEffect, useState } from "react";
+
 import { connect } from "react-redux";
+
 import { useHistory } from "react-router";
+
 import { useAsyncResource } from "use-async-resource";
+
 import { hwbountyAPI } from "../redux/types";
 import badges from "../util/badges";
 import LoadingPage from "./loadingPage";

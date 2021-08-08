@@ -1,5 +1,6 @@
 // React
 import { useState, useEffect } from "react";
+
 import { useParams } from "react-router";
 
 // Material UI
@@ -12,6 +13,7 @@ import axios from "axios";
 import { hwbountyAPI } from "../redux/types";
 
 // Translation
+import t from "../util/localization/localization";
 
 const useStyles = makeStyles({
   root: {

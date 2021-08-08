@@ -1,3 +1,5 @@
+import React, { useEffect, useRef, useState } from "react";
+
 import {
   Card,
   CardMedia,
@@ -9,17 +11,21 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useRef, useState } from "react";
+import { Today } from "@material-ui/icons";
+
 import Fuse from "fuse.js";
+
+import { useHistory } from "react-router";
+
+import { connect } from "react-redux";
+
+import moment from "moment";
+
 import Pages from "../util/pageDictionary";
 import { ModuleCard } from "../components/ModuleCard";
 import useForceUpdate from "../util/useForceUpdate";
 import CTimeSmall from "../components/Home/CTimeSmall";
-import { useHistory } from "react-router";
 import getTimePhrase from "../util/getTimePhrase";
-import { connect } from "react-redux";
-import { Today } from "@material-ui/icons";
-import moment from "moment";
 import t from "../util/localization/localization";
 
 const useStyles = makeStyles((theme) => ({

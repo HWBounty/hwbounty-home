@@ -1,5 +1,7 @@
 import React from "react";
+
 import { connect } from "react-redux";
+
 import t from "../util/localization/localization";
 class ErrorBoundary extends React.Component {
   constructor(props) {

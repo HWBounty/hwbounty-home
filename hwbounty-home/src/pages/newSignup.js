@@ -1,28 +1,26 @@
+import { useEffect, useState } from "react";
+
 import {
   Button,
   Card,
-  CircularProgress,
   Container,
   List,
   ListItem,
   ListItemText,
   ListItemIcon,
   makeStyles,
-  Snackbar,
   TextField,
   Typography,
   Zoom,
-  SvgIcon,
   LinearProgress,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
+
 import axios from "axios";
-import { cosDependencies } from "mathjs";
-import { useEffect, useState } from "react";
-import { Component } from "react";
+
 import { connect } from "react-redux";
-import { withRouter } from "react-router";
+
 import { useHistory } from "react-router-dom";
+
 import { hwbountyAPI } from "../redux/types";
 import t from "../util/localization/localization";
 

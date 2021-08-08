@@ -1,7 +1,11 @@
-import { Button } from "@material-ui/core";
 import React from "react";
+
+import { Button } from "@material-ui/core";
+
 import { connect } from "react-redux";
+
 import { useHistory } from "react-router";
+
 import t from "../util/localization/localization";
 
 export const LandingPage = (props) => {

@@ -1,6 +1,6 @@
-import { Typography } from "@material-ui/core";
 import moment from "moment";
-import { useState } from "react";
+
+import { Typography } from "@material-ui/core";
 
 export const CTime = (props) => {
   return (
@@ -19,9 +19,9 @@ export const CTime = (props) => {
         }}
       >
         {
-            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "h:mm:ss A"
-        )
+          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+            "h:mm:ss A"
+          )
         }
       </Typography>
       <Typography
@@ -33,9 +33,9 @@ export const CTime = (props) => {
         }}
       >
         {
-            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "dddd M/D/YYYY"
-        )
+          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+            "dddd M/D/YYYY"
+          )
         }
       </Typography>
     </div>
@@ -43,8 +43,7 @@ export const CTime = (props) => {
 };
 export const CTime2 = (props) => {
   return (
-    <div
-    >
+    <div>
       <Typography
         variant="h5"
         style={{
@@ -53,9 +52,9 @@ export const CTime2 = (props) => {
         }}
       >
         {
-            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "h:mm:ss A"
-        )
+          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+            "h:mm:ss A"
+          )
         }
       </Typography>
       <Typography
@@ -67,9 +66,9 @@ export const CTime2 = (props) => {
         }}
       >
         {
-            /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "dddd M/D/YYYY"
-        )
+          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+            "dddd M/D/YYYY"
+          )
         }
       </Typography>
     </div>

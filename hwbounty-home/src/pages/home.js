@@ -1,18 +1,16 @@
 // React
-import React, { Component, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // MUI Stuff
-import {
-  makeStyles,
-  MuiThemeProvider,
-  withStyles,
-} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 // Components / Modules
 import Fuse from "fuse.js";
+
 // Redux
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+
 import Pages from "../util/pageDictionary";
 import { ModuleCard } from "../components/ModuleCard";
 import MobileHome from "./mobileHome";
@@ -49,8 +47,7 @@ const useStyles = makeStyles((theme) => ({
     display: "inline",
   },
   card: {
-    boxShadow:
-      "8px 11px 16px -4px rgba(0,0,0,0.75)!important",
+    boxShadow: "8px 11px 16px -4px rgba(0,0,0,0.75)!important",
   },
   timeUntilText: {
     fontSize: window.innerHeight / 25,

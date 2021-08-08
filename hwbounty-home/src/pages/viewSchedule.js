@@ -1,24 +1,27 @@
+import React, { Component } from "react";
+
 import {
   Avatar,
   Button,
   Card,
   Container,
-  Grid,
-  InputBase,
   List,
-  MuiThemeProvider,
   Paper,
   Tab,
   Tabs,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
-import { Component } from "react";
+
 import axios from "axios";
+
 import { connect } from "react-redux";
+
 import moment from "moment";
+
 import ReactMarkdown from "react-markdown";
+
 import { withRouter } from "react-router-dom";
+
 import t from "../util/localization/localization";
 
 class Schedule extends Component {

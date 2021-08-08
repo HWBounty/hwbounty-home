@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import {
   Button,
   ButtonBase,
@@ -15,11 +17,13 @@ import {
   Typography,
   Zoom,
 } from "@material-ui/core";
+
 import axios from "axios";
-import React from "react";
-import { useState } from "react";
+
 import { connect } from "react-redux";
+
 import { useHistory } from "react-router";
+
 import t from "../util/localization/localization";
 
 const useStyles = makeStyles({

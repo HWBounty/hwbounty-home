@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import {
   Button,
   Card,
@@ -8,12 +10,15 @@ import {
   Typography,
   Zoom,
 } from "@material-ui/core";
+
 import axios from "axios";
+
 import { useSnackbar, withSnackbar } from "notistack";
-import { useEffect, useState } from "react";
+
 import { connect } from "react-redux";
+
 import { useHistory } from "react-router";
-import scrollLock from "scroll-lock";
+
 import SchoologySignUp from "../components/SchoologySignUp";
 import { setAuthorizationHeader } from "../redux/actions/userActions";
 import { hwbountyAPI } from "../redux/types";

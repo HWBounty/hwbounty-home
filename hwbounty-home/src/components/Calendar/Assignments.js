@@ -2,12 +2,9 @@
 import React, { Component } from "react";
 
 // MUI & Styling
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Components
-import SchoologyAssignment from "./SchoologyAssignment";
 import AssignmentsGroup from "./AssignmentsGroup";
 
 // Redux

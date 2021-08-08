@@ -2,14 +2,14 @@
 import React, { useState } from "react";
 
 // MUI
+import { Container } from "@material-ui/core";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 
+import theme from "../../util/theme";
+
 // MUI Treasury
 import { useRoundInputBaseStyles } from "@mui-treasury/styles/inputBase/round";
-
-import theme from "../../util/theme";
-import { Container } from "@material-ui/core";
 
 /*
 TODO: remove mui theme provider here, it should work without it!!!

@@ -2,7 +2,6 @@
 import { useParams } from "react-router";
 
 // MUI Stuff
-import { Paper } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Modules

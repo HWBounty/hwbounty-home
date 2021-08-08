@@ -1,15 +1,16 @@
+import React, { useState } from "react";
+
 import {
   Button,
-  Card,
   Container,
   InputBase,
   List,
   ListItem,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+
 import Player from "./Player";
+
 let parseSecsToEnglish = (secs) => {
   let mins = Math.floor(secs / 60);
   let sec = Math.round(secs - mins * 60);

@@ -1,5 +1,7 @@
+import React, { useState } from "react";
+import { connect } from "react-redux";
+
 import {
-  Button,
   Card,
   Collapse,
   Container,
@@ -11,9 +13,7 @@ import {
   Typography,
   withStyles,
 } from "@material-ui/core";
-import React from "react";
-import { useState } from "react";
-import { connect } from "react-redux";
+
 import t from "../../util/localization/localization";
 
 const GasLaws = (props) => {

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 
 // MUI
 import { MuiThemeProvider, withStyles } from "@material-ui/core/styles";
-import InputBase from "@material-ui/core/InputBase";
 
 // MUI Treasury
 import {

@@ -1,12 +1,9 @@
 // React
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 
 // MUI
-import InputBase from "@material-ui/core/InputBase";
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Redux

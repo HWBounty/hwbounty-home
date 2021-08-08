@@ -1,5 +1,5 @@
 // React
-import React, { useState } from "react";
+import React from "react";
 
 // MUI
 import List from "@material-ui/core/List";
@@ -10,6 +10,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 
 // Redux
 import { connect } from "react-redux";
+
 import { calc_setInput } from "../../../redux/actions/moduleActions";
 
 // Math

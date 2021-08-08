@@ -1,23 +1,25 @@
+import React, { useEffect, useRef } from "react";
+
 import {
   Card,
   CardMedia,
   Divider,
-  InputBase,
   makeStyles,
-  TextField,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useRef, useState } from "react";
+
 import Fuse from "fuse.js";
+
+import { useHistory } from "react-router";
+
+import { connect } from "react-redux";
+
+import moment from "moment";
+
+import getTimePhrase from "../util/getTimePhrase";
 import Pages from "../util/pageDictionary";
 import { ModuleCard } from "../components/ModuleCard";
 import useForceUpdate from "../util/useForceUpdate";
-import { useHistory } from "react-router";
-import getTimePhrase from "../util/getTimePhrase";
-import { connect } from "react-redux";
-import CTime2 from "../components/Home/CTime";
-import { Today } from "@material-ui/icons";
-import moment from "moment";
 import t from "../util/localization/localization";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,10 +53,12 @@ const useStyles = makeStyles((theme) => ({
     display: "inline",
   },
   card: {
-    boxShadow: theme => theme === 1 ?
-      "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important" :
-      "0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important",
-    backgroundColor: (theme) => (theme === 1 ? "rgb(40,40,40)" : "rgb(244,250,251)"),
+    boxShadow: (theme) =>
+      theme === 1
+        ? "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important"
+        : "0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important",
+    backgroundColor: (theme) =>
+      theme === 1 ? "rgb(40,40,40)" : "rgb(244,250,251)",
     borderRadius: "1vmin",
   },
   timeUntilText: {
@@ -97,9 +101,10 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     transition: "all 0.2s",
     "&:hover": {
-      boxShadow: theme => theme === 1 ?
-        "0 5px 12px rgba(0,0,0,0.3), 0 5px 12px rgba(0,0,0,0.4)!important" :
-        "0 5px 16px rgba(0,0,0,0.15), 0 5px 16px rgba(0,0,0,0.015)!important",
+      boxShadow: (theme) =>
+        theme === 1
+          ? "0 5px 12px rgba(0,0,0,0.3), 0 5px 12px rgba(0,0,0,0.4)!important"
+          : "0 5px 16px rgba(0,0,0,0.15), 0 5px 16px rgba(0,0,0,0.015)!important",
     },
     transform: "scale(1)",
     // position: "fixed",
@@ -254,8 +259,8 @@ export const TimeCard = (props) => {
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "h:mm:ss A"
-        )
+            "h:mm:ss A"
+          )
         }
       </Typography>
       <Typography
@@ -270,8 +275,8 @@ export const TimeCard = (props) => {
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "dddd M/D/YYYY"
-        )
+            "dddd M/D/YYYY"
+          )
         }
       </Typography>
       <br />
@@ -285,12 +290,10 @@ export const TimeCard = (props) => {
           fontWeight: "500",
           textAlign: "left",
           marginLeft: "10%",
-          color: "#69B4AC"
+          color: "#69B4AC",
         }}
       >
-        {
-          t("desktopHome.viewFullSchedule")
-        }
+        {t("desktopHome.viewFullSchedule")}
       </Typography>
     </Card>
   );
@@ -323,25 +326,23 @@ export const DesktopHome = (props) => {
         },
       });
     }
-    return (
-      React.Children.toArray(
-        searchArr.map((result) => {
-          return (
-            <ModuleCard
-              icon={result.item.icon}
-              name={result.item.name}
-              desc={result.item.desc}
-              path={result.item.path}
-              theme={theme}
-              color={
-                theme
-                  ? result.item.defaultColorDarkMode
-                  : result.item.defaultColorLightMode
-              }
-            />
-          );
-        })
-      )
+    return React.Children.toArray(
+      searchArr.map((result) => {
+        return (
+          <ModuleCard
+            icon={result.item.icon}
+            name={result.item.name}
+            desc={result.item.desc}
+            path={result.item.path}
+            theme={theme}
+            color={
+              theme
+                ? result.item.defaultColorDarkMode
+                : result.item.defaultColorLightMode
+            }
+          />
+        );
+      })
     );
     // ModuleCard
   };

@@ -1,8 +1,10 @@
-import { Card, Container, List, ListItem, Typography } from "@material-ui/core";
 import React from "react";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+
+import { List, ListItem, Typography } from "@material-ui/core";
+
 import Player from "./Player";
 import t from "../../util/localization/localization";
+
 let parseSecsToEnglish = (secs) => {
   let mins = Math.floor(secs / 60);
   let sec = Math.round(secs - mins * 60);

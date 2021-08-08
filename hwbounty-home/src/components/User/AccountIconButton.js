@@ -1,20 +1,14 @@
 /* eslint-disable no-restricted-globals */
-// React
 import React, { Fragment } from "react";
 
-// MUI
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
-import AccountCircleIcon from "@material-ui/icons/AccountCircleRounded";
 
-// Redux
 import { connect } from "react-redux";
 
 import axios from "axios";
-import { Route } from "react-router";
 
-// Localization
 import t from "../../util/localization/localization";
 
 export const AccountIconButton = (props) => {

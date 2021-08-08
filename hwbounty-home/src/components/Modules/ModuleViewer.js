@@ -1,22 +1,17 @@
 // React
-import { Fragment, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
 
 // MUI
-import Button from "@material-ui/core/Button";
-import Fade from "@material-ui/core/Fade";
-import Paper from "@material-ui/core/Paper";
+import { Container } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // Modules
 import Calculator from "./Calculator/Calculator";
 import EssayEditor from "./EssayEditor/EssayEditor";
 import GasLaws from "./GasLaws";
-import { Container } from "@material-ui/core";
 
 const styles = {
   root: {

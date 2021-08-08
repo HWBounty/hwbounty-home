@@ -1,22 +1,20 @@
 import React, { Component } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
+
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+
 import "../login.css";
-import $ from "jquery";
+
 //MUI Stuff
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 // Redux stuff
 import { connect } from "react-redux";
+
 import { loginUser, signupUser } from "../redux/actions/userActions";
+
 import axios from "axios";
-import { Container, Modal } from "@material-ui/core";
 
 const styles = (theme) => ({
   ...theme.spreadIt,

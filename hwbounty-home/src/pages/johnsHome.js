@@ -1,7 +1,10 @@
 // React
 import React, { Component, useEffect, useState } from "react";
+
 import "../pages/home.css";
+
 // MUI Stuff
+import { Avatar, Container, makeStyles } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import InputBase from "@material-ui/core/InputBase";
@@ -19,12 +22,15 @@ import ModuleViewer from "../components/Modules/ModuleViewer";
 
 // Redux
 import { connect } from "react-redux";
+
 import axios from "axios";
-import { Avatar, Container, makeStyles } from "@material-ui/core";
+
+import momenttz from "moment-timezone";
+
+import moment from "moment";
+
 import { Calculator } from "../components/Modules/Calculator/Calculator";
 import { getRandomBackground } from "../util/randomBackground";
-import momenttz from "moment-timezone";
-import moment from "moment";
 import Notifications from "../util/notifications";
 import Schedule from "../components/Calendar/Schedule";
 

@@ -1,5 +1,5 @@
 // React
-import React, { Component, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // MUI
 import Button from "@material-ui/core/Button";
@@ -8,13 +8,14 @@ import Typography from "@material-ui/core/Typography";
 import Collapse from "@material-ui/core/Collapse";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import moment from "moment-timezone";
-import { useState } from "react";
-import axios from "axios";
-import { CircularProgress, Container } from "@material-ui/core";
-import { useSnackbar } from "notistack";
+import { Container } from "@material-ui/core";
+
 // Redux
 import { connect } from "react-redux";
 import { linkUserSchoology } from "../../redux/actions/userActions";
+
+import axios from "axios";
+
 // Translations
 import t from "../../util/localization/localization";
 

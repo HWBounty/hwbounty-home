@@ -1,13 +1,11 @@
 // React
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
+
 import PropTypes from "prop-types";
 
 // MUI
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Toolbar from "@material-ui/core/Toolbar";

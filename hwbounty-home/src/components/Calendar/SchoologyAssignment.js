@@ -1,10 +1,8 @@
 // React
-import { Fragment } from "react";
 import PropTypes from "prop-types";
 
 // MUI
 import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 

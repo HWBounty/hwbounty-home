@@ -24,8 +24,8 @@ export const enUS = {
       "explanation.comment": "Explanation for calculator variables",
     },
     equals: "=",
+    "equals.comment": "Equal to sign",
     history: {
-      "equals.comment": "Equal to sign",
       explanation: "Type an equation to show history...",
       "explanation.comment": "Explanation for how to show history",
       placeholder: "[insert cool image/space filler here]",
@@ -156,6 +156,10 @@ export const enUS = {
     whatIsThis: "What is this?",
     "whatIsThis.comment": "What is this title",
   },
+  newSchedule: {
+    hi: "Hi!",
+    "hi.comment": "why?",
+  },
   newSignup: {
     checkEmail: "Please check your email for a confimration link. Thank you!",
     "checkEmail.comment": "Check email prompt",
@@ -261,6 +265,10 @@ export const enUS = {
         "yes.comment": "Yes button for signout",
       },
     },
+  },
+  signInPopup: {
+    signIn: "Sign In",
+    "signIn.comment": "Sign in popup title text",
   },
   vanityInvite: {
     coinsBonus: "500 Coins Signup Bonus",
