@@ -11,44 +11,48 @@ import { withShortcut } from "react-keybind";
 export const KeybindManager = (props) => {
   const { shortcut, setModule } = props;
 
-  const handleNumberPressed = (e) => {
-    setModule(e.key);
-  };
+  // const handleNumberPressed = (e) => {
+  //   setModule(e.key);
+  // };
 
+  // useEffect(() => {
+  //   shortcut.registerShortcut(
+  //     handleNumberPressed,
+  //     ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+  //     "Change Module",
+  //     "Changes to specified module given the id. 0 will clear"
+  //   );
+  //   /*
+  //   Later make it so that we map through all active keybinds with command
+  //   keybind arr will look something like this:
+  //   arr = [
+  //     {key="c", action="SET_CALC"},
+  //     {key="space" action="CLEAR_ALL_MODULES"}
+  //   ]
+  //   */
+
+  //   return () => {
+  //     // Returning from useEffect is equivilant to componentDidUnmount or whatever its called
+  //     shortcut.unregisterShortcut([
+  //       "0",
+  //       "1",
+  //       "2",
+  //       "3",
+  //       "4",
+  //       "5",
+  //       "6",
+  //       "7",
+  //       "8",
+  //       "9",
+  //     ]);
+  //   };
+  // }, []);
   useEffect(() => {
-    shortcut.registerShortcut(
-      handleNumberPressed,
-      ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-      "Change Module",
-      "Changes to specified module given the id. 0 will clear"
-    );
-
-    /*
-    Later make it so that we map through all active keybinds with command
-    keybind arr will look something like this:
-    arr = [
-      {key="c", action="SET_CALC"},
-      {key="space" action="CLEAR_ALL_MODULES"}
-    ]
-    */
-
+    effect
     return () => {
-      // Returning from useEffect is equivilant to componentDidUnmount or whatever its called
-      shortcut.unregisterShortcut([
-        "0",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-      ]);
-    };
-  }, []);
-
+      cleanup
+    }
+  }, [input])
   return null;
 };
 
