@@ -492,6 +492,18 @@ export const VanityInvite = (props) => {
                       >
                         {t("vanityInvite.go")}
                       </Button>
+
+                      <Button
+                        style={{
+                          alignSelf: "center",
+                        }}
+                        variant="contained"
+                        className={`${classes.signUpButton}`}
+                        onClick={signup}
+                        id="anonymous"
+                      >
+                        {t("vanityInvite.useAnonymousMode")}
+                      </Button>
                     </form>
                   </Card>
                 </Slide>
@@ -517,6 +529,7 @@ export const VanityInvite = (props) => {
                     <img
                       src={invite.user.pfp}
                       className={pstyles.perksCardAuthorPfp}
+                      style={{}}
                     />
                     {"  "}
                     <b>{invite.user.publicID}</b>{" "}
