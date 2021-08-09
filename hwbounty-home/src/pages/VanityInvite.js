@@ -577,7 +577,7 @@ export const VanityInvite = (props) => {
       document.getElementById("signup2").remove();
     })();
   };
-  const useAnonymousInvite = () => { console.log("using inv"); store.dispatch(useVanityInviteAnonymously(invite)); console.log("using inv done"); };
+  const useAnonymousInvite = () => { console.log("using inv"); store.dispatch(useVanityInviteAnonymously(invite)); console.log("using inv done"); history.push("/") };
   return (
     <div style={{ height: "100%", display: "flex" }}>
       {/* <div className={`${classes.headBar}`}>
