@@ -89,10 +89,23 @@ const useStyles = makeStyles((theme) => ({
   },
   time: {
     width: "80vw",
-    borderRadius: 10,
-    paddingBottom: "5vh",
+    minHeight: "38vmin",
+    marginBottom: "5vw",
+    paddingBottom: "1.5rem",
     textAlign: "center",
-    color: (theme) => (!theme ? "rgb(88,88,88)" : "rgb(230,230,230)"),
+    cursor: "pointer",
+    transition: "all 0.2s",
+    "&:hover": {
+      boxShadow: (theme) =>
+        theme === 1
+          ? "0 5px 12px rgba(0,0,0,0.3), 0 5px 12px rgba(0,0,0,0.4)!important"
+          : "0 5px 16px rgba(0,0,0,0.15), 0 5px 16px rgba(0,0,0,0.015)!important",
+    },
+    transform: "scale(1)",
+    // position: "fixed",
+    // top: "15%",
+    // left: "5%",
+    color: (theme) => (!theme ? "rgb(88,88,88)" : "rgb(244 250 251)"),
   },
   scheduleText: {
     fontFamily: "Poppins",
@@ -127,9 +140,12 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
   },
   card: {
-    boxShadow:
-      "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
-    background: (theme) => (theme ? "rgb(40,40,40)" : "rgb(240,240,240)"),
+    boxShadow: (theme) =>
+      theme === 1
+        ? "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important"
+        : "0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important",
+    backgroundColor: (theme) =>
+      theme === 1 ? "rgb(40,40,40)" : "rgb(244,250,251)",
     borderRadius: "1vmin",
   },
 }));
@@ -193,8 +209,8 @@ export const TimeCardMobile = (props) => {
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-            "h:mm:ss A"
-          )
+          "h:mm:ss A"
+        )
         }
       </Typography>
       <Typography
@@ -209,8 +225,8 @@ export const TimeCardMobile = (props) => {
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-            "dddd M/D/YYYY"
-          )
+          "dddd M/D/YYYY"
+        )
         }
       </Typography>
     </Card>
@@ -289,16 +305,14 @@ export const MobileHome = (props) => {
           className={classes.greetingText}
           align="center"
           style={{
-            fontSize: `${
-              50 -
+            fontSize: `${50 -
               (JSON.parse(localStorage.getItem("user"))?.firstName
-                ? `Welcome back ${
-                    JSON.parse(localStorage.getItem("user"))?.firstName
-                  }!`
+                ? `Welcome back ${JSON.parse(localStorage.getItem("user"))?.firstName
+                }!`
                 : "Welcome to HWBounty!"
               ).length *
-                2.35
-            }vw`,
+              2.35
+              }vw`,
           }}
         >
           <img
@@ -306,9 +320,8 @@ export const MobileHome = (props) => {
             className={classes.greetingIMG}
           />{" "}
           {JSON.parse(localStorage.getItem("user"))?.firstName
-            ? `Welcome back ${
-                JSON.parse(localStorage.getItem("user"))?.firstName
-              }!`
+            ? `Welcome back ${JSON.parse(localStorage.getItem("user"))?.firstName
+            }!`
             : "Welcome to HWBounty!"}{" "}
         </Typography>
       </div>

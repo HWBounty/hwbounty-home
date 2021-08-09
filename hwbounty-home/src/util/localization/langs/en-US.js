@@ -281,6 +281,9 @@ export const enUS = {
     "freePremium.comment": "Free Premium info text",
     go: "Go!",
     "go.comment": "Go button text",
+    useAnonymousMode: "Use Anonymous Mode",
+    "useAnonymousMode.comment": "Anonymous mode info text",
+
     info: {
       calculators: "Calculators",
       "calculators.comment": "Calculators info",
@@ -289,7 +292,7 @@ export const enUS = {
       schedules: "Schedules",
       "schedules.comment": "Schedules info",
     },
-    inviteBy: "Invite by:  ",
+    inviteBy: "Invite by: ",
     "inviteBy.comment": "Invite by text",
     invitedByWithName: "invited you to join HWBounty - [ {{name}} ]",
     "invitedByWithName.comment": "Invitation line with username",

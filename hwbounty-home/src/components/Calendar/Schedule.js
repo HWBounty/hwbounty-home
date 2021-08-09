@@ -15,9 +15,10 @@ import { connect } from "react-redux";
 import { linkUserSchoology } from "../../redux/actions/userActions";
 
 import axios from "axios";
-
 // Translations
 import t from "../../util/localization/localization";
+import { useSnackbar } from "notistack";
+
 
 const decodeHTML = (string) => {
   const map = { gt: ">" /* , … */ };
@@ -42,17 +43,25 @@ const useButtonStyles = makeStyles({
     display: "block",
     cursor: "pointer",
     position: "relative",
-    boxShadow: " 4px 6px 5px 4px rgba(0,0,0,0.2)!important",
+    boxShadow: (theme) =>
+      theme === 1
+        ? "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important"
+        : "0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important",
   },
 });
 
 const generatePeriodColors = (stops, theme) => {
-  let retarr = [];
-  for (let index = 0; index < stops; index++)
-    //50 => 25, 70 => 30 for Dark mode
+  return [
+    [248, 255, 229],
+    [6, 214, 160],
+    [27, 154, 170],
+    [44, 66, 63],
+    [255, 196, 61],
+    [232, 93, 117],
+    [153, 95, 163],
+    [255, 74, 28],
+  ].splice(0, stops);
 
-    retarr.push([0 + (index / stops) * 360, 0, theme ? 30 : 70]);
-  return retarr;
 };
 
 const PeriodButton = (props) => {
@@ -69,6 +78,7 @@ const PeriodButton = (props) => {
     tES,
     duration,
     nofill,
+    periodID,
   } = props;
   //% from 0 to 100
   const { enqueueSnackbar } = useSnackbar();
@@ -94,9 +104,15 @@ const PeriodButton = (props) => {
     if (newWindow) newWindow.opener = null;
   };
   let notDoneCol = color.filter((x) => true);
+
   //Set to 40 for Darkmode
-  notDoneCol[2] = theme ? 30 : 90;
-  color[2] = theme ? 20 : 75;
+  notDoneCol[2] = theme ? 76 : 90;
+  color[2] = theme ? 60 : 80;
+  console.log(period)
+  if (periodID === "break") {
+    notDoneCol[2] = theme ? 1 : 100;
+    color[2] = theme ? 10 : 95;
+  }
   return (
     <div
       style={{
@@ -107,16 +123,12 @@ const PeriodButton = (props) => {
         className={classes.root}
         onClick={handleButtonClicked}
         style={{
-          background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${
-            color[2]
-          }%) 0%, hsl(${color[0]},${color[1]}%,${
-            color[2]
-          }%) ${timePassed}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${
-            notDoneCol[2]
-          }%) ${timePassed + 0.000001}%, hsl(${notDoneCol[0]},${
-            notDoneCol[1]
-          }%,${notDoneCol[2]}%) 100%)`,
-          borderRadius: "1rem",
+          background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${color[2]
+            }%) 0%, hsl(${color[0]},${color[1]}%,${color[2]
+            }%) ${timePassed}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${notDoneCol[2]
+            }%) ${timePassed + 0.000001}%, hsl(${notDoneCol[0]},${notDoneCol[1]
+            }%,${notDoneCol[2]}%) 100%)`,
+          borderRadius: "0.1rem!important",
           padding: "10px",
         }}
       >
@@ -216,6 +228,7 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
       // if (!(courseInfo) && x.period !== "break") return null;
       return {
         period: nameOverrides[x.period] || x.period,
+        periodID: x.period,
         color: colors[i],
         name:
           courseInfo && courseInfo.course
@@ -224,12 +237,12 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
         zoom:
           courseInfo && courseInfo.links
             ? courseInfo.links
-                .map((linkGroup) => {
-                  return linkGroup.links.map((link) => {
-                    return { link: link, title: decodeHTML(linkGroup.title) };
-                  });
-                })
-                .flat(10000)
+              .map((linkGroup) => {
+                return linkGroup.links.map((link) => {
+                  return { link: link, title: decodeHTML(linkGroup.title) };
+                });
+              })
+              .flat(10000)
             : [],
         timeStart:
           moment(x.timeStart, "hh:mma")
@@ -348,6 +361,7 @@ export const Schedule = (props) => {
               tES={p.tES}
               duration={p.timeEnd - p.timeStart}
               nofill={p.nofill}
+              periodID={p.periodID}
             />
           );
         })

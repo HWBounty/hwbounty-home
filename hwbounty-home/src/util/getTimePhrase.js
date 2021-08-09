@@ -200,7 +200,7 @@ export const getWhenSchoolEnds = (offset) => {
 			}).filter(x => x);
 		formattedClasses.sort((a, b) => b.timeEnd - a.timeEnd);
 		if (!formattedClasses.length) return "No school today!";
-		return `School ends at ${formattedClasses[0].endTime}`
+		return ``
 	} catch (er) {
 		console.trace(er);
 	}
