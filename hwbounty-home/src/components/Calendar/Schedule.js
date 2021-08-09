@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Collapse from "@material-ui/core/Collapse";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import moment from "moment-timezone";
-import { Container } from "@material-ui/core";
+import { CircularProgress, Container } from "@material-ui/core";
 
 // Redux
 import { connect } from "react-redux";
@@ -18,6 +18,7 @@ import axios from "axios";
 // Translations
 import t from "../../util/localization/localization";
 import { useSnackbar } from "notistack";
+import TetLib from "../../util/TetLib";
 
 
 const decodeHTML = (string) => {
@@ -108,7 +109,6 @@ const PeriodButton = (props) => {
   //Set to 40 for Darkmode
   notDoneCol[2] = theme ? 76 : 90;
   color[2] = theme ? 60 : 80;
-  console.log(period)
   if (periodID === "break") {
     notDoneCol[2] = theme ? 1 : 100;
     color[2] = theme ? 10 : 95;
@@ -263,27 +263,30 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
 let done = false;
 const fetchAndSet = async (setCourseInfo, setScheduleData, setCannotFetch) => {
   try {
-    if (!localStorage.getItem("DBIdToken"))
-      throw new Error("something bad happened?");
     if (localStorage.getItem("cachedSchedule"))
       setScheduleData(JSON.parse(localStorage.getItem("cachedSchedule")));
     if (localStorage.getItem("cachedCourseInfo"))
       setCourseInfo(JSON.parse(localStorage.getItem("cachedCourseInfo")));
-    let [schedule, courses] = await Promise.all([
-      axios.get("https://api.hwbounty.help/schedule/@me").catch(console.trace),
-      axios
-        .get("https://api.hwbounty.help/sgy/getZoomLinks")
-        .catch(console.trace),
-    ]);
-    // if (!schedule?.data || !courses?.data || schedule?.status === 500)
-    // 	throw new Error("something bad happened?");
-    localStorage.setItem(
-      "cachedCourseInfo",
-      JSON.stringify(!courses?.data ? {} : courses.data)
-    );
-    localStorage.setItem("cachedSchedule", JSON.stringify(schedule.data));
-    setScheduleData(schedule.data);
-    setCourseInfo(courses.data);
+
+    console.log(JSON.parse(localStorage.getItem("cachedSchedule")))
+    // if (localStorage.getItem("DBIdToken")) {
+
+    //   let [schedule, courses] = await Promise.all([
+    //     axios.get("https://api.hwbounty.help/schedule/@me").catch(console.trace),
+    //     axios
+    //       .get("https://api.hwbounty.help/sgy/getZoomLinks")
+    //       .catch(console.trace),
+    //   ]);
+    //   // if (!schedule?.data || !courses?.data || schedule?.status === 500)
+    //   // 	throw new Error("something bad happened?");
+    //   localStorage.setItem(
+    //     "cachedCourseInfo",
+    //     JSON.stringify(!courses?.data ? {} : courses.data)
+    //   );
+    //   localStorage.setItem("cachedSchedule", JSON.stringify(schedule.data));
+    //   setScheduleData(schedule.data);
+    //   setCourseInfo(courses.data);
+    // }
   } catch (error) {
     console.trace(error);
     setCannotFetch(true);
@@ -300,17 +303,23 @@ export const Schedule = (props) => {
   const dayOffset = props.dayOffset;
   const forceUpdate = useForceUpdate();
   useEffect(() => {
-    const id = setTimeout(
-      () => setInterval(() => forceUpdate(), 5000),
-      1000 - (Date.now() % 1000)
-    );
-    return () => clearTimeout(id);
-  }, []);
+    let run = true;
+    (async () => {
+      await TetLib.sleep(1000 - (Date.now() % 1000));
+      while (run) {
+        await TetLib.sleep(1000)
+        forceUpdate();
+      }
+    })();
+    return () => {
+      run = false;
+    }
+  }, [])
   const [courseInfo, setCourseInfo] = useState(null);
   const [scheduleData, setScheduleData] = useState(null);
   const [fetching, setFetching] = useState(false);
   const [cannotFetch, setCannotFetch] = useState(false);
-  if (!scheduleData || !courseInfo) {
+  if ((!scheduleData && !courseInfo) || (!scheduleData && localStorage.getItem("anonStorage"))) {
     if (!fetching) {
       setFetching(true);
       fetchAndSet(setCourseInfo, setScheduleData, setCannotFetch);

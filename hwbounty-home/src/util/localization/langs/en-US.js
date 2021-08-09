@@ -281,7 +281,7 @@ export const enUS = {
     "freePremium.comment": "Free Premium info text",
     go: "Go!",
     "go.comment": "Go button text",
-    useAnonymousMode: "Use Anonymous Mode",
+    useAnonymousMode: "Use without signup",
     "useAnonymousMode.comment": "Anonymous mode info text",
 
     info: {

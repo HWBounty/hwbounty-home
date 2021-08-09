@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 		color: (theme) => (theme === 1 ? "rgb(255,255,255)!important" : "rgb(0,0,0)!o"),
 	}
 }));
-const SchedulePage = (props) => {
+const DesktopSchedulePage = (props) => {
 	const {
 		UI: { theme },
 		user,
@@ -87,9 +87,11 @@ const SchedulePage = (props) => {
 		setAlternateScheduleDialog(false);
 	};
 	const { sleep } = TetLib;
-	console.log(user);
-	const speedDialActions = [{ icon: <EditIcon />, name: "Create a new event" }];
-	if (user.user.privateID === schedule.schedule.createdBy) {
+	const speedDialActions = [];
+	if (user?.authenticated) {
+		speedDialActions.push({ icon: <EditIcon />, name: "Create a new event" });
+	}
+	if (user?.user?.privateID === schedule?.schedule?.createdBy) {
 		speedDialActions.push({
 			icon: <Today />,
 			name: "Add an Alternate Schedule Day",
@@ -178,17 +180,17 @@ const SchedulePage = (props) => {
 				}}
 				className={`${classes.fullHeight}`}
 			>
-				<PeriodList scheduleData={schedule} zoomLinkInfo={[]} offset={4} />
+				<PeriodList scheduleData={schedule} zoomLinkInfo={[]} offset={0} />
 			</Container>
 			<SpeedDial
 				ariaLabel="SpeedDial openIcon example"
 				className={classes.speedDial}
-				hidden={false}
+				hidden={speedDialActions.length == 0}
 				icon={<SpeedDialIcon />}
 				onClose={handleClose}
 				onOpen={handleOpen}
 				open={speedDialOpen}
-				style={{ position: "absolute", bottom: "16px", right: "16px" }}
+				style={{ position: "fixed", bottom: "16px", right: "16px" }}
 			>
 				{speedDialActions.map((action) => (
 					<SpeedDialAction
@@ -221,4 +223,4 @@ const mapStateToProps = (state) => ({
 	user: state.user,
 });
 const mapActionsToProps = {};
-export default connect(mapStateToProps, mapActionsToProps)(SchedulePage);
+export default connect(mapStateToProps, mapActionsToProps)(DesktopSchedulePage);

@@ -20,9 +20,10 @@ import { connect } from "react-redux";
 import { useHistory } from "react-router";
 
 import SchoologySignUp from "../components/SchoologySignUp";
-import { setAuthorizationHeader } from "../redux/actions/userActions";
+import { setAuthorizationHeader, useVanityInviteAnonymously } from "../redux/actions/userActions";
 import { hwbountyAPI } from "../redux/types";
 import t from "../util/localization/localization";
+import store from "../redux/store";
 
 const useStyles = makeStyles((theme) => ({
   headBar: {
@@ -105,6 +106,22 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Poppins",
     textTransform: "none",
     fontSize: "1.5rem",
+    fontWeight: "200",
+    transition: "transform 2s",
+    color: (them) => (them === 0 ? "rgb(42,42,42)" : "rgb(255,255,255)"),
+  },
+  anonymousButton: {
+    backgroundColor: "rgb(23,178,172)",
+    "&:hover": {
+      backgroundColor: "rgb(71 212 206)",
+      transition: "transform 1s",
+    },
+    width: "12rem",
+    height: "3rem",
+    borderRadius: "0.5rem",
+    fontFamily: "Poppins",
+    textTransform: "none",
+    fontSize: "1rem",
     fontWeight: "200",
     transition: "transform 2s",
     color: (them) => (them === 0 ? "rgb(42,42,42)" : "rgb(255,255,255)"),
@@ -493,17 +510,7 @@ export const VanityInvite = (props) => {
                         {t("vanityInvite.go")}
                       </Button>
 
-                      <Button
-                        style={{
-                          alignSelf: "center",
-                        }}
-                        variant="contained"
-                        className={`${classes.signUpButton}`}
-                        onClick={signup}
-                        id="anonymous"
-                      >
-                        {t("vanityInvite.useAnonymousMode")}
-                      </Button>
+
                     </form>
                   </Card>
                 </Slide>
@@ -529,7 +536,7 @@ export const VanityInvite = (props) => {
                     <img
                       src={invite.user.pfp}
                       className={pstyles.perksCardAuthorPfp}
-                      style={{}}
+                      style={{ marginLeft: "10px", marginRight: "6px" }}
                     />
                     {"  "}
                     <b>{invite.user.publicID}</b>{" "}
@@ -570,6 +577,7 @@ export const VanityInvite = (props) => {
       document.getElementById("signup2").remove();
     })();
   };
+  const useAnonymousInvite = () => { console.log("using inv"); store.dispatch(useVanityInviteAnonymously(invite)); console.log("using inv done"); };
   return (
     <div style={{ height: "100%", display: "flex" }}>
       {/* <div className={`${classes.headBar}`}>
@@ -605,14 +613,27 @@ export const VanityInvite = (props) => {
             </Typography>
             <br />
             <br />
-            <Button
-              variant="contained"
-              className={classes.joinButton}
-              id="signup"
-              onClick={signupClick}
-            >
-              {props?.user?.authenticated ? "Use Preset!" : "Sign me up!"}
-            </Button>
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}>
+              <Button
+                variant="contained"
+                className={classes.joinButton}
+                id="signup"
+                onClick={signupClick}
+              >
+                {props?.user?.authenticated ? "Use Preset!" : "Sign me up!"}
+              </Button>
+              <Button
+                style={{
+                  alignSelf: "center",
+                }}
+                variant="contained"
+                className={`${classes.anonymousButton}`}
+                onClick={useAnonymousInvite}
+                id="anonymous"
+              >
+                {t("vanityInvite.useAnonymousMode")}
+              </Button>
+            </div>
           </div>
 
           <br />
@@ -627,4 +648,7 @@ const mapStateToProps = (state) => ({
   user: state.user,
   UI: state.UI,
 });
-export default connect(mapStateToProps)(withSnackbar(VanityInvite));
+const mapActionsToProps = {
+  useVanityInviteAnonymously
+};
+export default connect(mapStateToProps, mapActionsToProps)(withSnackbar(VanityInvite));

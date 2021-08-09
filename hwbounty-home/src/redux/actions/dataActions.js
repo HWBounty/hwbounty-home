@@ -34,6 +34,7 @@ export const getAssignments = () => (dispatch) => {
 };
 
 export const updateSchedule = () => (dispatch) => {
+  console.log("Updating schedule...");
   axios
     .get(`${hwbountyAPI}/schedule/@me`)
     .then((res) => {
@@ -42,7 +43,18 @@ export const updateSchedule = () => (dispatch) => {
         dispatch({ type: SET_SCHEDULE, payload: res.data });
       }
     })
-    .catch(() => {});
+    .catch(() => {
+      if (localStorage.getItem("anonStorage") && JSON.parse(localStorage.getItem("anonStorage")).schedule) {
+        axios
+          .get(`${hwbountyAPI}/schedules/view/${JSON.parse(localStorage.getItem("anonStorage")).schedule}`)
+          .then(res => {
+            if (res && res.status === 200) {
+              localStorage.setItem("cachedSchedule", JSON.stringify({ schedule: res.data }));
+              dispatch({ type: SET_SCHEDULE, payload: res.data });
+            }
+          })
+      }
+    });
 
   // leave zoom links to local storage
   axios
@@ -52,5 +64,5 @@ export const updateSchedule = () => (dispatch) => {
         localStorage.setItem("cachedCourseInfo", JSON.stringify(data.data));
       }
     })
-    .catch(() => {});
+    .catch(() => { });
 };

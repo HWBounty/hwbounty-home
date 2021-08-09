@@ -120,7 +120,7 @@ const PeriodList = (props) => {
         duration={`${Math.round(
           (periodData.timeEnd - periodData.timeStart) / (1000 * 60)
         )} minutes`}
-      ></PeriodButton>
+      />
     );
   });
 

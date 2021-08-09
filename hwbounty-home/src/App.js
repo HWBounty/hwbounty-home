@@ -36,7 +36,7 @@ import { GainCoins } from "./components/Modules/GainCoins";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Login from "./components/User/Authentication/Login";
 import ModulesPicker from "./pages/modulesPicker";
-import newSchedule from "./pages/newSchedule";
+import newSchedule from "./pages/schedule";
 
 // Pages
 const Modules = lazy(() => import("./pages/modules"));
@@ -46,7 +46,7 @@ const Profile = lazy(() => import("./pages/profile"));
 const signupCallback = lazy(() => import("./pages/signupCallback"));
 const Settings = lazy(() => import("./pages/settings"));
 const home = lazy(() => import("./pages/home"));
-const ScheduleInfo = lazy(() => import("./pages/ScheduleInfo"));
+const Schedule = lazy(() => import("./pages/schedule"));
 const ScheduleCatalog = lazy(() => import("./pages/schedules"));
 const viewSchedule = lazy(() => import("./pages/viewSchedule"));
 const setSchedule = lazy(() => import("./pages/setSchedule"));
@@ -65,6 +65,9 @@ if (token) {
 
   store.dispatch({ type: SET_AUTHENTICATED });
   store.dispatch(getUserData());
+  store.dispatch(updateSchedule());
+}
+if (localStorage.anonStorage) {
   store.dispatch(updateSchedule());
 }
 
@@ -170,7 +173,7 @@ const App = (props) => {
                     <Route
                       exact
                       path="/"
-                      component={authenticated ? home : LandingPage}
+                      component={authenticated || localStorage.anonStorage ? home : LandingPage}
                     />
                     <Route
                       exact
@@ -181,8 +184,8 @@ const App = (props) => {
                     <Route exact path="/signup" component={newSignup} />
                     <Route path="/signup/*" component={VanityInvite} />
                     <Route path="/schedules" component={ScheduleCatalog} />
-                    <Route exact path="/beta" component={newSchedule} />
-                    <Route exact path="/schedule" component={ScheduleInfo} />
+                    <Route exact path="/schedule" component={Schedule} />
+                    {/* <Route exact path="/schedule" component={ScheduleInfo} /> */}
                     <Route path="/schedule/view" component={viewSchedule} />
                     <Route path="/schedule/set" component={setSchedule} />
                     <Route

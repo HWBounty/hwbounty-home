@@ -41,7 +41,7 @@ export const linkUserSchoology = () => {
     .then((res) => res.status === 200 && (window.location.href = res.data));
 };
 
-export const logoutUser = () => (dispatch) => {};
+export const logoutUser = () => (dispatch) => { };
 
 export const getUserData = () => (dispatch) => {
   axios
@@ -53,6 +53,13 @@ export const getUserData = () => (dispatch) => {
     .catch(console.trace);
 };
 
+export const useVanityInviteAnonymously = (inviteData) => (dispatch) => {
+  console.log("setting")
+  localStorage.setItem("anonStorage", JSON.stringify({
+    schedule: inviteData.schedule,
+  }));
+  axios.post(`${hwbountyAPI}/useAnonymousInvite`, { invite: inviteData.inviteID }).catch(console.trace)
+};
 export const setAuthorizationHeader = (token) => {
   const DBIdToken = `Bearer ${token}`;
   localStorage.setItem("DBIdToken", DBIdToken);
