@@ -8,11 +8,20 @@ import * as serviceWorker from "./serviceWorker";
 import GoogleOauth from "./util/googleOauth";
 GoogleOauth.bindToGlobal();
 
-if (window.location.protocol === 'http:' && window.location.hostname !== "localhost" && !window.location.hostname.match(/192\.168\./)) {
-  window.location.href =
-    window.location.href.replace(
-      'http:', 'https:');
-}
+// if (window.location.protocol === 'http:' && window.location.hostname !== "localhost" && !window.location.hostname.match(/192\.168\./)) {
+
+//   console.log("you are accessing us via "
+//     + "an insecure protocol (HTTP). "
+//     + "Redirecting you to HTTPS.");
+
+//   window.location.href =
+//     window.location.href.replace(
+//       'http:', 'https:');
+// }
+// else if (window.location.protocol === "https:") {
+//   console.log("you are accessing us via"
+//     + " our secure HTTPS protocol.");
+// }
 
 ReactDOM.render(
   <React.StrictMode>

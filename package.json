@@ -13,6 +13,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
+    "babel-register": "^6.26.0",
     "base64-to-uint8array": "^1.0.0",
     "css-loader": "^5.2.6",
     "dayjs": "^1.10.5",
@@ -70,6 +71,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/register": "^7.14.5",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.23.4",
