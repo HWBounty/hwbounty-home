@@ -16,7 +16,6 @@ class PassiveCoins {
     static closeSnackbar = null;
     async waitForLogin() {
         const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-        console.log(nullOrUndefined(JSON.parse(localStorage.getItem("user"))?.privateID), PassiveCoins.enqueueSnackbar);
         while (nullOrUndefined(JSON.parse(localStorage.getItem("user"))?.privateID) || !PassiveCoins.enqueueSnackbar) await sleep(1000);
         console.log("Assets loaded! Initializing WS!");
         this.setupConnection();

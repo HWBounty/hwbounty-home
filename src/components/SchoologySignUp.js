@@ -46,7 +46,6 @@ export const SchoologyButton = (props) => {
             nonce: localStorage.getItem("SchoologyNonce"),
           })
           .catch((er) => {
-            console.log(er);
             enqueueSnackbar(er.response.data.error || er.response.data);
           });
         if (!thing) return;

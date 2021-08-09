@@ -1,5 +1,5 @@
 // React
-import React, { lazy, Suspense, useEffect, useRef } from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Redux
@@ -20,44 +20,17 @@ import { ShortcutProvider, ShortcutConsumer } from "react-keybind";
 import KeybindManager from "./util/keybinds/keybind";
 
 // Components
-import Navbar from "./components/Home/Navbar";
 import AuthPopup from "./components/User/Authentication/AuthPopup";
 import Sidebar from "./components/Sidebar";
-import MusicModule from "./components/MusicModule/MusicModule";
 
 // Tools
 import { SnackbarProvider } from "notistack";
 import axios from "axios";
-import queryString from "query-string";
-import { SchoologyButton } from "./components/SchoologyButton";
-import CalculatorBackend from "./util/calculator";
 import LoadingPage from "./pages/loadingPage";
 import { GainCoins } from "./components/Modules/GainCoins";
 import ErrorBoundary from "./components/ErrorBoundary";
-import Login from "./components/User/Authentication/Login";
-import ModulesPicker from "./pages/modulesPicker";
-import newSchedule from "./pages/schedule";
+import Routes from "./Routes";
 
-// Pages
-const Modules = lazy(() => import("./pages/modules"));
-const ModulePicker = lazy(() => import("./pages/modulesPicker"));
-const newSignup = lazy(() => import("./pages/newSignup"));
-const Profile = lazy(() => import("./pages/profile"));
-const signupCallback = lazy(() => import("./pages/signupCallback"));
-const Settings = lazy(() => import("./pages/settings"));
-const home = lazy(() => import("./pages/home"));
-const Schedule = lazy(() => import("./pages/schedule"));
-const ScheduleCatalog = lazy(() => import("./pages/schedules"));
-const viewSchedule = lazy(() => import("./pages/viewSchedule"));
-const setSchedule = lazy(() => import("./pages/setSchedule"));
-const schoologyOauthRedirect = lazy(() =>
-  import("./pages/schoologyOauthRedirect")
-);
-const LandingPage = lazy(() => import("./pages/landingPage"));
-const VanityInvite = lazy(() => import("./pages/VanityInvite"));
-const PageNotFound = lazy(() => import("./pages/404"));
-const newProfile = lazy(() => import("./pages/newProfile"));
-const scheduleBuilder = lazy(() => import("./pages/scheduleBuilder"));
 //=================Checks on App start====================//
 const token = localStorage.DBIdToken;
 if (token) {
@@ -77,7 +50,6 @@ if (localStorage.theme === "0") themeCache = 0;
 if (localStorage.theme === "1") themeCache = 1;
 if (themeCache === -1) themeCache = result.matches ? 1 : 0;
 if (themeCache !== null) {
-  console.log(themeCache);
   store.dispatch({ type: SET_THEME, payload: themeCache });
 }
 //========================================================//
@@ -138,9 +110,7 @@ const App = (props) => {
               />
               <Suspense fallback={<LoadingPage />}>
                 {<Sidebar />}
-
                 <AuthPopup />
-                {/* <MusicModule /> */}
                 {!authenticated && (
                   <div>
                     <div
@@ -162,50 +132,12 @@ const App = (props) => {
                       id="googleAuthButton"
                       style={{
                         display: "none",
-                        // background: "url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png)center/cover"
                       }}
                     ></div>
                   </div>
                 )}
                 <ErrorBoundary>
-                  <Switch>
-                    <Route path="/dashboard" component={home} />
-                    <Route
-                      exact
-                      path="/"
-                      component={authenticated || localStorage.anonStorage ? home : LandingPage}
-                    />
-                    <Route
-                      exact
-                      path="/schoologyCallback"
-                      component={schoologyOauthRedirect}
-                    />
-                    <Route path="/signupcallback" component={signupCallback} />
-                    <Route exact path="/signup" component={newSignup} />
-                    <Route path="/signup/*" component={VanityInvite} />
-                    <Route path="/schedules" component={ScheduleCatalog} />
-                    <Route exact path="/schedule" component={Schedule} />
-                    {/* <Route exact path="/schedule" component={ScheduleInfo} /> */}
-                    <Route path="/schedule/view" component={viewSchedule} />
-                    <Route path="/schedule/set" component={setSchedule} />
-                    <Route
-                      path="/schedule/create"
-                      component={scheduleBuilder}
-                    />
-                    <Route exact path="/modules" component={ModulesPicker} />
-                    <Route path="/modules/:module" component={Modules} />
-                    <Route path="/user/" component={newProfile} />
-                    <Route path="/usertest/:userID" component={Profile} />
-                    <Route path="/settings/" component={Settings} />
-                    <Route path="/loadingPage/" component={LoadingPage} />
-                    <Route
-                      exact
-                      path="/login/schoology"
-                      component={SchoologyButton}
-                    />
-                    <Route exact path="/login/" component={Login} />
-                    <Route path="*" component={PageNotFound} />
-                  </Switch>
+                  <Routes />
                 </ErrorBoundary>
               </Suspense>
             </Router>

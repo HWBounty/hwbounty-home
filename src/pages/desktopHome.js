@@ -95,7 +95,6 @@ const useStyles = makeStyles((theme) => ({
   },
   time: {
     width: "38vmin",
-    minHeight: "38vmin",
     marginBottom: "5vw",
     paddingBottom: "1.5rem",
     textAlign: "center",

@@ -7,7 +7,6 @@ import { updateSchedule } from "./redux/actions/dataActions";
 
 export const ReduxyStuff = (props) => {
   // Access like this
-  console.log(props.UI);
 
   // or like this
   const { UI } = props;
@@ -16,7 +15,6 @@ export const ReduxyStuff = (props) => {
   const {
     user: { firstname },
   } = props;
-  console.log(firstname);
 
   return <div> test</div>;
 };

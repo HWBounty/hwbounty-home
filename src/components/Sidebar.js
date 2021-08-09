@@ -235,27 +235,16 @@ export const Sidebar = (props) => {
   };
 
   useEffect(async () => {
-    console.log("getting the dataz");
     localStorage.removeItem("user");
     let data = await getUserData();
     while (!localStorage.user) {
       await TetLib.sleep(25);
     }
-    console.log("got the dataz", localStorage.user);
-    console.log(
-      sidebarButtons,
-      "Old | New",
-      JSON.parse(localStorage?.user || "null")?.sidebar?.split(",")
-    );
     setSidebarButtons(
       JSON.parse(localStorage?.user || "null")?.sidebar?.split(",") ||
       sidebarButtons
     );
 
-    // while (true) {
-    // 	await TetLib.sleep(25);
-    // 	console.log(sidebarButtons);
-    // }
   }, []);
 
   const UserButton = () => {

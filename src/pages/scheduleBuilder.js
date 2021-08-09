@@ -213,7 +213,6 @@ export const ScheduleBuilder = (props) => {
     return cday.map((x, i) => {
       let startTime = moment(x.start, "hh:mma");
       let endTime = moment(x.end, "hh:mma");
-      console.log(startTime.unix(), endTime.unix());
       return (
         <Card className={`${classes.classCard}`}>
           <Typography className={`${classes.classCardTitle}`}>

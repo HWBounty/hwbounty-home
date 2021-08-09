@@ -268,25 +268,6 @@ const fetchAndSet = async (setCourseInfo, setScheduleData, setCannotFetch) => {
     if (localStorage.getItem("cachedCourseInfo"))
       setCourseInfo(JSON.parse(localStorage.getItem("cachedCourseInfo")));
 
-    console.log(JSON.parse(localStorage.getItem("cachedSchedule")))
-    // if (localStorage.getItem("DBIdToken")) {
-
-    //   let [schedule, courses] = await Promise.all([
-    //     axios.get("https://api.hwbounty.help/schedule/@me").catch(console.trace),
-    //     axios
-    //       .get("https://api.hwbounty.help/sgy/getZoomLinks")
-    //       .catch(console.trace),
-    //   ]);
-    //   // if (!schedule?.data || !courses?.data || schedule?.status === 500)
-    //   // 	throw new Error("something bad happened?");
-    //   localStorage.setItem(
-    //     "cachedCourseInfo",
-    //     JSON.stringify(!courses?.data ? {} : courses.data)
-    //   );
-    //   localStorage.setItem("cachedSchedule", JSON.stringify(schedule.data));
-    //   setScheduleData(schedule.data);
-    //   setCourseInfo(courses.data);
-    // }
   } catch (error) {
     console.trace(error);
     setCannotFetch(true);
