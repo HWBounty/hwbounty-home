@@ -173,7 +173,7 @@ export const LoginPopup = (props) => {
     <div
       style={{
         height: "39rem",
-        width: "31rem",
+        width: window.innerWidth > 1000 && "31rem",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

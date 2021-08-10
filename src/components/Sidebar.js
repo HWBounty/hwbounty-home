@@ -17,6 +17,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import {
   AccountCircle,
+  Close,
   Home,
   LockOpen,
   Settings,
@@ -175,6 +176,9 @@ const useStyles = makeStyles((theme) => ({
       top: "auto",
       left: "auto",
     },
+  },
+  absolute: {
+    position: "absolute",
   },
 }));
 
@@ -371,12 +375,17 @@ export const Sidebar = (props) => {
         <Dialog
           open={openSignin}
           onClose={() => setOpenSignin(false)}
+          fullScreen={window.innerWidth < 1000}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
           {loading && <LinearProgress />}
           {/* <DialogTitle><Typography variant="h5">Are you sure you would like to sign out?</Typography></DialogTitle> */}
-          <DialogContent style={{}}>
+          <DialogContent style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+            fullWidth={true}
+            maxWidth={"lg"}
+          >
+            {window.innerWidth < 1000 && <IconButton style={{ top: 16, left: 16 }} className={`${classes.absolute}`} onClick={() => setOpenSignin(false)}> <Close /> </IconButton>}
             <LoginPopup
               closePopupFunction={setOpenSignin}
               loadingBarFunction={setLoading}
