@@ -109,12 +109,7 @@ const MobileSchedulePage = (props) => {
   const fastForwardADay = () => {
     setOffset(offset + 1);
   };
-<<<<<<< HEAD
-  let adjustedMoment = moment().add(offset * 24, "hours");
-
-=======
   let adjustedMoment = moment().add(offset * 24, 'hours');
->>>>>>> 69d59c2011735f544ac3fd147580edbc887ef683
   useEffect(() => {
     let run = true;
     (async () => {
