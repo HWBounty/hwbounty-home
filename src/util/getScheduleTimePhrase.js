@@ -16,16 +16,6 @@ export const getTimePhrase = (offset) => {
       );
     };
     let dotw = [
-<<<<<<< HEAD
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
-    ][(moment().isoWeekday() - 1 + (offset || 0)) % 7];
-=======
       'monday',
       'tuesday',
       'wednesday',
@@ -34,7 +24,6 @@ export const getTimePhrase = (offset) => {
       'saturday',
       'sunday',
     ][moment().isoWeekday() - 1];
->>>>>>> 69d59c2011735f544ac3fd147580edbc887ef683
     let formattedClasses =
       schedule[dotw] &&
       schedule[dotw].map((clas) => {
@@ -57,19 +46,18 @@ export const getTimePhrase = (offset) => {
     )[0];
 
     if (currentClass) {
-      let endingInString = `${
-        currentClass.timeEnd - Date.now() > 60000
+      let endingInString = `${currentClass.timeEnd - Date.now() > 60000
           ? currentClass.timeEnd - Date.now() > 3600000
             ? `${Math.round(
-                moment.duration(currentClass.timeEnd - Date.now()).asHours()
-              )} hours`
+              moment.duration(currentClass.timeEnd - Date.now()).asHours()
+            )} hours`
             : `${Math.round(
-                moment.duration(currentClass.timeEnd - Date.now()).asMinutes()
-              )} minutes`
+              moment.duration(currentClass.timeEnd - Date.now()).asMinutes()
+            )} minutes`
           : `${Math.round(
-              moment.duration(currentClass.timeEnd - Date.now()).asSeconds()
-            )} seconds`
-      }`;
+            moment.duration(currentClass.timeEnd - Date.now()).asSeconds()
+          )} seconds`
+        }`;
 
       //Try to push a notif if class is starting soon
       if (
@@ -94,19 +82,18 @@ export const getTimePhrase = (offset) => {
     let nextClass = formattedClasses.filter((x) => x.timeStart > Date.now())[0];
 
     if (nextClass) {
-      let startingInString = `${
-        nextClass.timeStart - Date.now() > 60000
+      let startingInString = `${nextClass.timeStart - Date.now() > 60000
           ? nextClass.timeStart - Date.now() > 3600000
             ? `${Math.round(
-                moment.duration(nextClass.timeStart - Date.now()).asHours()
-              )} hours`
+              moment.duration(nextClass.timeStart - Date.now()).asHours()
+            )} hours`
             : `${Math.round(
-                moment.duration(nextClass.timeStart - Date.now()).asMinutes()
-              )} minutes`
+              moment.duration(nextClass.timeStart - Date.now()).asMinutes()
+            )} minutes`
           : `${Math.round(
-              moment.duration(nextClass.timeStart - Date.now()).asSeconds()
-            )} seconds`
-      }`;
+            moment.duration(nextClass.timeStart - Date.now()).asSeconds()
+          )} seconds`
+        }`;
       if (
         nextClass.timeStart - Date.now() < 120 * 1000 &&
         Date.now() - lastTimeBasedNotif > 240 * 1000
@@ -131,19 +118,18 @@ export const getTimePhrase = (offset) => {
       .filter((x) => Date.now() > x.timeEnd)
       .pop();
     if (lastClass) {
-      let lastEnded = `${
-        Date.now() - lastClass.timeEnd > 60000
+      let lastEnded = `${Date.now() - lastClass.timeEnd > 60000
           ? Date.now() - lastClass.timeEnd > 60000
             ? `${Math.round(
-                moment.duration(Date.now() - lastClass.timeEnd).asHours()
-              )} hours`
+              moment.duration(Date.now() - lastClass.timeEnd).asHours()
+            )} hours`
             : `${Math.round(
-                moment.duration(Date.now() - lastClass.timeEnd).asMinutes()
-              )} minutes`
+              moment.duration(Date.now() - lastClass.timeEnd).asMinutes()
+            )} minutes`
           : `${Math.round(
-              moment.duration(Date.now() - lastClass.timeEnd).asSeconds()
-            )} seconds`
-      }`;
+            moment.duration(Date.now() - lastClass.timeEnd).asSeconds()
+          )} seconds`
+        }`;
       return `${getPeriodName(lastClass.period)} ended ${lastEnded} ago`;
     }
 
