@@ -1,8 +1,8 @@
-export const enUS = {
+export const hiIN = {
   '404Page': {
     back: 'Hop back to Home',
     'back.comment': 'Back to home button',
-    onlyHopper: 'There’s only Hopper here',
+    onlyHopper: 'Keval Hopper yahaan hai',
     'onlyHopper.comment': 'Only Hopper',
     oops: 'OOPS',
     'oops.comment': 'OOPS text',
@@ -12,7 +12,7 @@ export const enUS = {
     'youCanStay.comment': 'Whoever came up with this line is cool',
   },
   accountIconButton: {
-    myAccount: 'My account',
+    myAccount: 'Mera account',
     'myAccount.comment': 'My account text',
     profile: 'Profile',
     'profile.comment': 'profile text',
@@ -20,7 +20,7 @@ export const enUS = {
   calculator: {
     calcVariables: {
       explanation:
-        'Type variables in text box (e.g. x=5) or press the button below',
+        'Text box mei variables taip karen (e.g. x=5) ya neeche ye button dabaen',
       'explanation.comment': 'Explanation for calculator variables',
     },
     equals: '=',
@@ -83,11 +83,11 @@ export const enUS = {
     'backToSearch.comment': 'Back to search text',
     classStart: 'Class Start Time',
     'classStart.comment': 'Class Start Time title',
-    createSchedule: 'Create a schedule block',
+    createSchedule: 'Ek schedule banaana',
     'createSchedule.comment': 'Create a schedule block title',
     displayDuration: '{{start}} - {{end}} ({{duration}} mins)',
     'displayDuration.comment': 'Displays the duration',
-    makeSchedule: 'Make your own schedule',
+    makeSchedule: 'Aapka schedule banaana',
     'makeSchedule.comment': 'Make your own schedule title',
     scheduleBuilder: 'Schedule Builder',
     'scheduleBuilder.comment': 'Title for schedule builder',
@@ -263,9 +263,9 @@ export const enUS = {
           'Tells user that lightmode/darkmode preference will be cleared',
       },
       signOutButtons: {
-        no: 'No',
+        no: 'Nahi',
         'no.comment': 'No button for signout',
-        yes: 'Yes',
+        yes: 'Haan',
         'yes.comment': 'Yes button for signout',
       },
     },
@@ -327,6 +327,6 @@ export const enUS = {
   },
 };
 
-export const NAME = 'English (United States)';
+export const NAME = 'Hindi';
 
-export default enUS;
+export default hiIN;
