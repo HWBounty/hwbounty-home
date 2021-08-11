@@ -1,29 +1,29 @@
 // React
-import React, { useState, useRef } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 
 // MUI
-import InputBase from "@material-ui/core/InputBase";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import InputBase from '@material-ui/core/InputBase';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
 // Redux
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import {
   calc_addHistory,
   calc_setInput,
-} from "../../../redux/actions/moduleActions";
+} from '../../../redux/actions/moduleActions';
 
 // Components
-import History from "./History";
+import History from './History';
 
 // Math related
-import mathquillToMathJS from "../../../util/latex/preprocessMathQuill";
-import { addStyles, EditableMathField, StaticMathField } from "react-mathquill";
-import { NumPad, SymbolPad } from "./CalcTools";
-import * as math from "mathjs";
+import mathquillToMathJS from '../../../util/latex/preprocessMathQuill';
+import { addStyles, EditableMathField, StaticMathField } from 'react-mathquill';
+import { NumPad, SymbolPad } from './CalcTools';
+import * as math from 'mathjs';
 
 // required for latex to format correctly
 addStyles();
@@ -32,13 +32,13 @@ const useStyles = makeStyles((theme) => ({
   ...theme.spreadIt,
   paper: {
     ...theme.spreadIt.paper,
-    height: "80vh",
+    height: '80vh',
   },
   rootPadding: {
     ...theme.spreadIt.rootPadding,
-    flexDirection: "column",
-    display: "flex",
-    height: "100%",
+    flexDirection: 'column',
+    display: 'flex',
+    height: '100%',
   },
   symbolPadGrid: {
     paddingTop: 15,
@@ -51,11 +51,11 @@ const LatexInput = (props) => {
   return (
     <EditableMathField
       latex=""
-      style={{ height: "auto", fontSize: 50, flex: 1 }}
+      style={{ height: 'auto', fontSize: 50, flex: 1 }}
       config={{
-        autoCommands: "pi theta sqrt sum",
+        autoCommands: 'pi theta sqrt sum',
         autoOperatorNames:
-          "sin cos tan feet ft inches in miles cm sech arcsec arsinh to rad deg radians degrees",
+          'sin cos tan feet ft inches in miles cm sech arcsec arsinh to rad deg radians degrees',
         handlers: {
           enter: onSubmit,
         },
@@ -78,7 +78,7 @@ export const Calculator = (props) => {
 
   const classes = useStyles();
 
-  const [answer, setAnswer] = useState("");
+  const [answer, setAnswer] = useState('');
   const [error, setError] = useState(false);
 
   const mathField = useRef(null);
@@ -93,10 +93,10 @@ export const Calculator = (props) => {
       setAnswer(`${ans}`);
       setError(false);
       calc_addHistory({ latex: val.latex(), ans: `${ans}` });
-      mathField.current.latex("");
+      mathField.current.latex('');
     } catch (err) {
       console.log(err);
-      setAnswer("ERROR!!!!");
+      setAnswer('ERROR!!!!');
       setError(true);
     }
   };
@@ -138,7 +138,7 @@ export const Calculator = (props) => {
             <SymbolPad onClick={handleSymbolPressed} />
           </Grid>
         </Grid>
-        <Typography color={error ? "error" : "initial"}>{answer}</Typography>
+        <Typography color={error ? 'error' : 'initial'}>{answer}</Typography>
       </div>
     </Paper>
   );

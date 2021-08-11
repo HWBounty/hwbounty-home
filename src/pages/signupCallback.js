@@ -1,17 +1,17 @@
-import { Component } from "react";
+import { Component } from 'react';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 
 class SignupCallback extends Component {
   render() {
-    if (!localStorage.getItem("DBIdToken")) {
+    if (!localStorage.getItem('DBIdToken')) {
       localStorage.setItem(
-        "DBIdToken",
-        this.props.location.pathname.split("/signupcallback/")[1]
+        'DBIdToken',
+        this.props.location.pathname.split('/signupcallback/')[1]
       );
-      this.props.history.push("/");
+      this.props.history.push('/');
     }
     return null;
   }

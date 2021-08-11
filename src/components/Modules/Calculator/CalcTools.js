@@ -1,12 +1,12 @@
 // React
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 // MUI
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import { connect } from "react-redux";
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
   numPadRoot: {},
@@ -67,7 +67,7 @@ export const NumPad = connect(mapStateToProps)((props) => {
       <NumRow arr={[1, 2, 3]} />
       <NumRow arr={[4, 5, 6]} />
       <NumRow arr={[7, 8, 9]} />
-      <NumRow arr={[null, 0, "."]} />
+      <NumRow arr={[null, 0, '.']} />
     </Grid>
   );
 });
@@ -75,12 +75,12 @@ export const NumPad = connect(mapStateToProps)((props) => {
 export const SymbolPad = (props) => {
   const { onClick } = props;
   const symbols = [
-    { symbol: "+", latex: "+" },
-    { symbol: "-", latex: "-" },
-    { symbol: "*", latex: "cdot" },
-    { symbol: "/", latex: "frac" },
-    { symbol: "√", latex: "sqrt" },
-    { symbol: "^", latex: "^" },
+    { symbol: '+', latex: '+' },
+    { symbol: '-', latex: '-' },
+    { symbol: '*', latex: 'cdot' },
+    { symbol: '/', latex: 'frac' },
+    { symbol: '√', latex: 'sqrt' },
+    { symbol: '^', latex: '^' },
   ];
 
   return (

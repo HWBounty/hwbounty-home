@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { List, ListItem, Typography } from "@material-ui/core";
+import { List, ListItem, Typography } from '@material-ui/core';
 
-import Player from "./Player";
-import t from "../../util/localization/localization";
+import Player from './Player';
+import t from '../../util/localization/localization';
 
 let parseSecsToEnglish = (secs) => {
   let mins = Math.floor(secs / 60);
@@ -19,9 +19,9 @@ const QueuePage = (props) => {
       style={{
         minWidth: 300,
         height: 440,
-        overflowX: "hidden",
-        overflowY: "scroll",
-        scrollbarWidth: "none",
+        overflowX: 'hidden',
+        overflowY: 'scroll',
+        scrollbarWidth: 'none',
       }}
     >
       {React.Children.toArray(
@@ -32,23 +32,23 @@ const QueuePage = (props) => {
               <div
                 style={{
                   background: `url(${
-                    data?.bestThumbnail?.url || ""
+                    data?.bestThumbnail?.url || ''
                   })center/cover`,
-                  minHeight: "64px",
-                  minWidth: "64px",
-                  maxHeight: "128px",
-                  maxWidth: "128px",
-                  borderRadius: "2px",
+                  minHeight: '64px',
+                  minWidth: '64px',
+                  maxHeight: '128px',
+                  maxWidth: '128px',
+                  borderRadius: '2px',
                 }}
               />
               <Typography
                 variant="caption"
                 style={{
-                  marginLeft: "1vw",
+                  marginLeft: '1vw',
                 }}
               >
                 {i + 1}
-                {t("queuePage.parenthesis")} {data?.songName || songURL}
+                {t('queuePage.parenthesis')} {data?.songName || songURL}
               </Typography>
             </ListItem>
           );

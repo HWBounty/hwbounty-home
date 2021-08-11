@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import Dialog from "@material-ui/core/Dialog";
+import Dialog from '@material-ui/core/Dialog';
 import {
   DialogContent,
   DialogContentText,
@@ -11,15 +11,15 @@ import {
   TextField,
   makeStyles,
   LinearProgress,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import { useSnackbar, withSnackbar } from "notistack";
+import { useSnackbar, withSnackbar } from 'notistack';
 
-import axios from "axios";
+import axios from 'axios';
 
-import { hwbountyAPI } from "../redux/types";
-import { setAuthorizationHeader } from "../redux/actions/userActions";
-import t from "../util/localization/localization";
+import { hwbountyAPI } from '../redux/types';
+import { setAuthorizationHeader } from '../redux/actions/userActions';
+import t from '../util/localization/localization';
 
 const useStyles = makeStyles({
   inputField: {
@@ -30,8 +30,8 @@ const useStyles = makeStyles({
 });
 
 export const SigninPopup = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -53,8 +53,8 @@ export const SigninPopup = (props) => {
       })
       .then((res) => {
         setAuthorizationHeader(res.data.token);
-        enqueueSnackbar("Logged in successfully!", {
-          variant: "success",
+        enqueueSnackbar('Logged in successfully!', {
+          variant: 'success',
         });
         props.setter(false);
         setSubmitting(false);
@@ -64,8 +64,8 @@ export const SigninPopup = (props) => {
       })
       .catch((error) => {
         if (error.response.status === 403) {
-          enqueueSnackbar("Invalid Email or Password!", {
-            variant: "error",
+          enqueueSnackbar('Invalid Email or Password!', {
+            variant: 'error',
           });
         }
         setSubmitting(false);
@@ -101,7 +101,7 @@ export const SigninPopup = (props) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={() => handleSubmit()} color="primary">
-          {t("signInPopup.signIn")}
+          {t('signInPopup.signIn')}
         </Button>
       </DialogActions>
     </Dialog>

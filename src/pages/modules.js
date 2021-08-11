@@ -1,13 +1,13 @@
 // React
-import { useParams } from "react-router";
+import { useParams } from 'react-router';
 
 // MUI Stuff
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from '@material-ui/core/styles/withStyles';
 
 // Modules
-import Calculator from "../components/Modules/Calculator/CalculatorModule";
-import EssayEditor from "../components/Modules/EssayEditor/EssayEditor";
-import GasLaws from "../components/Modules/GasLaws";
+import Calculator from '../components/Modules/Calculator/CalculatorModule';
+import EssayEditor from '../components/Modules/EssayEditor/EssayEditor';
+import GasLaws from '../components/Modules/GasLaws';
 
 const styles = (theme) => ({
   ...theme.spreadIt,
@@ -18,7 +18,7 @@ const styles = (theme) => ({
     paddingLeft: 50,
     paddingRight: 50,
     paddingTop: 30,
-    minHeight: "90%",
+    minHeight: '90%',
   },
 });
 
@@ -28,9 +28,9 @@ const Modules = (props) => {
 
   return (
     <div className={classes.root}>
-      {module === "calculator" && <Calculator />}
-      {module === "essayeditor" && <EssayEditor />}
-      {module === "gaslaws" && <GasLaws />}
+      {module === 'calculator' && <Calculator />}
+      {module === 'essayeditor' && <EssayEditor />}
+      {module === 'gaslaws' && <GasLaws />}
     </div>
   );
 };

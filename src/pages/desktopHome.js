@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 
 import {
   Card,
@@ -7,26 +7,26 @@ import {
   makeStyles,
   Typography,
   InputBase,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import Fuse from "fuse.js";
+import Fuse from 'fuse.js';
 
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import moment from "moment";
+import moment from 'moment';
 
-import getTimePhrase from "../util/getTimePhrase";
-import Pages from "../util/pageDictionary";
-import { ModuleCard } from "../components/ModuleCard";
-import useForceUpdate from "../util/useForceUpdate";
-import t from "../util/localization/localization";
+import getTimePhrase from '../util/getTimePhrase';
+import Pages from '../util/pageDictionary';
+import { ModuleCard } from '../components/ModuleCard';
+import useForceUpdate from '../util/useForceUpdate';
+import t from '../util/localization/localization';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    "& > *": {
+    display: 'flex',
+    '& > *': {
       margin: theme.spacing(1),
     },
   },
@@ -39,166 +39,166 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(16),
   },
   paper: {
-    width: "80vw",
-    height: "80vw",
-    display: "inline-block",
+    width: '80vw',
+    height: '80vw',
+    display: 'inline-block',
   },
   title: {
-    fontSize: "60px",
+    fontSize: '60px',
     // fontFamily: "",
   },
   formLabel: {
-    display: "block",
+    display: 'block',
   },
   formGroup: {
-    display: "inline",
+    display: 'inline',
   },
   card: {
     boxShadow: (theme) =>
       theme === 1
-        ? "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important"
-        : "0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important",
+        ? '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important'
+        : '0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important',
     backgroundColor: (theme) =>
-      theme === 1 ? "rgb(40,40,40)" : "rgb(244,250,251)",
-    borderRadius: "1vmin",
+      theme === 1 ? 'rgb(40,40,40)' : 'rgb(244,250,251)',
+    borderRadius: '1vmin',
   },
   timeUntilText: {
-    fontSize: "1.25rem",
-    fontFamily: "Poppins",
-    textAlign: "left",
-    marginLeft: "10%",
-    marginRight: "10%",
+    fontSize: '1.25rem',
+    fontFamily: 'Poppins',
+    textAlign: 'left',
+    marginLeft: '10%',
+    marginRight: '10%',
   },
   timeUntilTextMobile: {
     fontSize: window.innerWidth / 20,
-    fontFamily: "Nunito",
+    fontFamily: 'Nunito',
   },
   greetingText: {
-    display: "inline",
-    fontFamily: "Oswald",
-    verticalAlign: "middle",
+    display: 'inline',
+    fontFamily: 'Oswald',
+    verticalAlign: 'middle',
   },
   greetingIMG: {
-    width: "6vw",
-    height: "6vw",
-    verticalAlign: "middle",
-    display: "inline-block",
+    width: '6vw',
+    height: '6vw',
+    verticalAlign: 'middle',
+    display: 'inline-block',
   },
   searchBarText: {
-    height: "90%",
-    width: "50vw",
-    fontSize: "1.5vw",
-    fontFamily: "Nunito",
+    height: '90%',
+    width: '50vw',
+    fontSize: '1.5vw',
+    fontFamily: 'Nunito',
   },
   greetingDiv: {
-    marginTop: "10vw",
+    marginTop: '10vw',
   },
   time: {
-    width: "38vmin",
-    marginBottom: "5vw",
-    paddingBottom: "1.5rem",
-    textAlign: "center",
-    cursor: "pointer",
-    transition: "all 0.2s",
-    "&:hover": {
+    width: '38vmin',
+    marginBottom: '5vw',
+    paddingBottom: '1.5rem',
+    textAlign: 'center',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+    '&:hover': {
       boxShadow: (theme) =>
         theme === 1
-          ? "0 5px 12px rgba(0,0,0,0.3), 0 5px 12px rgba(0,0,0,0.4)!important"
-          : "0 5px 16px rgba(0,0,0,0.15), 0 5px 16px rgba(0,0,0,0.015)!important",
+          ? '0 5px 12px rgba(0,0,0,0.3), 0 5px 12px rgba(0,0,0,0.4)!important'
+          : '0 5px 16px rgba(0,0,0,0.15), 0 5px 16px rgba(0,0,0,0.015)!important',
     },
-    transform: "scale(1)",
+    transform: 'scale(1)',
     // position: "fixed",
     // top: "15%",
     // left: "5%",
-    color: (theme) => (!theme ? "rgb(88,88,88)" : "rgb(244 250 251)"),
+    color: (theme) => (!theme ? 'rgb(88,88,88)' : 'rgb(244 250 251)'),
   },
   searchBar: {
-    width: "60vw",
-    marginTop: "5vw",
+    width: '60vw',
+    marginTop: '5vw',
     // margin: "10vw",
-    verticalAlign: "middle",
+    verticalAlign: 'middle',
     //   maxHeight: "40%",
-    height: "8vmin",
-    textAlign: "center",
-    display: "flex",
-    alignItems: "center",
+    height: '8vmin',
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
   },
   searchResults: {
-    width: "60vw",
+    width: '60vw',
     // margin: "10vw",
-    verticalAlign: "middle",
+    verticalAlign: 'middle',
     //   maxHeight: "40%",
     // height: "60vh",
-    textAlign: "center",
+    textAlign: 'center',
     // left: "35vw",
     // top: "25%",
-    padding: "5vh",
-    paddingTop: "1vh",
-    display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "center",
-    background: "rgba(0,0,0,0)!important",
-    boxShadow: "none!important",
+    padding: '5vh',
+    paddingTop: '1vh',
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    background: 'rgba(0,0,0,0)!important',
+    boxShadow: 'none!important',
   },
   scheduleText: {
-    fontFamily: "Poppins",
-    fontSize: "1.5rem",
-    margin: "10%",
-    fontWeight: "500",
-    marginTop: "5%",
-    marginBottom: "2.5%",
-    verticalAlign: "middle",
+    fontFamily: 'Poppins',
+    fontSize: '1.5rem',
+    margin: '10%',
+    fontWeight: '500',
+    marginTop: '5%',
+    marginBottom: '2.5%',
+    verticalAlign: 'middle',
   },
   scheduleIcon: {
-    verticalAlign: "middle",
-    margin: "0.5vmin",
-    marginRight: "0.25vmin",
+    verticalAlign: 'middle',
+    margin: '0.5vmin',
+    marginRight: '0.25vmin',
   },
   rightSide: {
-    position: "relative",
-    width: "",
+    position: 'relative',
+    width: '',
   },
   scheduleCover: {
-    height: "17.5vmin",
+    height: '17.5vmin',
     filter: (theme) => `brightness(${theme === 0 ? 70 : 30}%)`,
   },
   miniCard: {
-    width: "30vmin",
-    height: "15vmin",
+    width: '30vmin',
+    height: '15vmin',
   },
   mainDiv: {
-    display: "flex",
+    display: 'flex',
   },
   timeCardDiv: {
-    width: "calc(40vmin + 5%)",
-    display: "flex",
-    height: "100vh",
-    alignContent: "flex-start",
-    justifyContent: "flex-start",
-    marginLeft: "5vw",
-    flexWrap: "wrap",
+    width: 'calc(40vmin + 5%)',
+    display: 'flex',
+    height: '100vh',
+    alignContent: 'flex-start',
+    justifyContent: 'flex-start',
+    marginLeft: '5vw',
+    flexWrap: 'wrap',
   },
   dataDiv: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     flexGrow: 1,
   },
   generalLabel: {
-    fontFamily: "Poppins",
-    fontSize: "2rem",
-    textAlign: "left",
-    width: "100%",
-    marginBottom: "2vmin",
+    fontFamily: 'Poppins',
+    fontSize: '2rem',
+    textAlign: 'left',
+    width: '100%',
+    marginBottom: '2vmin',
     // paddingLeft: "5%",
   },
   qaccessLabel: {
-    marginTop: "15%",
-    width: "35vmin",
+    marginTop: '15%',
+    width: '35vmin',
   },
   reccomendedLabel: {
-    marginTop: "5%",
-    width: "55vw",
+    marginTop: '5%',
+    width: '55vw',
   },
 }));
 export const TimeCard = (props) => {
@@ -206,7 +206,7 @@ export const TimeCard = (props) => {
   const { theme } = props;
   const history = useHistory();
   const redirectToSchedule = () => {
-    history.push("/schedule");
+    history.push('/schedule');
   };
   const classes = useStyles(theme);
   const timeout = useRef();
@@ -250,33 +250,33 @@ export const TimeCard = (props) => {
       <Typography
         variant="h5"
         style={{
-          fontSize: "1rem",
-          fontFamily: "Poppins",
-          fontWeight: "500",
-          textAlign: "left",
-          marginLeft: "10%",
+          fontSize: '1rem',
+          fontFamily: 'Poppins',
+          fontWeight: '500',
+          textAlign: 'left',
+          marginLeft: '10%',
         }}
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "h:mm:ss A"
-        )
+            'h:mm:ss A'
+          )
         }
       </Typography>
       <Typography
         variant="h5"
         style={{
-          fontSize: "1rem",
-          fontFamily: "Poppins",
-          fontWeight: "500",
-          textAlign: "left",
-          marginLeft: "10%",
+          fontSize: '1rem',
+          fontFamily: 'Poppins',
+          fontWeight: '500',
+          textAlign: 'left',
+          marginLeft: '10%',
         }}
       >
         {
           /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "dddd M/D/YYYY"
-        )
+            'dddd M/D/YYYY'
+          )
         }
       </Typography>
       <br />
@@ -285,15 +285,15 @@ export const TimeCard = (props) => {
       <Typography
         variant="h5"
         style={{
-          fontSize: "1rem",
-          fontFamily: "Poppins",
-          fontWeight: "500",
-          textAlign: "left",
-          marginLeft: "10%",
-          color: "#69B4AC",
+          fontSize: '1rem',
+          fontFamily: 'Poppins',
+          fontWeight: '500',
+          textAlign: 'left',
+          marginLeft: '10%',
+          color: '#69B4AC',
         }}
       >
-        {t("desktopHome.viewFullSchedule")}
+        {t('desktopHome.viewFullSchedule')}
       </Typography>
     </Card>
   );
@@ -306,15 +306,15 @@ export const DesktopHome = (props) => {
   const forceUpdate = useForceUpdate();
   const history = useHistory();
   const redirectToSchedule = () => {
-    history.push("/schedule");
+    history.push('/schedule');
   };
   const renderSearchPages = () => {
-    let query = document.getElementById("pageSearchBox")?.value;
+    let query = document.getElementById('pageSearchBox')?.value;
     if (!query) return null;
     const fuseOptions = {
       includeScore: true,
       // Search in `author` and in `tags` array
-      keys: ["name", "description", "tags"],
+      keys: ['name', 'description', 'tags'],
     };
     const pageArray = Object.values(Pages);
     const fuse = new Fuse(pageArray, fuseOptions);
@@ -352,7 +352,7 @@ export const DesktopHome = (props) => {
         <Typography
           className={`${classes.generalLabel} ${classes.qaccessLabel}`}
         >
-          {t("desktopHome.quickAccess")}
+          {t('desktopHome.quickAccess')}
         </Typography>
         <TimeCard theme={theme} />
       </div>
@@ -366,7 +366,7 @@ export const DesktopHome = (props) => {
             <InputBase
               placeholder="&nbsp;What’cha looking for?"
               className={`${classes.searchBarText}`}
-              inputProps={{ "aria-label": "search" }}
+              inputProps={{ 'aria-label': 'search' }}
               id="pageSearchBox"
               onChange={forceUpdate}
             />
@@ -375,7 +375,7 @@ export const DesktopHome = (props) => {
         <Typography
           className={`${classes.generalLabel} ${classes.reccomendedLabel}`}
         >
-          {t("desktopHome.recommended")}
+          {t('desktopHome.recommended')}
         </Typography>
         <div style={{}} className={`${classes.searchResults}`}>
           {React.Children.toArray(renderSearchPages())}

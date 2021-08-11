@@ -1,32 +1,31 @@
 // React
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 // MUI
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import Typography from "@material-ui/core/Typography";
-import Collapse from "@material-ui/core/Collapse";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import moment from "moment-timezone";
-import { CircularProgress, Container } from "@material-ui/core";
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
+import Collapse from '@material-ui/core/Collapse';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import moment from 'moment-timezone';
+import { CircularProgress, Container } from '@material-ui/core';
 
 // Redux
-import { connect } from "react-redux";
-import { linkUserSchoology } from "../../redux/actions/userActions";
+import { connect } from 'react-redux';
+import { linkUserSchoology } from '../../redux/actions/userActions';
 
-import axios from "axios";
+import axios from 'axios';
 // Translations
-import t from "../../util/localization/localization";
-import { useSnackbar } from "notistack";
-import TetLib from "../../util/TetLib";
-
+import t from '../../util/localization/localization';
+import { useSnackbar } from 'notistack';
+import TetLib from '../../util/TetLib';
 
 const decodeHTML = (string) => {
-  const map = { gt: ">" /* , … */ };
+  const map = { gt: '>' /* , … */ };
   return string.replace(/&(#(?:x[0-9a-f]+|\d+)|[a-z]+);?/gi, ($0, $1) => {
-    if ($1[0] === "#") {
+    if ($1[0] === '#') {
       return String.fromCharCode(
-        $1[1].toLowerCase() === "x"
+        $1[1].toLowerCase() === 'x'
           ? parseInt($1.substr(2), 16)
           : parseInt($1.substr(1), 10)
       );
@@ -38,16 +37,16 @@ const decodeHTML = (string) => {
 const useButtonStyles = makeStyles({
   root: {
     border: 0,
-    borderRadius: "1rem!important",
-    marginTop: "2vw",
+    borderRadius: '1rem!important',
+    marginTop: '2vw',
     paddingBottom: 10,
-    display: "block",
-    cursor: "pointer",
-    position: "relative",
+    display: 'block',
+    cursor: 'pointer',
+    position: 'relative',
     boxShadow: (theme) =>
       theme === 1
-        ? "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important"
-        : "0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important",
+        ? '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important'
+        : '0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important',
   },
 });
 
@@ -62,7 +61,6 @@ const generatePeriodColors = (stops, theme) => {
     [153, 95, 163],
     [255, 74, 28],
   ].splice(0, stops);
-
 };
 
 const PeriodButton = (props) => {
@@ -96,12 +94,12 @@ const PeriodButton = (props) => {
   const [expanded, setExpanded] = React.useState(false);
   const handleButtonClicked = () => {
     if (zoom.length) setExpanded(!expanded);
-    else enqueueSnackbar("No Zoom Links found for this class!");
+    else enqueueSnackbar('No Zoom Links found for this class!');
   };
 
   const handleZoomLinkClicked = (event, link) => {
     event.stopPropagation();
-    const newWindow = window.open(link, "_blank", "noopener,noreferrer");
+    const newWindow = window.open(link, '_blank', 'noopener,noreferrer');
     if (newWindow) newWindow.opener = null;
   };
   let notDoneCol = color.filter((x) => true);
@@ -109,38 +107,42 @@ const PeriodButton = (props) => {
   //Set to 40 for Darkmode
   notDoneCol[2] = theme ? 76 : 90;
   color[2] = theme ? 60 : 80;
-  if (periodID === "break") {
+  if (periodID === 'break') {
     notDoneCol[2] = theme ? 1 : 100;
     color[2] = theme ? 10 : 95;
   }
   return (
     <div
       style={{
-        marginBottom: "2vh",
+        marginBottom: '2vh',
       }}
     >
       <Card
         className={classes.root}
         onClick={handleButtonClicked}
         style={{
-          background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${color[2]
-            }%) 0%, hsl(${color[0]},${color[1]}%,${color[2]
-            }%) ${timePassed}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${notDoneCol[2]
-            }%) ${timePassed + 0.000001}%, hsl(${notDoneCol[0]},${notDoneCol[1]
-            }%,${notDoneCol[2]}%) 100%)`,
-          borderRadius: "0.1rem!important",
-          padding: "10px",
+          background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${
+            color[2]
+          }%) 0%, hsl(${color[0]},${color[1]}%,${
+            color[2]
+          }%) ${timePassed}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${
+            notDoneCol[2]
+          }%) ${timePassed + 0.000001}%, hsl(${notDoneCol[0]},${
+            notDoneCol[1]
+          }%,${notDoneCol[2]}%) 100%)`,
+          borderRadius: '0.1rem!important',
+          padding: '10px',
         }}
       >
         <Typography
           variant="h5"
           align="left"
           style={{
-            marginLeft: "4%",
+            marginLeft: '4%',
             fontSize: window.innerWidth ** 0.4 + 32,
-            marginBottom: window.innerWidth <= 960 ? "12%" : "6%",
-            position: "relative",
-            marginTop: window.innerWidth <= 960 ? "4%" : "2%",
+            marginBottom: window.innerWidth <= 960 ? '12%' : '6%',
+            position: 'relative',
+            marginTop: window.innerWidth <= 960 ? '4%' : '2%',
             // left: "5%"
           }}
         >
@@ -158,14 +160,14 @@ const PeriodButton = (props) => {
               margin: 10,
               marginBottom: 10,
               marginTop: 0,
-              bottom: window.innerWidth <= 960 ? "70%" : "1%",
-              left: "4%",
-              bottom: "10%",
-              position: "absolute",
+              bottom: window.innerWidth <= 960 ? '70%' : '1%',
+              left: '4%',
+              bottom: '10%',
+              position: 'absolute',
               fontFamily: "'Nunito'",
             }}
           >
-            {t("schedule.minsFormatting", {
+            {t('schedule.minsFormatting', {
               period,
               tSS,
               tES,
@@ -197,13 +199,13 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
     offset = (scheduleDay.isoWeekday() - 1 + (((offset % 7) + 7) % 7)) % 7;
   else offset = scheduleDay.isoWeekday() - 1;
   let dotw = [
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday",
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday',
   ][offset];
   let allClasses = scheduleData.classes || {};
   let classes = new Map();
@@ -237,20 +239,20 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
         zoom:
           courseInfo && courseInfo.links
             ? courseInfo.links
-              .map((linkGroup) => {
-                return linkGroup.links.map((link) => {
-                  return { link: link, title: decodeHTML(linkGroup.title) };
-                });
-              })
-              .flat(10000)
+                .map((linkGroup) => {
+                  return linkGroup.links.map((link) => {
+                    return { link: link, title: decodeHTML(linkGroup.title) };
+                  });
+                })
+                .flat(10000)
             : [],
         timeStart:
-          moment(x.timeStart, "hh:mma")
-            .add((convertedMoment - currentMoment) / 60, "hours")
+          moment(x.timeStart, 'hh:mma')
+            .add((convertedMoment - currentMoment) / 60, 'hours')
             .unix() * 1000,
         timeEnd:
-          moment(x.timeEnd, "hh:mma")
-            .add((convertedMoment - currentMoment) / 60, "hours")
+          moment(x.timeEnd, 'hh:mma')
+            .add((convertedMoment - currentMoment) / 60, 'hours')
             .unix() * 1000,
         tSS: x.timeStart,
         tES: x.timeEnd,
@@ -263,11 +265,10 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
 let done = false;
 const fetchAndSet = async (setCourseInfo, setScheduleData, setCannotFetch) => {
   try {
-    if (localStorage.getItem("cachedSchedule"))
-      setScheduleData(JSON.parse(localStorage.getItem("cachedSchedule")));
-    if (localStorage.getItem("cachedCourseInfo"))
-      setCourseInfo(JSON.parse(localStorage.getItem("cachedCourseInfo")));
-
+    if (localStorage.getItem('cachedSchedule'))
+      setScheduleData(JSON.parse(localStorage.getItem('cachedSchedule')));
+    if (localStorage.getItem('cachedCourseInfo'))
+      setCourseInfo(JSON.parse(localStorage.getItem('cachedCourseInfo')));
   } catch (error) {
     console.trace(error);
     setCannotFetch(true);
@@ -288,19 +289,22 @@ export const Schedule = (props) => {
     (async () => {
       await TetLib.sleep(1000 - (Date.now() % 1000));
       while (run) {
-        await TetLib.sleep(1000)
+        await TetLib.sleep(1000);
         forceUpdate();
       }
     })();
     return () => {
       run = false;
-    }
-  }, [])
+    };
+  }, []);
   const [courseInfo, setCourseInfo] = useState(null);
   const [scheduleData, setScheduleData] = useState(null);
   const [fetching, setFetching] = useState(false);
   const [cannotFetch, setCannotFetch] = useState(false);
-  if ((!scheduleData && !courseInfo) || (!scheduleData && localStorage.getItem("anonStorage"))) {
+  if (
+    (!scheduleData && !courseInfo) ||
+    (!scheduleData && localStorage.getItem('anonStorage'))
+  ) {
     if (!fetching) {
       setFetching(true);
       fetchAndSet(setCourseInfo, setScheduleData, setCannotFetch);
@@ -309,20 +313,20 @@ export const Schedule = (props) => {
     if (cannotFetch)
       return (
         <div>
-          <Typography>{t("schedule.linkSchoologyPrompt")}</Typography>
+          <Typography>{t('schedule.linkSchoologyPrompt')}</Typography>
           <Button
             variant="contained"
             onClick={(x) => {
               linkUserSchoology();
             }}
           >
-            {t("schedule.linkSchoology")}
+            {t('schedule.linkSchoology')}
           </Button>
         </div>
       );
     return (
       <div>
-        <Typography>{t("schedule.fetching")}</Typography>
+        <Typography>{t('schedule.fetching')}</Typography>
         <CircularProgress />
       </div>
     );
@@ -330,12 +334,12 @@ export const Schedule = (props) => {
   if (!scheduleData?.schedule)
     return (
       <div>
-        <Typography>{t("schedule.noSchedule")}</Typography>
+        <Typography>{t('schedule.noSchedule')}</Typography>
       </div>
     );
   const periods = parsePeriods(scheduleData, courseInfo, theme, dayOffset);
   return (
-    <Container style={{ marginBottom: "50px", width: "100%", padding: "0px" }}>
+    <Container style={{ marginBottom: '50px', width: '100%', padding: '0px' }}>
       {React.Children.toArray(
         periods.map((p) => {
           return (

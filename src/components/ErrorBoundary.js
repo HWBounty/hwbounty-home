@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import t from "../util/localization/localization";
+import t from '../util/localization/localization';
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +22,7 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <h1>{t("errorBoundary.somethingWentWrong")}</h1>;
+      return <h1>{t('errorBoundary.somethingWentWrong')}</h1>;
     }
 
     return this.props.children;

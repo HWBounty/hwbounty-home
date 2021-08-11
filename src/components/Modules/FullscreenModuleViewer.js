@@ -1,15 +1,15 @@
 // React
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 
 // MUI
-import Modal from "@material-ui/core/Modal";
+import Modal from '@material-ui/core/Modal';
 
 // Modules
 import {
   CalculatorFullscreen,
   CalculatorLeftTab,
   CalculatorRightTab,
-} from "./Calculator/CalculatorFullscreen";
+} from './Calculator/CalculatorFullscreen';
 
 export const FullscreenModuleViewer = (props) => {
   return (

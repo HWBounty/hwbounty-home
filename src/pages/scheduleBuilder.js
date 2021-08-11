@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 import {
   Button,
@@ -11,121 +11,121 @@ import {
   TextField,
   Typography,
   Zoom,
-} from "@material-ui/core";
-import { AddRounded, ChevronLeftRounded, Remove } from "@material-ui/icons";
-import { Autocomplete } from "@material-ui/lab";
+} from '@material-ui/core';
+import { AddRounded, ChevronLeftRounded, Remove } from '@material-ui/icons';
+import { Autocomplete } from '@material-ui/lab';
 
-import moment from "moment";
+import moment from 'moment';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import useForceUpdate from "../util/useForceUpdate";
-import t from "../util/localization/localization";
+import useForceUpdate from '../util/useForceUpdate';
+import t from '../util/localization/localization';
 
 const useStyles = makeStyles({
   mainDiv: {
-    display: "flex",
-    height: "100%",
-    width: "100%",
+    display: 'flex',
+    height: '100%',
+    width: '100%',
   },
   leftSidebar: {
-    minWidth: "10vw",
+    minWidth: '10vw',
     // height: "100%",
-    padding: "4vmin",
-    backgroundColor: "rgb(50,50,50)",
-    textAlign: "left",
-    float: "left",
+    padding: '4vmin',
+    backgroundColor: 'rgb(50,50,50)',
+    textAlign: 'left',
+    float: 'left',
   },
   mainSchedule: {
-    backgroundColor: "rgb(100,100,100)",
+    backgroundColor: 'rgb(100,100,100)',
     flexGrow: 1,
-    paddingTop: "5vmin",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
+    paddingTop: '5vmin',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
   title: {
-    fontFamily: "Oswald",
-    fontSize: "4rem",
+    fontFamily: 'Oswald',
+    fontSize: '4rem',
   },
   minititle: {
-    fontFamily: "Poppins",
-    fontSize: "1.5rem",
+    fontFamily: 'Poppins',
+    fontSize: '1.5rem',
     // textAlign: "center",
   },
   listItemText: {
-    fontFamily: "Nunito",
-    fontSize: "1.25rem",
-    fontWeight: "bold",
+    fontFamily: 'Nunito',
+    fontSize: '1.25rem',
+    fontWeight: 'bold',
   },
   classCard: {
-    width: "80%",
-    minHeight: "20vmin",
-    borderRadius: "1vmin",
-    margin: "1.25vmin",
-    position: "relative",
+    width: '80%',
+    minHeight: '20vmin',
+    borderRadius: '1vmin',
+    margin: '1.25vmin',
+    position: 'relative',
   },
   classCardTitle: {
-    marginTop: "5vmin",
+    marginTop: '5vmin',
     // justifySelf: "flex-start",
-    marginLeft: "5vmin",
-    marginRight: "5vmin",
-    marginBottom: "1vmin",
-    textAlign: "left",
-    fontSize: "3.75rem",
-    fontFamily: "Oswald",
+    marginLeft: '5vmin',
+    marginRight: '5vmin',
+    marginBottom: '1vmin',
+    textAlign: 'left',
+    fontSize: '3.75rem',
+    fontFamily: 'Oswald',
   },
   classCardTime: {
-    fontFamily: "Nunito",
-    fontSize: "1.5rem",
-    textAlign: "left",
-    marginLeft: "5vmin",
-    marginRight: "5vmin",
-    marginBottom: "1vmin",
+    fontFamily: 'Nunito',
+    fontSize: '1.5rem',
+    textAlign: 'left',
+    marginLeft: '5vmin',
+    marginRight: '5vmin',
+    marginBottom: '1vmin',
   },
   classCardRemoveButton: {
-    position: "absolute",
-    top: "10%",
-    right: "5%",
+    position: 'absolute',
+    top: '10%',
+    right: '5%',
   },
   classCardRemoveButtonIcon: {
     // color: "rgb(255,0,0)",
   },
   addButton: {
-    backgroundColor: "rgb(75,75,75)",
+    backgroundColor: 'rgb(75,75,75)',
   },
 
   blockBuilderCard: {
-    minWidth: "100vmin",
-    minHeight: "80vmin",
-    display: "flex",
-    alignItems: "flex-start",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    padding: "5vmin",
+    minWidth: '100vmin',
+    minHeight: '80vmin',
+    display: 'flex',
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    padding: '5vmin',
   },
   flexModal: {
-    display: "flex",
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    flexWrap: "nowrap",
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'nowrap',
   },
   mediumTitle: {
-    fontFamily: "Poppins",
-    fontSize: "2.5rem",
-    alignSelf: "center",
-    margin: "1.25rem",
-    marginTop: "0",
+    fontFamily: 'Poppins',
+    fontSize: '2.5rem',
+    alignSelf: 'center',
+    margin: '1.25rem',
+    marginTop: '0',
   },
   periodSelector: {
-    fontSize: "1.75rem",
-    height: "500px",
+    fontSize: '1.75rem',
+    height: '500px',
   },
   periodTitle: {
     fontSize: 50,
-    fontFamily: "Oswald",
+    fontFamily: 'Oswald',
   },
   periodInput: {
     fontSize: 50,
@@ -135,9 +135,9 @@ export const ScheduleBuilder = (props) => {
   const classes = useStyles(props);
   const [mondaySchedule, setMondaySchedule] = useState([
     {
-      period: "period1",
-      start: "11:30am",
-      end: "12:30pm",
+      period: 'period1',
+      start: '11:30am',
+      end: '12:30pm',
     },
   ]);
   const [tuesdaySchedule, setTuesdaySchedule] = useState([]);
@@ -147,7 +147,7 @@ export const ScheduleBuilder = (props) => {
   const [saturday, setSaturday] = useState([]);
   const [sunday, setSunday] = useState([]);
   const [nameOverrides, setNameOverrides] = useState({
-    period1: "Period 1",
+    period1: 'Period 1',
   });
 
   const [currentDay, setCurrentDay] = useState(0);
@@ -162,22 +162,22 @@ export const ScheduleBuilder = (props) => {
   //     end: "12:30pm",
   // }
   const periods = [
-    "period1",
-    "period2",
-    "period3",
-    "period4",
-    "period5",
-    "period6",
-    "period7",
-    "period8",
-    "period9",
-    "period10",
-    "period11",
-    "period12",
-    "period13",
-    "period14",
-    "period15",
-    "break",
+    'period1',
+    'period2',
+    'period3',
+    'period4',
+    'period5',
+    'period6',
+    'period7',
+    'period8',
+    'period9',
+    'period10',
+    'period11',
+    'period12',
+    'period13',
+    'period14',
+    'period15',
+    'break',
   ];
   const cday = [
     mondaySchedule,
@@ -211,15 +211,15 @@ export const ScheduleBuilder = (props) => {
   };
   const renderDays = () => {
     return cday.map((x, i) => {
-      let startTime = moment(x.start, "hh:mma");
-      let endTime = moment(x.end, "hh:mma");
+      let startTime = moment(x.start, 'hh:mma');
+      let endTime = moment(x.end, 'hh:mma');
       return (
         <Card className={`${classes.classCard}`}>
           <Typography className={`${classes.classCardTitle}`}>
             {nameOverrides[x.period] || x.period}
           </Typography>
           <Typography className={`${classes.classCardTime}`}>
-            {t("scheduleBuilder.formatMinutes", {
+            {t('scheduleBuilder.formatMinutes', {
               start: x.start,
               end: x.end,
               mins: moment.duration(endTime - startTime).asMinutes(),
@@ -239,13 +239,13 @@ export const ScheduleBuilder = (props) => {
     <div className={`${classes.mainDiv}`}>
       <div className={`${classes.leftSidebar}`}>
         <Typography className={`${classes.title}`}>
-          {t("scheduleBuilder.scheduleBuilder")}
+          {t('scheduleBuilder.scheduleBuilder')}
         </Typography>
         <Button>
-          <ChevronLeftRounded /> {t("scheduleBuilder.backToSearch")}
+          <ChevronLeftRounded /> {t('scheduleBuilder.backToSearch')}
         </Button>
         <Typography className={`${classes.minititle}`}>
-          {t("scheduleBuilder.makeSchedule")}
+          {t('scheduleBuilder.makeSchedule')}
         </Typography>
         <List component="nav" aria-label="main mailbox folders">
           <ListItem
@@ -254,7 +254,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 0)}
             className={`${classes.listItemText}`}
           >
-            {t("days.monday")}
+            {t('days.monday')}
           </ListItem>
           <ListItem
             button
@@ -262,7 +262,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 1)}
             className={`${classes.listItemText}`}
           >
-            {t("days.tuesday")}
+            {t('days.tuesday')}
           </ListItem>
           <ListItem
             button
@@ -270,7 +270,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 2)}
             className={`${classes.listItemText}`}
           >
-            {t("days.wednesday")}
+            {t('days.wednesday')}
           </ListItem>
           <ListItem
             button
@@ -278,7 +278,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 3)}
             className={`${classes.listItemText}`}
           >
-            {t("days.thursday")}
+            {t('days.thursday')}
           </ListItem>
           <ListItem
             button
@@ -286,7 +286,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 4)}
             className={`${classes.listItemText}`}
           >
-            {t("days.friday")}
+            {t('days.friday')}
           </ListItem>
           <ListItem
             button
@@ -294,7 +294,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 5)}
             className={`${classes.listItemText}`}
           >
-            {t("days.saturday")}
+            {t('days.saturday')}
           </ListItem>
           <ListItem
             button
@@ -302,7 +302,7 @@ export const ScheduleBuilder = (props) => {
             onClick={(event) => updateDay(event, 6)}
             className={`${classes.listItemText}`}
           >
-            {t("days.sunday")}
+            {t('days.sunday')}
             {/* <ListItemText primary="Sunday" className={`${classes.listItemText}`}/> */}
           </ListItem>
         </List>
@@ -324,12 +324,12 @@ export const ScheduleBuilder = (props) => {
         <Zoom in={createBlock}>
           <Card className={`${classes.blockBuilderCard}`}>
             <Typography className={`${classes.mediumTitle}`}>
-              {t("scheduleBuilder.createSchedule")}
+              {t('scheduleBuilder.createSchedule')}
             </Typography>
 
             <div>
               <Typography className={`${classes.periodTitle}`}>
-                {t("scheduleBuilder.classStartTime")}
+                {t('scheduleBuilder.classStartTime')}
               </Typography>
               <TextField
                 id="filled-basic"

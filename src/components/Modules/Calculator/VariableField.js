@@ -1,23 +1,23 @@
 // React
-import { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
+import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 
 // MUI
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import DeleteIcon from "@material-ui/icons/Delete";
-import DragIcon from "@material-ui/icons/DragIndicator";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import DeleteIcon from '@material-ui/icons/Delete';
+import DragIcon from '@material-ui/icons/DragIndicator';
 
 // Redux
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import {
   calc_addVariable,
   calc_removeVariable,
-} from "../../../redux/actions/moduleActions";
+} from '../../../redux/actions/moduleActions';
 
 // Translation
-import t from "../../../util/localization/localization";
+import t from '../../../util/localization/localization';
 
 const VariableField = (props) => {
   const { startName, startVal, scope, updateList, dragHandleProps } = props;
@@ -96,10 +96,10 @@ const VariableField = (props) => {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: 'flex' }}>
       <div
         {...dragHandleProps}
-        style={{ display: "flex", alignItems: "center", paddingLeft: 10 }}
+        style={{ display: 'flex', alignItems: 'center', paddingLeft: 10 }}
       >
         <DragIcon />
       </div>
@@ -110,7 +110,7 @@ const VariableField = (props) => {
             size="small"
             style={{ paddingLeft: 10 }}
             inputProps={{
-              style: { cursor: nameDisabled ? "pointer" : "auto" },
+              style: { cursor: nameDisabled ? 'pointer' : 'auto' },
             }}
             disabled={nameDisabled}
             value={name}
@@ -123,13 +123,13 @@ const VariableField = (props) => {
       <Button
         onClick={handleValueClicked}
         fullWidth
-        style={{ display: "flex" }}
+        style={{ display: 'flex' }}
       >
         <Typography
           variant="body1"
-          style={{ flex: 1, textAlign: "left", paddingRight: 10 }}
+          style={{ flex: 1, textAlign: 'left', paddingRight: 10 }}
         >
-          {t("calculator.equals")}
+          {t('calculator.equals')}
         </Typography>
         <form onSubmit={handleSubmitValue}>
           <TextField
@@ -137,7 +137,7 @@ const VariableField = (props) => {
             size="small"
             style={{ paddingRight: 10 }}
             inputProps={{
-              style: { cursor: valueDisabled ? "pointer" : "auto" },
+              style: { cursor: valueDisabled ? 'pointer' : 'auto' },
             }}
             disabled={valueDisabled}
             placeholder={`${value}`}

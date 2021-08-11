@@ -1,22 +1,22 @@
 // React
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 // MUI
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
 const styles = {
   typography: {
-    textTransform: "none",
+    textTransform: 'none',
   },
   assignmentTitle: {
     flex: 1,
-    textAlign: "left",
+    textAlign: 'left',
     marginLeft: 10,
-    textTransform: "none",
+    textTransform: 'none',
   },
   assignmentDue: {
     marginRight: 10,
@@ -27,7 +27,7 @@ export const SchoologyAssignment = (props) => {
   const { url, title, due, classes } = props;
 
   const openLinkInNewTab = () => {
-    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
     if (newWindow) newWindow.opener = null;
   };
 
@@ -37,7 +37,7 @@ export const SchoologyAssignment = (props) => {
         {title}
       </Typography>
       <Typography className={classes.assignmentDue}>
-        {dayjs(due).format("h:mm a")}
+        {dayjs(due).format('h:mm a')}
       </Typography>
     </Button>
   );

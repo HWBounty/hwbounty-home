@@ -1,20 +1,20 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import "../login.css";
+import '../login.css';
 
 //MUI Stuff
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import withStyles from "@material-ui/core/styles/withStyles";
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 // Redux stuff
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { loginUser, signupUser } from "../redux/actions/userActions";
+import { loginUser, signupUser } from '../redux/actions/userActions';
 
-import axios from "axios";
+import axios from 'axios';
 
 const styles = (theme) => ({
   ...theme.spreadIt,
@@ -24,11 +24,11 @@ class Signup extends Component {
   constructor() {
     super();
     this.state = {
-      email: "",
-      password: "",
-      fName: "",
-      lName: "",
-      username: "",
+      email: '',
+      password: '',
+      fName: '',
+      lName: '',
+      username: '',
       errors: {},
       open: true,
     };
@@ -45,8 +45,8 @@ class Signup extends Component {
       state.loggingIn = true;
       this.setState(state);
       event.preventDefault();
-      if (document.getElementById("loginFailedVisible"))
-        document.getElementById("loginFailedVisible").id = "loginFailed";
+      if (document.getElementById('loginFailedVisible'))
+        document.getElementById('loginFailedVisible').id = 'loginFailed';
       // {
       // 	"email": "jl38768@pausd.us",
       // 	"firstName": "Teto",
@@ -64,15 +64,15 @@ class Signup extends Component {
       const result = await this.props.signupUser(userData, this.props.history);
       try {
         if (!result)
-          document.getElementById("loginFailed").id = "loginFailedVisible";
+          document.getElementById('loginFailed').id = 'loginFailedVisible';
         else {
           alert(
-            "Your account is now pending confirmation! Please go into your email and click on the verification link!"
+            'Your account is now pending confirmation! Please go into your email and click on the verification link!'
           );
         }
       } catch (error) {}
-      document.getElementById("loginFailedVisible").innerText =
-        "Signup failed!";
+      document.getElementById('loginFailedVisible').innerText =
+        'Signup failed!';
     } catch (error) {}
   };
   handleClose = (event) => {
@@ -84,7 +84,7 @@ class Signup extends Component {
     this.setState({
       [event.target.id]: event.target.value,
     });
-    if (event.target.id === "username") {
+    if (event.target.id === 'username') {
       let res = (
         await axios
           .get(`https://api.hwbounty.help/usernameTaken/${event.target.value}`)
@@ -92,17 +92,17 @@ class Signup extends Component {
       ).data;
       if (res) {
         try {
-          document.getElementById("loginFailed").id = "loginFailedVisible";
+          document.getElementById('loginFailed').id = 'loginFailedVisible';
         } catch (error) {}
-        document.getElementById("loginFailedVisible").innerText =
-          "Invalid Username! Does it exist already?";
+        document.getElementById('loginFailedVisible').innerText =
+          'Invalid Username! Does it exist already?';
       } else {
         try {
-          document.getElementById("loginFailedVisible").id = "loginFailed";
+          document.getElementById('loginFailedVisible').id = 'loginFailed';
         } catch (error) {}
       }
     }
-    if (event.target.id === "email") {
+    if (event.target.id === 'email') {
       let res = (
         await axios
           .get(`https://api.hwbounty.help/emailTaken/${event.target.value}`)
@@ -110,30 +110,30 @@ class Signup extends Component {
       ).data;
       if (res) {
         try {
-          document.getElementById("loginFailed").id = "loginFailedVisible";
+          document.getElementById('loginFailed').id = 'loginFailedVisible';
         } catch (error) {}
-        document.getElementById("loginFailedVisible").innerText =
-          "This email is already in use!";
+        document.getElementById('loginFailedVisible').innerText =
+          'This email is already in use!';
       } else {
         try {
-          document.getElementById("loginFailedVisible").id = "loginFailed";
+          document.getElementById('loginFailedVisible').id = 'loginFailed';
         } catch (error) {}
       }
     }
-    if (event.target.id.includes("password")) {
+    if (event.target.id.includes('password')) {
       //Confirmpassword
       if (
-        document.getElementById("password").value !==
-        document.getElementById("Confirmpassword").value
+        document.getElementById('password').value !==
+        document.getElementById('Confirmpassword').value
       ) {
         try {
-          document.getElementById("loginFailed").id = "loginFailedVisible";
+          document.getElementById('loginFailed').id = 'loginFailedVisible';
         } catch (error) {}
-        document.getElementById("loginFailedVisible").innerText =
-          "The passwords dont match!";
+        document.getElementById('loginFailedVisible').innerText =
+          'The passwords dont match!';
       } else {
         try {
-          document.getElementById("loginFailedVisible").id = "loginFailed";
+          document.getElementById('loginFailedVisible').id = 'loginFailed';
         } catch (error) {}
       }
     }

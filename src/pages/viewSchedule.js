@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 import {
   Avatar,
@@ -10,19 +10,19 @@ import {
   Tab,
   Tabs,
   Typography,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import axios from "axios";
+import axios from 'axios';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import moment from "moment";
+import moment from 'moment';
 
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown from 'react-markdown';
 
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 
-import t from "../util/localization/localization";
+import t from '../util/localization/localization';
 
 class Schedule extends Component {
   constructor(props) {
@@ -37,9 +37,9 @@ class Schedule extends Component {
     if (this.state.scheduleData) return;
     const location = this.props.location;
     let id =
-      location.pathname.split("/").pop() ||
+      location.pathname.split('/').pop() ||
       location?.state?.query ||
-      location.search.split("?id=").pop();
+      location.search.split('?id=').pop();
     let res = await axios
       .get(`https://api.hwbounty.help/schedules/view/${id}`)
       .catch(console.trace);
@@ -68,11 +68,11 @@ class Schedule extends Component {
         <Container>
           <Paper
             style={{
-              width: "40%",
-              maxWidth: "40%",
-              margin: "5%",
-              display: "inline-block",
-              verticalAlign: "middle",
+              width: '40%',
+              maxWidth: '40%',
+              margin: '5%',
+              display: 'inline-block',
+              verticalAlign: 'middle',
             }}
             align="left"
           >
@@ -141,46 +141,46 @@ class Schedule extends Component {
           </Paper>
           <Card
             style={{
-              display: "inline-block",
-              width: "40%",
-              margin: "5%",
-              paddingBottom: "1vh",
-              paddingLeft: "5%",
-              paddingRight: "5%",
-              textAlign: "left",
-              verticalAlign: "middle",
+              display: 'inline-block',
+              width: '40%',
+              margin: '5%',
+              paddingBottom: '1vh',
+              paddingLeft: '5%',
+              paddingRight: '5%',
+              textAlign: 'left',
+              verticalAlign: 'middle',
             }}
           >
             <Typography
               variant="h4"
               style={{
-                textAlign: "center",
+                textAlign: 'center',
               }}
             >
               {this.state.scheduleData.name}
             </Typography>
             <Container
               style={{
-                width: "100%",
-                height: "10%",
+                width: '100%',
+                height: '10%',
               }}
             >
               <span>
                 <Typography
                   variant="caption"
                   style={{
-                    textAlign: "left",
-                    marginRight: "3%",
+                    textAlign: 'left',
+                    marginRight: '3%',
                   }}
                 >
-                  {t("viewSchedule.by")}
+                  {t('viewSchedule.by')}
                 </Typography>
                 <Avatar
                   src={this.state.scheduleData.user.pfp}
                   align="left"
                   style={{
-                    display: "inline-block",
-                    verticalAlign: "middle",
+                    display: 'inline-block',
+                    verticalAlign: 'middle',
                   }}
                 >
                   {this.state.scheduleData.user.publicID}
@@ -188,9 +188,9 @@ class Schedule extends Component {
                 <Typography
                   variant="h5"
                   style={{
-                    verticalAlign: "middle",
-                    marginLeft: "3%",
-                    display: "inline-block",
+                    verticalAlign: 'middle',
+                    marginLeft: '3%',
+                    display: 'inline-block',
                   }}
                 >
                   {this.state.scheduleData.user.publicID}
@@ -198,34 +198,34 @@ class Schedule extends Component {
               </span>
             </Container>
             <Typography>
-              {t("viewSchedule.lastUpdated")}{" "}
+              {t('viewSchedule.lastUpdated')}{' '}
               {moment(parseInt(this.state.scheduleData.lastUpdated)).fromNow()}
             </Typography>
             <ReactMarkdown>{this.state.scheduleData.description}</ReactMarkdown>
 
             <Container
               style={{
-                paddingTop: "1vh",
-                borderTop: "2px solid rgba(160, 160, 160, 0.2)",
-                textAlign: "center",
+                paddingTop: '1vh',
+                borderTop: '2px solid rgba(160, 160, 160, 0.2)',
+                textAlign: 'center',
               }}
             >
               <Button
                 onClick={() =>
                   this.props.history.push(
                     `/schedule/set/${this.props.location.pathname
-                      .split("/")
+                      .split('/')
                       .pop()}`
                   )
                 }
                 disabled={
-                  !JSON.parse(localStorage.getItem("user") || "[]")
+                  !JSON.parse(localStorage.getItem('user') || '[]')
                     ?.schoologyKey
                 }
               >
-                {JSON.parse(localStorage.getItem("user") || "[]")?.schoologyKey
-                  ? "Use this Schedule"
-                  : "Link School Account First"}
+                {JSON.parse(localStorage.getItem('user') || '[]')?.schoologyKey
+                  ? 'Use this Schedule'
+                  : 'Link School Account First'}
               </Button>
             </Container>
           </Card>
@@ -242,13 +242,13 @@ const DisplayedScheduleDay = (props) => {
   let overrides = data.nameOverrides;
   let dayschedule = data.schedule[
     [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
     ][day]
   ].map((x) => {
     return Object.assign(x, {
@@ -268,13 +268,13 @@ const DisplayedScheduleDay = (props) => {
       })
     );
     if (!children.length)
-      return <Typography variant="h3">{t("viewSchedule.noSchool")}</Typography>;
+      return <Typography variant="h3">{t('viewSchedule.noSchool')}</Typography>;
     return children;
   };
   return (
     <Container
       style={{
-        marginBottom: "5%",
+        marginBottom: '5%',
       }}
     >
       {renderPeriods()}

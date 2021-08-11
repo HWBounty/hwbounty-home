@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import { Button } from "@material-ui/core";
+import { Button } from '@material-ui/core';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router';
 
-import t from "../util/localization/localization";
+import t from '../util/localization/localization';
 
 export const LandingPage = (props) => {
   const history = useHistory();
@@ -14,8 +14,8 @@ export const LandingPage = (props) => {
     history.push(path);
   };
   return (
-    <Button onClick={() => goToPage("/dashboard")}>
-      {t("landingPage.placeholder")}
+    <Button onClick={() => goToPage('/dashboard')}>
+      {t('landingPage.placeholder')}
     </Button>
   );
 };

@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
-import clsx from "clsx";
+import clsx from 'clsx';
 
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import BuildIcon from "@material-ui/icons/Build";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import BuildIcon from '@material-ui/icons/Build';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import {
   AccountCircle,
@@ -22,36 +22,36 @@ import {
   LockOpen,
   Settings,
   Today,
-} from "@material-ui/icons";
-import { useHistory } from "react-router-dom";
-import { getUserData } from "../redux/actions/userActions";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import { AccountIconButton } from "./User/AccountIconButton";
+} from '@material-ui/icons';
+import { useHistory } from 'react-router-dom';
+import { getUserData } from '../redux/actions/userActions';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { AccountIconButton } from './User/AccountIconButton';
 import {
   Avatar,
   makeStyles,
   TextField,
   LinearProgress,
-} from "@material-ui/core";
-import { PageSearch } from "./Home/PageSearch";
-import useForceUpdate from "../util/useForceUpdate";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { connect } from "react-redux";
-import t from "../util/localization/localization";
+} from '@material-ui/core';
+import { PageSearch } from './Home/PageSearch';
+import useForceUpdate from '../util/useForceUpdate';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { connect } from 'react-redux';
+import t from '../util/localization/localization';
 
 // Drag-n-Drop
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useState } from "react";
-import { AuthPopup } from "./User/Authentication/AuthPopup";
-import LoginPopup from "./LoginPopup";
-import axios from "axios";
-import { hwbountyAPI } from "../redux/types";
-import TetLib from "../util/TetLib";
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { useState } from 'react';
+import { AuthPopup } from './User/Authentication/AuthPopup';
+import LoginPopup from './LoginPopup';
+import axios from 'axios';
+import { hwbountyAPI } from '../redux/types';
+import TetLib from '../util/TetLib';
 
 const drawerWidth = 240;
 /* Each Location Object
@@ -67,30 +67,31 @@ const drawerWidth = 240;
 */
 let locations = {
   Home: {
-    path: "/",
+    path: '/',
     hideIfNotSignedIn: false,
     icon: <Home />,
   },
   Schedule: {
-    path: "/schedule",
+    path: '/schedule',
     hideIfNotSignedIn: false,
     icon: <Today />,
   },
   Modules: {
-    path: "/modules",
+    path: '/modules',
     hideIfNotSignedIn: false,
     icon: <BuildIcon />,
   },
   Profile: {
-    path: `/user/${localStorage.getItem("user") !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))?.publicID
-      : ""
-      }`,
+    path: `/user/${
+      localStorage.getItem('user') !== 'undefined'
+        ? JSON.parse(localStorage.getItem('user'))?.publicID
+        : ''
+    }`,
     hideIfNotSignedIn: true,
     icon: <AccountCircle />,
   },
   Settings: {
-    path: "/settings",
+    path: '/settings',
     hideIfNotSignedIn: false,
     icon: <Settings />,
   },
@@ -100,8 +101,9 @@ setInterval(() => {
   locations = {
     ...locations,
     Profile: {
-      path: `/user/${JSON.parse(localStorage.getItem("user") || "{}")?.publicID
-        }`,
+      path: `/user/${
+        JSON.parse(localStorage.getItem('user') || '{}')?.publicID
+      }`,
       hideIfNotSignedIn: true,
       icon: <AccountCircle />,
     },
@@ -113,10 +115,10 @@ const styles = (theme) => ({
 });
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: 'flex',
   },
   appBar: {
-    transition: theme.transitions.create(["margin", "width"], {
+    transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
@@ -124,13 +126,13 @@ const useStyles = makeStyles((theme) => ({
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-    transition: theme.transitions.create(["margin", "width"], {
+    transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   hide: {
-    display: "none",
+    display: 'none',
   },
   drawer: {
     width: drawerWidth,
@@ -138,52 +140,51 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: theme => theme === 0 && "rgb(244,250,251)",
+    backgroundColor: (theme) => theme === 0 && 'rgb(244,250,251)',
   },
   drawerHeader: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
+    transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
   },
   anchoredAvatar: {
-    position: "fixed",
-    top: "1.05%",
-    left: "1%",
+    position: 'fixed',
+    top: '1.05%',
+    left: '1%',
   },
   clickThing: {
-    position: "fixed",
-    top: "1%",
-    bottom: "auto",
-    right: "auto",
-    left: "1%",
+    position: 'fixed',
+    top: '1%',
+    bottom: 'auto',
+    right: 'auto',
+    left: '1%',
     zIndex: 1299,
     [theme.breakpoints.down(960)]: {
-      bottom: "1%",
-      right: "1%",
+      bottom: '1%',
+      right: '1%',
       zIndex: 1299,
-      top: "auto",
-      left: "auto",
+      top: 'auto',
+      left: 'auto',
     },
   },
   absolute: {
-    position: "absolute",
+    position: 'absolute',
   },
 }));
 
 export const Sidebar = (props) => {
-
   const {
     UI: { theme },
     user: { authenticated },
@@ -197,11 +198,11 @@ export const Sidebar = (props) => {
   const [loading, setLoading] = useState(false);
   const [sidebarLayoutChanged, setSidebarLayoutChanged] = useState(false);
   const [sidebarButtons, setSidebarButtons] = useState([
-    "Home",
-    "Schedule",
-    "Modules",
-    "Settings",
-    "Profile",
+    'Home',
+    'Schedule',
+    'Modules',
+    'Settings',
+    'Profile',
   ]);
   const data = {
     SetOpenSignout,
@@ -222,10 +223,10 @@ export const Sidebar = (props) => {
       setSidebarLayoutChanged(false);
       axios
         .post(`${hwbountyAPI}/updateSelf`, {
-          sidebar: sidebarButtons.join(","),
+          sidebar: sidebarButtons.join(','),
         })
         .then(() => {
-          console.log("sidebar buttons updated");
+          console.log('sidebar buttons updated');
         });
     }
   };
@@ -239,23 +240,22 @@ export const Sidebar = (props) => {
   };
 
   useEffect(async () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem('user');
     let data = await getUserData();
     while (!localStorage.user) {
       await TetLib.sleep(25);
     }
     setSidebarButtons(
-      JSON.parse(localStorage?.user || "null")?.sidebar?.split(",") ||
-      sidebarButtons
+      JSON.parse(localStorage?.user || 'null')?.sidebar?.split(',') ||
+        sidebarButtons
     );
-
   }, []);
 
   const UserButton = () => {
     return (
       <div>
         <Avatar
-          src={JSON.parse(localStorage.getItem("user"))?.pfp}
+          src={JSON.parse(localStorage.getItem('user'))?.pfp}
           height={64}
           width={64}
           align="left"
@@ -266,7 +266,7 @@ export const Sidebar = (props) => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e, document.getElementById("goPage").value);
+    console.log(e, document.getElementById('goPage').value);
   };
   const confirmSignout = (res) => {
     SetOpenSignout(false);
@@ -282,10 +282,11 @@ export const Sidebar = (props) => {
         aria-label="open drawer"
         onClick={handleDrawerOpen}
         style={{
-          display: open && "none",
+          display: open && 'none',
         }}
-        className={`${clsx(classes.menuButton, open && classes.hide)} ${classes.clickThing
-          }`}
+        className={`${clsx(classes.menuButton, open && classes.hide)} ${
+          classes.clickThing
+        }`}
       >
         <MenuIcon />
       </IconButton>
@@ -344,31 +345,31 @@ export const Sidebar = (props) => {
             <DialogContentText id="alert-dialog-description">
               <Typography
                 style={{
-                  fontSize: "1.5rem",
+                  fontSize: '1.5rem',
                 }}
               >
-                {t("sidebar.signOutPrompt.signOutConfirmation")}
+                {t('sidebar.signOutPrompt.signOutConfirmation')}
               </Typography>
               <br />
               {t(
-                "sidebar.signOutPrompt.signingOutInfo.signingOutClearStart"
-              )}{" "}
-              <br />{" "}
+                'sidebar.signOutPrompt.signingOutInfo.signingOutClearStart'
+              )}{' '}
+              <br />{' '}
               {t(
-                "sidebar.signOutPrompt.signingOutInfo.signingOutClearPreference"
+                'sidebar.signOutPrompt.signingOutInfo.signingOutClearPreference'
               )}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={() => confirmSignout(false)} color="primary">
-              {t("sidebar.signOutPrompt.signOutButtons.no")}
+              {t('sidebar.signOutPrompt.signOutButtons.no')}
             </Button>
             <Button
               onClick={() => confirmSignout(true)}
               color="primary"
               autoFocus
             >
-              {t("sidebar.signOutPrompt.signOutButtons.yes")}
+              {t('sidebar.signOutPrompt.signOutButtons.yes')}
             </Button>
           </DialogActions>
         </Dialog>
@@ -381,11 +382,25 @@ export const Sidebar = (props) => {
         >
           {loading && <LinearProgress />}
           {/* <DialogTitle><Typography variant="h5">Are you sure you would like to sign out?</Typography></DialogTitle> */}
-          <DialogContent style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+          <DialogContent
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
             fullWidth={true}
-            maxWidth={"lg"}
+            maxWidth={'lg'}
           >
-            {window.innerWidth < 1000 && <IconButton style={{ top: 16, left: 16 }} className={`${classes.absolute}`} onClick={() => setOpenSignin(false)}> <Close /> </IconButton>}
+            {window.innerWidth < 1000 && (
+              <IconButton
+                style={{ top: 16, left: 16 }}
+                className={`${classes.absolute}`}
+                onClick={() => setOpenSignin(false)}
+              >
+                {' '}
+                <Close />{' '}
+              </IconButton>
+            )}
             <LoginPopup
               closePopupFunction={setOpenSignin}
               loadingBarFunction={setLoading}
@@ -395,7 +410,7 @@ export const Sidebar = (props) => {
         <Drawer
           className={classes.drawer}
           //variant="persistent"
-          anchor={window.innerWidth > 960 ? "left" : "right"}
+          anchor={window.innerWidth > 960 ? 'left' : 'right'}
           open={open}
           onClose={handleDrawerClose}
           classes={{
@@ -409,7 +424,7 @@ export const Sidebar = (props) => {
             {/* <UserButton /> */}
             {/* <Typography>{JSON.parse(localStorage.getItem("user"))?.firstName || " "} {JSON.parse(localStorage.getItem("user"))?.lastName || " "}</Typography> */}
             <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? (
+              {theme.direction === 'ltr' ? (
                 <ChevronLeftIcon />
               ) : (
                 <ChevronRightIcon />
@@ -455,9 +470,9 @@ export const Sidebar = (props) => {
               </div>
             )}
           </Droppable>
-          <ListItem button key={"Hi!"} onClick={onAuthButtonClick}>
+          <ListItem button key={'Hi!'} onClick={onAuthButtonClick}>
             <ListItemIcon>{<LockOpen />}</ListItemIcon>
-            <ListItemText primary={authenticated ? "Sign Out!" : "Sign In!"} />
+            <ListItemText primary={authenticated ? 'Sign Out!' : 'Sign In!'} />
           </ListItem>
         </Drawer>
       </div>

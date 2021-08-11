@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 import {
   Button,
@@ -16,132 +16,132 @@ import {
   TextField,
   Typography,
   Zoom,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import axios from "axios";
+import axios from 'axios';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router';
 
-import t from "../util/localization/localization";
+import t from '../util/localization/localization';
 
 const useStyles = makeStyles({
   catalogLeft: {
-    width: "40%",
-    height: "100%",
-    display: "inline-flex",
-    alignItems: "center",
-    flexDirection: "column",
-    verticalAlign: "top",
+    width: '40%',
+    height: '100%',
+    display: 'inline-flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    verticalAlign: 'top',
   },
   catalogLeftTitle: {
-    width: "80%",
-    marginLeft: "20%",
-    marginRight: "0%",
-    margin: "5%",
-    textAlign: "left",
+    width: '80%',
+    marginLeft: '20%',
+    marginRight: '0%',
+    margin: '5%',
+    textAlign: 'left',
   },
   catalogLeftSearchBox: {
-    width: "70%",
-    marginLeft: "10%",
-    height: "200px",
-    fontSize: "2vw",
+    width: '70%',
+    marginLeft: '10%',
+    height: '200px',
+    fontSize: '2vw',
   },
   catalogTitleText: {
-    fontSize: "4vw",
-    fontFamily: "Oswald",
-    fontWeight: "100",
+    fontSize: '4vw',
+    fontFamily: 'Oswald',
+    fontWeight: '100',
   },
   catalogTitleCaption: {
-    fontSize: "1.5vw",
-    fontFamily: "Nunito",
-    fontWeight: "100",
+    fontSize: '1.5vw',
+    fontFamily: 'Nunito',
+    fontWeight: '100',
   },
   catalogItemCard: {
     // minHeight: "70%",
     // maxHeight: "70%",
-    minWidth: "512px",
-    display: "inline-flex",
-    justifyContent: "flex-start",
-    flexDirection: "column",
-    height: "80%",
-    margin: "5vmin",
-    padding: "1rem",
-    borderRadius: "1rem",
-    background: (theme) => (theme === 1 ? "#353839ff" : "#f3f3f3ff"),
+    minWidth: '512px',
+    display: 'inline-flex',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    height: '80%',
+    margin: '5vmin',
+    padding: '1rem',
+    borderRadius: '1rem',
+    background: (theme) => (theme === 1 ? '#353839ff' : '#f3f3f3ff'),
     boxShadow:
-      "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important",
+      '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important',
   },
   catalogItemCardButton: {
-    display: "inline-flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    padding: "0px",
-    width: "100%",
+    display: 'inline-flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    padding: '0px',
+    width: '100%',
   },
   catalogItemTitle: {
-    fontSize: "2vw",
-    textAlign: "center",
-    fontFamily: "Poppins",
-    fontWeight: "800",
-    marginTop: "1vmin",
-    marginBottom: "1vmin",
+    fontSize: '2vw',
+    textAlign: 'center',
+    fontFamily: 'Poppins',
+    fontWeight: '800',
+    marginTop: '1vmin',
+    marginBottom: '1vmin',
   },
   catalogItemsDiv: {
-    width: "55%",
-    minWidth: "512px",
-    height: "90vh",
-    display: "inline-flex",
-    alignContent: "center",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row",
-    flexWrap: "nowrap",
+    width: '55%',
+    minWidth: '512px',
+    height: '90vh',
+    display: 'inline-flex',
+    alignContent: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
   },
   scheduleDisplay: {
-    width: "100%",
-    borderColor: (theme) => (theme === 1 ? "#b7b7b7" : "#666666"),
-    borderWidth: "0.05rem!important",
+    width: '100%',
+    borderColor: (theme) => (theme === 1 ? '#b7b7b7' : '#666666'),
+    borderWidth: '0.05rem!important',
     // borderStyle: "solid",
-    borderRadius: "2rem",
-    minHeight: "90%",
-    height: "90%",
-    maxHeight: "50vh",
+    borderRadius: '2rem',
+    minHeight: '90%',
+    height: '90%',
+    maxHeight: '50vh',
     // overflowY: "scroll",
-    background: "rgba(0,0,0,0)",
-    boxShadow: "none",
-    alignSelf: "flex-start",
+    background: 'rgba(0,0,0,0)',
+    boxShadow: 'none',
+    alignSelf: 'flex-start',
   },
   scheduleList: {
     // marginBottom: "5%",
-    overflowY: "auto",
-    maxHeight: "50vh",
-    flexGrow: "1",
+    overflowY: 'auto',
+    maxHeight: '50vh',
+    flexGrow: '1',
     // maxHeight: "50vh!important",
   },
   scheduleDisplayTab: {
-    maxWidth: "14.283%",
-    width: "14.283%",
-    minWidth: "14.283%",
+    maxWidth: '14.283%',
+    width: '14.283%',
+    minWidth: '14.283%',
   },
   scheduleDisplayPeriod: {
-    fontSize: "2.5vmin",
-    fontFamily: "Nunito",
-    textAlign: "left",
-    fontWeight: "750",
-    textOverflow: "elipsis",
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-    margin: "1vmin",
-    color: (theme) => (theme === 0 ? "#5c5c5c" : "#ffffff"),
+    fontSize: '2.5vmin',
+    fontFamily: 'Nunito',
+    textAlign: 'left',
+    fontWeight: '750',
+    textOverflow: 'elipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    margin: '1vmin',
+    color: (theme) => (theme === 0 ? '#5c5c5c' : '#ffffff'),
   },
   scheduleDisplayPeriodTime: {
-    fontSize: "1.5vmin",
-    fontFamily: "Nunito",
+    fontSize: '1.5vmin',
+    fontFamily: 'Nunito',
     // textOverflow: "elipsis",
     // overflow: "hidden",
-    whiteSpace: "nowrap",
+    whiteSpace: 'nowrap',
   },
 });
 export const ScheduleCatalog = (props) => {
@@ -181,13 +181,13 @@ const DisplayedScheduleDay = (props) => {
   let overrides = JSON.parse(data.nameOverrides);
   let dayschedule = JSON.parse(data.schedule)[
     [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
     ][day]
   ].map((x) => {
     return Object.assign(x, {
@@ -199,27 +199,27 @@ const DisplayedScheduleDay = (props) => {
     for (let i = 0; i < dayschedule.length; i++) {
       resArr.push(dayschedule[i]);
       if (i + 1 !== dayschedule.length) {
-        resArr.push("divider");
+        resArr.push('divider');
       }
     }
     dayschedule = resArr;
     let children = React.Children.toArray(
       dayschedule.map((x) => {
-        if (x === "divider") return <Divider />;
+        if (x === 'divider') return <Divider />;
         return (
           <ListItem
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexDirection: "row",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexDirection: 'row',
             }}
           >
             <Typography className={`${classes.scheduleDisplayPeriod}`}>
               {x.period}
             </Typography>
             <Typography className={`${classes.scheduleDisplayPeriodTime}`}>
-              {t("schedules.timeSpan", {
+              {t('schedules.timeSpan', {
                 timeStart: x.timeStart,
                 timeEnd: x.timeEnd,
               })}
@@ -229,13 +229,13 @@ const DisplayedScheduleDay = (props) => {
       })
     );
     if (!children.length)
-      return <Typography variant="h5">{t("schedules.noSchool")}</Typography>;
+      return <Typography variant="h5">{t('schedules.noSchool')}</Typography>;
     return <List>{children}</List>;
   };
   return (
     <Container
       style={{
-        marginBottom: "5%",
+        marginBottom: '5%',
       }}
       className={`${classes.scheduleList}`}
     >
@@ -352,23 +352,23 @@ const DesktopLayout = (props) => {
     return React.Children.toArray(
       arr.map((schedule) => {
         return (
-          <Zoom in timeout={750} style={{ transitionDelay: "50ms" }}>
+          <Zoom in timeout={750} style={{ transitionDelay: '50ms' }}>
             <Card className={`${classes.catalogItemCard}`} onClick={null}>
               <Typography className={`${classes.catalogItemTitle}`}>
                 {schedule.name}
               </Typography>
               <Button
                 onClick={() => toSchedule(schedule.id)}
-                style={{ width: "50%", alignSelf: "center" }}
+                style={{ width: '50%', alignSelf: 'center' }}
               >
-                {t("schedules.viewSchedule")}
+                {t('schedules.viewSchedule')}
               </Button>
               <div
                 style={{
                   flexGrow: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyItems: "center",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyItems: 'center',
                 }}
               >
                 <ScheduleItem schedule={schedule} theme={theme} />
@@ -385,10 +385,10 @@ const DesktopLayout = (props) => {
       <div className={`${classes.catalogLeft}`}>
         <div className={`${classes.catalogLeftTitle}`}>
           <Typography className={`${classes.catalogTitleText}`}>
-            {t("schedules.scheduleCatalog")}
+            {t('schedules.scheduleCatalog')}
           </Typography>
           <Typography className={`${classes.catalogTitleCaption}`}>
-            {t("schedules.findFormat")}
+            {t('schedules.findFormat')}
           </Typography>
         </div>
         <TextField

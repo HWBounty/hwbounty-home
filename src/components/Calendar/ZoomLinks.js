@@ -1,25 +1,25 @@
 // React
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 // MUI
-import Typography from "@material-ui/core/Typography";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import axios from "axios";
-import { Card } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import Typography from '@material-ui/core/Typography';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import axios from 'axios';
+import { Card } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 // Translation
-import t from "../../util/localization/localization";
+import t from '../../util/localization/localization';
 
 const useButtonStyles = makeStyles({
   card: {
-    background: "linear-gradient(45deg, #a7acd9 30%, #9e8fb2 90%)",
+    background: 'linear-gradient(45deg, #a7acd9 30%, #9e8fb2 90%)',
     border: 0,
     borderRadius: 10,
-    margin: "5%",
-    display: "block",
-    width: "90%",
-    "min-height": "6vh",
+    margin: '5%',
+    display: 'block',
+    width: '90%',
+    'min-height': '6vh',
   },
 });
 
@@ -52,13 +52,13 @@ const ZoomLinksCollection = (props) => {
   );
 };
 const colors = [
-  "rgb(255,149,128)",
-  "rgb(255,204,153)",
-  "rgb(255,255,153)",
-  "rgb(204,255,153)",
-  "rgb(204,247,255)",
-  "rgb(204,212,255)",
-  "rgb(238,204,255)",
+  'rgb(255,149,128)',
+  'rgb(255,204,153)',
+  'rgb(255,255,153)',
+  'rgb(204,255,153)',
+  'rgb(204,247,255)',
+  'rgb(204,212,255)',
+  'rgb(238,204,255)',
 ];
 class ZoomLinksPage extends Component {
   constructor(props) {
@@ -69,10 +69,10 @@ class ZoomLinksPage extends Component {
   }
   async fetchZoomLinks() {
     let res = await axios
-      .get("https://api.hwbounty.help/sgy/getZoomLinks")
+      .get('https://api.hwbounty.help/sgy/getZoomLinks')
       .catch(console.trace);
     if (res.status == 200) {
-      localStorage.setItem("zoomLinks", JSON.stringify(res.data));
+      localStorage.setItem('zoomLinks', JSON.stringify(res.data));
       this.setState({ zoomLinks: res.data });
     } else this.setState({ zoomLinks: res.status });
   }
@@ -80,16 +80,16 @@ class ZoomLinksPage extends Component {
     this.fetchZoomLinks();
   }
   render() {
-    if (!this.state.zoomLinks && !localStorage.getItem("zoomLinks")) {
-      return <Typography variant="h4">{t("zoomLinks.fetching")}</Typography>;
+    if (!this.state.zoomLinks && !localStorage.getItem('zoomLinks')) {
+      return <Typography variant="h4">{t('zoomLinks.fetching')}</Typography>;
     }
-    if (!this.state.zoomLinks && localStorage.getItem("zoomLinks")) {
-      this.state = { zoomLinks: JSON.parse(localStorage.getItem("zoomLinks")) };
+    if (!this.state.zoomLinks && localStorage.getItem('zoomLinks')) {
+      this.state = { zoomLinks: JSON.parse(localStorage.getItem('zoomLinks')) };
     }
     if (Math.floor(this.state.zoomLinks / 100) === 4) {
       return (
         <Typography variant="h4">
-          {t("zoomLinks.schoologyNotLinked")}
+          {t('zoomLinks.schoologyNotLinked')}
         </Typography>
       );
     }

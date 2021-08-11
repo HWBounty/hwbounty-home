@@ -1,15 +1,15 @@
 /* eslint-disable no-restricted-globals */
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react';
 
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import IconButton from "@material-ui/core/IconButton";
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import axios from "axios";
+import axios from 'axios';
 
-import t from "../../util/localization/localization";
+import t from '../../util/localization/localization';
 
 export const AccountIconButton = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -25,32 +25,32 @@ export const AccountIconButton = (props) => {
     setAnchorEl(null);
   };
   const handleAuthLogs = () => {
-    if (localStorage.getItem("DBIdToken")) {
+    if (localStorage.getItem('DBIdToken')) {
       localStorage.clear();
       location.reload();
       // return ;
     } else {
       //literal mega hack
       location.href = location.href
-        .split("/")
+        .split('/')
         .slice(0, -1)
-        .concat("login")
-        .join("/");
+        .concat('login')
+        .join('/');
     }
   };
   const openSchoologyOAuth = () => {
     axios({
-      method: "post",
-      url: "https://api.hwbounty.help/schoologyLogin",
+      method: 'post',
+      url: 'https://api.hwbounty.help/schoologyLogin',
       data: {
-        redirectURL: "hwbounty.help",
+        redirectURL: 'hwbounty.help',
       },
     })
       .then((res) => {
         const newWindow = window.open(
           res.data,
-          "_blank",
-          "noopener,noreferrer"
+          '_blank',
+          'noopener,noreferrer'
         );
         if (newWindow) newWindow.opener = null;
       })
@@ -65,7 +65,7 @@ export const AccountIconButton = (props) => {
         onClick={handleClick}
       >
         <img
-          src={JSON.parse(localStorage.getItem("user"))?.pfp}
+          src={JSON.parse(localStorage.getItem('user'))?.pfp}
           style={{
             maxHeight: 40,
             maxWidth: 40,
@@ -80,17 +80,17 @@ export const AccountIconButton = (props) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
         getContentAnchorEl={null}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        transformOrigin={{ vertical: "top", horizontal: "center" }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
         <MenuItem onClick={openSchoologyOAuth}>
-          {t("accountIconButton.profile")}
+          {t('accountIconButton.profile')}
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          {t("accountIconButton.myProfile")}
+          {t('accountIconButton.myProfile')}
         </MenuItem>
         <MenuItem onClick={handleAuthLogs}>
-          {localStorage.getItem("DBIdToken") ? "Logout" : "Login"}
+          {localStorage.getItem('DBIdToken') ? 'Logout' : 'Login'}
         </MenuItem>
       </Menu>
     </div>

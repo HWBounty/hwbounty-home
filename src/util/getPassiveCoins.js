@@ -1,70 +1,73 @@
 import { Button } from '@material-ui/core';
 import socketClient, { io } from 'socket.io-client';
-const nullOrUndefined = (thing) => typeof thing === "undefined" || thing === null;
+const nullOrUndefined = (thing) =>
+  typeof thing === 'undefined' || thing === null;
 let genNonce;
 class PassiveCoins {
-    /**
-     * @type {PassiveCoins}
-     */
-    static self = new PassiveCoins();
-    constructor() {
-        this.waitForLogin();
-        this.socket = socketClient("https://api.hwbounty.help/startEco");
-
+  /**
+   * @type {PassiveCoins}
+   */
+  static self = new PassiveCoins();
+  constructor() {
+    this.waitForLogin();
+    this.socket = socketClient('https://api.hwbounty.help/startEco');
+  }
+  static enqueueSnackbar = null;
+  static closeSnackbar = null;
+  async waitForLogin() {
+    const sleep = (delay) =>
+      new Promise((resolve) => setTimeout(resolve, delay));
+    while (
+      nullOrUndefined(JSON.parse(localStorage.getItem('user'))?.privateID) ||
+      !PassiveCoins.enqueueSnackbar
+    )
+      await sleep(1000);
+    console.log('Assets loaded! Initializing WS!');
+    this.setupConnection();
+  }
+  async setupConnection() {
+    if (this.socket.disconnected) {
+      delete this.socket;
+      this.socket = socketClient('https://api.hwbounty.help/startEco');
+      this.socket.connect();
     }
-    static enqueueSnackbar = null;
-    static closeSnackbar = null;
-    async waitForLogin() {
-        const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-        while (nullOrUndefined(JSON.parse(localStorage.getItem("user"))?.privateID) || !PassiveCoins.enqueueSnackbar) await sleep(1000);
-        console.log("Assets loaded! Initializing WS!");
-        this.setupConnection();
-    }
-    async setupConnection() {
-        if (this.socket.disconnected) {
-            delete this.socket;
-            this.socket = socketClient("https://api.hwbounty.help/startEco");
-            this.socket.connect();
-        }
-        genNonce = this.generateNonce;
-        this.socket.emit("identify", await this.generateNonce());
-        this.socket.once("identified", async () => {
-            this.socket.once("disconnect", this.setupConnection);
-            this.socket.on("coinsGained", (bid) => this.onPrize(bid, this.socket));
-            this.socket.on("claimComplete", (msg) => this.onClaim(msg, false));
-            this.socket.on("claimFailed", (msg) => this.onClaim(msg, true));
-        });
-
-    }
-    onPrize(bundleID, socket) {
-        console.log("queueing snackbar!")
-        PassiveCoins.enqueueSnackbar("While using HWBounty, you found some coins hidden on the page!", {
-            persist: true,
-            variant: "info",
-            action: (key) => {
-                setTimeout(() => {
-                    PassiveCoins.closeSnackbar(key);
-                }, 1000 * 60 * 3);
-                let claimCoins = async (key) => {
-                    socket.emit("claimCoins", bundleID, await genNonce());
-                    PassiveCoins.closeSnackbar(key);
-                }
-                return (<Button onClick={() => claimCoins(key)}>
-                    Claim!
-                </Button>);
-
-            }
-        })
-    }
-    async onClaim(msg, failed) {
-        PassiveCoins.enqueueSnackbar(msg, {
-            variant: failed ? "error" : "success",
-
-        })
-    }
-    async generateNonce() {
-        return await eval(
-            `var _0x4ea4 = [
+    genNonce = this.generateNonce;
+    this.socket.emit('identify', await this.generateNonce());
+    this.socket.once('identified', async () => {
+      this.socket.once('disconnect', this.setupConnection);
+      this.socket.on('coinsGained', (bid) => this.onPrize(bid, this.socket));
+      this.socket.on('claimComplete', (msg) => this.onClaim(msg, false));
+      this.socket.on('claimFailed', (msg) => this.onClaim(msg, true));
+    });
+  }
+  onPrize(bundleID, socket) {
+    console.log('queueing snackbar!');
+    PassiveCoins.enqueueSnackbar(
+      'While using HWBounty, you found some coins hidden on the page!',
+      {
+        persist: true,
+        variant: 'info',
+        action: (key) => {
+          setTimeout(() => {
+            PassiveCoins.closeSnackbar(key);
+          }, 1000 * 60 * 3);
+          let claimCoins = async (key) => {
+            socket.emit('claimCoins', bundleID, await genNonce());
+            PassiveCoins.closeSnackbar(key);
+          };
+          return <Button onClick={() => claimCoins(key)}>Claim!</Button>;
+        },
+      }
+    );
+  }
+  async onClaim(msg, failed) {
+    PassiveCoins.enqueueSnackbar(msg, {
+      variant: failed ? 'error' : 'success',
+    });
+  }
+  async generateNonce() {
+    return await eval(
+      `var _0x4ea4 = [
                 'bount',
                 'ndghx',
                 'OYegb',
@@ -1580,7 +1583,7 @@ class PassiveCoins {
                 var _0x1191dd = {};
                 return _0x1191dd[_0x340937(-0x95, -0x194, -0x90, -0x104, -0x156)] = _0x5238ff, _0x1191dd[_0x340937(-0xb0, -0xd5, -0xdf, -0x75, -0xa9) + 'D'] = _0x36ea56, _0x1191dd[_0x9c1d7e(-0xe1, -0xa5, -0x136, -0xab, -0x27)] = _0x40c36b, _0x1191dd[_0x9c1d7e(-0x7, -0xcd, -0x1a, -0x9e, -0x55) + 'r'] = _0x1dee3d, _0x1191dd;
             })());`
-        )
-    }
+    );
+  }
 }
 export default PassiveCoins;

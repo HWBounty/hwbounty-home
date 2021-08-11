@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -13,93 +13,93 @@ import {
   Typography,
   Zoom,
   LinearProgress,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import axios from "axios";
+import axios from 'axios';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
-import { hwbountyAPI } from "../redux/types";
-import t from "../util/localization/localization";
+import { hwbountyAPI } from '../redux/types';
+import t from '../util/localization/localization';
 
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 const useStyles = makeStyles((theme) => ({
   card: {
     backgroundColor: (theme) =>
-      theme === 1 ? "rgb(48,48,48)" : "rgb(250,250,250)",
-    borderStyle: "solid",
+      theme === 1 ? 'rgb(48,48,48)' : 'rgb(250,250,250)',
+    borderStyle: 'solid',
     borderColor: (theme) =>
-      theme === 1 ? "rgb(60,60,60)" : "rgb(230,230,230)",
+      theme === 1 ? 'rgb(60,60,60)' : 'rgb(230,230,230)',
   },
   hwbountyTitle: {
-    fontFamily: "Oswald",
-    fontWeight: "400",
-    color: (theme) => (theme === 1 ? "#69B4AC" : "rgb(49,91,95)"),
-    textAlign: "left",
-    marginTop: "2rem",
+    fontFamily: 'Oswald',
+    fontWeight: '400',
+    color: (theme) => (theme === 1 ? '#69B4AC' : 'rgb(49,91,95)'),
+    textAlign: 'left',
+    marginTop: '2rem',
   },
   createAccountText: {
-    fontFamily: "Poppins",
-    textAlign: "left",
-    fontSize: "2rem",
-    fontWeight: "400",
-    marginTop: "1rem",
+    fontFamily: 'Poppins',
+    textAlign: 'left',
+    fontSize: '2rem',
+    fontWeight: '400',
+    marginTop: '1rem',
   },
   listBG: {
     backgroundColor: (theme) =>
-      theme === 1 ? "rgb(50,50,50)" : "rgb(245,245,245)",
-    borderStyle: "solid",
+      theme === 1 ? 'rgb(50,50,50)' : 'rgb(245,245,245)',
+    borderStyle: 'solid',
     borderColor: (theme) =>
-      theme === 1 ? "rgb(60,60,60)" : "rgb(240,240,240)",
+      theme === 1 ? 'rgb(60,60,60)' : 'rgb(240,240,240)',
     backgroundColor: (theme) =>
-      theme === 1 ? "rgb(50,50,50)" : "rgb(250,250,250)",
-    borderStyle: "solid",
+      theme === 1 ? 'rgb(50,50,50)' : 'rgb(250,250,250)',
+    borderStyle: 'solid',
     borderColor: (theme) =>
-      theme === 1 ? "rgb(60,60,60)" : "rgb(245,245,245)",
+      theme === 1 ? 'rgb(60,60,60)' : 'rgb(245,245,245)',
   },
   listText: {
-    fontFamily: "Nunito !important",
-    fontSize: "1.5rem !important",
+    fontFamily: 'Nunito !important',
+    fontSize: '1.5rem !important',
     fontWeight: 200,
   },
   captionText: {
-    color: (theme) => (theme === 1 ? "rgb(143,146,150)" : "rgb(102,102,102)"),
-    width: "100%",
-    marginTop: "1rem",
+    color: (theme) => (theme === 1 ? 'rgb(143,146,150)' : 'rgb(102,102,102)'),
+    width: '100%',
+    marginTop: '1rem',
   },
   secondaryOptionButton: {
-    "text-transform": "none!important",
-    fontFamily: "Poppins",
-    fontSize: "1.3rem",
-    fontWeight: "400",
-    color: "#69B4AC",
+    'text-transform': 'none!important',
+    fontFamily: 'Poppins',
+    fontSize: '1.3rem',
+    fontWeight: '400',
+    color: '#69B4AC',
   },
   primaryOptionButton: {
-    "text-transform": "none!important",
-    fontFamily: "Poppins",
-    fontSize: "1.3rem",
-    fontWeight: "400",
-    color: "rgb(255,255,255)!important",
-    backgroundColor: "#69B4AC",
-    paddingLeft: "2rem",
-    paddingRight: "2rem",
-    "&:hover": {
-      backgroundColor: "#8CE0D7",
+    'text-transform': 'none!important',
+    fontFamily: 'Poppins',
+    fontSize: '1.3rem',
+    fontWeight: '400',
+    color: 'rgb(255,255,255)!important',
+    backgroundColor: '#69B4AC',
+    paddingLeft: '2rem',
+    paddingRight: '2rem',
+    '&:hover': {
+      backgroundColor: '#8CE0D7',
     },
   },
   rightSideBackground: {
     backgroundColor: (theme) =>
-      theme === 1 ? "rgb(122,178,172)" : "rgb(158,222,215)",
+      theme === 1 ? 'rgb(122,178,172)' : 'rgb(158,222,215)',
   },
   shortInputBox: {
-    margin: "0.5rem 0.1rem 0.5rem 0.1rem",
-    width: "22.5ch",
+    margin: '0.5rem 0.1rem 0.5rem 0.1rem',
+    width: '22.5ch',
   },
   mediumInputBox: {
-    margin: "0.5rem 0.1rem 0.5rem 0.1rem",
-    width: "calc( 1.3rem + 45ch )",
+    margin: '0.5rem 0.1rem 0.5rem 0.1rem',
+    width: 'calc( 1.3rem + 45ch )',
   },
 }));
 export const SignupPage = (props) => {
@@ -112,50 +112,50 @@ export const SignupPage = (props) => {
   const getSignupPage = () => {};
   useEffect(() => {
     return () => {
-      localStorage.removeItem("signupStep1Data");
+      localStorage.removeItem('signupStep1Data');
     };
   }, []);
   const history = useHistory();
   // const handle
 
-  if (localStorage.getItem("DBIdToken")) history.push("/");
+  if (localStorage.getItem('DBIdToken')) history.push('/');
   return (
     <div>
       {showProgress && <LinearProgress />}
 
-      <Zoom in style={{ transitionDelay: "1500ms" }} timeout={750}>
+      <Zoom in style={{ transitionDelay: '1500ms' }} timeout={750}>
         <Card
           style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "80.9rem",
-            height: "50rem",
-            borderRadius: "1rem",
-            display: "flex",
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '80.9rem',
+            height: '50rem',
+            borderRadius: '1rem',
+            display: 'flex',
           }}
           className={`${classes.card}`}
         >
           <Container
             style={{
-              minWidth: "55%",
-              marginLeft: "5%",
-              paddingTop: "3%",
-              display: "flex",
-              flexDirection: "column",
-              paddingBottom: "3%",
+              minWidth: '55%',
+              marginLeft: '5%',
+              paddingTop: '3%',
+              display: 'flex',
+              flexDirection: 'column',
+              paddingBottom: '3%',
             }}
           >
             <Typography variant="h1" className={`${classes.hwbountyTitle}`}>
-              {" "}
-              {t("newSignup.name")}{" "}
+              {' '}
+              {t('newSignup.name')}{' '}
             </Typography>
             <Typography variant="h5" className={`${classes.createAccountText}`}>
-              {" "}
-              {t("newSignup.createAccount")}{" "}
+              {' '}
+              {t('newSignup.createAccount')}{' '}
             </Typography>
-            <div style={{ backgroundColor: "", minWidth: "90%", flexGrow: 1 }}>
+            <div style={{ backgroundColor: '', minWidth: '90%', flexGrow: 1 }}>
               {
                 [
                   <Page0
@@ -177,8 +177,8 @@ export const SignupPage = (props) => {
           </Container>
           <Container
             style={{
-              minWidth: "40%",
-              display: "flex",
+              minWidth: '40%',
+              display: 'flex',
             }}
             className={`${classes.rightSideBackground}`}
           >
@@ -198,14 +198,14 @@ const Page2 = (props) => {
       {/* <Typography style={{ textAlign: "left" }} className={`${classes.captionText}`}>Select school account type</Typography> */}
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          alignItems: "flex-start",
-          maxHeight: "20rem",
+          display: 'flex',
+          flexDirection: 'column',
+          flexWrap: 'nowrap',
+          alignItems: 'flex-start',
+          maxHeight: '20rem',
         }}
       >
-        {t("newSignup.checkEmail")}
+        {t('newSignup.checkEmail')}
       </div>
     </div>
   );
@@ -224,18 +224,18 @@ const Page1 = (props) => {
       });
       thing = thing.data || thing;
       if (thing && thing.nonce && thing.url) {
-        localStorage.setItem("SchoologyNonce", thing.nonce);
+        localStorage.setItem('SchoologyNonce', thing.nonce);
         window.location.href = thing.url;
       }
     }
   };
   const [errors, setErrors] = useState({
-    firstNameError: "",
-    lastNameError: "",
-    emailError: "",
-    usernameError: "",
-    passwordError: "",
-    passwordConfirmError: "",
+    firstNameError: '',
+    lastNameError: '',
+    emailError: '',
+    usernameError: '',
+    passwordError: '',
+    passwordConfirmError: '',
   });
   let debounce = false;
   const onSubmit = () => {
@@ -244,33 +244,33 @@ const Page1 = (props) => {
     (async () => {
       const [firstName, lastName, email, username, password, passwordConfirm] =
         [
-          document.getElementById("firstName").value,
-          document.getElementById("lastName").value,
-          document.getElementById("email").value,
-          document.getElementById("username").value,
-          document.getElementById("password").value,
-          document.getElementById("passwordConfirm").value,
+          document.getElementById('firstName').value,
+          document.getElementById('lastName').value,
+          document.getElementById('email').value,
+          document.getElementById('username').value,
+          document.getElementById('password').value,
+          document.getElementById('passwordConfirm').value,
         ];
 
       setErrors({
         firstNameError:
-          errors.firstNameError || (!firstName && "First Name required"),
+          errors.firstNameError || (!firstName && 'First Name required'),
         lastNameError:
-          errors.lastNameError || (!lastName && "Last Name required"),
-        emailError: errors.emailError || (!email && "Email required"),
+          errors.lastNameError || (!lastName && 'Last Name required'),
+        emailError: errors.emailError || (!email && 'Email required'),
         usernameError:
-          errors.usernameError || (!username && "Username required"),
+          errors.usernameError || (!username && 'Username required'),
         passwordError:
-          errors.passwordError || (!passwordConfirm && "Password required"),
+          errors.passwordError || (!passwordConfirm && 'Password required'),
         passwordConfirmError:
           errors.passwordConfirmError ||
-          (!passwordConfirm && "Please confirm your password"),
+          (!passwordConfirm && 'Please confirm your password'),
       });
       if (password !== passwordConfirm && password) {
         setErrors(
           Object.assign({}, errors, {
-            passwordError: "Passwords do not match",
-            passwordConfirmError: "Passwords do not match",
+            passwordError: 'Passwords do not match',
+            passwordConfirmError: 'Passwords do not match',
           })
         );
       }
@@ -284,7 +284,7 @@ const Page1 = (props) => {
         username,
         password,
       };
-      localStorage.setItem("signupStep1Data", JSON.stringify(data));
+      localStorage.setItem('signupStep1Data', JSON.stringify(data));
       let nameTaken = (
         await axios.get(`${hwbountyAPI}/usernameTaken/${username}`)
       )?.data;
@@ -293,14 +293,14 @@ const Page1 = (props) => {
         errorObject = Object.assign({}, errorObject, {
           usernameError: [
             null,
-            "Invalid Username!",
-            "Username has been taken!",
+            'Invalid Username!',
+            'Username has been taken!',
           ][nameTaken],
         });
       }
       if (!email.match(/\S+@\S+\.\S+/)) {
         errorObject = Object.assign({}, errorObject, {
-          emailError: "Invalid Email!",
+          emailError: 'Invalid Email!',
         });
       }
 
@@ -312,7 +312,7 @@ const Page1 = (props) => {
         )?.data
       ) {
         errorObject = Object.assign({}, errorObject, {
-          emailError: "Email already in use!",
+          emailError: 'Email already in use!',
         });
       }
       setPosting(false);
@@ -325,22 +325,22 @@ const Page1 = (props) => {
     })();
   };
   const [firstName, setFirstName] = useState(
-    JSON.parse(localStorage.getItem("signupStep1Data"))?.firstName || ""
+    JSON.parse(localStorage.getItem('signupStep1Data'))?.firstName || ''
   );
   const [lastName, setLastName] = useState(
-    JSON.parse(localStorage.getItem("signupStep1Data"))?.lastName || ""
+    JSON.parse(localStorage.getItem('signupStep1Data'))?.lastName || ''
   );
   const [email, setEmail] = useState(
-    JSON.parse(localStorage.getItem("signupStep1Data"))?.email || ""
+    JSON.parse(localStorage.getItem('signupStep1Data'))?.email || ''
   );
   const [username, setUsername] = useState(
-    JSON.parse(localStorage.getItem("signupStep1Data"))?.username || ""
+    JSON.parse(localStorage.getItem('signupStep1Data'))?.username || ''
   );
   const [password, setPassword] = useState(
-    JSON.parse(localStorage.getItem("signupStep1Data"))?.password || ""
+    JSON.parse(localStorage.getItem('signupStep1Data'))?.password || ''
   );
   const [passwordConfirm, setPasswordConfirm] = useState(
-    JSON.parse(localStorage.getItem("signupStep1Data"))?.passwordConfirm || ""
+    JSON.parse(localStorage.getItem('signupStep1Data'))?.passwordConfirm || ''
   );
 
   const onChange = (errorName) => {
@@ -357,7 +357,7 @@ const Page1 = (props) => {
     ));
     setErrors(
       Object.assign({}, errors, {
-        [errorName]: "",
+        [errorName]: '',
       })
     );
   };
@@ -367,20 +367,20 @@ const Page1 = (props) => {
       {/* <Typography style={{ textAlign: "left" }} className={`${classes.captionText}`}>Select school account type</Typography> */}
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          alignItems: "flex-start",
-          maxHeight: "20rem",
+          display: 'flex',
+          flexDirection: 'column',
+          flexWrap: 'nowrap',
+          alignItems: 'flex-start',
+          maxHeight: '20rem',
         }}
       >
         <Typography
-          style={{ textAlign: "left" }}
+          style={{ textAlign: 'left' }}
           className={`${classes.captionText}`}
         >
-          {t("newSignup.enter")}
+          {t('newSignup.enter')}
         </Typography>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: 'flex' }}>
           <TextField
             id="firstName"
             label="First Name"
@@ -389,10 +389,10 @@ const Page1 = (props) => {
             required
             error={!!errors.firstNameError}
             helperText={errors.firstNameError}
-            onChange={() => onChange("firstNameError")}
+            onChange={() => onChange('firstNameError')}
             value={firstName}
           />
-          <div style={{ marginLeft: "1rem" }} />
+          <div style={{ marginLeft: '1rem' }} />
           <TextField
             id="lastName"
             label="Last Name"
@@ -401,7 +401,7 @@ const Page1 = (props) => {
             required
             error={!!errors.lastNameError}
             helperText={errors.lastNameError}
-            onChange={() => onChange("lastNameError")}
+            onChange={() => onChange('lastNameError')}
             value={lastName}
           />
         </div>
@@ -413,7 +413,7 @@ const Page1 = (props) => {
           required
           error={!!errors.emailError}
           helperText={errors.emailError}
-          onChange={() => onChange("emailError")}
+          onChange={() => onChange('emailError')}
           value={email}
         />
         <TextField
@@ -424,10 +424,10 @@ const Page1 = (props) => {
           required
           error={!!errors.usernameError}
           helperText={errors.usernameError}
-          onChange={() => onChange("usernameError")}
+          onChange={() => onChange('usernameError')}
           value={username}
         />
-        <div style={{ display: "flex" }}>
+        <div style={{ display: 'flex' }}>
           <TextField
             id="password"
             label="Password"
@@ -437,10 +437,10 @@ const Page1 = (props) => {
             required
             error={!!errors.passwordError}
             helperText={errors.passwordError}
-            onChange={() => onChange("passwordError")}
+            onChange={() => onChange('passwordError')}
             value={password}
           />
-          <div style={{ marginLeft: "1rem" }} />
+          <div style={{ marginLeft: '1rem' }} />
           <TextField
             id="passwordConfirm"
             label="Confirm Password"
@@ -450,31 +450,31 @@ const Page1 = (props) => {
             type="password"
             error={!!errors.passwordConfirmError}
             helperText={errors.passwordConfirmError}
-            onChange={() => onChange("passwordConfirmError")}
+            onChange={() => onChange('passwordConfirmError')}
             value={passwordConfirm}
           />
         </div>
       </div>
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginRight: "5rem",
-          marginTop: "8rem",
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginRight: '5rem',
+          marginTop: '8rem',
         }}
       >
         <Button
           className={`${classes.secondaryOptionButton}`}
           onClick={signupWithEmail}
         >
-          {t("newSignup.useSchoolAccount")}
+          {t('newSignup.useSchoolAccount')}
         </Button>
         <Button
           className={`${classes.primaryOptionButton}`}
           variant="contained"
           onClick={() => onSubmit()}
         >
-          {t("newSignup.signUp")}
+          {t('newSignup.signUp')}
         </Button>
       </div>
     </div>
@@ -491,7 +491,7 @@ const Page0 = (props) => {
       });
       thing = thing.data || thing;
       if (thing && thing.nonce && thing.url) {
-        localStorage.setItem("SchoologyNonce", thing.nonce);
+        localStorage.setItem('SchoologyNonce', thing.nonce);
         window.location.href = thing.url;
       }
     }
@@ -502,19 +502,19 @@ const Page0 = (props) => {
   return (
     <div>
       <Typography
-        style={{ textAlign: "left" }}
+        style={{ textAlign: 'left' }}
         className={`${classes.captionText}`}
       >
-        {t("newSignup.selectAccountType")}
+        {t('newSignup.selectAccountType')}
       </Typography>
       <div
         style={{
-          borderRadius: "0.5rem",
-          padding: "0.5rem",
-          minHeight: "18rem",
-          marginRight: "5rem",
-          marginTop: "1rem",
-          maxHeight: "15rem",
+          borderRadius: '0.5rem',
+          padding: '0.5rem',
+          minHeight: '18rem',
+          marginRight: '5rem',
+          marginTop: '1rem',
+          maxHeight: '15rem',
         }}
         className={`${classes.listBG}`}
       >
@@ -594,17 +594,17 @@ const Page0 = (props) => {
       </div>
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginRight: "5rem",
-          marginTop: "8rem",
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginRight: '5rem',
+          marginTop: '8rem',
         }}
       >
         <Button
           className={`${classes.secondaryOptionButton}`}
           onClick={signupWithEmail}
         >
-          {t("newSignup.signUpWithEmail")}
+          {t('newSignup.signUpWithEmail')}
         </Button>
         {selectedType !== -1 && (
           <Button
@@ -612,7 +612,7 @@ const Page0 = (props) => {
             variant="contained"
             onClick={() => onNext()}
           >
-            {t("newSignup.next")}
+            {t('newSignup.next')}
           </Button>
         )}
       </div>

@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState } from 'react';
 
 import {
   Card,
@@ -7,32 +7,32 @@ import {
   InputBase,
   MuiThemeProvider,
   Typography,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { useRoundInputBaseStyles } from "@mui-treasury/styles/inputBase/round";
+import { useRoundInputBaseStyles } from '@mui-treasury/styles/inputBase/round';
 
-import theme from "../util/theme";
+import theme from '../util/theme';
 
-import axios from "axios";
+import axios from 'axios';
 
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory } from 'react-router-dom';
 
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown from 'react-markdown';
 
-import t from "../util/localization/localization";
+import t from '../util/localization/localization';
 
 let semiGlobalState = null;
 const SchedulesSearch = (props) => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const roundInput = useRoundInputBaseStyles();
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const url = "https://forums.hwbounty.help/?" + query;
-    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+    const url = 'https://forums.hwbounty.help/?' + query;
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
     if (newWindow) newWindow.opener = null;
   };
 
@@ -71,27 +71,27 @@ const SchedulePreview = (props) => {
   return (
     <Card
       style={{
-        display: "inline-block",
-        "vertical-align": "top",
-        width: "350px",
-        position: "relative",
-        overflow: "hidden",
-        margin: "10px",
-        background: "#FFF",
-        "box-shadow":
-          "0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)",
-        color: "#272727",
-        "border-radius": "8px",
+        display: 'inline-block',
+        'vertical-align': 'top',
+        width: '350px',
+        position: 'relative',
+        overflow: 'hidden',
+        margin: '10px',
+        background: '#FFF',
+        'box-shadow':
+          '0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)',
+        color: '#272727',
+        'border-radius': '8px',
       }}
     >
       <Typography
         variant="h5"
         align="left"
         style={{
-          "line-height": "48px",
-          "font-size": "24px",
-          "font-weight": "300",
-          padding: "20px",
+          'line-height': '48px',
+          'font-size': '24px',
+          'font-weight': '300',
+          padding: '20px',
         }}
       >
         {props.name}
@@ -99,26 +99,26 @@ const SchedulePreview = (props) => {
       <Typography
         align="left"
         style={{
-          padding: "20px",
-          "font-weight": "300",
-          "border-radius": "0 0 2px 2px",
+          padding: '20px',
+          'font-weight': '300',
+          'border-radius': '0 0 2px 2px',
         }}
       >
         <ReactMarkdown>{props.desc.substring(0, 100)}</ReactMarkdown>
       </Typography>
       <Container
         style={{
-          "border-top": "2px solid rgba(160, 160, 160, 0.2)",
-          "padding-top": "10%",
+          'border-top': '2px solid rgba(160, 160, 160, 0.2)',
+          'padding-top': '10%',
         }}
       >
         <Link
           style={{
-            color: "#1976D2",
-            transition: "color 0.3s ease",
-            "text-transform": "uppercase",
-            "text-decoration": "none",
-            "font-size": "16px",
+            color: '#1976D2',
+            transition: 'color 0.3s ease',
+            'text-transform': 'uppercase',
+            'text-decoration': 'none',
+            'font-size': '16px',
           }}
           onClick={() => {
             redirectWithQuery(
@@ -127,7 +127,7 @@ const SchedulePreview = (props) => {
             );
           }}
         >
-          {t("schedules.viewSchedule")}
+          {t('schedules.viewSchedule')}
         </Link>
       </Container>
     </Card>
@@ -137,7 +137,7 @@ class ScheduleCatalog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchTerm: "",
+      searchTerm: '',
       schedules: [],
     };
     semiGlobalState = this.state;
@@ -158,10 +158,10 @@ class ScheduleCatalog extends Component {
         <Typography
           variant="h3"
           style={{
-            padding: "10px",
+            padding: '10px',
           }}
         >
-          {t("schedules.scheduleCatalog")}
+          {t('schedules.scheduleCatalog')}
         </Typography>
         <SchedulesSearch
           handleTextChange={(ev) => this.handleTextChange(ev, this)}

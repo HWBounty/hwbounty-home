@@ -1,55 +1,55 @@
 // React
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 // MUI
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Toolbar from "@material-ui/core/Toolbar";
-import Tooltip from "@material-ui/core/Tooltip";
-import withStyles from "@material-ui/core/styles/withStyles";
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 // Drag-n-Drop
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 // Redux
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import {
   calc_addVariable,
   calc_removeVariable,
-} from "../../../redux/actions/moduleActions";
+} from '../../../redux/actions/moduleActions';
 
 // Calculator
-import VariableField from "./VariableField";
+import VariableField from './VariableField';
 
 // Translation
-import t from "../../../util/localization/localization";
+import t from '../../../util/localization/localization';
 
 const styles = (theme) => ({
   ...theme.spreadIt,
   paper: {
     ...theme.spreadIt.paper,
-    height: "80vh",
-    display: "flex",
-    flexDirection: "column",
+    height: '80vh',
+    display: 'flex',
+    flexDirection: 'column',
   },
   variableWrapper: {
     flex: 1,
-    overflow: "auto",
+    overflow: 'auto',
     paddingTop: 25,
   },
   deleteButton: {
     //margin: "auto",
-    height: "100%",
-    width: "100%",
+    height: '100%',
+    width: '100%',
   },
   addButton: {
     //margin: "auto",
-    height: "100%",
-    width: "100%",
+    height: '100%',
+    width: '100%',
   },
 });
 
@@ -64,7 +64,7 @@ export const CalcVariables = (props) => {
     // we can make this over again cuz i'm lazy...
     // also not competitive programming soooo....
     // although O(n) space vs O(n) time so idk...
-    let letters = "abcdefghijklmnopqrstuvwxyz".split("");
+    let letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
     let x = 1; // increase every loop, we append this to end of each letter until it works...
     let tmp = letters.filter((c) => {
       return !scope.has(c);
@@ -105,7 +105,7 @@ export const CalcVariables = (props) => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Paper className={classes.paper}>
-        <Droppable droppableId={"calc-droppable"}>
+        <Droppable droppableId={'calc-droppable'}>
           {(provided, snapshot) => (
             <div
               className={classes.variableWrapper}
@@ -133,7 +133,7 @@ export const CalcVariables = (props) => {
                   </Draggable>
                 ))
               ) : (
-                <h1>{t("calculator.calcVariables.explanation")}</h1>
+                <h1>{t('calculator.calcVariables.explanation')}</h1>
               )}
               {provided.placeholder}
             </div>

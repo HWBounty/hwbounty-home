@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 import {
   Button,
@@ -7,9 +7,9 @@ import {
   List,
   ListItem,
   Typography,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import Player from "./Player";
+import Player from './Player';
 
 let parseSecsToEnglish = (secs) => {
   let mins = Math.floor(secs / 60);
@@ -21,7 +21,7 @@ let parseSecsToEnglish = (secs) => {
 };
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 const SearchMusic = (props) => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [updateView, setUpdateView] = useState(null);
   const handleChange = (event) => {
     setQuery(event.target.value);
@@ -59,9 +59,9 @@ const SearchMusic = (props) => {
           height: 440,
           padding: 0,
           margin: 0,
-          overflowX: "hidden",
-          overflowY: "scroll",
-          scrollbarWidth: "none",
+          overflowX: 'hidden',
+          overflowY: 'scroll',
+          scrollbarWidth: 'none',
         }}
       >
         {Player.self.searchResults
@@ -73,30 +73,30 @@ const SearchMusic = (props) => {
                       <div
                         style={{
                           background: `url(${
-                            data?.thumbnail || ""
+                            data?.thumbnail || ''
                           })center/cover`,
-                          minHeight: "64px",
-                          minWidth: "64px",
-                          maxHeight: "128px",
-                          maxWidth: "128px",
-                          borderRadius: "2px",
+                          minHeight: '64px',
+                          minWidth: '64px',
+                          maxHeight: '128px',
+                          maxWidth: '128px',
+                          borderRadius: '2px',
                         }}
                       />
                       <Typography
                         variant="caption"
                         style={{
-                          marginLeft: "1vw",
+                          marginLeft: '1vw',
                         }}
                       >
                         {`${
                           data?.name.substring(0, 25) || data.link
-                        } ${" ".repeat(30)}`.substring(0, 25)}
+                        } ${' '.repeat(30)}`.substring(0, 25)}
                       </Typography>
                       <Typography
                         variant="h6"
                         style={{
-                          display: "inline-block",
-                          marginLeft: "1vw",
+                          display: 'inline-block',
+                          marginLeft: '1vw',
                         }}
                       >
                         {data.duration}

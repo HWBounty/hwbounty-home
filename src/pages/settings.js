@@ -1,28 +1,28 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 // MUI
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormGroup from "@material-ui/core/FormGroup";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Switch from "@material-ui/core/Switch";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Switch from '@material-ui/core/Switch';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
 // Redux
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { setTheme } from "../redux/actions/uiActions";
+import { setTheme } from '../redux/actions/uiActions';
 
-import { useSnackbar } from "notistack";
+import { useSnackbar } from 'notistack';
 
 // Translation
-import t from "../util/localization/localization";
+import t from '../util/localization/localization';
 
 const useStyles = makeStyles((theme) => ({
   ...theme.spreadIt,
   root: {
-    display: "flex",
-    "& > *": {
+    display: 'flex',
+    '& > *': {
       margin: theme.spacing(1),
     },
   },
@@ -35,19 +35,19 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(16),
   },
   paper: {
-    width: "80vw",
-    height: "80vw",
-    display: "inline-block",
+    width: '80vw',
+    height: '80vw',
+    display: 'inline-block',
   },
   title: {
-    fontSize: "60px",
+    fontSize: '60px',
     // fontFamily: "",
   },
   formLabel: {
-    display: "block",
+    display: 'block',
   },
   formGroup: {
-    display: "inline",
+    display: 'inline',
   },
 }));
 export const Settings = (props) => {
@@ -59,16 +59,16 @@ export const Settings = (props) => {
   const { enqueueSnackbar } = useSnackbar();
   const toggleDarkmode = (event, nv) => {
     const newVal = nv ? 1 : 0;
-    if (newVal === 0) enqueueSnackbar("Ouchy, my eyes");
-    else enqueueSnackbar("Ahhhh much better");
-    localStorage.setItem("theme", newVal);
+    if (newVal === 0) enqueueSnackbar('Ouchy, my eyes');
+    else enqueueSnackbar('Ahhhh much better');
+    localStorage.setItem('theme', newVal);
     setTheme(newVal);
   };
 
   return (
     <Paper className={classes.paper}>
       <Typography variant="h5" className={classes.title}>
-        {t("settings.title")}
+        {t('settings.title')}
       </Typography>
       <FormGroup row className={classes.formGroup}>
         <FormControlLabel
@@ -79,7 +79,7 @@ export const Settings = (props) => {
               name="darkmodeToggle"
             />
           }
-          label="Dark Mode :)"
+          label=""
           className={classes.formLabel}
         />
         {/* <FormControlLabel

@@ -20,7 +20,7 @@
  ░░░░░░░░░██║░░░███████╗░░░██║░░░
  ░░░░░░░░░╚═╝░░░╚══════╝░░░╚═╝░░░
  */
-import socketClient, { io } from "socket.io-client";
+import socketClient, { io } from 'socket.io-client';
 const getHighestThumbnail = (thumbnails) => {
   let best = null;
   thumbnails.forEach((x) => {
@@ -75,8 +75,8 @@ class Player {
     window.URL = window.URL || window.webkitURL;
     window.MediaSource = window.MediaSource || window.WebKitMediaSource;
     /** @type {SocketIO.Socket} */
-    this.socket = socketClient("https://api.hwbounty.help/");
-    this.video = document.getElementById("streamingVideoForMusic");
+    this.socket = socketClient('https://api.hwbounty.help/');
+    this.video = document.getElementById('streamingVideoForMusic');
     this.stopPlaying = false;
     this.mediaSource = null;
     /** @type {SourceBuffer} */
@@ -88,18 +88,18 @@ class Player {
       /**
        * @type {Array<String>}
        */
-      Player.self.songQueue = JSON.parse(localStorage.getItem("queue")) || [];
+      Player.self.songQueue = JSON.parse(localStorage.getItem('queue')) || [];
     } catch (error) {
       Player.self.songQueue = [];
     }
     this.played = [];
     this.songCount = 0;
     this.currentSong = {};
-    this.currentSongLink = "";
+    this.currentSongLink = '';
     this.loop = false;
     this.video.onended = this.processQueue;
-    this.socket.on("getTrackInfo", this.handleSongInfo);
-    this.socket.on("addSongsToQueue", this.addToQueue);
+    this.socket.on('getTrackInfo', this.handleSongInfo);
+    this.socket.on('addSongsToQueue', this.addToQueue);
     this.tryingToPlay = false;
     //change player info "Reactively"
     setInterval(() => {
@@ -111,10 +111,10 @@ class Player {
       this.processQueue();
     }, 100);
     setInterval(() => {
-      localStorage.setItem("queue", JSON.stringify(this.songQueue));
+      localStorage.setItem('queue', JSON.stringify(this.songQueue));
     }, 250);
     this.searchResults = null;
-    this.socket.on("querySongs", (data) => {
+    this.socket.on('querySongs', (data) => {
       this.searchResults = data;
     });
     // this is so that We can reset the data connection and stuff when we need to
@@ -123,7 +123,7 @@ class Player {
    * @param {String} songURL
    */
   sendTrack(songURL) {
-    this.socket.emit("track", songURL);
+    this.socket.emit('track', songURL);
   }
   /**
    * Plays a song instantly! DO NOT CALL THIS! WILL OVERRIDE WHATS CURRENTLY PLAYING
@@ -137,14 +137,14 @@ class Player {
       this.video.src = window.URL.createObjectURL(this.mediaSource);
 
       this.video.pause();
-      this.socket.emit("track", songURL);
+      this.socket.emit('track', songURL);
       this.currentSongLink = songURL;
-      while (this.mediaSource.readyState !== "open") await sleep(1);
+      while (this.mediaSource.readyState !== 'open') await sleep(1);
       this.video.volume = 0.5;
       this.sourceBuffer = this.mediaSource.addSourceBuffer(
         'video/webm; codecs="opus"'
       );
-      this.sourceBuffer.mode = "sequence";
+      this.sourceBuffer.mode = 'sequence';
       let end = false;
       let wait = true;
       this.sourceBuffer.onupdateend = () => {
@@ -161,7 +161,7 @@ class Player {
         if (trials > 20) return;
         if (
           this.queue.length &&
-          this.mediaSource.readyState === "open" &&
+          this.mediaSource.readyState === 'open' &&
           this.sourceBuffer
         ) {
           let res = this.queue.shift();
@@ -174,7 +174,7 @@ class Player {
         }
       }, 10);
 
-      this.socket.on("video-data-stream", (data) => {
+      this.socket.on('video-data-stream', (data) => {
         if (data.link !== songURL) return;
         let uIntArray = new Uint8Array(data.chunk);
         if (chunkcount === 0) {
@@ -188,14 +188,14 @@ class Player {
 
         // }
       });
-      this.socket.on("video-info", (data) => {
+      this.socket.on('video-info', (data) => {
         if (data.link !== songURL) return;
         let cleanedInfo = cleanAndParseInfo(data.data.videoDetails);
         this.currentSong = cleanedInfo;
 
         // this.songInfoMap.set(songURL, cleanedInfo);
       });
-      this.socket.on("video-data-done", () => {});
+      this.socket.on('video-data-done', () => {});
     })();
   }
   addToQueue(...songLinks) {
@@ -211,8 +211,8 @@ class Player {
   processQueue() {
     Player.self.songQueue.forEach((x) => {
       if (!Player.self.songInfoMap.has(x)) {
-        Player.self.socket.emit("getTrackInfo", x);
-        Player.self.songInfoMap.set(x, "LoadingInData");
+        Player.self.socket.emit('getTrackInfo', x);
+        Player.self.songInfoMap.set(x, 'LoadingInData');
       }
     });
     if (Player.self.tryingToPlay) return;
@@ -228,7 +228,7 @@ class Player {
     Player.self.playSong(newSong);
   }
   search(query) {
-    Player.self.socket.emit("querySongs", query);
+    Player.self.socket.emit('querySongs', query);
   }
 }
 export default Player;

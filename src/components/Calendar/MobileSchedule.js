@@ -1,14 +1,20 @@
-import { Component, useEffect, useState } from "react";
+import { Component, useEffect, useState } from 'react';
 
+<<<<<<< HEAD
 import { Button, Card, IconButton, Snackbar, Typography } from "@material-ui/core";
 import { ChevronLeft, ChevronRight, Close } from "@material-ui/icons";
+=======
+import { Card, IconButton, Typography } from '@material-ui/core';
+import { ChevronLeft, ChevronRight } from '@material-ui/icons';
+>>>>>>> 69d59c2011735f544ac3fd147580edbc887ef683
 
-import moment from "moment";
+import moment from 'moment';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { withSnackbar } from "notistack";
+import { withSnackbar } from 'notistack';
 
+<<<<<<< HEAD
 import Schedule from "./Schedule";
 import Notifications from "../../util/notifications";
 import { getTimePhrase } from "../../util/getScheduleTimePhrase";
@@ -18,6 +24,80 @@ import getScheduleTimeEnd from "../../util/getScheduleTimeEnd";
 import { Alert } from "@material-ui/lab";
 import React from "react";
 
+=======
+import Schedule from './Schedule';
+import Notifications from '../../util/notifications';
+import { getWhenSchoolEnds } from '../../util/getTimePhrase';
+import { getTimePhrase } from '../../util/getScheduleTimePhrase';
+import TetLib from '../../util/TetLib';
+import useForceUpdate from '../../util/useForceUpdate';
+
+const CTime = (props) => {
+  const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date()); // default value can be anything you want
+  return (
+    <div
+      style={{
+        verticalAlign: 'middle',
+        width: '100%',
+        minWidth: '100%',
+      }}
+    >
+      <Typography
+        variant="h5"
+        style={{
+          fontSize: '5.5vw',
+          textAlign: 'left',
+        }}
+      >
+        {
+          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+            'h:mm:ss A'
+          )
+        }
+      </Typography>
+      <Typography
+        variant="h5"
+        style={{
+          fontSize: '2.5vw',
+          textAlign: 'left',
+        }}
+      >
+        {
+          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+            'M/D/YYYY dddd'
+          )
+        }
+      </Typography>
+    </div>
+  );
+};
+const CTimeSmall = (props) => {
+  const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date()); // default value can be anything you want
+  return (
+    <div
+      style={{
+        verticalAlign: 'middle',
+        width: '100%',
+        minWidth: '100%',
+      }}
+    >
+      <Typography
+        variant="h5"
+        style={{
+          fontSize: '5.65vw',
+          fontFamily: 'Nunito',
+        }}
+      >
+        {
+          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
+            'dddd'
+          )
+        }
+      </Typography>
+    </div>
+  );
+};
+>>>>>>> 69d59c2011735f544ac3fd147580edbc887ef683
 let lastTimeBasedNotif = 0;
 const MobileSchedulePage = (props) => {
   const forceUpdate = useForceUpdate();
@@ -29,64 +109,68 @@ const MobileSchedulePage = (props) => {
   const fastForwardADay = () => {
     setOffset(offset + 1);
   };
+<<<<<<< HEAD
   let adjustedMoment = moment().add(offset * 24, "hours");
 
+=======
+  let adjustedMoment = moment().add(offset * 24, 'hours');
+>>>>>>> 69d59c2011735f544ac3fd147580edbc887ef683
   useEffect(() => {
     let run = true;
     (async () => {
       await TetLib.sleep(1000 - (Date.now() % 1000));
       while (run) {
-        await TetLib.sleep(1000)
+        await TetLib.sleep(1000);
         forceUpdate();
       }
     })();
     return () => {
       run = false;
-    }
-  }, [])
+    };
+  }, []);
   return (
     <div
       style={{
-        marginTop: "5%",
+        marginTop: '5%',
       }}
     >
       <Card
         style={{
-          padding: "2%",
-          paddingBottom: "0%",
-          margin: "5%",
+          padding: '2%',
+          paddingBottom: '0%',
+          margin: '5%',
           /* max-height: 50vw!important; */
           /* height: 50vw; */
-          width: "90%",
+          width: '90%',
 
           borderRadius: 5,
           borderWidth: 0,
-          background: "rgba(0,0,0,0)",
+          background: 'rgba(0,0,0,0)',
         }}
       >
         <div>
           <span
             style={{
-              display: "inline-flex",
-              alignItems: "center",
+              display: 'inline-flex',
+              alignItems: 'center',
             }}
           >
             <IconButton onClick={goBackADay}>
-              {" "}
-              <ChevronLeft />{" "}
-            </IconButton>{" "}
+              {' '}
+              <ChevronLeft />{' '}
+            </IconButton>{' '}
             <Typography
               style={{
-                fontFamily: "Poppins",
-                fontWeight: "400",
-                fontSize: "24px",
+                fontFamily: 'Poppins',
+                fontWeight: '400',
+                fontSize: '24px',
               }}
             >
-              {adjustedMoment.format("MM/DD/YYYY")}
+              {adjustedMoment.format('MM/DD/YYYY')}
             </Typography>
             <IconButton onClick={fastForwardADay}>
-              {" "}
-              <ChevronRight />{" "}
+              {' '}
+              <ChevronRight />{' '}
             </IconButton>
           </span>
           <div
@@ -126,9 +210,14 @@ const MobileSchedulePage = (props) => {
           <Typography
             variant="h5"
             style={{
+<<<<<<< HEAD
               fontSize: 16,
               fontFamily: "Nunito",
               textAlign: "left",
+=======
+              fontSize: 32,
+              fontFamily: 'Nunito',
+>>>>>>> 69d59c2011735f544ac3fd147580edbc887ef683
             }}
           >
             {getScheduleTimeEnd(offset)}
@@ -155,7 +244,7 @@ const MobileSchedulePage = (props) => {
       </Card>
     </div >
   );
-}
+};
 // class ScheduleInfo extends Component {
 //   constructor(p) {
 //     super(p);
