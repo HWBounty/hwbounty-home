@@ -1,31 +1,31 @@
 // React
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 // MUI
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
 // Translation
-import t from "../../../util/localization/localization";
+import t from '../../../util/localization/localization';
 
 const useStyles = makeStyles({
   inputField: {
-    display: "block",
-    width: "90%",
+    display: 'block',
+    width: '90%',
   },
 });
 
 const Login = (props) => {
   const { loginUser } = props;
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const classes = useStyles();
 
@@ -42,7 +42,7 @@ const Login = (props) => {
   };
   return (
     <Fragment>
-      <DialogTitle>{t("login.login")}</DialogTitle>
+      <DialogTitle>{t('login.login')}</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
@@ -61,7 +61,7 @@ const Login = (props) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleSubmit}>{t("login.signIn")}</Button>
+        <Button onClick={handleSubmit}>{t('login.signIn')}</Button>
       </DialogActions>
     </Fragment>
   );

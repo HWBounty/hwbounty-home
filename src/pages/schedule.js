@@ -1,27 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import DesktopSchedulePage from "../components/Calendar/DesktopSchedule";
-import MobileSchedulePage from "../components/Calendar/MobileSchedule";
-import TetLib from "../util/TetLib";
-import useForceUpdate from "../util/useForceUpdate";
-import t from "../util/localization/localization";
-import { updateSchedule } from "../redux/actions/dataActions";
-import store from "../redux/store";
+import DesktopSchedulePage from '../components/Calendar/DesktopSchedule';
+import MobileSchedulePage from '../components/Calendar/MobileSchedule';
+import TetLib from '../util/TetLib';
+import useForceUpdate from '../util/useForceUpdate';
+import t from '../util/localization/localization';
+import { updateSchedule } from '../redux/actions/dataActions';
+import store from '../redux/store';
 const Schedule = (props) => {
   const forceUpdate = useForceUpdate();
   useEffect(() => {
     let run = true;
-    window.addEventListener("resize", forceUpdate);
+    window.addEventListener('resize', forceUpdate);
     return () => {
-      window.removeEventListener("resize", forceUpdate);
+      window.removeEventListener('resize', forceUpdate);
     };
   }, []);
-  const [schedule, setSchedule] = useState(JSON.parse(localStorage.cachedSchedule || "null"));
+  const [schedule, setSchedule] = useState(
+    JSON.parse(localStorage.cachedSchedule || 'null')
+  );
   useEffect(() => {
     (async () => {
-      localStorage.removeItem("cachedSchedule");
+      localStorage.removeItem('cachedSchedule');
       store.dispatch(updateSchedule());
       while (!localStorage.cachedSchedule) await TetLib.sleep(100);
       setSchedule(JSON.parse(localStorage.cachedSchedule));
@@ -37,6 +39,6 @@ const Schedule = (props) => {
   }
 };
 const mapActionsToProps = {
-  updateSchedule
+  updateSchedule,
 };
 export default connect()(Schedule);

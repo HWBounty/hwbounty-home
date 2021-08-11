@@ -1,28 +1,28 @@
 // React
-import React from "react";
+import React from 'react';
 
 // MUI
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
 // Redux
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { calc_setInput } from "../../../redux/actions/moduleActions";
+import { calc_setInput } from '../../../redux/actions/moduleActions';
 
 // Math
-import { StaticMathField } from "react-mathquill";
+import { StaticMathField } from 'react-mathquill';
 
 // Translation
-import t from "../../../util/localization/localization";
+import t from '../../../util/localization/localization';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
-    overflow: "auto",
+    overflow: 'auto',
   },
 }));
 
@@ -40,11 +40,11 @@ export const History = (props) => {
     const { latex, ans } = props;
     return (
       <ListItem button onClick={() => calc_setInput(latex)}>
-        <StaticMathField style={{ flex: 1, cursor: "pointer" }}>
+        <StaticMathField style={{ flex: 1, cursor: 'pointer' }}>
           {latex}
         </StaticMathField>
         <Typography>
-          {t("calculator.equals") + " "} {ans}
+          {t('calculator.equals') + ' '} {ans}
         </Typography>
       </ListItem>
     );
@@ -65,8 +65,8 @@ export const History = (props) => {
         </List>
       ) : (
         <h1>
-          {t("calculator.history.explanation")}
-          <br /> {t("calculator.history.placeholder")}
+          {t('calculator.history.explanation')}
+          <br /> {t('calculator.history.placeholder')}
         </h1>
       )}
     </div>

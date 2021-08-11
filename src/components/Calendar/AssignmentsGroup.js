@@ -1,24 +1,24 @@
 // React
-import PropTypes from "prop-types";
-import React, { Fragment, useState } from "react";
+import PropTypes from 'prop-types';
+import React, { Fragment, useState } from 'react';
 
 // MUI
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import Collapse from "@material-ui/core/Collapse";
-import ExpandLess from "@material-ui/icons/ExpandLessRounded";
-import ExpandMore from "@material-ui/icons/ExpandMoreRounded";
-import withStyles from "@material-ui/core/styles/withStyles";
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLessRounded';
+import ExpandMore from '@material-ui/icons/ExpandMoreRounded';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 // Components
-import SchoologyAssignment from "./SchoologyAssignment";
+import SchoologyAssignment from './SchoologyAssignment';
 
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
 const styles = (theme) => ({
   dateButton: {
-    width: "100%",
-    textTransform: "none",
+    width: '100%',
+    textTransform: 'none',
   },
   dateText: {},
 });
@@ -36,7 +36,7 @@ export const AssignmentsGroup = (props) => {
         onClick={() => setExpanded(!expanded)}
       >
         <Typography fontWeight="fontWeightBold">
-          {dayjs(date).format("dddd, MMM DD YYYY")}
+          {dayjs(date).format('dddd, MMM DD YYYY')}
         </Typography>
       </Button>
       <Collapse in={expanded} timeout="auto" unmountOnExit>

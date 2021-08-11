@@ -15,33 +15,33 @@
  */
 export default function mathquillToMathJS(fromMQ) {
   const replacements = [
-    { tex: "\\operatorname{diff}", mathjs: "diff" },
-    { tex: "\\operatorname{pdiff}", mathjs: "pdiff" },
-    { tex: "\\operatorname{curl}", mathjs: "curl" },
-    { tex: "\\operatorname{div}", mathjs: "div" },
-    { tex: "\\operatorname{norm}", mathjs: "norm" },
-    { tex: "\\operatorname{mod}", mathjs: "mod" },
-    { tex: "\\operatorname{abs}", mathjs: "abs" },
-    { tex: "\\operatorname{unitT}", mathjs: "unitT" },
-    { tex: "\\operatorname{unitN}", mathjs: "unitN" },
-    { tex: "\\operatorname{unitB}", mathjs: "unitB" },
-    { tex: "\\operatorname{arccosh}", mathjs: "arccosh" },
-    { tex: "\\operatorname{arcsinh}", mathjs: "arcsinh" },
-    { tex: "\\operatorname{arctanh}", mathjs: "arctanh" },
-    { tex: "\\cdot", mathjs: " * " },
-    { tex: "\\left", mathjs: "" },
-    { tex: "\\right", mathjs: "" },
-    { tex: "{", mathjs: "(" },
-    { tex: "}", mathjs: ")" },
-    { tex: "~", mathjs: " " },
-    { tex: "\\", mathjs: " " },
+    { tex: '\\operatorname{diff}', mathjs: 'diff' },
+    { tex: '\\operatorname{pdiff}', mathjs: 'pdiff' },
+    { tex: '\\operatorname{curl}', mathjs: 'curl' },
+    { tex: '\\operatorname{div}', mathjs: 'div' },
+    { tex: '\\operatorname{norm}', mathjs: 'norm' },
+    { tex: '\\operatorname{mod}', mathjs: 'mod' },
+    { tex: '\\operatorname{abs}', mathjs: 'abs' },
+    { tex: '\\operatorname{unitT}', mathjs: 'unitT' },
+    { tex: '\\operatorname{unitN}', mathjs: 'unitN' },
+    { tex: '\\operatorname{unitB}', mathjs: 'unitB' },
+    { tex: '\\operatorname{arccosh}', mathjs: 'arccosh' },
+    { tex: '\\operatorname{arcsinh}', mathjs: 'arcsinh' },
+    { tex: '\\operatorname{arctanh}', mathjs: 'arctanh' },
+    { tex: '\\cdot', mathjs: ' * ' },
+    { tex: '\\left', mathjs: '' },
+    { tex: '\\right', mathjs: '' },
+    { tex: '{', mathjs: '(' },
+    { tex: '}', mathjs: ')' },
+    { tex: '~', mathjs: ' ' },
+    { tex: '\\', mathjs: ' ' },
   ];
 
   // remove fractions, then apply replacements
   const noFrac = fracToDivision(fromMQ);
   const noBraceSub = convertSubscript(noFrac);
   return replacements.reduce(
-    (acc, r) => replaceAll(acc, r["tex"], r["mathjs"]),
+    (acc, r) => replaceAll(acc, r['tex'], r['mathjs']),
     noBraceSub
   );
 }
@@ -51,7 +51,7 @@ export default function mathquillToMathJS(fromMQ) {
  *   - example: x_{12foo_{bar123_{evenlower}}} --> x_12foo_bar123_evenlower
  */
 export function convertSubscript(expr) {
-  const sub = "_{";
+  const sub = '_{';
   const subStart = expr.indexOf(sub);
 
   if (subStart < 0) {
@@ -59,10 +59,10 @@ export function convertSubscript(expr) {
   }
 
   const numStart = subStart + sub.length;
-  const closingBrace = expr.indexOf("}", numStart);
+  const closingBrace = expr.indexOf('}', numStart);
   const newExpr =
     expr.slice(0, subStart) +
-    "_" +
+    '_' +
     expr.slice(numStart, closingBrace) +
     expr.slice(closingBrace + 1);
 
@@ -74,7 +74,7 @@ export function convertSubscript(expr) {
  *   - example: \frac{a}{1 + \frac{b}{c}} --> {a}/{1 + {b}/{c}}
  */
 export function fracToDivision(expr) {
-  const frac = "\\frac";
+  const frac = '\\frac';
   const fracStart = expr.indexOf(frac);
   const numStart = fracStart + frac.length;
 
@@ -87,7 +87,7 @@ export function fracToDivision(expr) {
   const newExpr =
     expr.slice(0, fracStart) +
     expr.slice(numStart, divIdx + 1) +
-    "/" +
+    '/' +
     expr.slice(divIdx + 1);
 
   return fracToDivision(newExpr);
@@ -100,20 +100,20 @@ export function capitalize(string) {
 export function escapeRegExp(str) {
   // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
   // $& means the whole matched string
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 export function replaceAll(str, find, replaceWith) {
   // from https://stackoverflow.com/a/1144788/2747370
-  return str.replace(new RegExp(escapeRegExp(find), "g"), replaceWith);
+  return str.replace(new RegExp(escapeRegExp(find), 'g'), replaceWith);
 }
 
 export function findClosingBrace(str, startIdx) {
   const braces = {
-    "[": "]",
-    "<": ">",
-    "(": ")",
-    "{": "}",
+    '[': ']',
+    '<': '>',
+    '(': ')',
+    '{': '}',
   };
 
   const openingBrace = str[startIdx];

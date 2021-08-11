@@ -1,26 +1,26 @@
 // React
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 // Redux
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { setTheme, setAuthPopupOpen } from "../../redux/actions/uiActions";
-import { _maxThemeVal } from "../../redux/types";
+import { setTheme, setAuthPopupOpen } from '../../redux/actions/uiActions';
+import { _maxThemeVal } from '../../redux/types';
 
 // MUI Components & Styling
-import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
-import withStyles from "@material-ui/core/styles/withStyles";
-import themeFile from "../../util/theme";
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import withStyles from '@material-ui/core/styles/withStyles';
+import themeFile from '../../util/theme';
 
-import AccountIconButton from "../User/AccountIconButton";
+import AccountIconButton from '../User/AccountIconButton';
 
-import axios from "axios";
+import axios from 'axios';
 
 // Translation
-import t from "../../util/localization/localization";
+import t from '../../util/localization/localization';
 
 const styles = {
   ...themeFile.spreadIt,
@@ -28,7 +28,7 @@ const styles = {
     height: 50,
   },
   iconButton: {
-    marginLeft: "auto",
+    marginLeft: 'auto',
   },
 };
 
@@ -43,11 +43,11 @@ export const Navbar = (props) => {
 
   useEffect(() => {
     if (user) {
-      if (!localStorage.getItem("user"))
-        localStorage.setItem("user", JSON.stringify(user));
+      if (!localStorage.getItem('user'))
+        localStorage.setItem('user', JSON.stringify(user));
     } else {
       axios
-        .get("https://api.hwbounty.help/@me")
+        .get('https://api.hwbounty.help/@me')
         .then((res) => {
           if (res.status === 200 && res.data && res.data.password) {
             setUser(res.data);
@@ -59,7 +59,7 @@ export const Navbar = (props) => {
 
   const toggleTheme = () => {
     const newVal = theme === _maxThemeVal ? 0 : theme + 1;
-    localStorage.setItem("theme", newVal);
+    localStorage.setItem('theme', newVal);
     props.setTheme(newVal);
   };
 
@@ -70,7 +70,7 @@ export const Navbar = (props) => {
           <AccountIconButton />
         ) : (
           <Button onClick={() => setAuthPopupOpen(true)}>
-            {t("navbar.login")}
+            {t('navbar.login')}
           </Button>
         )}
       </div>
@@ -82,10 +82,10 @@ export const Navbar = (props) => {
       className={classes.root}
       style={{
         minHeight: 75,
-        position: "absolute",
-        top: "0%",
-        left: "0%",
-        width: "100%",
+        position: 'absolute',
+        top: '0%',
+        left: '0%',
+        width: '100%',
       }}
     >
       <Toolbar style={{}}>

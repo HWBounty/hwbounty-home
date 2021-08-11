@@ -1,24 +1,24 @@
 // React
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 // MUI & Styling
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from '@material-ui/core/styles/withStyles';
 
 // Components
-import AssignmentsGroup from "./AssignmentsGroup";
+import AssignmentsGroup from './AssignmentsGroup';
 
 // Redux
-import { connect } from "react-redux";
-import { getAssignments } from "../../redux/actions/dataActions";
+import { connect } from 'react-redux';
+import { getAssignments } from '../../redux/actions/dataActions';
 
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
 const styles = (theme) => ({
   ...theme.spreadIt,
 });
 
 const dateToDay = (date) => {
-  return dayjs(date).format("MM-DD-YYYY");
+  return dayjs(date).format('MM-DD-YYYY');
 };
 
 export class Assignments extends Component {

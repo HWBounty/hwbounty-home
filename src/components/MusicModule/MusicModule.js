@@ -1,15 +1,15 @@
-import { Component } from "react";
+import { Component } from 'react';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { Container, Paper, Tab, Tabs } from "@material-ui/core";
+import { Container, Paper, Tab, Tabs } from '@material-ui/core';
 
-import MusicPlayer from "./MusicPlayer";
-import Player from "./Player";
-import QueuePage from "./QueuePage";
-import SearchMusic from "./SearchPage";
+import MusicPlayer from './MusicPlayer';
+import Player from './Player';
+import QueuePage from './QueuePage';
+import SearchMusic from './SearchPage';
 
-import "../MusicModule/musicPlayer.css";
+import '../MusicModule/musicPlayer.css';
 
 const getHighestThumbnail = (thumbnails) => {
   let best = null;
@@ -54,7 +54,7 @@ class MusicModule extends Component {
     };
   }
   componentDidMount(props) {
-    if (!localStorage.getItem("DBIdToken")) return null;
+    if (!localStorage.getItem('DBIdToken')) return null;
     let player = new Player(this);
     (async () => {
       while (!player?.currentSong?.bestThumbnail) await sleep(1);
@@ -66,7 +66,7 @@ class MusicModule extends Component {
   }
   render() {
     return null;
-    if (!localStorage.getItem("DBIdToken")) return null;
+    if (!localStorage.getItem('DBIdToken')) return null;
     return (
       <div>
         <Container
@@ -93,17 +93,17 @@ class MusicModule extends Component {
             <Container>
               {this.state.tab === 0 && (
                 <MusicPlayer
-                  player={document.getElementById("streamingVideoForMusic")}
+                  player={document.getElementById('streamingVideoForMusic')}
                 />
               )}
               {this.state.tab === 1 && (
                 <QueuePage
-                  player={document.getElementById("streamingVideoForMusic")}
+                  player={document.getElementById('streamingVideoForMusic')}
                 />
               )}
               {this.state.tab === 2 && (
                 <SearchMusic
-                  player={document.getElementById("streamingVideoForMusic")}
+                  player={document.getElementById('streamingVideoForMusic')}
                 />
               )}
             </Container>

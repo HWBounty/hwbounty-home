@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import { useSnackbar } from "notistack";
+import { useSnackbar } from 'notistack';
 
-import PassiveCoins from "../../util/getPassiveCoins";
+import PassiveCoins from '../../util/getPassiveCoins';
 
 export const GainCoins = (props) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();

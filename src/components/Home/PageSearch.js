@@ -1,8 +1,8 @@
 // React
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 // MUI
-import { MuiThemeProvider, withStyles } from "@material-ui/core/styles";
+import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 
 // MUI Treasury
 import {
@@ -13,12 +13,12 @@ import {
   Paper,
   TextField,
   Typography,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import Fuse from "fuse.js";
-import { useHistory } from "react-router-dom";
+import Fuse from 'fuse.js';
+import { useHistory } from 'react-router-dom';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 /*
 TODO: remove mui theme provider here, it should work without it!!!
 (maybe check pallete or something?, color is sent but dark mode is not)
@@ -29,31 +29,31 @@ const styles = (theme) => ({
 
 const pageArray = [
   {
-    name: "Home",
-    path: "/",
-    description: "The main page with scheduling and more!",
+    name: 'Home',
+    path: '/',
+    description: 'The main page with scheduling and more!',
   },
   {
-    name: "Schedules",
-    path: "/schedules",
-    description: "Find the perfect schedule for you!",
+    name: 'Schedules',
+    path: '/schedules',
+    description: 'Find the perfect schedule for you!',
   },
   {
-    name: "Ideal Gas Calculator",
-    path: "/module/gaslawscalc",
-    description: "Gas Law Calculator PV=NRT (Chemistry)",
+    name: 'Ideal Gas Calculator',
+    path: '/module/gaslawscalc',
+    description: 'Gas Law Calculator PV=NRT (Chemistry)',
   },
   {
-    name: "Schedule",
-    path: "/schedule",
+    name: 'Schedule',
+    path: '/schedule',
     description:
-      "Your current schedule, with a clock, zoom links, and periods!",
+      'Your current schedule, with a clock, zoom links, and periods!',
   },
 ];
 const fuseOptions = {
   includeScore: true,
   // Search in `author` and in `tags` array
-  keys: ["name", "description"],
+  keys: ['name', 'description'],
 };
 const fuse = new Fuse(pageArray, fuseOptions);
 export const PageSearch = (props) => {
@@ -61,9 +61,9 @@ export const PageSearch = (props) => {
   const {
     UI: { theme },
   } = props;
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const swapPage = (path) => {
-    setQuery("");
+    setQuery('');
     history.push(path);
   };
   const handleSubmit = (event) => {
@@ -86,7 +86,7 @@ export const PageSearch = (props) => {
                 minWidth: 396,
                 margin: 0,
                 padding: 0,
-                textAlign: "left",
+                textAlign: 'left',
               }}
             >
               <Button fullWidth onClick={(x) => swapPage(result.item.path)}>
@@ -111,10 +111,10 @@ export const PageSearch = (props) => {
                   style={{
                     fontSize: 16,
                     fontFamily: `-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"`,
-                    textAlign: "right",
+                    textAlign: 'right',
                     marginLeft: 40,
-                    display: "block",
-                    position: "relative",
+                    display: 'block',
+                    position: 'relative',
                   }}
                 >
                   {result.item.description.substring(0, 25)}
@@ -142,7 +142,7 @@ export const PageSearch = (props) => {
             fullWidth
             {...props}
             style={{
-              color: theme ? "white" : "black",
+              color: theme ? 'white' : 'black',
             }}
           />
         </form>
@@ -152,7 +152,7 @@ export const PageSearch = (props) => {
           style={{
             minWidth: 396,
             height: 160,
-            position: "absolute",
+            position: 'absolute',
             top: 50,
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,
@@ -162,10 +162,10 @@ export const PageSearch = (props) => {
             style={{
               minWidth: 396,
               height: 440,
-              overflowX: "hidden",
-              overflowY: "scroll",
-              scrollbarWidth: "none",
-              position: "absolute",
+              overflowX: 'hidden',
+              overflowY: 'scroll',
+              scrollbarWidth: 'none',
+              position: 'absolute',
               padding: 0,
               margin: 0,
             }}

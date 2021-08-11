@@ -1,12 +1,12 @@
 // React
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from 'react';
 
 // Redux
-import { connect } from "react-redux";
-import { setModule } from "../../redux/actions/uiActions";
+import { connect } from 'react-redux';
+import { setModule } from '../../redux/actions/uiActions';
 
 // Keybind
-import { withShortcut } from "react-keybind";
+import { withShortcut } from 'react-keybind';
 
 export const KeybindManager = (props) => {
   const { shortcut, setModule } = props;

@@ -1,38 +1,38 @@
 // React
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState } from 'react';
 
-import "../pages/home.css";
+import '../pages/home.css';
 
 // MUI Stuff
-import { Avatar, Container, makeStyles } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import Grid from "@material-ui/core/Grid";
-import InputBase from "@material-ui/core/InputBase";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import ArrowLeftRounded from "@material-ui/icons/ArrowLeftRounded";
-import ArrowRightRounded from "@material-ui/icons/ArrowRightRounded";
-import { MuiThemeProvider, withStyles } from "@material-ui/core/styles";
+import { Avatar, Container, makeStyles } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import Grid from '@material-ui/core/Grid';
+import InputBase from '@material-ui/core/InputBase';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import ArrowLeftRounded from '@material-ui/icons/ArrowLeftRounded';
+import ArrowRightRounded from '@material-ui/icons/ArrowRightRounded';
+import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 
 // Components / Modules
-import ForumSearch from "../components/Home/ForumSearch";
-import KeybindEditor from "../components/Home/KeybindEditor";
-import Calendar from "../components/Calendar/Calendar";
-import ModuleViewer from "../components/Modules/ModuleViewer";
+import ForumSearch from '../components/Home/ForumSearch';
+import KeybindEditor from '../components/Home/KeybindEditor';
+import Calendar from '../components/Calendar/Calendar';
+import ModuleViewer from '../components/Modules/ModuleViewer';
 
 // Redux
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import axios from "axios";
+import axios from 'axios';
 
-import momenttz from "moment-timezone";
+import momenttz from 'moment-timezone';
 
-import moment from "moment";
+import moment from 'moment';
 
-import { Calculator } from "../components/Modules/Calculator/Calculator";
-import { getRandomBackground } from "../util/randomBackground";
-import Notifications from "../util/notifications";
-import Schedule from "../components/Calendar/Schedule";
+import { Calculator } from '../components/Modules/Calculator/Calculator';
+import { getRandomBackground } from '../util/randomBackground';
+import Notifications from '../util/notifications';
+import Schedule from '../components/Calendar/Schedule';
 
 let lastTimeBasedNotif = 0;
 const CTime = (props) => {
@@ -50,8 +50,8 @@ const CTime = (props) => {
     >
       {moment().format(
         window.innerWidth <= 1000
-          ? "M/D/YYYY h:mm:ss A"
-          : "dddd MMMM Do h:mm:ss A"
+          ? 'M/D/YYYY h:mm:ss A'
+          : 'dddd MMMM Do h:mm:ss A'
       )}
     </Typography>
   );
@@ -71,11 +71,11 @@ const JHome = (props) => {
 
   const getGreeting = () => {
     if (user) {
-      if (!localStorage.getItem("user"))
-        localStorage.setItem("user", JSON.stringify(user));
+      if (!localStorage.getItem('user'))
+        localStorage.setItem('user', JSON.stringify(user));
     } else {
       axios
-        .get("https://api.hwbounty.help/@me")
+        .get('https://api.hwbounty.help/@me')
         .then((res) => {
           if (res.status == 200 && res.data && res.data.password) {
             setUser(res.data);
@@ -83,34 +83,34 @@ const JHome = (props) => {
         })
         .catch(console.trace);
     }
-    if (localStorage.getItem("user")) {
+    if (localStorage.getItem('user')) {
       return `Welcome back ${
-        JSON.parse(localStorage.getItem("user")).firstName
+        JSON.parse(localStorage.getItem('user')).firstName
       } 👋!`;
     }
   };
   const getTimePhrase = () => {
-    if (!localStorage.getItem("cachedSchedule")) return "";
-    let scheduleOBJ = JSON.parse(localStorage.getItem("cachedSchedule"));
+    if (!localStorage.getItem('cachedSchedule')) return '';
+    let scheduleOBJ = JSON.parse(localStorage.getItem('cachedSchedule'));
     let schedule = JSON.parse(scheduleOBJ.schedule.schedule);
-    let user = JSON.parse(localStorage.getItem("user"));
+    let user = JSON.parse(localStorage.getItem('user'));
     let allClasses = scheduleOBJ.classes;
     let convertedMoment = moment().tz(schedule.timePeriod).utcOffset();
     let currentMoment = moment().utcOffset();
     let currentTime = moment();
     let getPeriodName = (periodID) => {
       return (
-        JSON.parse(scheduleOBJ.schedule.nameOverrides)[periodID] || "Break"
+        JSON.parse(scheduleOBJ.schedule.nameOverrides)[periodID] || 'Break'
       );
     };
     let dotw = [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
     ][moment().isoWeekday() - 1];
     let formattedClasses =
       schedule[dotw] &&
@@ -118,12 +118,12 @@ const JHome = (props) => {
         return {
           period: clas.period,
           timeStart:
-            moment(clas.timeStart, "hh:mma")
-              .add((convertedMoment - currentMoment) / 60, "hours")
+            moment(clas.timeStart, 'hh:mma')
+              .add((convertedMoment - currentMoment) / 60, 'hours')
               .unix() * 1000,
           timeEnd:
-            moment(clas.timeEnd, "hh:mma")
-              .add((convertedMoment - currentMoment) / 60, "hours")
+            moment(clas.timeEnd, 'hh:mma')
+              .add((convertedMoment - currentMoment) / 60, 'hours')
               .unix() * 1000,
         };
       });

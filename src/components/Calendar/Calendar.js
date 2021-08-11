@@ -1,16 +1,16 @@
 // React
-import React from "react";
+import React from 'react';
 
 // MUI
-import Paper from "@material-ui/core/Paper";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Container from "@material-ui/core/Container";
-import withStyles from "@material-ui/core/styles/withStyles";
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Container from '@material-ui/core/Container';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 // Components
-import Schedule from "./Schedule";
-import Assignments from "./Assignments";
+import Schedule from './Schedule';
+import Assignments from './Assignments';
 
 const styles = (theme) => ({
   ...theme.spreadIt,
@@ -20,7 +20,7 @@ const styles = (theme) => ({
   content: {
     paddingTop: 10,
     paddingBottom: 10,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });
 

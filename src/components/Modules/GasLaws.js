@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
 import {
   Card,
@@ -12,9 +12,9 @@ import {
   TextField,
   Typography,
   withStyles,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import t from "../../util/localization/localization";
+import t from '../../util/localization/localization';
 
 const GasLaws = (props) => {
   const [p, setP] = useState(1);
@@ -33,7 +33,7 @@ const GasLaws = (props) => {
 
   return (
     <Card>
-      <Typography>{t("gasLaws.hi")}</Typography>
+      <Typography>{t('gasLaws.hi')}</Typography>
       <Container>
         <TextField
           id="pressure"
@@ -87,7 +87,7 @@ const GasLaws = (props) => {
           }}
         >
           <InputLabel id="demo-simple-select-label">
-            {t("gasLaws.solveFor")}
+            {t('gasLaws.solveFor')}
           </InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -95,10 +95,10 @@ const GasLaws = (props) => {
             value={solveFor}
             onChange={handleSelect}
           >
-            <MenuItem value={0}>{t("gasLaws.pressure")}</MenuItem>
-            <MenuItem value={1}>{t("gasLaws.volume")}</MenuItem>
-            <MenuItem value={2}>{t("gasLaws.molarity")}</MenuItem>
-            <MenuItem value={3}>{t("gasLaws.temperature")}</MenuItem>
+            <MenuItem value={0}>{t('gasLaws.pressure')}</MenuItem>
+            <MenuItem value={1}>{t('gasLaws.volume')}</MenuItem>
+            <MenuItem value={2}>{t('gasLaws.molarity')}</MenuItem>
+            <MenuItem value={3}>{t('gasLaws.temperature')}</MenuItem>
           </Select>
         </FormControl>
       </Container>
@@ -111,7 +111,7 @@ const GasLaws = (props) => {
 
 const styles = {
   root: {
-    height: "100%",
+    height: '100%',
     flex: 1,
   },
 };

@@ -1,14 +1,14 @@
 // React
-import React from "react";
+import React from 'react';
 
 // MUI
-import Paper from "@material-ui/core/Paper";
-import withStyles from "@material-ui/core/styles/withStyles";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import Paper from '@material-ui/core/Paper';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 // Translation
-import t from "../../../util/localization/localization";
+import t from '../../../util/localization/localization';
 
 const styles = (theme) => ({
   ...theme.spreadIt,
@@ -25,10 +25,10 @@ export const EssayEditor = (props) => {
         flexDirection="column"
         justifyContent="center"
         alignContent="center"
-        style={{ height: "100%" }}
+        style={{ height: '100%' }}
       >
         <Typography variant="h5">
-          {t("essayEditor.enableFullscreen")}
+          {t('essayEditor.enableFullscreen')}
         </Typography>
       </Box>
     </Paper>

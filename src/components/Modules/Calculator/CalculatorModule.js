@@ -1,21 +1,21 @@
 // React
-import React from "react";
+import React from 'react';
 
 // MUI
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import withStyles from "@material-ui/core/styles/withStyles";
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 // Redux
-import { connect } from "react-redux";
-import { calc_setParser } from "../../../redux/actions/moduleActions";
+import { connect } from 'react-redux';
+import { calc_setParser } from '../../../redux/actions/moduleActions';
 
 // Components
-import Calculator from "./Calculator";
-import CalcVariables from "./CalcVariables";
+import Calculator from './Calculator';
+import CalcVariables from './CalcVariables';
 
 // Math
-import MathScope from "./MathScope";
+import MathScope from './MathScope';
 
 const scope = new MathScope();
 scope.fromJSON();
@@ -23,7 +23,7 @@ scope.fromJSON();
 const styles = (theme) => ({
   ...theme.spreadIt,
   root: {
-    margin: "auto",
+    margin: 'auto',
   },
 });
 

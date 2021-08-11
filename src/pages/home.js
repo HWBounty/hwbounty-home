@@ -1,25 +1,25 @@
 // React
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
 // MUI Stuff
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 
 // Components / Modules
-import Fuse from "fuse.js";
+import Fuse from 'fuse.js';
 
 // Redux
-import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import Pages from "../util/pageDictionary";
-import { ModuleCard } from "../components/ModuleCard";
-import MobileHome from "./mobileHome";
-import DesktopHome from "./desktopHome";
+import Pages from '../util/pageDictionary';
+import { ModuleCard } from '../components/ModuleCard';
+import MobileHome from './mobileHome';
+import DesktopHome from './desktopHome';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    "& > *": {
+    display: 'flex',
+    '& > *': {
       margin: theme.spacing(1),
     },
   },
@@ -32,30 +32,30 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(16),
   },
   paper: {
-    width: "80vw",
-    height: "80vw",
-    display: "inline-block",
+    width: '80vw',
+    height: '80vw',
+    display: 'inline-block',
   },
   title: {
-    fontSize: "60px",
+    fontSize: '60px',
     // fontFamily: "",
   },
   formLabel: {
-    display: "block",
+    display: 'block',
   },
   formGroup: {
-    display: "inline",
+    display: 'inline',
   },
   card: {
-    boxShadow: "8px 11px 16px -4px rgba(0,0,0,0.75)!important",
+    boxShadow: '8px 11px 16px -4px rgba(0,0,0,0.75)!important',
   },
   timeUntilText: {
     fontSize: window.innerHeight / 25,
-    fontFamily: "Nunito",
+    fontFamily: 'Nunito',
   },
   timeUntilTextMobile: {
     fontSize: window.innerWidth / 20,
-    fontFamily: "Nunito",
+    fontFamily: 'Nunito',
   },
 }));
 function useInterval(callback, delay) {
@@ -94,27 +94,27 @@ export const Home = (props) => {
   const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
   useEffect(() => {
     let run = true;
-    window.addEventListener("resize", forceUpdate);
+    window.addEventListener('resize', forceUpdate);
     return () => {
-      window.removeEventListener("resize", forceUpdate);
+      window.removeEventListener('resize', forceUpdate);
     };
   }, []);
 
   const history = useHistory();
   const redirectToSchedule = () => {
-    history.push("/schedule");
+    history.push('/schedule');
   };
 
   const renderSearchPages = () => {
     const {
       UI: { theme },
     } = props;
-    let query = document.getElementById("pageSearchBox")?.value;
+    let query = document.getElementById('pageSearchBox')?.value;
     if (!query) return null;
     const fuseOptions = {
       includeScore: true,
       // Search in `author` and in `tags` array
-      keys: ["name", "description", "tags"],
+      keys: ['name', 'description', 'tags'],
     };
     const pageArray = Object.values(Pages);
     const fuse = new Fuse(pageArray, fuseOptions);

@@ -1,21 +1,21 @@
 // React
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 // Redux
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 // MUI
-import { Container } from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
+import { Container } from '@material-ui/core';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 // Modules
-import Calculator from "./Calculator/Calculator";
-import EssayEditor from "./EssayEditor/EssayEditor";
-import GasLaws from "./GasLaws";
+import Calculator from './Calculator/Calculator';
+import EssayEditor from './EssayEditor/EssayEditor';
+import GasLaws from './GasLaws';
 
 const styles = {
   root: {
-    height: "100%",
+    height: '100%',
     flex: 1,
   },
 };
@@ -26,11 +26,11 @@ export const ModuleViewer = (props) => {
 
   const Module = (props) => {
     switch (module) {
-      case "calculator":
+      case 'calculator':
         return <Calculator />;
-      case "essay":
+      case 'essay':
         return <EssayEditor />;
-      case "gaslawscalc":
+      case 'gaslawscalc':
         return <GasLaws />;
       default:
         return null;

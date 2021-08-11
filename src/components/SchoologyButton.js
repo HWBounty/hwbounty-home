@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import axios from "axios";
+import axios from 'axios';
 
-import { useSnackbar, withSnackbar } from "notistack";
+import { useSnackbar, withSnackbar } from 'notistack';
 
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router';
 
-import { hwbountyAPI } from "../redux/types";
-import { setAuthorizationHeader } from "../redux/actions/userActions";
+import { hwbountyAPI } from '../redux/types';
+import { setAuthorizationHeader } from '../redux/actions/userActions';
 
 export const SchoologyButton = (props) => {
   const onClick = async () => {
@@ -20,7 +20,7 @@ export const SchoologyButton = (props) => {
     });
     thing = thing.data || thing;
     if (thing && thing.nonce && thing.url) {
-      localStorage.setItem("SchoologyNonce", thing.nonce);
+      localStorage.setItem('SchoologyNonce', thing.nonce);
       window.location.href = thing.url;
     }
   };
@@ -35,20 +35,20 @@ export const SchoologyButton = (props) => {
         let thing = await axios
           .post(`${hwbountyAPI}/schoologyAuth`, {
             redirectURL: `${window.location.href}`,
-            oauth_token: window.location.search.split("?oauth_token=").pop(),
-            nonce: localStorage.getItem("SchoologyNonce"),
+            oauth_token: window.location.search.split('?oauth_token=').pop(),
+            nonce: localStorage.getItem('SchoologyNonce'),
           })
           .catch((er) => {
             enqueueSnackbar(er.response.data.error || er.response.data);
           });
         if (!thing) return;
         setAuthorizationHeader(thing.data);
-        setTimeout(() => history.push("/"), 500);
+        setTimeout(() => history.push('/'), 500);
       })();
     }
   }, []);
   return (
-    <Button onClick={onClick}>{t("schoologyButton.authWithSchoology")}</Button>
+    <Button onClick={onClick}>{t('schoologyButton.authWithSchoology')}</Button>
   );
 };
 

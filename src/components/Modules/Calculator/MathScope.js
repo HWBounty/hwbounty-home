@@ -55,7 +55,7 @@ class MathScope {
 
   deleteAll() {
     this.localScope.clear();
-    localStorage.removeItem("calc_variables");
+    localStorage.removeItem('calc_variables');
   }
 
   // takes element at [start] and moves it to [end]
@@ -78,15 +78,15 @@ class MathScope {
   }
 
   fromJSON() {
-    if (!localStorage.getItem("calc_variables")) return;
+    if (!localStorage.getItem('calc_variables')) return;
     this.localScope = new Map(
-      JSON.parse(localStorage.getItem("calc_variables"))
+      JSON.parse(localStorage.getItem('calc_variables'))
     );
   }
 
   toJSON() {
     localStorage.setItem(
-      "calc_variables",
+      'calc_variables',
       JSON.stringify(Array.from(this.localScope.entries()))
     );
   }

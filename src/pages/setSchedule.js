@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Avatar,
   Button,
@@ -9,19 +9,19 @@ import {
   MenuItem,
   Select,
   Typography,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import axios from "axios";
+import axios from 'axios';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import moment from "moment";
+import moment from 'moment';
 
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown from 'react-markdown';
 
-import { withRouter } from "react-router";
+import { withRouter } from 'react-router';
 
-import t from "../util/localization/localization";
+import t from '../util/localization/localization';
 
 class SetSchedule extends Component {
   constructor(props) {
@@ -33,14 +33,14 @@ class SetSchedule extends Component {
     };
   }
   async fetchScheduleData() {
-    console.log("FETCHING");
+    console.log('FETCHING');
     if (this.state.scheduleData) return console.log(this.state.scheduleData);
     try {
       let [res, selfData, courses] = await Promise.all([
         axios
           .get(
             `https://api.hwbounty.help/schedules/view/${this.props.location.pathname
-              .split("/")
+              .split('/')
               .pop()}`
           )
           .catch((er) => console.log),
@@ -68,13 +68,13 @@ class SetSchedule extends Component {
   parseAllPeriods(schedule) {
     let periods = new Set();
     [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
     ].forEach((x) => {
       schedule[x].forEach((y) => {
         periods.add(y.period);
@@ -86,7 +86,7 @@ class SetSchedule extends Component {
     if (self.state.setting) return;
     self.setState({ setting: true });
     let periodChoices = self.state.periodChoices;
-    let sch = this.props.location.pathname.split("/").pop();
+    let sch = this.props.location.pathname.split('/').pop();
     console.log(sch);
     let res = await axios
       .post(`https://api.hwbounty.help/schedules/set`, {
@@ -95,7 +95,7 @@ class SetSchedule extends Component {
       })
       .catch(console.trace);
     if (res.status === 200) {
-      location.href = "https://hwbounty.help";
+      location.href = 'https://hwbounty.help';
     } else {
       self.setState({ setting: false });
     }
@@ -107,7 +107,7 @@ class SetSchedule extends Component {
       .map((x) => {
         return { id: x.id, name: x.course_title };
       })
-      .concat({ id: "None", name: "None" });
+      .concat({ id: 'None', name: 'None' });
     let nameOverrides = self.state.scheduleData.nameOverrides;
     console.log(periods);
     const handleChange = (event, data) => {
@@ -119,9 +119,9 @@ class SetSchedule extends Component {
       return (
         <FormControl
           style={{
-            width: "30%",
-            minWidth: "30%",
-            margin: "1.5%",
+            width: '30%',
+            minWidth: '30%',
+            margin: '1.5%',
           }}
           required
         >
@@ -148,7 +148,7 @@ class SetSchedule extends Component {
   }
   render() {
     if (!this.state.scheduleData && !this.state.fetching) {
-      console.log("GoFetch");
+      console.log('GoFetch');
       this.setState({ fetching: true });
       this.fetchScheduleData();
       return <br />;
@@ -160,47 +160,47 @@ class SetSchedule extends Component {
         <Container>
           <Card
             style={{
-              display: "inline-block",
-              width: "90%",
-              margin: "5%",
-              paddingBottom: "1vh",
-              paddingLeft: "5%",
-              paddingRight: "5%",
-              textAlign: "left",
-              verticalAlign: "middle",
+              display: 'inline-block',
+              width: '90%',
+              margin: '5%',
+              paddingBottom: '1vh',
+              paddingLeft: '5%',
+              paddingRight: '5%',
+              textAlign: 'left',
+              verticalAlign: 'middle',
             }}
           >
             {/* <Typography variant="h4">Stats</Typography> */}
             <Typography
               variant="h4"
               style={{
-                textAlign: "center",
+                textAlign: 'center',
               }}
             >
               {this.state.scheduleData.name}
             </Typography>
             <Container
               style={{
-                width: "100%",
-                height: "10%",
+                width: '100%',
+                height: '10%',
               }}
             >
               <span>
                 <Typography
                   variant="caption"
                   style={{
-                    textAlign: "left",
-                    marginRight: "1%",
+                    textAlign: 'left',
+                    marginRight: '1%',
                   }}
                 >
-                  {t("setSchedule.by")}
+                  {t('setSchedule.by')}
                 </Typography>
                 <Avatar
                   src={this.state.scheduleData.user.pfp}
                   align="left"
                   style={{
-                    display: "inline-block",
-                    verticalAlign: "middle",
+                    display: 'inline-block',
+                    verticalAlign: 'middle',
                   }}
                 >
                   {this.state.scheduleData.user.publicID}
@@ -208,9 +208,9 @@ class SetSchedule extends Component {
                 <Typography
                   variant="h5"
                   style={{
-                    verticalAlign: "middle",
-                    marginLeft: "1%",
-                    display: "inline-block",
+                    verticalAlign: 'middle',
+                    marginLeft: '1%',
+                    display: 'inline-block',
                     // fontSize: "47px",
                     // height: "40px",
                   }}
@@ -220,26 +220,26 @@ class SetSchedule extends Component {
               </span>
             </Container>
             <Typography>
-              {t("setSchedule.lastUpdated")}{" "}
+              {t('setSchedule.lastUpdated')}{' '}
               {moment(parseInt(this.state.scheduleData.lastUpdated)).fromNow()}
             </Typography>
             <ReactMarkdown>{this.state.scheduleData.description}</ReactMarkdown>
             <Container
               style={{
-                width: "100%",
+                width: '100%',
               }}
             >
               {React.Children.toArray(this.handleDropdowns(this))}
             </Container>
             <Container
               style={{
-                paddingTop: "1vh",
-                borderTop: "2px solid rgba(160, 160, 160, 0.2)",
-                textAlign: "center",
+                paddingTop: '1vh',
+                borderTop: '2px solid rgba(160, 160, 160, 0.2)',
+                textAlign: 'center',
               }}
             >
               <Button onClick={(ev) => this.handleSet(this)}>
-                {t("setSchedule.setClasses")}
+                {t('setSchedule.setClasses')}
               </Button>
             </Container>
           </Card>
@@ -256,13 +256,13 @@ const DisplayedScheduleDay = (props) => {
   let overrides = data.nameOverrides;
   let dayschedule = data.schedule[
     [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
     ][day]
   ].map((x) => {
     return Object.assign(x, {
@@ -283,13 +283,13 @@ const DisplayedScheduleDay = (props) => {
       })
     );
     if (!children.length)
-      return <Typography variant="h3">{t("setSchedule.noSchool")}</Typography>;
+      return <Typography variant="h3">{t('setSchedule.noSchool')}</Typography>;
     return children;
   };
   return (
     <Container
       style={{
-        marginBottom: "5%",
+        marginBottom: '5%',
       }}
     >
       {renderPeriods()}

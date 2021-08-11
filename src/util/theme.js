@@ -1,21 +1,21 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createMuiTheme } from '@material-ui/core/styles';
 
 const rawTheme = createMuiTheme({
   palette: {
     primary: {
-      light: "#6fe3d7",
-      main: "#4db6ac",
-      dark: "#91a3a1",
-      contrastText: "#fff",
+      light: '#6fe3d7',
+      main: '#4db6ac',
+      dark: '#91a3a1',
+      contrastText: '#fff',
     },
     secondary: {
-      light: "#ffb2ff",
-      main: "#ea80fc",
-      dark: "#b64fc8",
-      contrastText: "#fff",
+      light: '#ffb2ff',
+      main: '#ea80fc',
+      dark: '#b64fc8',
+      contrastText: '#fff',
     },
     background: {
-      default: "#f4f7f9",
+      default: '#f4f7f9',
     },
   },
   typography: {
@@ -33,11 +33,11 @@ const rawTheme = createMuiTheme({
       padding: 25,
     },
     paper: {
-      width: "100%",
+      width: '100%',
       borderRadius: 10,
     },
     inputBase: {
-      borderColor: "rgba(0,0,0,0)",
+      borderColor: 'rgba(0,0,0,0)',
       borderRadius: 2,
     },
   },
@@ -99,13 +99,13 @@ const theme = {
     },
     body1: {
       ...rawTheme.typography.body2,
-      textTransform: "none",
+      textTransform: 'none',
       fontWeight: rawTheme.typography.fontWeightRegular,
       fontSize: 16,
     },
     body2: {
       ...rawTheme.typography.body1,
-      textTransform: "none",
+      textTransform: 'none',
       fontSize: 14,
     },
   },

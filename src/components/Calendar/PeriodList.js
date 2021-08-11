@@ -1,26 +1,26 @@
-import React from "react";
+import React from 'react';
 
-import { makeStyles, Card, Typography } from "@material-ui/core";
+import { makeStyles, Card, Typography } from '@material-ui/core';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import moment from "moment";
-import "moment-timezone";
+import moment from 'moment';
+import 'moment-timezone';
 const useStyles = makeStyles((theme) => ({
   cardTitle: {
-    fontFamily: "Raleway",
-    fontSize: "2.5rem",
+    fontFamily: 'Raleway',
+    fontSize: '2.5rem',
   },
   cardSubtitles1: {
-    fontFamily: "Raleway",
-    fontSize: "1.25rem",
-    fontWeight: "200",
+    fontFamily: 'Raleway',
+    fontSize: '1.25rem',
+    fontWeight: '200',
   },
   card: {
     boxShadow: (theme) =>
       theme === 1
-        ? "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important"
-        : "0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important",
+        ? '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important'
+        : '0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.01)!important',
   },
 }));
 const generatePeriodColors = (stops, theme) => {
@@ -38,13 +38,13 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
     offset = (scheduleDay.isoWeekday() - 1 + (((offset % 7) + 7) % 7)) % 7;
   else offset = scheduleDay.isoWeekday() - 1;
   let dotw = [
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday",
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday',
   ][offset];
   let allClasses = scheduleData.classes || {};
   let classes = new Map();
@@ -77,20 +77,20 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
         zoom:
           courseInfo && courseInfo.links
             ? courseInfo.links
-              .map((linkGroup) => {
-                return linkGroup.links.map((link) => {
-                  return { link: link, title: decodeHTML(linkGroup.title) };
-                });
-              })
-              .flat(10000)
+                .map((linkGroup) => {
+                  return linkGroup.links.map((link) => {
+                    return { link: link, title: decodeHTML(linkGroup.title) };
+                  });
+                })
+                .flat(10000)
             : [],
         timeStart:
-          moment(x.timeStart, "hh:mma")
-            .add((convertedMoment - currentMoment) / 60, "hours")
+          moment(x.timeStart, 'hh:mma')
+            .add((convertedMoment - currentMoment) / 60, 'hours')
             .unix() * 1000,
         timeEnd:
-          moment(x.timeEnd, "hh:mma")
-            .add((convertedMoment - currentMoment) / 60, "hours")
+          moment(x.timeEnd, 'hh:mma')
+            .add((convertedMoment - currentMoment) / 60, 'hours')
             .unix() * 1000,
         tSS: x.timeStart,
         tES: x.timeEnd,
@@ -112,7 +112,7 @@ const PeriodList = (props) => {
   let periodMapped = periodData.map((periodData, i) => {
     return (
       <PeriodButton
-        color={props.UI.theme ? "rgb(40,40,40)" : `rgb(250,250,250)`}
+        color={props.UI.theme ? 'rgb(40,40,40)' : `rgb(250,250,250)`}
         name={periodData.name}
         UI={props.UI}
         startTime={periodData.tSS}
@@ -126,28 +126,28 @@ const PeriodList = (props) => {
 
   return <div>{React.Children.toArray(periodMapped)}</div>;
 };
-const cardWidth = "25vw";
-const cardHeight = "9rem";
+const cardWidth = '25vw';
+const cardHeight = '9rem';
 const PeriodButton = (props) => {
   const classes = useStyles(props.UI.theme);
   return (
     <Card
       style={{
-        borderRadius: "0.5rem",
+        borderRadius: '0.5rem',
         backgroundColor: props.color,
         width: `clamp(${cardWidth},${cardWidth},${cardWidth})`,
         height: `clamp(${cardHeight},${cardHeight},${cardHeight})`,
-        display: "flex",
-        padding: "1.5rem",
-        flexDirection: "column",
-        alignItems: "flex-start",
-        margin: "2rem",
+        display: 'flex',
+        padding: '1.5rem',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        margin: '2rem',
       }}
       className={`${classes.card}`}
     >
       <Typography
         className={`${classes.cardTitle}`}
-        style={{ color: props.UI.theme === 1 ? "white" : "rgb(110,110,110)" }}
+        style={{ color: props.UI.theme === 1 ? 'white' : 'rgb(110,110,110)' }}
       >
         {props.name}
       </Typography>

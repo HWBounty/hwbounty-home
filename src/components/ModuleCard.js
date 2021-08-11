@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 import {
   Card,
@@ -8,46 +8,46 @@ import {
   makeStyles,
   Typography,
   Zoom,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
-import theme from "../util/theme";
+import theme from '../util/theme';
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    width: "20vw",
-    display: "flex",
-    margin: "2.5%",
+    width: '20vw',
+    display: 'flex',
+    margin: '2.5%',
     paddingTop: 0,
     // height: "15vw",
     // zIndex: 100000000,
     boxShadow:
-      "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)!important",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    borderRadius: "1vmin",
+      '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)!important',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    borderRadius: '1vmin',
   },
   actionArea: {
     flexGrow: 1,
   },
   media: {
-    minHeight: "10vw",
-    height: "50%",
+    minHeight: '10vw',
+    height: '50%',
     filter: (props) => `brightness(${props.theme === 0 ? 70 : 30}%)`,
   },
   name: {
-    fontFamily: "Poppins",
-    textAlign: "left",
-    fontSize: "2em",
-    fontWeight: "350",
+    fontFamily: 'Poppins',
+    textAlign: 'left',
+    fontSize: '2em',
+    fontWeight: '350',
   },
   desc: {
-    fontFamily: "Nunito",
-    textAlign: "left",
-    fontSize: "1.2em",
+    fontFamily: 'Nunito',
+    textAlign: 'left',
+    fontSize: '1.2em',
   },
 }));
 export const ModuleCard = (props) => {
@@ -82,7 +82,7 @@ export const ModuleCard = (props) => {
             className={classes.media}
             image={
               icon ||
-              "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+              'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
             }
             title={name}
           />

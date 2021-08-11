@@ -1,9 +1,7 @@
-
-export const userCached =()=>{
-	return !!localStorage.getItem("userInfo")
+export const userCached = () => {
+  return !!localStorage.getItem('userInfo');
 };
-export const getUserInfo = ()=>{
-	if(!userCached()){
-		
-	}
-}
+export const getUserInfo = () => {
+  if (!userCached()) {
+  }
+};

@@ -1,15 +1,15 @@
 // React
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 // MUI
-import { Container } from "@material-ui/core";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import InputBase from "@material-ui/core/InputBase";
+import { Container } from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import InputBase from '@material-ui/core/InputBase';
 
-import theme from "../../util/theme";
+import theme from '../../util/theme';
 
 // MUI Treasury
-import { useRoundInputBaseStyles } from "@mui-treasury/styles/inputBase/round";
+import { useRoundInputBaseStyles } from '@mui-treasury/styles/inputBase/round';
 
 /*
 TODO: remove mui theme provider here, it should work without it!!!
@@ -17,14 +17,14 @@ TODO: remove mui theme provider here, it should work without it!!!
 */
 
 export const ForumSearch = (props) => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const roundInput = useRoundInputBaseStyles();
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const url = "https://forums.hwbounty.help/?" + query;
-    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+    const url = 'https://forums.hwbounty.help/?' + query;
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
     if (newWindow) newWindow.opener = null;
   };
 
