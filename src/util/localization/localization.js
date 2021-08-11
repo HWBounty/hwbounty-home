@@ -1,13 +1,20 @@
 import LANGUAGES from './languages';
 
-let locale =
-  window.navigator.userLanguage ||
-  window.navigator.language in Object.keys(LANGUAGES)
-    ? window.navigator.userLanguage || window.navigator.language
-    : 'en-US';
+let locale = localStorage.getItem('locale')
+  ? localStorage.getItem('locale')
+  : window.navigator.userLanguage ||
+    window.navigator.language in Object.keys(LANGUAGES)
+  ? window.navigator.userLanguage || window.navigator.language
+  : 'en-US';
 
 export const setLocale = (l) => {
-  locale = l in Object.keys(LANGUAGES) ? l : locale;
+  locale = Object.keys(LANGUAGES).indexOf(l) !== -1 ? l : locale;
+  localStorage.setItem('locale', locale);
+  location.reload();
+};
+
+export const getLocale = () => {
+  return locale;
 };
 
 export const t = (translationKey, args = {}) => {

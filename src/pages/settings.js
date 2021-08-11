@@ -1,12 +1,15 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // MUI
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Switch from '@material-ui/core/Switch';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 // Redux
 import { connect } from 'react-redux';
@@ -16,7 +19,8 @@ import { setTheme } from '../redux/actions/uiActions';
 import { useSnackbar } from 'notistack';
 
 // Translation
-import t from '../util/localization/localization';
+import t, { getLocale, setLocale } from '../util/localization/localization';
+import { NAMES } from '../util/localization/languages';
 
 const useStyles = makeStyles((theme) => ({
   ...theme.spreadIt,
@@ -79,7 +83,7 @@ export const Settings = (props) => {
               name="darkmodeToggle"
             />
           }
-          label=""
+          label={t('settings.darkModeLabel')}
           className={classes.formLabel}
         />
         {/* <FormControlLabel
@@ -97,6 +101,20 @@ export const Settings = (props) => {
 				<FormControlLabel disabled control={<Switch />} label="Disabled" />
 				<FormControlLabel disabled control={<Switch checked />} label="Disabled" /> */}
       </FormGroup>
+      <Autocomplete
+        options={Object.keys(NAMES)}
+        getOptionLabel={(option) => NAMES[option]}
+        style={{ width: '40%', marginLeft: '30%' }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={t('settings.language')}
+            variant="outlined"
+          />
+        )}
+        value={getLocale()}
+        onChange={(_, value) => setLocale(value)}
+      />
     </Paper>
   );
 };
