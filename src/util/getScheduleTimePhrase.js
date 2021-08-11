@@ -47,16 +47,16 @@ export const getTimePhrase = (offset) => {
 
     if (currentClass) {
       let endingInString = `${currentClass.timeEnd - Date.now() > 60000
-          ? currentClass.timeEnd - Date.now() > 3600000
-            ? `${Math.round(
-              moment.duration(currentClass.timeEnd - Date.now()).asHours()
-            )} hours`
-            : `${Math.round(
-              moment.duration(currentClass.timeEnd - Date.now()).asMinutes()
-            )} minutes`
+        ? currentClass.timeEnd - Date.now() > 3600000
+          ? `${Math.round(
+            moment.duration(currentClass.timeEnd - Date.now()).asHours()
+          )} hours`
           : `${Math.round(
-            moment.duration(currentClass.timeEnd - Date.now()).asSeconds()
-          )} seconds`
+            moment.duration(currentClass.timeEnd - Date.now()).asMinutes()
+          )} minutes`
+        : `${Math.round(
+          moment.duration(currentClass.timeEnd - Date.now()).asSeconds()
+        )} seconds`
         }`;
 
       //Try to push a notif if class is starting soon
@@ -83,16 +83,16 @@ export const getTimePhrase = (offset) => {
 
     if (nextClass) {
       let startingInString = `${nextClass.timeStart - Date.now() > 60000
-          ? nextClass.timeStart - Date.now() > 3600000
-            ? `${Math.round(
-              moment.duration(nextClass.timeStart - Date.now()).asHours()
-            )} hours`
-            : `${Math.round(
-              moment.duration(nextClass.timeStart - Date.now()).asMinutes()
-            )} minutes`
+        ? nextClass.timeStart - Date.now() > 3600000
+          ? `${Math.round(
+            moment.duration(nextClass.timeStart - Date.now()).asHours()
+          )} hours`
           : `${Math.round(
-            moment.duration(nextClass.timeStart - Date.now()).asSeconds()
-          )} seconds`
+            moment.duration(nextClass.timeStart - Date.now()).asMinutes()
+          )} minutes`
+        : `${Math.round(
+          moment.duration(nextClass.timeStart - Date.now()).asSeconds()
+        )} seconds`
         }`;
       if (
         nextClass.timeStart - Date.now() < 120 * 1000 &&
@@ -119,16 +119,16 @@ export const getTimePhrase = (offset) => {
       .pop();
     if (lastClass) {
       let lastEnded = `${Date.now() - lastClass.timeEnd > 60000
-          ? Date.now() - lastClass.timeEnd > 60000
-            ? `${Math.round(
-              moment.duration(Date.now() - lastClass.timeEnd).asHours()
-            )} hours`
-            : `${Math.round(
-              moment.duration(Date.now() - lastClass.timeEnd).asMinutes()
-            )} minutes`
+        ? Date.now() - lastClass.timeEnd > 60000
+          ? `${Math.round(
+            moment.duration(Date.now() - lastClass.timeEnd).asHours()
+          )} hours`
           : `${Math.round(
-            moment.duration(Date.now() - lastClass.timeEnd).asSeconds()
-          )} seconds`
+            moment.duration(Date.now() - lastClass.timeEnd).asMinutes()
+          )} minutes`
+        : `${Math.round(
+          moment.duration(Date.now() - lastClass.timeEnd).asSeconds()
+        )} seconds`
         }`;
       return `${getPeriodName(lastClass.period)} ended ${lastEnded} ago`;
     }
@@ -136,12 +136,7 @@ export const getTimePhrase = (offset) => {
     //If no classes exist for the day
     return `No classes today! Take a break, you deserve it :)`;
   } catch (error) {
-<<<<<<< HEAD
-    // console.trace(error)
-    return "";
-=======
     return '';
->>>>>>> 69d59c2011735f544ac3fd147580edbc887ef683
   }
 };
 export default getTimePhrase;

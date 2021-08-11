@@ -105,12 +105,8 @@ const PeriodButton = (props) => {
   let notDoneCol = color.filter((x) => true);
 
   //Set to 40 for Darkmode
-  notDoneCol[2] = theme ? 76 : 90;
-  color[2] = theme ? 60 : 80;
-  if (periodID === 'break') {
-    notDoneCol[2] = theme ? 1 : 100;
-    color[2] = theme ? 10 : 95;
-  }
+  notDoneCol[2] = theme ? 70 : 90;
+  color[2] = theme ? 70 : 80;
   return (
     <div
       style={{
@@ -121,15 +117,11 @@ const PeriodButton = (props) => {
         className={classes.root}
         onClick={handleButtonClicked}
         style={{
-          background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${
-            color[2]
-          }%) 0%, hsl(${color[0]},${color[1]}%,${
-            color[2]
-          }%) ${timePassed}%, hsl(${notDoneCol[0]},${notDoneCol[1]}%,${
-            notDoneCol[2]
-          }%) ${timePassed + 0.000001}%, hsl(${notDoneCol[0]},${
-            notDoneCol[1]
-          }%,${notDoneCol[2]}%) 100%)`,
+          background: `linear-gradient(90deg, hsl(${color[0]},${color[1]}%,${color[2]
+            }%) 0%, hsl(${color[0]},${color[1]}%,${color[2]
+            }%) ${timePassed}%, hsla(${notDoneCol[0]},${notDoneCol[1]}%,${notDoneCol[2]
+            }%,0.7) ${timePassed + 0.000001}%, hsla(${notDoneCol[0]},${notDoneCol[1]
+            }%,${notDoneCol[2]}%,0.7) 100%)`,
           borderRadius: '0.1rem!important',
           padding: '10px',
         }}
@@ -239,12 +231,12 @@ const parsePeriods = (scheduleData, zoomLinkInfo, theme, offset) => {
         zoom:
           courseInfo && courseInfo.links
             ? courseInfo.links
-                .map((linkGroup) => {
-                  return linkGroup.links.map((link) => {
-                    return { link: link, title: decodeHTML(linkGroup.title) };
-                  });
-                })
-                .flat(10000)
+              .map((linkGroup) => {
+                return linkGroup.links.map((link) => {
+                  return { link: link, title: decodeHTML(linkGroup.title) };
+                });
+              })
+              .flat(10000)
             : [],
         timeStart:
           moment(x.timeStart, 'hh:mma')
