@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 
 import { lazy } from "react";
+import AddToHomePage from "./AddToHomePage";
 
 // Pages
 const ModulesPicker = lazy(() => import("./pages/modulesPicker"));
@@ -63,6 +64,7 @@ export const Routes = (props) => {
       path="/login/schoology"
       component={SchoologyButton}
     />
+    <Route path="/betaThing/" component={AddToHomePage} />
     <Route exact path="/login/" component={Login} />
     <Route path="*" component={PageNotFound} />
   </Switch>)

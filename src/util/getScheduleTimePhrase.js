@@ -1,4 +1,6 @@
-export const getTimePhrase = () => {
+import moment from "moment";
+
+export const getTimePhrase = (offset) => {
   try {
     if (!localStorage.getItem("cachedSchedule")) return "";
     let scheduleOBJ = JSON.parse(localStorage.getItem("cachedSchedule"));
@@ -21,7 +23,7 @@ export const getTimePhrase = () => {
       "friday",
       "saturday",
       "sunday",
-    ][moment().isoWeekday() - 1];
+    ][(moment().isoWeekday() - 1 + (offset || 0)) % 7];
     let formattedClasses =
       schedule[dotw] &&
       schedule[dotw].map((clas) => {
@@ -37,6 +39,7 @@ export const getTimePhrase = () => {
               .unix() * 1000,
         };
       });
+
     //Check for current class first
     let currentClass = formattedClasses.filter(
       (x) => x.timeStart < Date.now() && Date.now() < x.timeEnd
@@ -139,6 +142,7 @@ export const getTimePhrase = () => {
     //If no classes exist for the day
     return `No classes today! Take a break, you deserve it :)`;
   } catch (error) {
+    // console.trace(error)
     return "";
   }
 }

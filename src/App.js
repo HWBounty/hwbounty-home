@@ -30,6 +30,7 @@ import LoadingPage from "./pages/loadingPage";
 import { GainCoins } from "./components/Modules/GainCoins";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Routes from "./Routes";
+import AddToHomePage from "./AddToHomePage";
 
 //=================Checks on App start====================//
 const token = localStorage.DBIdToken;
@@ -99,7 +100,7 @@ const App = (props) => {
           <CssBaseline />
           <KeybindManager />
           <GainCoins />
-
+          {["iPhone", "iPad", "iPod"].includes(navigator.platform) && !localStorage.installDismissed && <AddToHomePage />}
           <div className="App">
             <Router>
               <video

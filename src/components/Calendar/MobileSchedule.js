@@ -1,7 +1,7 @@
 import { Component, useEffect, useState } from "react";
 
-import { Card, IconButton, Typography } from "@material-ui/core";
-import { ChevronLeft, ChevronRight } from "@material-ui/icons";
+import { Button, Card, IconButton, Snackbar, Typography } from "@material-ui/core";
+import { ChevronLeft, ChevronRight, Close } from "@material-ui/icons";
 
 import moment from "moment";
 
@@ -11,81 +11,18 @@ import { withSnackbar } from "notistack";
 
 import Schedule from "./Schedule";
 import Notifications from "../../util/notifications";
-import { getWhenSchoolEnds } from "../../util/getTimePhrase";
 import { getTimePhrase } from "../../util/getScheduleTimePhrase";
 import TetLib from "../../util/TetLib";
 import useForceUpdate from "../../util/useForceUpdate";
+import getScheduleTimeEnd from "../../util/getScheduleTimeEnd";
+import { Alert } from "@material-ui/lab";
+import React from "react";
 
-const CTime = (props) => {
-  const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date()); // default value can be anything you want
-  return (
-    <div
-      style={{
-        verticalAlign: "middle",
-        width: "100%",
-        minWidth: "100%",
-      }}
-    >
-      <Typography
-        variant="h5"
-        style={{
-          fontSize: "5.5vw",
-          textAlign: "left",
-        }}
-      >
-        {
-          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "h:mm:ss A"
-        )
-        }
-      </Typography>
-      <Typography
-        variant="h5"
-        style={{
-          fontSize: "2.5vw",
-          textAlign: "left",
-        }}
-      >
-        {
-          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "M/D/YYYY dddd"
-        )
-        }
-      </Typography>
-    </div>
-  );
-};
-const CTimeSmall = (props) => {
-  const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date()); // default value can be anything you want
-  return (
-    <div
-      style={{
-        verticalAlign: "middle",
-        width: "100%",
-        minWidth: "100%",
-      }}
-    >
-
-      <Typography
-        variant="h5"
-        style={{
-          fontSize: "5.65vw",
-          fontFamily: "Nunito"
-        }}
-      >
-        {
-          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ moment().format(
-          "dddd"
-        )
-        }
-      </Typography>
-    </div>
-  );
-};
 let lastTimeBasedNotif = 0;
 const MobileSchedulePage = (props) => {
   const forceUpdate = useForceUpdate();
   const [offset, setOffset] = useState(0);
+  const [popupForceClosed, setPopupForceClosed] = useState(false);
   const goBackADay = () => {
     setOffset(offset - 1);
   };
@@ -93,6 +30,7 @@ const MobileSchedulePage = (props) => {
     setOffset(offset + 1);
   };
   let adjustedMoment = moment().add(offset * 24, "hours");
+
   useEffect(() => {
     let run = true;
     (async () => {
@@ -151,20 +89,71 @@ const MobileSchedulePage = (props) => {
               <ChevronRight />{" "}
             </IconButton>
           </span>
-          <CTimeSmall />
+          <div
+            style={{
+              verticalAlign: "middle",
+              width: "100%",
+              minWidth: "100%",
+            }}
+          >
+
+            <Typography
+              variant="h5"
+              style={{
+                fontSize: "5.65vw",
+                fontFamily: "Nunito",
+                fontWeight: "600",
+              }}
+            >
+              {
+          /*moment().format(window.innerWidth <= 1368 ? "M/D/YYYY h:mm:ss A" : "dddd MMMM Do h:mm:ss A")*/ adjustedMoment.format(
+                "dddd"
+              )
+              }
+            </Typography>
+          </div>
           <Typography
             variant="h5"
             style={{
-              fontSize: 32,
+              fontSize: 24,
               fontFamily: "Nunito",
             }}
           >
-            {getTimePhrase()}
+            {offset == 0 && getTimePhrase(offset)}
           </Typography>
+          <br />
+          <br />
+          <Typography
+            variant="h5"
+            style={{
+              fontSize: 16,
+              fontFamily: "Nunito",
+              textAlign: "left",
+            }}
+          >
+            {getScheduleTimeEnd(offset)}
+          </Typography>
+          <Snackbar
+            open={offset !== 0 && !popupForceClosed}
+            action={
+              <React.Fragment>
+
+              </React.Fragment>
+            }
+          >
+            <Alert severity={"info"} onClose={(e, reason) => reason !== "clickaway" && setPopupForceClosed(true)}>
+              <div style={{ display: "flex", justifyContent: "space-around" }}>
+                {offset !== 0 && `Now viewing the schedule ${offset < 0 && "from" || ""} ${adjustedMoment.fromNow()}.`}
+                <Button color="primary" size="small" onClick={(e, reason) => reason !== "clickaway" && setOffset(0)} style={{ paddingTop: "0", paddingBottom: "0" }}>
+                  Take me back
+                </Button>
+              </div>
+            </Alert>
+          </Snackbar>
         </div>
         <Schedule dayOffset={offset} />
       </Card>
-    </div>
+    </div >
   );
 }
 // class ScheduleInfo extends Component {
