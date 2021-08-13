@@ -18,16 +18,29 @@ export const getLocale = () => {
 };
 
 export const t = (translationKey, args = {}) => {
-  let searchTree = LANGUAGES[locale];
-  for (const section of translationKey.split('.')) {
-    searchTree = searchTree[section];
-  }
+  try {
+    let searchTree = LANGUAGES[locale];
+    for (const section of translationKey.split('.')) {
+      searchTree = searchTree[section];
+    }
 
-  for (const variable of Object.keys(args)) {
-    searchTree = searchTree.replace('{{' + variable + '}}', args[variable]);
-  }
+    for (const variable of Object.keys(args)) {
+      searchTree = searchTree.replace('{{' + variable + '}}', args[variable]);
+    }
 
-  return searchTree;
+    return searchTree;
+  } catch {
+    let searchTree = LANGUAGES['en-US'];
+    for (const section of translationKey.split('.')) {
+      searchTree = searchTree[section];
+    }
+
+    for (const variable of Object.keys(args)) {
+      searchTree = searchTree.replace('{{' + variable + '}}', args[variable]);
+    }
+
+    return searchTree;
+  }
 };
 
 export default t;
