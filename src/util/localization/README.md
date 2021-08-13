@@ -6,6 +6,8 @@ Localization will be very helpful later on when HWBounty starts to get translate
 
 `t` is a function exported from `src/util/localization/localization`, it takes in a key and optional arguments (defaults to `{}`) in the form of an object, these arguments will be explained in the next section
 
+`t` is also assigned to `window.t`, which can be used instead of importing
+
 ## Adding Keys
 
 To add keys go to `src/util/localization/langs` and pick out the language file you wish to change, in there is an exported object with multiple objects inside of it, to flatten out these objects the name are just joined with a `.`, as an example:

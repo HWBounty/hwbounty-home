@@ -43,4 +43,6 @@ export const t = (translationKey, args = {}) => {
   }
 };
 
+window.t = t;
+
 export default t;
