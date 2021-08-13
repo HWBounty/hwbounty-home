@@ -1,0 +1,35 @@
+@media (max-width: 1000px) {
+  #calenderContainer {
+    width: 100%;
+    padding: 5%;
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+@media (min-width: 1000px) {
+  #calenderContainer {
+    width: 40%;
+    padding-left: 1%;
+    margin-left: 9%;
+    padding-right: 1%;
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: none;
+  }
+  #welcomeTextDiv {
+    margin-top: auto;
+    margin-bottom: auto;
+    /* display: flex; */
+    vertical-align: middle;
+    position: relative;
+  }
+  /* #welcomeText {
+		position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 50%;
+        height: 10%;
+        margin: auto;
+	} */
+}
